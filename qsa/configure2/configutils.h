@@ -13,9 +13,9 @@
 #ifndef CONFIGUTILS_H
 #define CONFIGUTILS_H
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qdir.h>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QDir>
 
 extern QString *qtDir;
 extern QString *qsa_prefix;

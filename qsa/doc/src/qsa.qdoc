@@ -1,0 +1,15 @@
+/*!
+
+\page getting_started.html
+
+\title Getting Started with QSA
+
+\granularity chapter
+
+\include chap-preface.qdocinc
+\include chap-whatsqsa.qdocinc
+\include chap-creating-scriptable-applications.qdocinc
+\include chap-application-objects.qdocinc
+\include chap-creating-scripts2.qdocinc
+
+*/

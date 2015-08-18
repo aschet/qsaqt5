@@ -1,0 +1,26 @@
+/*!
+    \page credits.html
+    \title Credits
+
+The following (and probably many others) have provided bug reports,
+suggestions, patches, beta testing, or done us other favors.  We thank
+you all:
+
+\list
+\o Cyril Pichard
+\o Florian Link
+\o Joel Nordell
+\o Olivier Tubach
+\o Paul Curtis
+\o Rainer Goebel
+\o Reidar M. Tronstad
+\o Thomas Poetter
+\o Thomas Valding
+\o Tim Harvey
+\o Viorica Ungurean
+\o Vélizar Vesselinov
+\endlist
+
+We hope there are not too many omissions from the list. Any omissions
+are \bold bugs and should be reported to \l qt-bugs@trolltech.com like
+other bugs in the QSA code or documentation.  */

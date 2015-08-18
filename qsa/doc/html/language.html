@@ -1,0 +1,1543 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- ./language.qdoc -->
+<head>
+  <title>QSA 1.2: Qt Script: Language Reference</title>
+    <style type="text/css">h3.fn,span.fn { margin-left: 1cm; text-indent: -1cm; }
+a:link { color: #004faf; text-decoration: none }
+a:visited { color: #672967; text-decoration: none }
+td.postheader { font-family: sans-serif }
+tr.address { font-family: sans-serif }
+body { background: #ffffff; color: black; }</style>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="left" valign="top" width="32"><img src="images/qt-logo.png" align="left" width="32" height="32" border="0" /></td>
+<td width="1">&nbsp;&nbsp;</td><td class="postheader" valign="center"><a href="index.html"><font color="#004faf">Home</font></a>&nbsp;&middot; <a href="getting-started.html"><font color="#004faf">Tutorial</font></a>&nbsp;&middot; <a href="classes.html"><font color="#004faf">Classes</font></a>&nbsp;&middot; <a href="functions.html"><font color="#004faf">Functions</font></a>&nbsp;&middot; <a href="language.html"><font color="#004faf">Language</font></a>&nbsp;&middot; <a href="workbench-reference.html"><font color="#004faf">QSA Workbench</font></a>&nbsp;&middot; <a href="http://doc.trolltech.com/4.1"><font color="#004faf">Qt Documentation</font></a>&nbsp;&middot; <a href="http://www.trolltech.com/"><font color="#004faf">www.trolltech.com</font></a></td>
+<td align="right" valign="top" width="230"><img src="images/trolltech-logo.png" align="right" width="203" height="32" border="0" /></td></tr></table><h1 class="title">Qt Script: Language Reference<br /><span class="subtitle"></span>
+</h1>
+<a name="introduction"></a>
+<h2>Introduction</h2>
+<p><i>Qt Script for Application</i>'s scripting language is called <i>Qt Script</i>, and it is an implementation of a subset of ECMAScript 4.0&#x2e; ECMAScript is also called JavaScript or JScript by some vendors.</p>
+<p><i>Qt Script</i> provides the language features of ECMAScript, for example, <a href="#while">while</a> loops, <a href="#class">class</a> and <a href="#function">function</a> definitions, etc.</p>
+<p><i>Qt Script</i> also supports Trolltech's innovative signals and slots mechanism. Signals and slots provide type-safe inter-object communication that supercedes the crash-prone callbacks and message maps approaches used by older tools.</p>
+<p>This language reference describes the language features provided by <i>Qt Script</i>. It is divided into the following chapters:</p>
+<p><i>l{Qt Script Language Concepts}</i> <i>l{Built-in Types and Objects}</i> <i>l{Built-in Variables and Constants}</i> <i>l{Built-in Functions and Operators}</i> <i>l{Control Statements}</i></p>
+<p>Readers are assumed to have a basic understanding of programming, and to have read the <a href="getting-started.html">Getting Started with QSA</a> guide that introduces <i>Qt Script</i>.</p>
+<a name="qt-script-language-concepts"></a>
+<h2>Qt Script Language Concepts</h2>
+<p>This chapter describes the concepts behind <i>Qt Script</i>, <i>Qt Script for Application</i>'s implementation of <i>ECMAScript</i>.</p>
+<a name="identifiers-variables-and-constants"></a>
+<h3>Identifiers, Variables and Constants</h3>
+<p><i>Qt Script</i> identifiers match the regex pattern <b>[_A-Za-z][_A-Za-z0-9]*</b>. Identifiers are used for variables, constants, class names, function names and labels.</p>
+<p><i>ECMAScript</i> reserves some words which are valid identifiers for its own use. See the <a href="#built-in-functions-and-operators">Built-in Functions and Operators</a> chapter for the complete list.</p>
+<p>Variables are declared using the <a href="#var">var</a> keyword:</p>
+<pre>    var a;               <span class="comment">// undefined</span>
+    var c = &quot;foliage&quot;;   <span class="comment">// the string &quot;foliage&quot;</span>
+    x = 1;               <span class="comment">// global variable</span></pre>
+<p>If a variable is assigned to without being declared, it is automatically declared as a global variable. Using global variables can make your code difficult to debug and maintain and is not recommended.</p>
+<p>Constants are declared using the <a href="#const">const</a> keyword:</p>
+<pre>    const x = &quot;Willow&quot;;
+    const y = 42;</pre>
+<p>Constants must be defined at the point of declaration, because they cannot be changed later. If an attempt is made to assign to a constant, the <i>Qt Script for Application</i> interpreter will issue an error message and stop.</p>
+<p>Constants are public globals if they are declared outside of any enclosing braces. When declared within the scope of some braces, e.g&#x2e; within an <a href="#if">if</a> statment, their scope is local to the enclosing block.</p>
+<a name="classes-and-methods"></a>
+<h3>Classes and Methods</h3>
+<p><i>Qt Script</i> is a fully object oriented language. Classes can be defined as shown below in the source files of a project.</p>
+<p>Example:</p>
+<pre>    class Circle {
+        var m_x;
+        var m_y;
+        var m_r;
+
+        function Circle( posx, posy, radius )
+        {
+            m_x = posx;
+            m_y = posy;
+            m_r = radius;
+        }
+        function setX( posx ) { m_x = posy; }
+        function setY( posy ) { m_y = posy; }
+        function setR( radius ) { m_r = radius; }
+        function x() { return m_x; }
+        function y() { return m_y; }
+        function r() { return m_r; }
+    }
+
+    class ColorCircle extends Circle {
+        var m_rgb;
+
+        function ColorCircle( posx, posy, radius, rgbcolor)
+        {
+            Circle( posx, posy, radius );
+            m_rgb = rgbcolor;
+        }
+        function setRgb( rgbcolor ) { m_rgb = rgbcolor; }
+        function rgb() { return m_rgb; }
+    }</pre>
+<p>A class's constructor is the function which has the same (case-sensitive) name as the class itself. The constructor should not contain an explicit return statement; it will return an object of its type automatically. <i>Qt Script</i> does not have a destructor function (a function that is called when the class is destroyed), for a class.</p>
+<p>The class's member variables are declared with <a href="#var">var</a>, and its member functions (methods) with <a href="#function">function</a>.</p>
+<p>The object instance itself is referred to using the <a href="#this-operator">this operator</a>. Inside a member function of a class, member variables and member functions can be accessed with an explicit this (e.g&#x2e; <tt>this.x = posx;</tt>). This is not required, but can sometimes help to increase visibility.</p>
+<p><i>Qt Script</i> supports single inheritance, and if a class inherits from another class, the superclass's constructor can be called with <i>super()</i>.</p>
+<p>See also <a href="#class">class</a>, <a href="#function">function</a>, <a href="#function-type">Function type</a>, <a href="#function-operator">function operator</a>.</p>
+<p>Qualified Names</p>
+<p>When you declare an object of a particular type, the object itself becomes, in effect, a namespace. For example, in <i>Qt Script for Application</i> there is a function called <tt>Math.sin()</tt>. If you wanted to have a <i>sin()</i> function in your own class that would not be a problem, because objects of your class would call the function using the <tt>object.function()</tt> syntax. The period is used to distinguish the namespace a particular identifier belongs to.</p>
+<p>For example, in a <i>Qt Script for Application</i> GUI application, every application object belongs to the <tt>Application</tt> object. This can lead to some rather lengthy code, for example <tt>Application.Dialog.ListBox.count</tt>. Such long names can often be shortened, for example, within a signal handler, e.g&#x2e; <tt>this.ListBox.count</tt>. In practice, <i>Qt Script for Application</i> is intelligent enough to work out the fully qualified name, so the code you would actually write is simply <tt>ListBox.count</tt>. The only time that you need to qualify your names is when an unqualified name is ambiguous.</p>
+<a name="class-properties"></a>
+<h4>Class Properties</h4>
+<p>A property is an undeclared variable that can be written to and accessed if the class supports properties. The classes supporting properties are <a href="#object">Object</a>, the application objects and the classes provided by the object and wrapper factories.</p>
+<pre>    var obj = new Object
+    object.myProperty = 100;</pre>
+<p>The class Object does not define the variable <tt>myProperty</tt>, but since the class supports properties, we can define the variable with that name on the fly and use it later. Properties are associated with the object they are assigned to, so even though the object <tt>obj</tt> in the example above gets the property <tt>myProperty</tt>, it does not mean that other objects of type <tt>Object</tt> will have the <tt>myProperty</tt> property, unless explicitly stated.</p>
+<a name="comments"></a>
+<h3>Comments</h3>
+<p><i>Qt Script</i> supports the same commenting syntax as C++. One line comments may appear on a line of their own, or after the statements on a line. Multi-line comments may appear anywhere.</p>
+<pre><span class="comment">    // A one line comment.</span>
+
+<span class="comment">    /*
+        A multi-line
+        comment.
+    */</span></pre>
+<a name="built-in-types-and-objects"></a>
+<h2>Built-in Types and Objects</h2>
+<p><i>Qt Script</i> provides a variety of types and built-in objects. The types covered in the following sections are built into the <i>Qt Script</i> interpreter.</p>
+<p>The built-in types include <a href="#array">Array</a>, <a href="#boolean">Boolean</a>, <a href="#date">Date</a>, <a href="#function-type">Function type</a> <a href="#number">Number</a>, <a href="#object">Object</a>, <a href="#point">Point</a>, <a href="#rect">Rect</a>, <a href="#regexp">RegExp</a>, <a href="#size">Size</a>, <a href="#string">String</a>, <a href="#color">Color</a>, <a href="#palette">Palette</a>, <a href="#colorgroup">ColorGroup</a>, <a href="#bytearray">ByteArray</a>, <a href="#font">Font</a> and <a href="#pixmap">Pixmap</a>.</p>
+<p>The built-in objects include <a href="#math">Math</a> and <a href="#system">System</a>.</p>
+<a name="built-in-types"></a>
+<h3>Built-in Types</h3>
+<p>These are in some sense, <i>Qt Script</i>'s 'native' datatypes.</p>
+<a name="array"></a>
+<h4>Array</h4>
+<p>An <i>Array</i> is a datatype which contains a named list of items. The items can be any <i>Qt Script</i> object. Multi-dimensional arrays are achieved by setting array items to be arrays themselves.</p>
+<p>Arrays can be extended dynamically simply by creating items at non-existent index positions. Items can also be added using <tt>push()</tt>, <tt>unshift()</tt> and <tt>splice()</tt>. Arrays can be concatenated together using <tt>concat()</tt>. Items can be extracted using <tt>pop()</tt>, <tt>shift()</tt> and <tt>slice()</tt>. Items can be deleted using <tt>splice()</tt>. Arrays can be turned into strings using <tt>join()</tt> or <tt>Array::toString()</tt>. Use <tt>reverse()</tt> to reverse the items in an array, and <tt>sort()</tt> to sort the items. The <tt>sort()</tt> function can be passed a comparison function for customized sort orders.</p>
+<p>In general, operations that copy array items perform a deep copy on items that are <tt>Number</tt> or <tt>String</tt> objects, and a shallow copy on other objects.</p>
+<a name="array-construction"></a>
+<h5>Array Construction</h5>
+<p>Arrays can be constructed from array literals or using the <a href="#new-operator">new operator</a>:</p>
+<pre>        var mammals = [ &quot;human&quot;, &quot;dolphin&quot;, &quot;elephant&quot;, &quot;monkey&quot; ];
+        var plants = new Array( &quot;flower&quot;, &quot;tree&quot;, &quot;shrub&quot; );
+        var things = [];
+        for ( i = 0; i &lt; mammals.length; i++ ) {
+            things[i] = new Array( 2 );
+            things[i][0] = mammals[i];
+            things[i][1] = plants[i];
+        }</pre>
+<p>Arrays can be initialized with a size, but with all items undefined:</p>
+<pre>        var a = new Array( 10 ); <span class="comment">// 10 items</span></pre>
+<a name="array-access"></a>
+<h5>Array Access</h5>
+<p><i>Array</i> items are accessed via their names. Names can be either integers or strings.</p>
+<p>Example:</p>
+<pre>        var m2 = mammals[2];
+        mammals[2] = &quot;gorilla&quot;;
+        var thing = things[2][1]</pre>
+<p>The first statement retrieves the value of the third item of the <tt>mammals</tt> array and assigns it to <tt>m2</tt>, which now contains &quot;monkey&quot;. The second statement replaces the third item of the <tt>mammals</tt> array with the value &quot;gorilla&quot;. The third statement retrieves the second item of the third item's array from the <tt>things</tt> array and assigns it to <tt>thing</tt>, which now contains &quot;shrub&quot;.</p>
+<p>As stated above, it is also possible to access the arrays using strings. These act as normal properties, and can be accessed either using the square bracked operator ([]) or by directly dereferencing the array object and specifying the property name (.name). These two accessor types can be mixed freely as seen below with the <tt>address</tt> and <tt>phoneNumber</tt> properties.</p>
+<pre>        var names = [];
+        names[&quot;first&quot;] = &quot;John&quot;;
+        names[&quot;last&quot;] = &quot;Doe&quot;;
+        var firstName = names[&quot;first&quot;];
+        var lastName = names[&quot;last&quot;];
+
+        names[&quot;address&quot;] = &quot;Somewhere street 2&quot;;
+        names.phoneNumber = &quot;+0123456789&quot;;
+        var address = names.address;
+        var phoneNumber = names[&quot;phoneNumber&quot;];</pre>
+<a name="array-properties"></a>
+<h5>Array Properties</h5>
+<ul>
+<li>length : Number; Holds the number of items in the array. Items with string keys are excluded from the length property.</li>
+</ul>
+<a name="array-functions"></a>
+<h5>Array Functions</h5>
+<ul>
+<li>concat( a1 : Array, a2 : Array ..&#x2e; aN : Array) : Array;<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        var y = x.concat( [ &quot;d&quot;, &quot;e&quot; ], [ 90, 100 ] );
+        <span class="comment">// y == [ &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, 90, 100 ]</span></pre>
+<p>Concatenates the array with one or more other arrays in the order given, and returns a single array.</p>
+</li>
+<li>join( optSeparator : String ) : String;<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        var y = x.join();         <span class="comment">// y == &quot;a,b,c&quot;</span>
+        var z = x.join( &quot; * &quot; );  <span class="comment">// y == &quot;a * b * c&quot;</span></pre>
+<p>Joins all the items of an array together, separated by commas, or by the specified <tt>optSeparator</tt>.</p>
+</li>
+<li>pop() : Object;<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        var y = x.pop(); <span class="comment">// y == &quot;c&quot;  x == [ &quot;a&quot;, &quot;b&quot; ]</span></pre>
+<p>Pops (i.e&#x2e; removes) the top-most (right-most) item off the array and returns it.</p>
+</li>
+<li>push( item1, optItem2, ..&#x2e; optItemN );<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        x.push( 121 ); <span class="comment">// x == [ &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, 121 ]</span></pre>
+<p>Pushes (i.e&#x2e; inserts) the given items onto the top (right) end of the array. The function returns the new length of the array.</p>
+</li>
+<li>reverse();<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot; );
+        x.reverse(); <span class="comment">// x == [ &quot;d&quot;, &quot;c&quot;, &quot;b&quot;, &quot;a&quot; ]</span></pre>
+<p>Reverses the items in the array.</p>
+</li>
+<li>shift() : Object;<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        var y = x.shift(); <span class="comment">// y == &quot;a&quot;  x == [ &quot;b&quot;, &quot;c&quot; ]</span></pre>
+<p>Shifts (i.e&#x2e; removes) the bottom-most (left-most) item off the array and returns it.</p>
+</li>
+<li>slice( startIndex : Number, optEndIndex : Number ) : Array;<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot; );
+        var y = x.slice( 1, 3 ); <span class="comment">// y == [ &quot;b&quot;, &quot;c&quot; ]</span>
+        var z = x.slice( 2 );    <span class="comment">// z == [ &quot;c&quot;, &quot;d&quot; ]</span></pre>
+<p>Copies a slice of the array from the item with the given starting index, <tt>startIndex</tt>, to the item <i>before</i> the item with the given ending index, <tt>optEndIndex</tt>. If no ending index is given, all items from the starting index onward are sliced.</p>
+</li>
+<li>sort( optComparisonFunction : function );<pre>        var x = new Array( &quot;d&quot;, &quot;x&quot;, &quot;a&quot;, &quot;c&quot; );
+        x.sort(); <span class="comment">// x == [ &quot;a&quot;, &quot;c&quot;, &quot;d&quot;, &quot;x&quot; ]</span></pre>
+<p>Sorts the items in the array using string comparison. For customized sorting, pass the <i>sort()</i> function a comparison function, <tt>optComparisonFunction</tt>, that has the following signature and behavior:</p>
+<pre>        function comparisonFunction( a, b ) <span class="comment">// signature</span></pre>
+<p>The function must return an integer as follows:</p>
+<ul>
+<li>-1 if a &lt; b</li>
+<li>0 if a == b</li>
+<li>1 if a &gt; b</li>
+</ul>
+<p>Example:</p>
+<pre>        function numerically( a, b ) { return a &lt; b ? -1 : a &gt; b ? 1 : 0; }
+        var x = new Array( 8, 90, 1, 4, 843, 221 );
+        x.sort( numerically ); <span class="comment">// x == [ 1, 4, 8, 90, 221, 843 ]</span></pre>
+</li>
+<li>splice( startIndex : Number, replacementCount : Number, optItem1, ..&#x2e; optItemN );<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot; );
+
+        <span class="comment">// 2nd argument 0, plus new items   ==&gt; insertion</span>
+        x.splice( 1, 0, &quot;X&quot;, &quot;Y&quot; );
+        <span class="comment">// x == [ &quot;a&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot; ]</span>
+
+        <span class="comment">// 2nd argument &gt; 0, and no items   ==&gt; deletion</span>
+        x.splice( 2, 1 );
+        <span class="comment">// x == [ &quot;a&quot;, &quot;X&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot; ]</span>
+
+        <span class="comment">// 2nd argument &gt; 0, plus new items ==&gt; replacement</span>
+        x.splice( 3, 2, &quot;Z&quot; );
+        <span class="comment">// x == [ &quot;a&quot;, &quot;X&quot;, &quot;b&quot;, &quot;Z&quot; ]</span></pre>
+<p>Splices items into the array and out of the array. The first argument, <tt>startIndex</tt>, is the start index. The second argument, <tt>replacementCount</tt>, is the number of items that are to be replaced. Make the second argument 0 if you are simply inserting items. The remaining arguments are the items to be inserted. If you are simply deleting items, the second argument must be &gt; 0 (i.e&#x2e; the number of items to delete), and there must be no new items given.</p>
+</li>
+<li>toString() : String;<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        var y = x.toString();  <span class="comment">// y == &quot;a,b,c&quot;</span>
+        var z = x.join();      <span class="comment">// y == &quot;a,b,c&quot;</span></pre>
+<p>Joins all the items of an array together, separated by commas. This function is used when the array is used in the context of a string concatenation or is used as a text value, e.g&#x2e; for printing. Use <tt>join()</tt> if you want to use your own separator.</p>
+</li>
+<li>unshift( expression : String, optExpression1, ..&#x2e; opExpressionN )<pre>        var x = new Array( &quot;a&quot;, &quot;b&quot;, &quot;c&quot; );
+        x.unshift( 121 ); <span class="comment">// x == [ 121, &quot;a&quot;, &quot;b&quot;, &quot;c&quot; ]</span></pre>
+<p>Unshifts (i.e&#x2e; inserts) the given items at the bottom (left) end of the array.</p>
+</li>
+</ul>
+<a name="boolean"></a>
+<h4>Boolean</h4>
+<p><i>ECMAScript</i> provides a <i>Boolean</i> data type. In general, creating objects of this type is not recommended since the behavior will probably not be what you would expect.</p>
+<p>Instead, use the boolean constants <tt>true</tt> and <tt>false</tt> as required. Any expression can be evaluated in a boolean context, e.g&#x2e; in an <a href="#if">if</a> statement. If the expression's value is <tt>0</tt>, <tt>null</tt>, <tt>false</tt>, <a href="#nan">NaN</a>, <a href="#undefined">undefined</a> or the empty string <tt>&quot;&quot;</tt>, the expression is <tt>false</tt>; otherwise the expression is <tt>true</tt>.</p>
+<a name="date"></a>
+<h4>Date</h4>
+<p>Instances of the <i>Date</i> class are used to store and manipulate dates and times.</p>
+<p>A variety of get functions are provided to obtain the date, time or relevant parts, for example, <tt>getDay()</tt>, <tt>getYear()</tt>, <tt>getHours()</tt>, <tt>getMilliseconds()</tt>, <tt>getMinutes()</tt>, <tt>getMonth()</tt>, <tt>getSeconds()</tt>, <tt>getTime()</tt>.</p>
+<p>A complementary set of functions are also provided, including <tt>setYear()</tt>, <tt>setHours()</tt>, <tt>setMilliseconds()</tt>, <tt>setMinutes()</tt>, <tt>setMonth()</tt>, <tt>setSeconds()</tt>, <tt>setTime()</tt>.</p>
+<p>The functions operate using local time.</p>
+<p>Conversion between Date objects to and from strings are provided by <tt>parse()</tt> and <tt>Date::toString()</tt>.</p>
+<p>Elapsed time (in milliseconds) can be obtained by creating two dates, casting them to <tt>Number</tt> and subtracting one value from the other.</p>
+<pre>    var date1 = new Date();
+<span class="comment">    // time flies..</span>
+    var date2 = new Date();
+    var timedifference = date2.getTime() - date1.getTime();</pre>
+<a name="static-date-functions"></a>
+<h5>Static Date Functions</h5>
+<ul>
+<li>parse( dateString : String ) : Number;<pre>        var d = new Date( Date.parse( &quot;1976-01-25T22:30:00&quot; ) );
+        d = Date.parse( &quot;1976-01-25T22:30:00&quot; );</pre>
+<p>This is a static function that parses a string, <tt>dateString</tt>, which represents a particular date and time. It returns the number of milliseconds since midnight on the 1st January 1970. The string must be in the ISO 8601 extended format: <tt>YYYY-MM-DD</tt> or with time <tt>YYYY-MM-DDTHH:MM:SS</tt>.</p>
+</li>
+</ul>
+<a name="date-construction"></a>
+<h5>Date Construction</h5>
+<pre>    Date()
+    Date( milliseconds )
+    Date( year, month, day, optHour, optMinutes, optSeconds, optMilliseconds )</pre>
+<pre>        var today = new Date();
+        var d = new Date( 1234567 );
+        var date = new Date( 1994, 4, 21 );
+        var moment = new Date( 1968, 5, 11, 23, 55, 30 );</pre>
+<p>Dates can be constructed with no arguments, in which case the value is the date and time at the moment of construction using local time. A single integer argument is taken as the number of milliseconds since midnight on the 1st January 1970.</p>
+<a name="date-functions"></a>
+<h5>Date Functions</h5>
+<ul>
+<li>getDate() : Number;<pre>        var d = new Date( 1975, 12, 25 );
+        var x = d.getDate();  <span class="comment">// x == 25</span></pre>
+<p>Returns the day of the month using local time. The value is always in the range 1..31.</p>
+</li>
+<li>getDay() : Number;<pre>        var d = new Date( 1975, 12, 25, 22, 30, 15 );
+        var x = d.getDay();  <span class="comment">// x == 4</span></pre>
+<p>Returns the day of the week using local time. The value is always in the range 1..7, with the week considered to begin on Monday.</p>
+<p>Example:</p>
+<pre>        var IndexToDay = [ &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot; ];
+        var d = new Date( 1975, 12, 28 );
+        System.println( IndexToDay[ d.getDay() - 1 ] ); <span class="comment">// Prints &quot;Sun&quot;</span></pre>
+</li>
+<li>getYear() : Number;<pre>        var d = new Date( 1975, 12, 25 );
+        var x = d.getYear();  <span class="comment">// x == 1975</span></pre>
+<p>Returns the year using local time.</p>
+</li>
+<li>getHours() : Number;<pre>        var d = new Date( 1975, 12, 25, 22 );
+        var x = d.getHours();  <span class="comment">// x == 22</span></pre>
+<p>Returns the hour using local time. The value is always in the range 0..23.</p>
+</li>
+<li>getMilliseconds() : Number;<pre>        var d = new Date( 1975, 12, 25, 22 );
+        var x = d.getMilliseconds();  <span class="comment">// x == 0</span></pre>
+<p>Returns the milliseconds component of the date using local time. The value is always in the range 0..999. In the example, <tt>x</tt> is 0, because no milliseconds were specified, and the default for unspecified components of the time is 0.</p>
+</li>
+<li>getMinutes() : Number;<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        var x = d.getMinutes();  <span class="comment">// x == 30</span></pre>
+<p>Returns the minutes component of the date using local time. The value is always in the range 0..59.</p>
+</li>
+<li>getMonth() : Number;<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        var x = d.getMonth();  <span class="comment">// x == 12</span></pre>
+<p>Returns the months component of the date using local time. The value is always in the range 1..12.</p>
+<p>Example:</p>
+<pre>        var IndexToMonth = [ &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;,
+                             &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot; ];
+        var d = new Date( 1975, 12, 25 );
+        System.println( IndexToMonth[ d.getMonth() - 1] ); <span class="comment">// Prints &quot;Dec&quot;</span></pre>
+</li>
+<li>getSeconds() : Number;<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        var x = d.getSeconds();  <span class="comment">// x == 0</span></pre>
+<p>Returns the seconds component of the date using local time. The value is always in the range 0..59. In the example <tt>x</tt> is 0 because no seconds were specified, and the default for unspecified components of the time is 0.</p>
+</li>
+<li>getTime() : Number;<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        var x = d.getTime();  <span class="comment">// x == 1.91457e+11</span></pre>
+<p>Returns the number of milliseconds since midnight on the 1st January 1970 using local time.</p>
+</li>
+<li>setDate( dayOfTheMonth : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setDate( 30 );  <span class="comment">// d == 1975-12-30T22:30:00</span></pre>
+<p>Sets the day of the month to the specified <tt>dayOfTheMonth</tt> in local time.</p>
+</li>
+<li>setYear( year : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setYear( 1980 );         <span class="comment">// d == 1980-12-30T22:30:00</span></pre>
+<p>Sets the year to the specified <tt>year</tt> in local time.</p>
+</li>
+<li>setHours( hour : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setHours( 10 );  <span class="comment">// d == 1980-12-30T10:30:00</span></pre>
+<p>Sets the <tt>hour</tt> to the specified hour, which must be in the range 0..23, in local time. The minutes, seconds and milliseconds past the hour (<tt>optMinutes</tt>, <tt>optSeconds</tt> and <tt>optMilliseconds</tt>) can also be specified.</p>
+</li>
+<li>setMilliseconds( milliseconds : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setMilliseconds( 998 );  <span class="comment">// d == 1980-12-30T10:30:00:998</span></pre>
+<p>Sets the <tt>milliseconds</tt> component of the date to the specified value in local time.</p>
+</li>
+<li>setMinutes( minutes : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setMinutes( 15 );  <span class="comment">// d == 1980-12-30T10:15:00</span></pre>
+<p>Sets the <tt>minutes</tt> to the specified minutes, which must be in the range 0..59, in local time. The seconds and milliseconds past the minute (<tt>optSeconds</tt> and <tt>optMilliseconds</tt>) can also be specified.</p>
+</li>
+<li>setMonth( month : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setMonth(0);  <span class="comment">// d == 1980-01-11T22:30:00</span></pre>
+<p>Sets the <tt>month</tt> to the specified month, which must be in the range 0..11, in local time.</p>
+</li>
+<li>setSeconds()<p><tt>setSeconds( seconds )</tt></p>
+<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        d.setSeconds( 25 );  <span class="comment">// d == 1980-12-30T22:30:25</span></pre>
+<p>Sets the <tt>seconds</tt> to the specified seconds, which must be in the range 0..59, in local time.</p>
+</li>
+<li>setTime( milliseconds : Number );<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        var duplicate = new Date();
+        duplicate.setTime( d.getTime() );</pre>
+<p>Sets the date and time to the local date and time given in terms of <tt>milliseconds</tt> since midnight on the 1st January 1970.</p>
+</li>
+<li>toString() : String;<pre>        var d = new Date( 1975, 12, 25, 22, 30 );
+        var s = d.toString(); <span class="comment">// s == &quot;1975-12-25T22:30:00&quot;</span></pre>
+</li>
+</ul>
+<p>Converts the date into a string on the ISO 8601 extended format: <tt>YYYY-MM-DDTHH:MM:SS</tt>.</p>
+<a name="function-type"></a>
+<h4>Function Type</h4>
+<p>Functions are normally defined in the application's source code. In some situations it is desirable to create functions at run time.</p>
+<pre>        var min = new Function( &quot;x&quot;, &quot;y&quot;, &quot;return x &lt; y ? x : y;&quot; );
+        var m = min( 68, 9 ); <span class="comment">// m == 9</span></pre>
+<p>The first arguments are the names of the parameters; the last argument is a string which contains the function's definition. It is also possible to supply the list of argument names as one comma separated string.</p>
+<pre>        var min = new Function( &quot;x,y&quot;, &quot;return x &lt; y ? x : y;&quot; );</pre>
+<p>Variable numbers of arguments are also supported, using the <a href="#arguments">arguments</a> array, for example:</p>
+<pre>        max = new Function(
+              &quot;var max = 0;&quot;
+            + &quot;for ( var i = 0; i &lt; arguments.length; i++ ) {&quot;
+            + &quot;   if ( arguments[ i ] &gt; max ) max = arguments[ i ];&quot;
+            + &quot;}&quot;
+            + &quot;return max;&quot;
+            );
+        System.println( max( 50, 16, 24, 99, 1, 97 ) ); <span class="comment">// Prints 99</span></pre>
+<a name="number"></a>
+<h4>Number</h4>
+<p>A <i>Number</i> is a datatype that represents a number. In most sittuations, programmers will use numeric literals like 3.142 directly in code. The <i>Number</i> datatype is useful for obtaining system limits, e.g&#x2e; <tt>MIN_VALUE</tt> and <tt>MAX_VALUE</tt>, and for performing number to string conversions with toString()</p>
+<a name="number-construction"></a>
+<h5>Number Construction</h5>
+<p>Numbers are not normally constructed, but instead created by simple assignment, e.g&#x2e;</p>
+<pre>        var x = 3.142;</pre>
+<a name="number-properties"></a>
+<h5>Number Properties</h5>
+<ul>
+<li>MAX_VALUE : Number; The maximum value for floating point values.</li>
+<li>MIN_VALUE : Number; The minimum value for floating point values.</li>
+</ul>
+<p>A numeric variable can hold a non-numeric value, in which case <a href="#isnan">isNaN</a>() returns <tt>true</tt>. The result of an arithmetic expression may exceed the maximum or minimum representable values in which case the value of the expression will be <a href="#infinity">Infinity</a>, and <a href="#isfinite">isFinite</a>() will return <tt>false</tt>.</p>
+<a name="number-functions"></a>
+<h5>Number Functions</h5>
+<ul>
+<li>toString() : String; Returns the number as a string value.</li>
+</ul>
+<a name="object"></a>
+<h4>Object</h4>
+<p>An <i>Object</i> is the base type for all <i>Qt Script</i> objects.</p>
+<p><i>Object</i> provides a <i>toString()</i> function which is usually overridden by subclasses.</p>
+<a name="point"></a>
+<h4>Point</h4>
+<p>The <i>Point</i> class provides an implementation of a two dimensional point.</p>
+<p>The Point class provides three different constructors.</p>
+<pre>        var point = new Point( 20, 30 );
+        var duplicate = new Point( point ); <span class="comment">// 20, 30</span>
+        var zero = new Point();             <span class="comment">// 0, 0</span></pre>
+<a name="point-properties"></a>
+<h5>Point Properties</h5>
+<ul>
+<li>x : Number; The x position of the point.</li>
+<li>y : Number; The y position of the point.</li>
+</ul>
+<pre>        var p = new Point( 100, 200 );
+        System.println( &quot;Point is: &quot; + p.x + &quot;, &quot; + p.y );</pre>
+<a name="rect"></a>
+<h4>Rect</h4>
+<p>A <i>Rect</i> object represents a rectangle.</p>
+<p>The rectangle class provides three constructors.</p>
+<pre>        var rect = new Rect( 10, 20, 30, 40 ); <span class="comment">// x=10, y=20, width=30, height=40</span>
+        var duplicate = new Rect( rect );      <span class="comment">// x=10, y=20, width=30, height=40</span>
+        var empty = new Rect();                <span class="comment">// x=0, y=0, width=0, height=0</span></pre>
+<a name="rect-properties"></a>
+<h5>Rect Properties</h5>
+<ul>
+<li>x : Number; The left position of the rectangle.</li>
+<li>y : Number; The right position of the rectangle.</li>
+<li>width : Number; The width of the rectangle.</li>
+<li>height : Number; The height of the rectangle.</li>
+<li>top : Number; The position of the top of the rectangle. This is defined as <tt>top = y</tt>.</li>
+<li>bottom : Number; The position of the bottom of the rectangle. This is defined as <tt>bottom = y + height + 1</tt>.</li>
+<li>left : Number; The position of the rectangle's left side. This is defined as <tt>left = x</tt></li>
+<li>right : Number; The position of the rectangle's right side. This is defined as <tt>right = x + width + 1</tt>.</li>
+<li>center : Point; The center of the rectangle.</li>
+</ul>
+<a name="rect-functions"></a>
+<h5>Rect Functions</h5>
+<ul>
+<li>isNull() : Boolean;<pre>        var empty = new Rect();
+        empty.isNull(); <span class="comment">// true;</span>
+
+        var square = new Rect( 10, 10, 10, 10 );
+        square.isNull(); <span class="comment">// false;</span></pre>
+<p>Returns true if the rectangle has a width and height of 0.</p>
+</li>
+<li>isEmpty() : Boolean;<pre>        var rect = new Rect( 10, 10, -10, -10 );
+        rect.isEmpty(); <span class="comment">// true</span>
+
+        var rect = new Rect( 10, 10, 10, 10 );
+        rect.isEmpty(); <span class="comment">// false</span></pre>
+<p>Returns true if the rectangle is empty, meaning that it has width and/or height that is negative.</p>
+</li>
+<li>contains( otherRect : Rect ) : Boolean;<pre>        new Rect( 0, 0, 100, 100 ).contains( new Rect( 10, 10, 10, 10 ) ); <span class="comment">// true</span>
+        new rect( 10, 10, 10, 10 ).contains( new Rect( 0, 0, 100, 100 ) ); <span class="comment">// false</span></pre>
+<p>Returns true if the rectangle contains the other rectangle.</p>
+</li>
+<li>intersection( otherRect : Rect ) : Rect; Returns the intersection between this rectangle and another rectangle. The intersection of two rectangles is the part of the rectangles that overlap. If they do not overlap, an empty rectangle is returned.</li>
+<li>union( otherRect : Rect ) : Rect; Returns the union of two rectangles. The union is a rectangle large enough to encompass both rectangles.</li>
+<li>intersects( otherRect : Rect ) : Boolean; Returns true if this rectangle intersects the other rectangle.</li>
+<li>normalize(); Normalizes this rectangle. This means changing the prefix of the width and/or height if they are negative. After being normalized, a rectangle will no longer be empty.</li>
+<li>moveLeft( pos : Number ); Moves the rectangle so that its <tt>left</tt> property is equal to <tt>pos</tt>.</li>
+<li>moveRight( pos : Number ); Moves the rectangle so that its <tt>right</tt> property is equal to <tt>pos</tt>.</li>
+<li>moveTop( pos : Number ); Moves the rectangle so that its <tt>top</tt> property is equal to <tt>pos</tt>.</li>
+<li>moveBottom( pos : Number ); Moves the rectangle so that its <tt>bottom</tt> property is equal to <tt>pos</tt>.</li>
+<li>moveBy( dx : Number, dy : Number ); Translates the rectangle by <tt>dx</tt> and <tt>dy</tt>. <tt>dx</tt> and <tt>dy</tt> will be added to <tt>x</tt> and <tt>y</tt>, and <tt>width</tt> and <tt>height</tt> will be left unchanged.</li>
+</ul>
+<a name="size"></a>
+<h4>Size</h4>
+<p>The <i>Size</i> class represents a two dimensional size. The size is represented using width and height.</p>
+<p>The Size class provides three construtors:</p>
+<pre>        var size = new Size( 100, 200 ); <span class="comment">// width = 100, height = 200</span>
+        var duplicate = new Size( size ); <span class="comment">// width = 100, height = 200</span>
+        var empty = new Size(); <span class="comment">// width = 0, height = 0</span></pre>
+<a name="size-properties"></a>
+<h5>Size Properties</h5>
+<ul>
+<li>width : Number; The width of the size.</li>
+<li>height : Number; The height of the size.</li>
+</ul>
+<a name="size-functions"></a>
+<h5>Size Functions</h5>
+<ul>
+<li>translate(); The translate function swaps the width and height of the size.</li>
+</ul>
+<a name="regexp"></a>
+<h4>RegExp</h4>
+<p>A <i>RegExp</i> is a regular expression matcher for strings.</p>
+<p>Regular expressions can be created either by using the <tt>/expression/</tt> syntax or by using the <a href="#regexp">RegExp</a> constructor as shown below. Note that when using the <a href="#regexp">RegExp</a> constructor, a string is passed, and all backslashes must be escaped using an extra backslash, i.e&#x2e; <tt>\\d</tt>. Below are two ways to create regular expressions that matches the pattern &quot;QUANTITY=471 # Order quantity&quot; and gets the number 471.</p>
+<pre>        var directRegex = /([A-Z]+)=(\d+)/;
+        var str = &quot;QUANTITY=471 # Order quantity&quot;;
+        str.match(directRegex);
+        directRegex.capturedTexts[2]; <span class="comment">// &quot;471&quot;;</span>
+
+        var indirectRegex = new RegExp( &quot;([A-Z]+)=(\\d+)&quot; );</pre>
+<a name="regexp-properties"></a>
+<h5>RegExp Properties</h5>
+<ul>
+<li>valid : Boolean; Returns true if the regular expression is syntactically valid; otherwise returns false.</li>
+<li>empty : Boolean; Returns true if the pattern is empty; otherwise returns false.</li>
+<li>matchedLength : Number; The length of the last matched string, or -1 if there was no match.</li>
+<li>capturedTexts : String[]; An array of all the captured texts from the previous match. This can be empty.</li>
+<li>global : Boolean; Specifies that the regexp should be matched globally. A global regexp will match every occurrence (i.e&#x2e; as many times as possible), whereas a non-global regexp will match at most once (at the first match it encounters). This is particularly relevant for replace where every occurance of a pattern will be replaced when global is true.<p>A regular expression can be set to global either by setting the global property on a regexp object or by specifying a trailing <tt>g</tt> in the pattern.</p>
+<pre>    var re = /mypattern/g;     <span class="comment">// Global by method #1</span>
+
+    var re = /mypattern/;
+    re.global = true           <span class="comment">// Global by method #2</span></pre>
+</li>
+<li>ignoreCase : Boolean; Specifies that the regexp ignores case when matching. Case-insensitivity can is enabled by either specifying a trailing <tt>i</tt> after the pattern or by setting the <tt>ignoreCase</tt> property.<pre>    var re = /mypattern/i;     <span class="comment">// Case-insensitive by method #1</span>
+
+    var re = /mypattern/;
+    re.ignoreCase = true;      <span class="comment">// Case-insensitive by method #2</span></pre>
+</li>
+</ul>
+<a name="regexp-functions"></a>
+<h5>RegExp Functions</h5>
+<ul>
+<li>toString() : String; Returns the regular expression pattern as a string.</li>
+<li>search( text : String ) : Number;<pre>        var re = /\d+ cm/; <span class="comment">// matches one or more digits followed by space then 'cm'</span>
+        re.search( &quot;A meter is 100 cm long&quot; ); <span class="comment">// returns 11</span></pre>
+<p>Searches <tt>text</tt> for the pattern defined by the regular expression. The function returns the position in the text of the first match or -1 if no match is found.</p>
+</li>
+<li>searchRev( text : String ) : Number; Same as <tt>search()</tt>, but searchRev searches from the end of the text.</li>
+<li>exactMatch( text : String ) : Boolean; Returns true if <tt>text</tt> exactly matches the pattern in this regular expresssion; otherwise returns false.</li>
+<li>cap( nth : Number ) : String;<pre>        re = /name: ([a-zA-Z ]+)/;
+        re.search( &quot;name: John Doe, age: 42&quot; );
+        re.cap(0);  <span class="comment">// returns &quot;name: John Doe&quot;</span>
+        re.cap(1);  <span class="comment">// returns &quot;John Doe&quot;</span>
+        re.cap(2);  <span class="comment">// returns undefined, no more captures.</span></pre>
+<p>Returns the <tt>nth</tt> capture of the pattern in the previously matched text. The first captured string (<tt>cap(0)</tt> ) is the part of the string that matches the pattern itself, if there is a match. The following captured strings are the parts of the pattern enclosed by parenthesis. In the example above we try to capture <tt>([a-zA-Z ]+)</tt>, which captures a sequence of one or more letters and spaces after the <tt>name:</tt> part of the string.</p>
+</li>
+<li>pos( nth : Number ) : Number;<pre>        re = /name: ([a-zA-Z ]+)/;
+        re.search( &quot;name: John Doe, age: 42&quot; );
+        re.pos(0); <span class="comment">// returns 0, position of &quot;name: John Doe&quot;</span>
+        re.pos(1); <span class="comment">// returns 6, position of &quot;John Doe&quot;</span>
+        re.pos(2); <span class="comment">// returns -1, no more captures</span></pre>
+<p>Returns the position of the <tt>nth</tt> captured text in the search string.</p>
+</li>
+</ul>
+<a name="string"></a>
+<h4>String</h4>
+<p>A <i>String</i> is a sequence of zero or more Unicode characters. <i>Qt Script</i>'s <i>String</i> class uses the <a href="http://doc.trolltech.com">Qt</a> QString class's functions and syntax.</p>
+<p>Strings can be created and concatenated as follows.</p>
+<pre>        var text = &quot;this is a&quot;;
+        var another = new String( &quot;text&quot; );
+        var concat = text + &quot; &quot; + another;  <span class="comment">// concat == &quot;this is a text&quot;</span></pre>
+<a name="string-properties"></a>
+<h5>String Properties</h5>
+<ul>
+<li>length : Number; The length property specifies the length of the string.</li>
+</ul>
+<a name="static-string-functions"></a>
+<h5>Static String Functions</h5>
+<ul>
+<li>fromCharCode ( static function )<pre>        var s = String.fromCharCode( 65, 66, 67, 68 );
+        System.println( s ); <span class="comment">// prints &quot;ABCD&quot;</span></pre>
+<p>Returns a string made up of the characters with code <tt>code1</tt>, <tt>code2</tt>, etc, according to their Unicode character codes.</p>
+</li>
+</ul>
+<a name="string-functions"></a>
+<h5>String Functions</h5>
+<ul>
+<li>charAt( pos : Number ) : String; Returns the character in the string at position <tt>pos</tt>. If the position is out of bounds, <tt>undefined</tt> is returned.</li>
+<li>charCodeAt( pos : Number ) : Number; Returns the character code of the character at position <tt>pos</tt> in the string. If the position is out of bounds, <tt>undefined</tt> is returned.</li>
+<li>indexOf( pattern : String or <a href="#regexp">RegExp</a>, pos : Number ) : Number; Returns the index of <tt>pattern</tt> in the string, starting at position <tt>pos</tt>. If no position is specified, the function starts at the beginning of the string. If the pattern is not found in the string, -1 is returned.</li>
+<li>lastIndexOf( pattern : String or <a href="#regexp">RegExp</a>, pos : Number ) : Number; Returns the last index of <tt>pattern</tt> in the string, starting at position <tt>pos</tt> and searching backwards from there. If no position is specified, the function starts at the end of the string. If the pattern is not found in the string, -1 is returned.<p><i>match( pattern : RegExp )</i> : String; Returns the matched pattern if this string matches the pattern defined by <tt>regexp</tt>. If the string doesn't match or <tt>regexp</tt> is not a valid regular expression, <tt>undefined</tt> is returned.</p>
+</li>
+<li>search( pattern : String or <a href="#regexp">RegExp</a> ) : String; same as find.</li>
+<li>searchRev( pattern : String or <a href="#regexp">RegExp</a> ) : String; same as findRev.</li>
+<li>replace( pattern : <a href="#regexp">RegExp</a>, newValue : String ) : String; Replaces the first occurrence of <tt>pattern</tt> in the string with <tt>newvalue</tt> if the pattern is found in the string. A modified copy of string is returned.<p>If <tt>pattern</tt> is a regular expression with global set, all occurances of <tt>pattern</tt> in the string will be replaced.</p>
+</li>
+<li>split( pattern : String or <a href="#regexp">RegExp</a> ) : String[]; Returns an array of strings containing this string split on each occurrence of <tt>pattern</tt>.</li>
+<li>substring( startIndex : Number, endIndex : Number ) : String; Returns a copy of this string which is the substring starting at <tt>startIndex</tt> and ending at <tt>endIndex</tt>.</li>
+<li>toLowerCase() : String; Returns a lowercase copy of this string.</li>
+<li>lower() : String; Same as toLowerCase().</li>
+<li>toUpperCase() : String; Returns an uppercase copy of this string.</li>
+<li>upper() : String; Same as toUpperCase().</li>
+<li>isEmpty() : Boolean; Returns true if the string is empty, i.e&#x2e; has a length of 0; otherwise returns false.</li>
+<li>left( length : Number ) : String; Returns a substring containing the <tt>length</tt> leftmost characters of this string.</li>
+<li>right( length : Number ) : String; Returns a substring containing the <tt>length</tt> rightmost characters of this string.</li>
+<li>mid( start : Number, length : Number ) : String; Returns a copy of this string which is the substring starting a <tt>start</tt> and is <tt>length</tt> characters long.</li>
+<li>find( pattern : String or <a href="#regexp">RegExp</a>, pos : Number ) : Number; Returns the first position of <tt>pattern</tt> after <tt>pos</tt>. If the pattern is not found, -1 is returned. If <tt>pos</tt> is not specified, position 0 is used.</li>
+<li>findRev( pattern : Number, pos : Number ) : String; Returns the first position of <tt>pattern</tt> before or at <tt>pos</tt>, searching backward. If pattern is not found, -1 is returned. If <tt>pos</tt> is not specified, the search starts at the end of the string.</li>
+<li>startsWith( pattern : String or <a href="#regexp">RegExp</a> ) : Boolean; Returns true if the string starts with <tt>pattern</tt>; otherwise returns false.</li>
+<li>endsWith( pattern : String or <a href="#regexp">RegExp</a> ) : Boolean; Returns true if the string ends with <tt>pattern</tt>; otherwise returns false.</li>
+<li>arg( value : String or Number, fieldWidth : Number ) : String; This function will return a string that replaces the lowest numbered occurrence of %1, %2, ..&#x2e;, %9 with <tt>value</tt>.<p>The <tt>fieldWidth</tt> parameter specifies the minimum amount of space that <tt>value</tt> is padded to. A positive <tt>fieldWidth</tt> will produce right-aligned text, whereas a negative <tt>fieldWidth</tt> will produce left-aligned text.</p>
+</li>
+<li>argInt( value : Number, fieldWidth : Number, base : Number ) : String; This function behaves like arg above, but is specialized for the case where <tt>value</tt> is an integer.<p><tt>value</tt> is expressed in base <tt>base</tt>, which is 10 by default and must be between 2 and 36.</p>
+</li>
+<li>argDec( value : Number, fieldWidth : Number, format : Number, precision : Number ) : String; This function behaves like <tt>arg()</tt> above, but is specialized for the case where <tt>value</tt> is a decimal value.<p>Argument <tt>value</tt> is formatted according to the <tt>format</tt> specified, which is 'g' by default and can be any of the following:</p>
+<ul>
+<li><tt>e</tt> - format as [-]9.9e[+|-]999</li>
+<li><tt>E</tt> - format as [-]9.9E[+|-]999</li>
+<li><tt>f</tt> - format as [-]9.9</li>
+<li><tt>g</tt> - use <tt>e</tt> or <tt>f</tt> format, whichever is the most concise</li>
+<li><tt>G</tt> - use <tt>E</tt> or <tt>f</tt> format, whichever is the most concise</li>
+</ul>
+<p>With 'e', 'E', and 'f', <tt>precision</tt> is the number of digits after the decimal point. With 'g' and 'G', <tt>precision</tt> is the maximum number of significant digits (trailing zeroes are omitted).</p>
+</li>
+</ul>
+<a name="color"></a>
+<h4>Color</h4>
+<p>The <i>Color</i> class is used to represent colors. Instances of <i>Color</i> can be passed to C++ slots that take arguments of type QColor.</p>
+<a name="color-properties"></a>
+<h5>Color Properties</h5>
+<ul>
+<li>red : Number; The red component of the color. This is a value between 0 and 255.</li>
+<li>green : Number; The green component of the color. This value is between 0 and 255.</li>
+<li>blue : Number; The blue component of the color. This value is between 0 and 255.</li>
+<li>name : String; The name of the color, if a matching name for the color exists; otherwise an empty string.</li>
+<li>rgb : Number; The rgb color code of the color. The color code is a bitmask of the form <tt>0xRRGGBB</tt>, where RR is the red component, GG is the green component, and BB is the blue component expressed as hexadecimal digits.</li>
+<li>hue : Number; The color's hue, as defined by the HSV color model.</li>
+<li>saturation : Number; The color's saturation, as defined by the HSV color model.</li>
+<li>value : Number; The colors's value, as defined by the HSV color model.</li>
+</ul>
+<a name="color-functions"></a>
+<h5>Color Functions</h5>
+<ul>
+<li>setRgb( colorcode ); Sets the color code of the color. The value is a bitmask on the form 0xRRGGBB, where RR=red, GG=green, and BB=blue, all as hexadecimal digits.</li>
+<li>setRgb( red, green, blue ); Sets the red, green and blue color values of the color to <tt>red</tt>, <tt>green</tt> and <tt>blue</tt>.</li>
+<li>light() : Color; Returns a Color that is a lighter version of this one.</li>
+<li>dark() : Color; Returns a Color that is a darker version of this one.</li>
+</ul>
+<a name="palette"></a>
+<h4>Palette</h4>
+<p>The <i>Palette</i> class contains color groups for each widget state. A palette consists of three color groups: active, disabled, and inactive. All widgets contain a palette, and all widgets in Qt use their palette to draw themselves. This makes the user interface easily configurable and easier to keep consistent.</p>
+<a name="palette-properties"></a>
+<h5>Palette Properties</h5>
+<ul>
+<li>active : <a href="#colorgroup">ColorGroup</a>; The active color group is used for the window that has the keyboard focus.</li>
+<li>inactive : <a href="#colorgroup">ColorGroup</a>; The inactive color group is used for the other windows.</li>
+<li>disabled : <a href="#colorgroup">ColorGroup</a>; The disabled color group is used for widgets (not windows) that are disabled.</li>
+</ul>
+<a name="colorgroup"></a>
+<h4>ColorGroup</h4>
+<p>The <i>QColorGroup</i> class contains a group of widget colors.</p>
+<a name="colorgroup-properties"></a>
+<h5>ColorGroup Properties</h5>
+<ul>
+<li>background : Color; General background color.</li>
+<li>foreground : Color; General foreground color.</li>
+<li>base : Color; Used as background color for text entry widgets, for example; usually white or another light color.</li>
+<li>text : Color; The foreground color used with <tt>base</tt>.</li>
+<li>button : Color; General button background color.</li>
+<li>buttonText : Color; A foreground color used with the <tt>button</tt> color.</li>
+<li>light : Color; Used for 3D bevel and shadow effects. Lighter than <tt>button</tt> color.</li>
+<li>midlight : Color; Used for 3D bevel and shadow effects. Between <tt>button</tt> and <tt>light</tt>.</li>
+<li>dark : Color; Used for 3D bevel and shadow effects. Darker than <tt>button</tt>.</li>
+<li>mid : Color; Used for 3D bevel and shadow effects. Betwen <tt>button</tt> and <tt>dark</tt>.</li>
+<li>shadow : Color; Used for 3D bevel and shadow effects. A very dark color.</li>
+<li>highlight : Color; A color to indicate a selected item or the current item.</li>
+<li>highlightedText : Color; A text color that contrasts with <tt>highlight</tt>.</li>
+</ul>
+<a name="bytearray"></a>
+<h4>ByteArray</h4>
+<p>The <i>ByteArray</i> class is an array optimized for storing raw bytes. Instances of <i>ByteArray</i> can be passed to C++ slots that take arguments of type QByteArray.</p>
+<a name="bytearray-properties"></a>
+<h5>ByteArray Properties</h5>
+<ul>
+<li>length : Number; The number of bytes in the byte array. This value is read-only.</li>
+<li>size : Number; The number of bytes in the byte array. This value is read-only.</li>
+</ul>
+<a name="bytearray-functions"></a>
+<h5>ByteArray Functions</h5>
+<ul>
+<li>charAt( index : Number ) : String; Returns the character (byte) at the position index in the byte array. The byte is returned as a string.</li>
+</ul>
+<a name="font"></a>
+<h4>Font</h4>
+<p>The <i>Font</i> class represents a font. Instances of <i>Font</i> can be passed to C++ slots that take arguments of type QFont.</p>
+<a name="font-properties"></a>
+<h5>Font Properties</h5>
+<ul>
+<li>family : String; The fonts family or name, such as <tt>SansSerif</tt>.</li>
+<li>pointSize : Number; The point size of the font. A point is 1/72 inch. Using point size will give you a fixed sized independent of the device the font is used on. For instance, a screen has different resolution than a printer.</li>
+<li>pixelSize : Number; The pixel size of the font. The size of a pixel is determined by the device the font is used for. For instance, a printer may have a resolution of have 600 pixels/inch, whereas a monitor may only achieve 120 pixels/inch.</li>
+<li>bold : Boolean; True if the font is bold; otherwise false.</li>
+<li>italic : Boolean; True if the font is italic; otherwise false.</li>
+<li>underline : Boolean; True if the font is underline; otherwise false.</li>
+<li>strikeout : Boolean; True if the strikeout is on; otherwise false.</li>
+</ul>
+<a name="pixmap"></a>
+<h4>Pixmap</h4>
+<p>The <i>Pixmap</i> class can be used to represent images in QSA. Instances of <i>Pixmap</i> can be passed to C++ slots that take arguments of type QPixmap.</p>
+<p>The <i>Pixmap</i> constructor can take a filename referring to an image that will then be loaded:</p>
+<pre>    var background = new Pixmap( &quot;background.png&quot; );</pre>
+<a name="pixmap-properties"></a>
+<h5>Pixmap Properties</h5>
+<ul>
+<li>width : Number; The width of the pixmap. This value is read-only.</li>
+<li>height : Number; The height of the pixmap. This value is read-only.</li>
+<li>rect : Rect; The enclosing rectangle (0, 0, width, height) of the pixmap. This value is read-only.</li>
+<li>size : Size; The size of the rectangle. This value is read-only.</li>
+<li>depth : Number; The color depth of the pixmap. The pixmap depth is also called bits per pixel (bpp) or bit planes of a pixmap. A null pixmap has depth 0. This value is read-only.</li>
+</ul>
+<a name="pixmap-functions"></a>
+<h5>Pixmap Functions</h5>
+<ul>
+<li>isNull() : Boolean; Returns true if this is a null pixmap; otherwise returns false. A null pixmap has zero width, zero depth, and no contents.</li>
+<li>fill( color ); Fills the pixmap with the specified color.</li>
+<li>resize( size : Size ); Resizes the pixmap to the specified size.</li>
+<li>resize( width : Number, height : Number ); Resizes the pixmap to the specified dimensions.</li>
+<li>load( fileName : String ); Loads the pixmap data from the specified file.</li>
+<li>save( fileName : String ); Saves the pixmap to the specified file.</li>
+</ul>
+<a name="built-in-objects"></a>
+<h3>Built-in Objects</h3>
+<p>The built-in <tt>Math</tt> object provides functions that include: <tt>abs()</tt>, <tt>acos()</tt> and <tt>cos()</tt>, <tt>asin()</tt> and <tt>sin()</tt>, <tt>atan()</tt>, <tt>atan2()</tt> and <tt>tan()</tt>, <tt>ceil()</tt>, <tt>floor()</tt> and <tt>round()</tt>, <tt>exp()</tt> and <tt>log()</tt>, <tt>max()</tt> and <tt>min()</tt>, <tt>pow()</tt> and <tt>sqrt()</tt>, <tt>random()</tt>, and <tt>round()</tt>.</p>
+<p>The built-in <tt>System</tt> object provides functions including: <tt>getenv()</tt>, <tt>setenv()</tt>, <tt>print()</tt> and <tt>println()</tt>.</p>
+<a name="math"></a>
+<h4>Math</h4>
+<p>The <i>Math</i> object always exists in a <i>Qt Script</i> program. Use the <i>Math</i> object to access mathematical constants and functions, e.g&#x2e;</p>
+<pre>        var x, angle, y;
+        with ( Math ) {
+            x = PI * 2;
+            angle = 1.3;
+            y = x * sin( angle );
+        }</pre>
+<p>The <i>Math</i> object supports all the common mathematical functions, for example: <tt>abs()</tt>, <tt>acos()</tt> and <tt>cos()</tt>, <tt>asin()</tt> and <tt>sin()</tt>, <tt>atan()</tt>, <tt>atan2()</tt> and <tt>tan()</tt>, <tt>ceil()</tt>, <tt>floor()</tt> and <tt>round()</tt>, <tt>exp()</tt> and <tt>log()</tt>, <tt>max()</tt> and <tt>min()</tt>, <tt>pow()</tt> and <tt>sqrt()</tt>, <tt>random()</tt>, and <tt>round()</tt>.</p>
+<p>See also, <a href="#operator">+ operator</a>, <a href="#operator">++ operator</a>, <a href="#operator">- operator</a>, <a href="#operator">-- operator</a>, <a href="#operator">* operator</a>, <a href="#operator">/ operator</a>, <a href="#operator">% operator</a>, <a href="#operator">-= operator</a>, <a href="#operator">+= operator</a>, <a href="#operator">*= operator</a>, <a href="#operator">/= operator</a> and <a href="#operator">%= operator</a>.</p>
+<a name="math-properties"></a>
+<h5>Math Properties</h5>
+<p>All the <i>Math</i> properties are read-only constants.</p>
+<ul>
+<li>E -- Eulers constant. The base for natural logarithms.</li>
+<li>LN2 -- Natural logarithm of 2.</li>
+<li>LN10 -- Natural logarithm of 10.</li>
+<li>LOG2E -- Base 2 logarithm of E.</li>
+<li>LOG10E -- Base 10 logarithm of E.</li>
+<li>PI -- Pi.</li>
+<li>SQRT1_2 -- Square root of 1/2.</li>
+<li>SQRT2 -- Square root of 2.</li>
+</ul>
+<a name="math-functions"></a>
+<h5>Math Functions</h5>
+<ul>
+<li>abs( number : Number ) : Number;<p>Returns the absolute value of the given <tt>number</tt>. The equivalent of</p>
+<pre>        x = x &lt; 0 ? -x : x;</pre>
+<pre>        var x = -99;
+        var y = 99;
+        with ( Math ) {
+            x = abs( x );
+            y = abs( y );
+        }
+        if ( x == y ) System.println( &quot;equal&quot; );</pre>
+</li>
+<li>acos( number : Number ) : Number; Returns the arccosine of the given <tt>number</tt> in radians between 0 and <tt>Math.PI</tt>. If the number is out of range, returns <a href="#nan">NaN</a>.</li>
+<li>asin( number : Number ) : Number; Returns the arcsine of the given <tt>number</tt> in radians between <tt>-Math.PI/2</tt> and <tt>Math.PI/2</tt>. If the number is out of range, returns <a href="#nan">NaN</a>.</li>
+<li>atan( number : Number ) : Number; Returns the arctangent of the given <tt>number</tt> in radians between <tt>-Math.PI/2</tt> and <tt>Math.PI/2</tt>. If the number is out of range, returns <a href="#nan">NaN</a>.</li>
+<li>atan2( yCoord : Number, xCoord : Number ) : Number; Returns the counter-clockwise angle in radians between the positive x-axis and the point at (<tt>xCoord</tt>, <tt>yCoord</tt>). The value returned is always between <tt>-Math.PI</tt> and <tt>Math.PI</tt>.<p>Example:</p>
+<pre>        function polar( x, y )
+        {
+            return Math.atan2( y, x );
+        }</pre>
+</li>
+<li>ceil( number : Number ) : Number; If the <tt>number</tt> is an integer, it returns the <tt>number</tt>. If the <tt>number</tt> is a floating point value, it returns the smallest integer greater than the <tt>number</tt>.<p>Example:</p>
+<pre>        var x = 913.41;
+        x = Math.ceil( x ); <span class="comment">// x == 914</span>
+        var y = -33.97;
+        y = Math.ceil( y ); <span class="comment">// y == -33</span></pre>
+</li>
+<li>cos( number : Number ) : Number; Returns the cosine of the given <tt>number</tt>. The value will be in the range -1..1&#x2e;</li>
+<li>exp( number : Number ) : Number; Returns <tt>Math.E</tt> raised to the power of the given <tt>number</tt>.</li>
+<li>floor( number : Number ) : Number; If the <tt>number</tt> is an integer, it returns the <tt>number</tt>. If the <tt>number</tt> is a floating point value, it returns the greatest integer less than the <tt>number</tt>.</li>
+<li>log( number : Number ) : Number; If the <tt>number</tt> is &gt; 0, it returns the natural logarithm of the given <tt>number</tt>. If the <tt>number</tt> is 0, it returns <tt>Infinity</tt>. If the <tt>number</tt> is &lt; 0, it returns <a href="#nan">NaN</a>.</li>
+<li>max( number1 : Number, number2 : Number ) : Number; Returns the largest of <tt>number1</tt> and <tt>number2</tt>.</li>
+<li>min( number1 : Number, number2 : Number ) : Number; Returns the smallest of <tt>number1</tt> and <tt>number2</tt>.</li>
+<li>pow( number : Number, power : Number ) : Number; Returns the value of the <tt>number</tt> raised to the <tt>power</tt>.</li>
+<li>random() : Number; Returns a pseudo-random floating point number between 0 and 1. Pseudo random numbers are not truly random, but may be adequate for some applications, for example, games and simple simulations.</li>
+<li>round( number : Number ) : Number; Returns the <tt>number</tt> rounded to the nearest integer. If the fractional part of the <tt>number</tt> is &gt;= 0.5, the <tt>number</tt> is rounded up; otherwise it is rounded down.</li>
+<li>sin( number : Number ) : Number; Returns the sine of the given <tt>number</tt>. The value will be in the range -1..1&#x2e;</li>
+<li>sqrt( number : Number ) : Number; If the <tt>number</tt> is &gt;= 0, it returns the square root. If the <tt>number</tt> is &lt; 0, it returns <a href="#nan">NaN</a>.</li>
+<li>tan( number : Number ) : Number; Returns the tangent of the given <tt>number</tt>.</li>
+</ul>
+<a name="system"></a>
+<h4>System</h4>
+<p>The <i>System</i> object always exists in a <i>Qt Script</i> program. Use the <i>System</i> object to access and manipulate environment variables, e.g&#x2e; with <tt>getenv()</tt> and <tt>setenv()</tt>, and to print text to the console with <tt>print()</tt> and <tt>println()</tt>.</p>
+<a name="system-functions"></a>
+<h5>System Functions</h5>
+<ul>
+<li>getenv( environmentVariable : String ) : String; Returns the string stored in the given <tt>environmentVariable</tt>.<p>Example:</p>
+<pre>        var q = System.getenv( &quot;QTDIR&quot; ); <span class="comment">// q == &quot;/usr/local/qt&quot;</span></pre>
+</li>
+<li>print( expression : String ); Prints the <tt>expression</tt> (applying <i>toString()</i> if necessary) to the console (<tt>stdout</tt>).</li>
+<li>println( expression : String ); Prints the <tt>expression</tt> (applying <i>toString()</i> if necessary) to the console (<tt>stdout</tt>), followed by a newline.</li>
+<li>setenv( environmentVariable : String, value : String ); Sets the <tt>environmentVariable</tt> to the <tt>value</tt>. If the <tt>environmentVariable</tt> does not exist it is created. The environment is only changed within the context of the <i>Qt Script</i> process for the duration of the process.</li>
+</ul>
+<a name="built-in-variables-and-constants"></a>
+<h2>Built-in Variables and Constants</h2>
+<p><i>Qt Script for Application</i> provides a number of convenient built-in constants and variables.</p>
+<p>The built-in variables include <a href="#arguments">arguments</a>.</p>
+<p>The built-in constants include <a href="#infinity">Infinity</a>, <a href="#nan">NaN</a> and <a href="#undefined">undefined</a>.</p>
+<a name="built-in-variables"></a>
+<h3>Built-in Variables</h3>
+<a name="arguments"></a>
+<h4>arguments</h4>
+<p>This is an <a href="#array">Array</a> of the arguments that were passed to the function. It only exists within the context of a function.</p>
+<p>Example:</p>
+<pre>        function sum()
+        {
+            total = 0;
+            for ( i = 0; i &lt; arguments.length; i++ ) {
+                total += arguments[ i ];
+            }
+            return total;
+        }</pre>
+<a name="built-in-constants"></a>
+<h3>Built-in Constants</h3>
+<a name="infinity"></a>
+<h4>Infinity</h4>
+<p>This is the value of any division by zero, i.e&#x2e;</p>
+<pre>        var i = 1/0;</pre>
+<p>In <i>Qt Script</i>, division by zero does not raise an exception; instead it assigns the <tt>Infinity</tt> value as the result of the expression. Use <a href="#isfinite">isFinite</a>() to test whether a value is finite or not.</p>
+<a name="nan"></a>
+<h4>NaN</h4>
+<p>Some functions that are supposed to return a numeric result may return <tt>NaN</tt> instead. Use <a href="#isnan">isNaN</a>() to check for this.</p>
+<a name="undefined"></a>
+<h4>undefined</h4>
+<p>This is the value of a variable that does not have a defined value, i.e&#x2e; has not been assigned to.</p>
+<p>Example:</p>
+<pre>        var i;
+        <span class="comment">// ...</span>
+        if ( i == undefined ) {
+            i = 77;
+        }</pre>
+<p>In this example, if execution reaches the <tt>if</tt> statement, and <tt>i</tt> has not been assigned a value, it will be assigned the value 77.</p>
+<a name="built-in-functions-and-operators"></a>
+<h2>Built-in Functions and Operators</h2>
+<p><i>Qt Script for Application</i> provides many useful built-in functions and operators.</p>
+<p>The built-in functions include <a href="#connect">connect</a>(), <a href="#debug">debug</a>(), <a href="#eval">eval</a>(), <a href="#isfinite">isFinite</a>(), <a href="#isnan">isNaN</a>(), <a href="#killtimer">killTimer</a>(), <a href="#killtimers">killTimers</a>(), <a href="#parsefloat">parseFloat</a>(), <a href="#parseint">parseInt</a>() and <a href="#starttimer">startTimer</a>().</p>
+<p>Classes, functions, variables and constants are declared with <a href="#class">class</a>, <a href="#function">function</a>, <a href="#var">var</a> and <a href="#const">const</a> respectively.</p>
+<p><i>ECMAScript</i> reserves the following words for future use:</p>
+<p><i>boolean</i>, <i>byte</i>, <i>char</i>, <i>debugger</i>, <i>double</i>, <i>enum</i>, <i>export</i>, <i>float</i>, <i>goto</i>, <i>implements</i>, <i>import</i>, <i>int</i>, <i>interface</i>, <i>long</i>, <i>native</i>, <i>short</i>, <i>synchronized</i>, <i>throws</i>, <i>transient</i> and <i>volatile</i>.</p>
+<p>It is unadvisable to use any of these words as identifiers.</p>
+<a name="built-in-functions"></a>
+<h3>Built-in Functions</h3>
+<a name="connect"></a>
+<h4>connect()</h4>
+<p><tt>connect( signallingObject, signal, receivingObject, slot )</tt></p>
+<p>This function is used to create signals and slots connections between objects.</p>
+<p>See the filter example program's example-script for an example.</p>
+<p><tt>connect( sender, signal, functionRef )</tt></p>
+<p>This function is used to create signals and slots connections between objects. <i>functionRef</i> can be a global function or a member of the class.</p>
+<a name="debug"></a>
+<h4>debug()</h4>
+<p><tt>debug( expression )</tt></p>
+<p>Prints the <i>expression</i> (applying <i>toString()</i> if necessary) to the output (<tt>stderr</tt>), followed by a newline.</p>
+<a name="eval"></a>
+<h4>eval()</h4>
+<p><tt>eval( string )</tt></p>
+<pre>        var x = 57;
+        var y = eval( &quot;40 + x&quot; ); <span class="comment">// y == 97</span></pre>
+<p>This function parses and executes the contents of the <i>string</i>, taking the text to be valid <i>Qt Script</i>.</p>
+<a name="isfinite"></a>
+<h4>isFinite()</h4>
+<p><tt>isFinite( expression )</tt></p>
+<p>Returns <tt>true</tt> if the <i>expression</i>'s value is a number that is within range; otherwise returns <tt>false</tt>.</p>
+<a name="isnan"></a>
+<h4>isNaN()</h4>
+<p><tt>isNaN( expression )</tt></p>
+<p>Returns <tt>true</tt> if the <i>expression</i>'s value is not a number; otherwise returns <tt>false</tt>.</p>
+<p>Example:</p>
+<pre>        var x = parseFloat( &quot;3.142&quot; );
+        var y = parseFloat( &quot;haystack&quot; );
+        if ( isNaN( x ) ) debug( &quot;x is not a number&quot; );
+        if ( isNaN( y ) ) debug( &quot;y is not a number&quot; );
+        <span class="comment">// Prints: &quot;y is not a number&quot;</span></pre>
+<a name="killtimer"></a>
+<h4>killTimer()</h4>
+<p><tt>killTimer( timerId )</tt></p>
+<p>Stops and deletes the timer with the given <i>timerId</i>. Any events that are triggered by the timer with <i>timerId</i> will no longer be triggered.</p>
+<p>See <a href="#killtimers">killTimers</a>() and <a href="#starttimer">startTimer</a>().</p>
+<a name="killtimers"></a>
+<h4>killTimers()</h4>
+<p><tt>killTimers()</tt></p>
+<p>Stops and deletes all timers that have been created with <a href="#starttimer">startTimer</a>(). Any events that are triggered by any of these timers will no longer be triggered.</p>
+<p>See <a href="#killtimer">killTimer</a>() and <a href="#starttimer">startTimer</a>().</p>
+<a name="parsefloat"></a>
+<h4>parseFloat()</h4>
+<p><tt>parseFloat( string )</tt></p>
+<p>Parses the <i>string</i> and returns the floating point number that the <i>string</i> represents or <a href="#nan">NaN</a> if the parse fails. Leading and trailing whitespace are ignored. If the string contains a number followed by non-numeric characters, the value of the number is returned and the trailing characters ignored.</p>
+<p>See also <a href="#parseint">parseInt</a>().</p>
+<a name="parseint"></a>
+<h4>parseInt()</h4>
+<p><tt>parseInt( string, optBase )</tt></p>
+<p>Parses the <i>string</i> and returns the integer that the <i>string</i> represents in the given base <i>optBase</i>, or <a href="#nan">NaN</a> if the parse fails. If the base isn't specified, the base is determined as follows:</p>
+<ul>
+<li>base 16 (hexadecimal) if the first non-whitespace characters are &quot;0x&quot; or &quot;0X&quot;;</li>
+<li>base 8 (octal) if the first non-whitespace character is &quot;0&quot;;</li>
+<li>base 10 otherwise.</li>
+</ul>
+<p>Leading and trailing whitespace are ignored. If the string contains a number followed by non-numeric characters, the value of the number is returned and the trailing characters ignored.</p>
+<p>Example:</p>
+<pre>        var i = parseInt( &quot;24&quot; );       <span class="comment">// i == 24</span>
+        var h = parseInt( &quot;0xFF&quot; );     <span class="comment">// h == 255</span>
+        var x = parseInt( &quot; 459xyz &quot; ); <span class="comment">// x == 459</span></pre>
+<p>See also <a href="#parsefloat">parseFloat</a>().</p>
+<a name="starttimer"></a>
+<h4>startTimer()</h4>
+<p><tt>var timerId = startTimer( interval, timeoutFunction )</tt></p>
+<p>Creates a new timer. The timer's id is returned, although it isn't needed if you use <a href="#killtimers">killTimers</a>(). The timer calls the <i>timeoutFunction</i> every <i>interval</i> milliseconds.</p>
+<a name="built-in-operators"></a>
+<h3>Built-in Operators</h3>
+<p>The built-in operators include: <a href="#operator">+ operator</a>, <a href="#operator">++ operator</a>, <a href="#operator">- operator</a>, <a href="#operator">-- operator</a>, <a href="#operator">* operator</a>, <a href="#operator">/ operator</a>, <a href="#operator">% operator</a>, <a href="#string-operator">+ string operator</a>, <a href="#string-operator">+= string operator</a>, <a href="#operator">+= operator</a>, <a href="#operator">&amp;&amp; operator</a>, <a href="#operator">|| operator</a>, <a href="#operator">! operator</a>, <a href="#operator">&amp; operator</a>, <a href="#operator">^ operator</a>, <a href="#operator">| operator</a>, <a href="#operator">~ operator</a>, <a href="#operator">&lt;&lt; operator</a>, <a href="#operator">&gt;&gt; operator</a>, <a href="#operator">&gt;&gt;&gt; operator</a>, <a href="#operator">= operator</a>, <a href="#operator">-= operator</a>, <a href="#operator">*= operator</a>, <a href="#operator">/= operator</a>, <a href="#operator">%= operator</a>, <a href="#operator">&amp;= operator</a>, <a href="#operator">^= operator</a>, <a href="#operator">|= operator</a>, <a href="#operator">&lt;&lt;= operator</a>, <a href="#operator">&gt;&gt;= operator</a>, <a href="#operator">&gt;&gt;&gt;= operator</a>, <a href="#operator">== operator</a>, <a href="#operator">!= operator</a>, <a href="#operator">=== operator</a>, <a href="#operator">!== operator</a>, <a href="#operator">&gt; operator</a>, <a href="#operator">&gt;= operator</a>, <a href="#operator">?: operator</a>, <a href="#operator">, operator</a>, <a href="#function-operator">function operator</a>, <a href="#in-operator">in operator</a>, <a href="#instanceof-operator">instanceof operator</a>, <a href="#new-operator">new operator</a>, <a href="#this-operator">this operator</a> and <a href="#typeof-operator">typeof operator</a>.</p>
+<a name="assignment-operators"></a>
+<h4>Assignment Operators</h4>
+<p>These operators are used to assign the value of expressions to variables.</p>
+<a name="operator"></a>
+<h5>= operator</h5>
+<p><tt>var variable = expression;</tt></p>
+<p>The assignment operator is used to assign the value of an <i>expression</i> to the <i>variable</i>.</p>
+<p>It is an error to attempt to assign to a <a href="#const">const</a>ant.</p>
+<a name="operator"></a>
+<h5>+= operator</h5>
+<p><tt>variable += expression;</tt></p>
+<p>This operator adds the value of the <i>expression</i> to the <i>variable</i>. It is the same as:</p>
+<pre>        variable = variable + expression;</pre>
+<p>but is shorter to write, and less error-prone.</p>
+<p>See also <a href="#string-operator">+= string operator</a>.</p>
+<a name="operator"></a>
+<h5>-= operator</h5>
+<p><tt>variable -= expression;</tt></p>
+<p>This operator subtracts the value of the <i>expression</i> from the <i>variable</i>.</p>
+<a name="operator"></a>
+<h5>*= operator</h5>
+<p><tt>variable *= expression;</tt></p>
+<p>This operator multiplies the value of the <i>expression</i> by the value of the <i>variable</i>.</p>
+<a name="operator"></a>
+<h5>/= operator</h5>
+<p><tt>variable /= expression;</tt></p>
+<p>This operator divides the value of the <i>variable</i> by the value of the <i>expression</i>.</p>
+<a name="operator"></a>
+<h5>%= operator</h5>
+<p><tt>variable %= expression;</tt></p>
+<p>This operator divides the <i>variable</i> by the <i>expression</i>, and assigns the remainder of the division (which may be 0), to the <i>variable</i>.</p>
+<a name="operator"></a>
+<h5>&amp;= operator</h5>
+<p><tt>variable &amp;= expression;</tt></p>
+<p>This operator performs a bit-wise AND on the value of the <i>expression</i> and the value of the <i>variable</i>, and assigns the result to the <i>variable</i>.</p>
+<a name="operator"></a>
+<h5>^= operator</h5>
+<p><tt>variable ^= expression;</tt></p>
+<p>This operator performs a bit-wise OR on the value of the <i>expression</i> and the value of the <i>variable</i>, and assigns the result to the <i>variable</i>.</p>
+<a name="operator"></a>
+<h5>|= operator</h5>
+<p><tt>variable |= expression;</tt></p>
+<p>This operator performs a bit-wise OR on the value of the <i>expression</i> and the value of the <i>variable</i>, and assigns the result to the <i>variable</i>.</p>
+<a name="operator"></a>
+<h5>&lt;&lt;= operator</h5>
+<p><tt>variable &lt;&lt;= expression;</tt></p>
+<p>This operator performs a bit-wise left shift on the <i>variable</i> by an <i>expression</i> number of bits. Zeros are shifted in from the right.</p>
+<a name="operator"></a>
+<h5>&gt;&gt;= operator</h5>
+<p><tt>variable &gt;&gt;= expression;</tt></p>
+<p>This operator performs a bit-wise (sign-preserving) right shift on the <i>variable</i> by an <i>expression</i> number of bits.</p>
+<a name="operator"></a>
+<h5>&gt;&gt;&gt;= operator</h5>
+<p><tt>variable &gt;&gt;&gt;= expression;</tt></p>
+<p>This operator performs a bit-wise (zero-padding) right shift on the <i>variable</i> by an <i>expression</i> number of bits.</p>
+<a name="arithmetic-operators"></a>
+<h4>Arithmetic Operators</h4>
+<p>These operators are used to perform arithmetic computations on their operands.</p>
+<a name="operator"></a>
+<h5>+ operator</h5>
+<p><tt>operand1 + operand2</tt></p>
+<p>This operator returns the result of adding the two operands (<i>operand1</i> and <i>operand2</i>).</p>
+<p>See also <a href="#string-operator">+ string operator</a>.</p>
+<a name="operator"></a>
+<h5>++ operator</h5>
+<pre>    ++operand; <span class="comment">// pre-increment</span>
+    operand++; <span class="comment">// post-increment</span></pre>
+<p>The pre-increment version of this operator increments the <i>operand</i>, and returns the value of the (now incremented) <i>operand</i>.</p>
+<p>The post-incremented version of this operator returns the value of the <i>operand</i>, and <i>then</i> increments the <i>operand</i>.</p>
+<a name="operator"></a>
+<h5>- operator</h5>
+<pre>    var result = operand1 - operand2; <span class="comment">// subtraction</span>
+    operand = -operand;               <span class="comment">// unary negation</span></pre>
+<p>The subtraction version of this operator returns the result of subtracting its second operand (<i>operand2</i>) from its first operand (<i>operand1</i>).</p>
+<p>The unary negation version of this operator returns the result of negating (changing the sign) of its <i>operand</i>.</p>
+<a name="operator"></a>
+<h5>-- operator</h5>
+<pre>    --operand; <span class="comment">// pre-decrement</span>
+    operand--; <span class="comment">// post-decrement</span></pre>
+<p>The pre-decrement version of this operator decrements the <i>operand</i>, and returns the value of the (now decremented) <i>operand</i>.</p>
+<p>The post-decremented version of this operator returns the value of the <i>operand</i>, and <i>then</i> decrements the <i>operand</i>.</p>
+<a name="operator"></a>
+<h5>* operator</h5>
+<p><tt>operand1 * operand2</tt></p>
+<p>This operator returns the result of multiplying the two operands (<i>operand1</i> and <i>operand2</i>).</p>
+<a name="operator"></a>
+<h5>/ operator</h5>
+<p><tt>operand1 / operand2</tt></p>
+<p>This operator returns the result of dividing the first operand (<i>operand1</i>) by the second operand (<i>operand2</i>).</p>
+<p>Note that division by zero is <i>not</i> an error. The result of division by zero is <a href="#infinity">Infinity</a>.</p>
+<a name="operator"></a>
+<h5>% operator</h5>
+<p><tt>operand1 % operand2</tt></p>
+<p>This operator returns the integer remainder (which may be 0) from the division of <i>operand1</i> by <i>operand2</i>.</p>
+<a name="string-operators"></a>
+<h4>String Operators</h4>
+<p>These operators provide string functions using operators. Many other string functions are available, see <a href="#string">String</a>.</p>
+<a name="string-operator"></a>
+<h5>+ string operator</h5>
+<p><tt>str1 + str2</tt></p>
+<p>This operator returns a string that is the concatenation of its operands, (<i>str1</i> and <i>str2</i>).</p>
+<p>See also <a href="#operator">+ operator</a>.</p>
+<a name="string-operator"></a>
+<h5>+= string operator</h5>
+<p><tt>str1 += str2</tt></p>
+<p>This operator appends its second operand (<i>str2</i>) onto the end of the first operand (<i>str1</i>).</p>
+<p>See also <a href="#operator">+= operator</a>.</p>
+<a name="logical-operators"></a>
+<h4>Logical Operators</h4>
+<p>These operators are used to evaluate whether their operands are <tt>true</tt> or <tt>false</tt> in terms of the operator (for unary operators) and in terms of each other (for binary operators).</p>
+<p>The binary operators use short-circuit logic, i.e&#x2e; they do not evaluate their second operand if the logical value of the expression can be determined by evaluating the first operand alone.</p>
+<a name="operator"></a>
+<h5>&amp;&amp; operator</h5>
+<p><tt>operand1 &amp;&amp; operand2</tt></p>
+<p>This operator returns an object whose value is <tt>true</tt> if both its operands are <tt>true</tt>; otherwise it returns an object whose value is <i>false</i>.</p>
+<p>Specifically, if the value of <i>operand1</i> is <tt>false</tt>, the operator returns <i>operand1</i> as its result. If <i>operand1</i> is <tt>true</tt>, the operator returns <i>operand2</i>.</p>
+<a name="operator"></a>
+<h5>|| operator</h5>
+<p><tt>operand1 || operand2</tt></p>
+<p>This operator returns an object whose value is <tt>true</tt> if either of its operands are <tt>true</tt>; otherwise it returns an object whose value is <i>false</i>.</p>
+<p>Specifically, if the value of <i>operand1</i> is <tt>true</tt>, the operator returns <i>operand1</i> as its result. If <i>operand1</i> is <tt>false</tt>, the operator returns <i>operand2</i>.</p>
+<a name="operator"></a>
+<h5>! operator</h5>
+<p><tt>! operand</tt></p>
+<p>If the <i>operand</i>'s value is <tt>true</tt>, this operator returns <tt>false</tt>; otherwise it returns <tt>true</tt>.</p>
+<a name="comparison-operators"></a>
+<h4>Comparison Operators</h4>
+<p>These operators are used to compare objects and their values.</p>
+<a name="operator"></a>
+<h5>== operator</h5>
+<p><tt>operand1 == operand2</tt></p>
+<p>Returns <tt>true</tt> if the operands are equal; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>!= operator</h5>
+<p><tt>operand1 != operand2</tt></p>
+<p>Returns <tt>true</tt> if the operands are not equal; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>=== operator</h5>
+<p><tt>operand1 === operand2</tt></p>
+<p>Returns <tt>true</tt> if the operands are equal <i>and</i> of the same type; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>!== operator</h5>
+<p><tt>operand1 !== operand2</tt></p>
+<p>Returns <tt>true</tt> if the operands are not equal or if the operands are of different types; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>&gt; operator</h5>
+<p><tt>operand1 &gt; operand2</tt></p>
+<p>Returns <tt>true</tt> if <i>operand1</i> is greater than <i>operand2</i>; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>&gt;= operator</h5>
+<p><tt>operand1 &gt;= operand2</tt></p>
+<p>Returns <tt>true</tt> if <i>operand1</i> is greater than or equal to <i>operand2</i>; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>&lt; operator</h5>
+<p><tt>operand1 &lt; operand2</tt></p>
+<p>Returns <tt>true</tt> if <i>operand1</i> is less than <i>operand2</i>; otherwise returns <tt>false</tt>.</p>
+<a name="operator"></a>
+<h5>&lt;= operator</h5>
+<p><tt>operand1 &lt;= operand2</tt></p>
+<p>Returns <tt>true</tt> if <i>operand1</i> is less than or equal to <i>operand2</i>; otherwise returns <tt>false</tt>.</p>
+<a name="bit-wise-operators"></a>
+<h4>Bit-wise operators</h4>
+<a name="operator"></a>
+<h5>&amp; operator</h5>
+<p><tt>operand1 &amp; operand2</tt></p>
+<p>Returns the result of a bit-wise AND on the operands (<i>operand1</i> and <i>operand2</i>).</p>
+<a name="operator"></a>
+<h5>^ operator</h5>
+<p><tt>operand1 ^ operand2</tt></p>
+<p>Returns the result of a bit-wise XOR on the operands (<i>operand1</i> and <i>operand2</i>).</p>
+<a name="operator"></a>
+<h5>| operator</h5>
+<p><tt>operand1 | operand2</tt></p>
+<p>Returns the result of a bit-wise OR on the operands (<i>operand1</i> and <i>operand2</i>).</p>
+<a name="operator"></a>
+<h5>~ operator</h5>
+<p><tt>~ operand</tt></p>
+<p>Returns the bit-wise NOT of the <i>operand</i>.</p>
+<a name="operator"></a>
+<h5>&lt;&lt; operator</h5>
+<p><tt>operand1 &lt;&lt; operand2</tt></p>
+<p>Returns the result of a bit-wise left shift of <i>operand1</i> by the number of bits specified by <i>operand2</i>. Zeros are shifted in from the right.</p>
+<a name="operator"></a>
+<h5>&gt;&gt; operator</h5>
+<p><tt>operand1 &gt;&gt; operand2</tt></p>
+<p>Returns the result of a bit-wise (sign propagating) right shift of <i>operand1</i> by the number of bits specified by <i>operand2</i>.</p>
+<a name="operator"></a>
+<h5>&gt;&gt;&gt; operator</h5>
+<p><tt>operand1 &gt;&gt;&gt; operand2</tt></p>
+<p>Returns the result of a bit-wise (zero filling) right shift of <i>operand1</i> by the number of bits specified by <i>operand2</i>. Zeros are shifted in from the left.</p>
+<a name="special-operators"></a>
+<h4>Special Operators</h4>
+<a name="operator"></a>
+<h5>?: operator</h5>
+<p><tt>expression ? resultIfTrue : resultIfFalse</tt></p>
+<p>This operator evaluates its first operand, the <i>expression</i>. If the <i>expression</i> is <tt>true</tt>, the value of the second operand (<i>resultIfTrue</i>) is returned; otherwise the value of the third operand (<i>resultIfFalse</i>) is returned.</p>
+<a name="operator"></a>
+<h5>, operator</h5>
+<p><tt>expression1, expression2</tt></p>
+<p>This operator evaluates its first and second operand (<i>expression1</i> and <i>expression2</i>), and returns the value of the second operand (<i>expression2</i>).</p>
+<p>The comma operator can be subtle, and is best reserved only for use in argument lists.</p>
+<a name="function-operator"></a>
+<h5>function operator</h5>
+<pre>     var variable = function( optArguments ) { Statements }</pre>
+<p>This operator is used to create anonymous functions. Once assigned, the <i>variable</i> is used like any other function name, e.g&#x2e; <tt>variable(1, 2, 3)</tt>. Specify the argument names (in <i>optArguments</i>) if named arguments are required. If no <i>optArguments</i> are specified, arguments may still be passed and will be available using the <a href="#arguments">arguments</a> list.</p>
+<p>The <i>Qt Script</i> <i>function</i> operator supports closures, for example:</p>
+<pre>        function make_counter( initialValue )
+        {
+            var current = initialValue;
+            return function( increment ) { current += increment; return current; }
+        }
+        <span class="comment">// ...</span>
+        var counterA = make_counter( 3 );  <span class="comment">// Start at 3.</span>
+        var counterB = make_counter( 12 ); <span class="comment">// Start at 12.</span>
+        debug( counterA( 2 ) );  <span class="comment">// Adds 2, so prints 5</span>
+        debug( counterB( 2 ) );  <span class="comment">// Adds 2, so prints 14</span>
+        debug( counterA( 7 ) );  <span class="comment">// Adds 7, so prints 12</span>
+        debug( counterB( 30 ) ); <span class="comment">// Adds 30, so prints 44</span></pre>
+<p>Note that for each call to <i>make_counter()</i>, the anonymous function that is returned has its own copy of <i>current</i> (initialized to the <i>initialValue</i>), which is incremented independently of any other anonymous function's <i>current</i>. It is this capturing of context that makes the function that is returned a closure.</p>
+<p>See also <a href="#function">function</a> and <a href="#function-type">Function type</a>.</p>
+<a name="in-operator"></a>
+<h5>in operator</h5>
+<p><tt>property in Object</tt></p>
+<p>Returns <tt>true</tt> if the given <i>Object</i> has the given <i>property</i>; otherwise returns <tt>false</tt>.</p>
+<a name="instanceof-operator"></a>
+<h5>instanceof operator</h5>
+<p><tt>object instanceof type</tt></p>
+<p>Returns <tt>true</tt> if the given <i>object</i> is an instance of the given <i>type</i>, (or of one of its base classes); otherwise returns <tt>false</tt>.</p>
+<a name="new-operator"></a>
+<h5>new operator</h5>
+<p><tt>var instance = new Type( optArguments );</tt></p>
+<p>This function calls the constructor for the given <i>Type</i>, passing it the optional arguments (<i>optArguments</i>) if any, and returns an <i>instance</i> of the given <i>Type</i>. The <i>Type</i> may be one of the built-in types, one of the library types, or a user-defined type.</p>
+<p>Example:</p>
+<pre>        var circle = new Circle( x, y );
+        var file = new File();</pre>
+<a name="this-operator"></a>
+<h5>this operator</h5>
+<p><tt>this.property</tt></p>
+<p>The <i>this</i> operator may only be used within a <a href="#function">function</a> that is defined within a <a href="#class">class</a> or form, i.e&#x2e; a member function. Within the scope of the function <i>this</i> is a reference to the particular instance (object) of the <a href="#class">class</a>'s type.</p>
+<p>Example:</p>
+<pre>        class MinMax {
+            var _min;
+            var _max;
+            function MinMax( min, max ) { this._min = min; this._max = max; }
+            function max() { return this._max; }
+            function min() { return this._min; }
+            function setMax( value ) { this._max = value; }
+            function setMin( value ) { this._min = value; }
+        }</pre>
+<a name="typeof-operator"></a>
+<h5>typeof operator</h5>
+<p><tt>typeof item</tt></p>
+<p>This operator returns a type of the object as a string.</p>
+<p>Example:</p>
+<pre>        var f = new Function(&quot;arguments[0]*2&quot;); <span class="comment">// &quot;object&quot;</span>
+        var str = &quot;text&quot;; <span class="comment">// &quot;string&quot;</span>
+        var pi = Math.PI; <span class="comment">// &quot;number&quot;</span></pre>
+<a name="declarations"></a>
+<h3>Declarations</h3>
+<p>Classes, functions, variables and constants are declared with <a href="#class">class</a>, <a href="#function">function</a>, <a href="#var">var</a> and <a href="#const">const</a> respectively.</p>
+<a name="class"></a>
+<h4>class</h4>
+<pre>    class ClassName {
+        static var ClassVariable;
+        var MemberVariable;
+        static function ClassFunction { Statements; }
+        function ClassName() { Statements; } <span class="comment">// constructor</span>
+        function MemberFunction() { Statements; }
+    }</pre>
+<p>This keyword is used to define new classes. After the keyword <tt>class</tt> comes the <i>ClassName</i>, then optionally, the keyword <tt>extends</tt> followed by a class name from which this class derives, then an opening brace. Class variables are declared with <tt>static</tt> <a href="#var">var</a> (<i>ClassVariable</i>). Only one instance of these variables exists per class. Member variables (<i>MemberVariable</i>), are declared with <a href="#var">var</a>; each instance (object) of the class has its own copy of each member variable. Functions declared with the keywords <tt>static</tt> <a href="#function">function</a> are class functions (<i>ClassFunction</i>); these functions are called using the name of the class rather than from an object. In the standard library, the <a href="#math">Math</a> functions are all static, for example <i>Math.sin()</i>. Member functions (methods) are called by objects and are declared with <a href="#function">function</a>. The constructor is the member function with the same name as the class; constructors must not contain an explicit <a href="#return">return</a> statement, or have an explicit return type, since <i>Qt Script for Application</i> handles these automatically.</p>
+<p>A class that only contains <tt>static</tt> <a href="#const">const</a>, <a href="#var">var</a> and <a href="#function">function</a> definitions does not need a constructor.</p>
+<p>Example:</p>
+<pre>        class Area {
+            static var count = 0;
+            var _name;
+            function Area( name ) { this._name = name; this.count++ }
+            function destroy() { this.count--; }
+            static function count() { return this.count; }
+            function name() { return this._name; }
+            function setName( name ) { this._name = name; }
+        }</pre>
+<p>In this example we define the &quot;Area&quot; class. When an instance of the class is constructed:</p>
+<pre>        var area = new Area( &quot;Berkshire&quot; );</pre>
+<p>the given name is assigned to the object's <tt>_name</tt> variable, and the class's <tt>static</tt> <tt>count</tt> is incremented. The <i>destroy()</i> function is <i>not</i> called automatically; it must be called explicitly if there is any clean-up to do.</p>
+<p>All the class's variables and functions must be defined within the class definition. <i>ECMAScript</i> does not have destructors. But for <i>Qt Script for Application</i> forms, <i>Qt Script for Application</i> will call a class's <i>destroy()</i> function, if it has one, before deleting the form. This occurs because <i>Qt Script for Application</i> automatically connects the form's <i>destroyed()</i> signal to the <i>destroy()</i> function. If you want a destructor you must create your own and call it explicitly.</p>
+<p>Classes are all derived from <a href="#object">Object</a>. It is possible to derive a class from another class using the <tt>extends</tt> keyword, for example:</p>
+<pre>        class City extends Area {
+            var _population;
+            function City( name, population )
+            {
+                Area( name );
+                _population = population;
+            }
+            function population() { return _population; }
+            function setPopulation( population ) { _population = population; }
+        }</pre>
+<p>See also <a href="#function">function</a>.</p>
+<a name="const"></a>
+<h4>const</h4>
+<p><tt>const identifier = Value;</tt></p>
+<p>This keyword is used to define constant values. The <i>identifier</i> is created as a constant with the given <i>Value</i>. The constant is global unless defined within the scope of a <a href="#class">class</a> or <a href="#function">function</a>.</p>
+<p>Example:</p>
+<pre>        const PI2 = Math.PI * 2;
+        const COPYRIGHT = &quot;Copyright (c) 2001&quot;;</pre>
+<p>Attempts to assign to a constant cause the interpreter to issue an error message and stop.</p>
+<a name="function"></a>
+<h4>function</h4>
+<pre>    function functionName( arguments )
+    {
+        Statements;
+    }</pre>
+<p>Functions may also be declared within the scope of a <a href="#class">class</a> definition. In this situation, the functions become member functions (methods) of the class that contains them. See <a href="#class">class</a>.</p>
+<a name="var"></a>
+<h4>var</h4>
+<pre>    var variableName;
+    var anotherVariableName = InitialValue;</pre>
+<p>This keyword is used to declare and optionally initialize variables. If just the <i>variableName</i> is given, the variable is created, but it has no value, i.e&#x2e; its value is <a href="#undefined">undefined</a>. If an <i>InitialValue</i> is given, the variable is created and assigned this <i>InitialValue</i>. Variables declared within functions are local to the function in which they are declared. Variables declared outside of functions and classes are global.</p>
+<p>Example:</p>
+<pre>        var i;
+        var count = 22;
+        var str = &quot;string&quot;;</pre>
+<a name="control-statements"></a>
+<h2>Control Statements</h2>
+<p>The flow--of--control in <i>Qt Script</i> programs is controlled by control statements, for example, <a href="#if">if</a> and <a href="#switch">switch</a>, <a href="#for">for</a> and <a href="#while">while</a>. <i>Qt Script</i> also supports exceptions with <a href="#try">try</a> and <a href="#catch">catch</a>.</p>
+<a name="break"></a>
+<h3>break</h3>
+<pre>    label:
+    for ( var i = 0; i &lt; limit; i++ ) {
+        if ( condition ) {
+            break label;
+        }
+    }
+
+    switch ( expression ) {
+        case 1:
+            Statements1;
+            break;
+        default:
+            DefaultStatements;
+            break;
+    }</pre>
+<p>This keyword is used in <a href="#for">for</a> loops, <a href="#do">do</a> loops, <a href="#while">while</a> loops and <a href="#switch">switch</a> statements. When a <tt>break</tt> statement is encountered in a loop, control is passed to the statement following the end of the inner-most loop that contains the <tt>break</tt> statement; unless the <tt>break</tt> statement is followed by the name of a <i>label</i>, in which case control passes to the statement governed by the label.</p>
+<p>A <tt>break</tt> statement is usually placed at the end of each <a href="#case">case</a> in a switch statement to prevent the interpreter &quot;falling through&quot; to the next case. When the interpreter encounters a <tt>break</tt> statement, it passes control to the statement that follows the inner-most enclosing <tt>switch</tt> statement. If every <tt>case</tt> has a corresponding <tt>break</tt>, then at most one <tt>case</tt>'s statements will be executed. If the <tt>break</tt> statement is followed by a label name (<i>label</i>) then when the <tt>break</tt> is encountered, control will pass to the statement marked with that label; this is useful, for example, for breaking out of deeply nested loops.</p>
+<p>Example:</p>
+<pre>        red:
+        for ( x = 0; x &lt; object.width; x++ ) {
+            for ( y = 0; y &lt; object.height; y++ ) {
+                if ( color[x][y] == 0xFF0000 ) {
+                    break red;
+                }
+            }
+        }</pre>
+<p>See <a href="#switch">switch</a> for another example. See also <a href="#do">do</a>, <a href="#while">while</a>, <a href="#for">for</a> and <a href="#break">break</a>.</p>
+<a name="case"></a>
+<h3>case</h3>
+<pre>    switch ( expression ) {
+        case Value:
+            Statements;
+            break;
+        default:
+            DefaultStatements;
+            break;
+    }</pre>
+<p>This keyword is used in <a href="#switch">switch</a> statements. For each possible value that a <tt>switch</tt> statement's expression may evaluate to, one <tt>case</tt> may be written, (but see <a href="#default">default</a>.) If a case's literal value (<i>Value</i>) matches the value of the <tt>switch</tt> statement's <i>expression</i>, then that <tt>case</tt>'s statements (<i>Statements</i>) are executed.</p>
+<p>Normally a <tt>case</tt>'s statements are terminated by a <a href="#break">break</a> statement which causes execution to pass to the end of the <tt>switch</tt> statement.</p>
+<p>See <a href="#switch">switch</a> for an example.</p>
+<a name="catch"></a>
+<h3>catch</h3>
+<pre>    try {
+        Statements;
+    }
+    catch( exception ) {
+        ExceptionStatements;
+    }</pre>
+<p>This keyword is used in <a href="#try">try</a> statements. If an <i>exception</i> occurs, then the <i>ExceptionStatements</i> in a matching <tt>catch</tt> block are executed.</p>
+<p>A <tt>catch</tt> block has the form:</p>
+<pre>        catch ( e ) {
+            <span class="comment">/* statements */</span>
+        }</pre>
+<p>The possible exception types are:</p>
+<p><i>EvalError</i> -- the result of a failed <a href="#eval">eval</a>() call. <i>RangeError</i> -- a result that is out of range, e.g&#x2e; an array index to an element that isn't in the array. <i>TypeError</i> -- an attempt to perform an operation on an object of an inappropriate type. <i>User</i> defined exceptions -- exceptions that are objects of a user-defined type.</p>
+<p>See <a href="#try">try</a> for an example.</p>
+<a name="continue"></a>
+<h3>continue</h3>
+<pre>    for ( var i = 0; i &lt; limit; i++ ) {
+        if ( condition ) {
+            continue;
+        }
+        Statements;
+    }</pre>
+<p>This keyword is used within the context of a <a href="#for">for</a>, <a href="#while">while</a> or <a href="#do">do</a> loop.</p>
+<p>If a <tt>continue</tt> statement is encountered in a <a href="#for">for</a> loop, execution immediately passes to the third part of the <a href="#for">for</a> loop (normally where a counter is incremented or decremented), and then execution continues normally, i.e&#x2e; the middle part of the <a href="#for">for</a> loop (the conditional) is tested, and if true, the body of the loop is executed.</p>
+<p>If a <tt>continue</tt> statement is encountered in a <a href="#while">while</a> or <a href="#do">do</a> loop, execution immediately passes to the conditional, which is retested; the body of the loop will be executed if the conditional is still true.</p>
+<p>See <a href="#do">do</a> for an example. See also <a href="#do">do</a>, <a href="#while">while</a>, <a href="#for">for</a> and <a href="#break">break</a>.</p>
+<a name="default"></a>
+<h3>default</h3>
+<pre>    switch ( expression ) {
+        case 1 :
+            Statements1;
+            break;
+        default :
+            DefaultStatements;
+            break;
+    }</pre>
+<p>This keyword is used in <a href="#switch">switch</a> statements. It is used instead of <a href="#case">case</a> to match <i>anything</i> that the <tt>switch</tt> statement's expression has evaluated to. If no <tt>default</tt> is used, and none of the cases match, then the <tt>switch</tt> statement will not execute anything and control will pass on to the following statement. If <tt>default</tt> is used, it <i>must</i> be the last case in the <tt>switch</tt> statement. This is because each <tt>case</tt> is evaluated in order, and since <tt>default</tt> matches any value, it will always be executed if the interpreter reaches it, and any following cases would always be ignored. When the <tt>default</tt> case is encountered its <i>DefaultStatements</i> are executed. It is customary to end a <tt>default</tt> statement with a <a href="#break">break</a>.</p>
+<p>See <a href="#switch">switch</a> for an example.</p>
+<a name="do"></a>
+<h3>do</h3>
+<pre>    do {
+        Statements;
+    } while ( condition );</pre>
+<p>This keyword is used in conjunction with <a href="#while">while</a> to form a loop which is guaranteed to execute at least once.</p>
+<p>The <i>Statements</i> in the braces following the <tt>do</tt> are executed once. If the <a href="#while">while</a> <i>condition</i> evaluates to <tt>true</tt>, execution passes back to the <tt>do</tt>, and the whole process repeats. If the <a href="#while">while</a> loop's conditional ever becomes <tt>false</tt>, execution continues from the statement following the <a href="#while">while</a> statement.</p>
+<p>Example:</p>
+<pre>        var x = 0;
+        do {
+            x += 5;
+            if ( x == 50 )
+                continue;
+            System.println( x );
+        } while ( x &lt; 100 );</pre>
+<p>The example prints 5, 10, 15, ..&#x2e;, 45, 55, 60, 65, ..&#x2e;, 95 on the console.</p>
+<p>See also <a href="#while">while</a>, <a href="#for">for</a>, <a href="#continue">continue</a> and <a href="#break">break</a>.</p>
+<a name="else"></a>
+<h3>else</h3>
+<pre>    if ( condition ) {
+        Statements;
+    }
+    else {
+        ElseStatements;
+    }</pre>
+<p>The <tt>else</tt> keyword is used in conjunction with <a href="#if">if</a>. See <a href="#if">if</a> for details.</p>
+<a name="for"></a>
+<h3>for</h3>
+<pre>    for ( i = 0; i &lt; limit; i++ ) {
+        Statements;
+    }</pre>
+<p>This keyword is used to create a loop that executes a fixed number of times.</p>
+<p>The <tt>for</tt> statement is broken into parts as follows: the keyword <tt>for</tt>, an opening parentheses, zero or more statements (the <i>first part</i>), a semi-colon, a conditional expression (the <i>second part</i>), a semi-colon, zero or more statements (the <i>third part</i>), a closing parentheses, and finally a statement or block that is governed by the <tt>for</tt> loop.</p>
+<p>The first part of the <tt>for</tt> statement is typically used to initialize (and possibly declare) the variable used in the conditional in the second part of the <tt>for</tt> loop statement. This part is executed once before the loop begins. This part may be empty.</p>
+<p>The second part contains a conditional expression. The expression is evaluated before each iteration of the loop (including before the first iteration). If this expression evaluates to <tt>false</tt>, the statement or block governed by the <tt>for</tt> loop is not executed and control passes to the statement that follows. If the condition is <i>never</i> <tt>true</tt>, the statement or block governed by the <tt>for</tt> loop will never be executed. If the condition expression is <tt>true</tt>, the statement or block governed by the <tt>for</tt> loop is executed, and then the third part of the <tt>for</tt> statement is executed, before control is passed back to the conditional expression with the whole process being repeated. This part should not be empty.</p>
+<p>The third part contains statements which must be executed at the end of every iteration of the loop. This part is typically used to increment a variable that was initialized in the first part, and whose value is tested in the second part. This part may be empty.</p>
+<p>Example:</p>
+<pre>        var a = [ &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot; ];
+        for( var i = 0; i &lt; a.length; i++ ) {
+            System.println( a[ i ] );
+        }</pre>
+<p>See also <a href="#do">do</a>, <a href="#while">while</a>, <a href="#continue">continue</a> and <a href="#break">break</a>.</p>
+<a name="if"></a>
+<h3>if</h3>
+<pre>    if ( expression1 ) {
+        <span class="comment">// statements1</span>
+    else {
+        <span class="comment">// elsestatements</span>
+    }
+
+    if ( expression1 ) {
+        <span class="comment">// statements1</span>
+    else if ( expression2 ) {
+        <span class="comment">// statements2</span>
+    }
+<span class="comment">    // else if ...</span>
+    else {
+        <span class="comment">// elsestatementsN</span>
+    }</pre>
+<p>An <tt>if</tt> statement provides a two-way branch. A multi-way branch is achieved using <tt>else if</tt>s. (See also <a href="#switch">switch</a>.)</p>
+<p><i>If</i> the first expression, <i>expression1</i>, is <tt>true</tt>, then the statements governed by that expression (<i>statements1</i>) will be executed, after which control will pass to the statement following the <tt>if</tt> block.</p>
+<p><i>If</i> <i>expression1</i> is <tt>false</tt>, control passes to the <tt>else</tt> statement. If the <tt>else</tt> has no following <tt>if</tt>, the <tt>else</tt> statements (<i>elsestatements</i>) are executed, after which control will pass to the statement following the <tt>if</tt> block. If the <tt>else</tt> has a following <tt>if</tt>, then step 1 or step 2 (this step) is repeated for that <tt>if</tt> statement depending on whether its expression is <tt>true</tt> or <tt>false</tt>.</p>
+<a name="finally"></a>
+<h3>finally</h3>
+<pre>    try {
+        Statements;
+    }
+    finally {
+        finalStatements;
+    }</pre>
+<p>A <tt>finally</tt> block is a block of code that is executed after the governing <a href="#try">try</a> block. If no exceptions occur within the <a href="#try">try</a> block, control will pass to the <tt>finally</tt> block after the last statement in the <a href="#try">try</a> block has been executed. If an exception occurs within the <a href="#try">try</a> block, control is passed immediately to the <tt>finally</tt> block.</p>
+<p>See also <a href="#try">try</a>.</p>
+<a name="label"></a>
+<h3>label</h3>
+<p><tt>labelname: Statement;</tt></p>
+<p>Statements may be labelled; the syntax is <i>labelname</i> followed by a colon, followed by the <i>Statement</i>. The <i>labelname</i> is any valid (unique) identifier.</p>
+<p>See <a href="#break">break</a> for an example.</p>
+<a name="return"></a>
+<h3>return</h3>
+<p><tt>return optExpression;</tt></p>
+<p>A <tt>return</tt> statement may occur anywhere within a function, including member functions, but not within constructors. When a <tt>return</tt> statement is encountered, control leaves the function immediately, and execution resumes at the statement following the call that invoked the function. If the <tt>return</tt> statement is followed by an expression (<i>optExpression</i>) the value of the expression is returned to the caller.</p>
+<p>Example:</p>
+<pre>        function inRange( v, min, max )
+        {
+            if ( v &gt;= min &amp;&amp; v &lt;= max ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }</pre>
+<a name="switch"></a>
+<h3>switch</h3>
+<pre>    switch( expression ) {
+        case Value :
+            Statements;
+            break;
+        default :
+            DefaultStatements;
+            break;
+    }</pre>
+<p>A <tt>switch</tt> statement provides a multi-way branch. The <i>expression</i> is evaluated once, then each <a href="#case">case</a> is checked in order to find one with a <i>Value</i> that matches the value of the <i>expression</i>. If a match is made, the <i>Statements</i> of the matching case are executed, after which control passes to the statement following the <tt>switch</tt> block. If no matching <a href="#case">case</a> is found, and there is a <a href="#default">default</a> case, the <i>DefaultStatements</i> are executed, after which control passes to the statement following the <tt>switch</tt> block. If there is no matching case and no <a href="#default">default</a>, no statements within the <tt>switch</tt> block are executed, and control passes to the statement following the <tt>switch</tt> block.</p>
+<p>Note that if a <a href="#default">default</a> is used it <b>must</b> be come after all the <a href="#case">case</a>s; this is because once <a href="#default">default</a> is encountered it is treated as a matching <a href="#case">case</a> regardless of what follows.</p>
+<p>Every <a href="#case">case</a>, and the <a href="#default">default</a> (if used) should have a <a href="#break">break</a> as their last statement. If <a href="#break">break</a> is not present, control will &quot;drop through&quot; to the following statements, which is not usually the desired behavior.</p>
+<p>The <i>expression</i> may be any arbitrary <i>Qt Script for Application</i> expression that evaluates to an object that can be strictly compared. For example, an expression that evaluates to a <a href="#boolean">Boolean</a>, <a href="#date">Date</a>, <a href="#number">Number</a> or <a href="#string">String</a> value.</p>
+<p>Example:</p>
+<pre>    switch( expr ) {
+        case 1:
+            doActionOne();
+            break;
+        case &quot;two&quot;:
+            doActionTwo();
+            break;
+        case 3:
+            doActionThree();
+        case 4:
+            doActionFour();
+            break;
+        default:
+            doDefaultAction();
+            break;
+    }</pre>
+<p>In the example, if <tt>expr</tt> has the value 1, the <i>doActionOne()</i> function will be called. But if <tt>expr</tt> has the value 3, both <i>doActionThree()</i> and <i>doActionFour()</i> will be called, because case 3 doesn't have a <tt>break</tt> statement, and execution &quot;falls through&quot; to case 4. If <tt>expr</tt> is not 1, &quot;two&quot;, 3 or 4 then the <a href="#default">default</a> case will be matched and <i>doDefaultAction()</i> will be executed.</p>
+<p>See also <a href="#break">break</a>.</p>
+<a name="throw"></a>
+<h3>throw</h3>
+<pre>    try {
+        Statements;
+        throw &quot;an exception&quot;;
+    }
+    catch ( e ) {
+        if ( e == &quot;an exception&quot; ) {
+            ExceptionStatements;
+        }
+        else {
+            OtherExceptionStatements
+        }
+    }</pre>
+<p>The <tt>throw</tt> keyword is used to raise user-defined exceptions.</p>
+<p>Example:</p>
+<pre>        function monthToName( i )
+        {
+            var IndexToMonth = [ &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;,
+                                 &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot; ];
+
+            if ( i &lt; 0 || i &gt; 11 ) {
+                throw &quot;month number out of range&quot;;
+            }
+            else {
+                return IndexToMonth[ i ];
+            }
+        }</pre>
+<p>It is also possible to define a user-defined exception class and throw an object of that type, e.g&#x2e;</p>
+<pre>        throw new AUserDefinedException( &quot;month number out of range&quot; );</pre>
+<p>See also <a href="#try">try</a>.</p>
+<a name="try"></a>
+<h3>try</h3>
+<pre>    try {
+        Statements;
+    }
+    catch ( e ) {
+    }
+
+    try {
+        Statements;
+    }
+    finally {
+    }</pre>
+<p>The <tt>try</tt> keyword is used to identify a statement block for which exceptions will be caught. There are two kinds of <tt>try</tt> block, <tt>try...catch</tt> and <tt>try...finally</tt>.</p>
+<p><b>try..&#x2e;catch</b></p>
+<p>If an exception occurs within a <tt>try...catch</tt> block, control is passed to the first <a href="#catch">catch</a> block. If that <tt>catch</tt> block does not accept the exception, control is passed on to the next <tt>catch</tt> block (if any), and so on, until there are no more <tt>catch</tt> blocks, in which case the exception is passed up the call chain until an enclosing <tt>catch</tt> block is found to accept it, or if none accept it, the program will terminate.</p>
+<p>Catch blocks come in two varieties, unqualified and qualified. An unqualified <tt>catch</tt> block has the form:</p>
+<pre>        catch ( e ) { <span class="comment">/* statements */</span> }</pre>
+<p>and a qualified <tt>catch</tt> block has the form:</p>
+<pre>        catch ( e if e instanceOf RangeError ) { <span class="comment">/* statements */</span> }</pre>
+<p>See <a href="#catch">catch</a> for details of the qualifiers.</p>
+<p><b>try..&#x2e;finally</b></p>
+<p>If an exception occurs within a <tt>try...catch</tt> block, control is passed to the <a href="#finally">finally</a> block. This is useful if you want to ensure that something happens at the end of the block, no matter what.</p>
+<p>Examples:</p>
+<pre>        try {
+            file = new File;
+            file.open( filename );
+            process( file );
+        }
+        finally {
+            file.close();
+        }</pre>
+<p>In this example, the file is always closed, even if an exception occurred.</p>
+<pre>        try {
+            var a = monthToName( 11 );
+            var b = monthToName( 2 );
+        }
+        catch ( e ) {
+            if ( e == &quot;month number out of range&quot; ) {
+                debug( &quot;Code error: &quot; + e );
+            }
+            else {
+                throw e;
+            }
+        }</pre>
+<p>In this example, the <i>monthToName()</i> function is called to set two variables. If the function fails, it throws an exception rather than returns an error value, so no explicit check for an error value is necessary. If one of the function calls failed <a href="#debug">debug</a>() is called; otherwise the exception is re-thrown so that it can be handled at a higher level. (See <a href="#throw">throw</a> for the definition of <i>monthToName()</i>.)</p>
+<a name="while"></a>
+<h3>while</h3>
+<pre>    while ( condition ) {
+        Statements;
+    }</pre>
+<p>This keyword is used to repeat a block of code zero or more times. When the <tt>while</tt> statement is encountered the <i>condition</i> is evaluated. If the <i>condition</i> is <tt>true</tt>, the <i>Statements</i> in the <tt>while</tt> block are executed; otherwise control passes to the statement following the <tt>while</tt> block. If the <i>condition</i> is <tt>true</tt>, after the <i>Statements</i> have been executed, the <i>condition</i> is again evaluated, and the whole process repeats.</p>
+<p>Example:</p>
+<pre>        var i = 10;
+        while ( i &gt; 0 ) {
+            debug( i );
+            i--;
+        }</pre>
+<p>See also <a href="#do">do</a>, <a href="#for">for</a>, <a href="#continue">continue</a> and <a href="#break">break</a>.</p>
+<a name="with"></a>
+<h3>with</h3>
+<pre>    with ( QualifyingName ) {
+        Statements;
+    }</pre>
+<p>This keyword is used to indicate that any unqualified names in the <i>Statements</i> should be qualified by <i>QualifyingName</i>. Please note that QSA does not allow declaration of variables using the 'var' statement inside a with block</p>
+<p>Example:</p>
+<pre><span class="comment">    // Without with</span>
+        System.print &quot;one &quot;;
+        System.print &quot;two &quot;;
+        System.println &quot;three&quot;;
+<span class="comment">    // With with</span>
+        with ( System ) {
+            print &quot;one &quot;;
+            print &quot;two &quot;;
+            println &quot;three&quot;;
+        }</pre>
+<p>If multiple qualifying names are required, with statements can be nested, e.g&#x2e;</p>
+<pre>        with ( System ) {
+            with ( Math ) {
+                print abs( -4 );
+                print pow( 2, 3 );
+                print random();
+            }
+        }</pre>
+<p>Forcing the interpreter to do the lookup may be slower than using the fully qualified names.</p>
+<p /><address><hr /><div align="center">
+<table width="100%" cellspacing="0" border="0"><tr class="address">
+<td width="30%">Copyright &copy; 2008 <a href="http://www.trolltech.com">Trolltech</a></td>
+<td width="40%" align="center"><a href="http://www.trolltech.com/company/copyright.html">Trademarks</a></td>
+<td width="30%" align="right"><div align="right">QSA 1.2.3</div></td>
+</tr></table></div></address></body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- ../../examples/game/game.qdoc -->
+<head>
+  <title>QSA 1.2: Game Example</title>
+    <style type="text/css">h3.fn,span.fn { margin-left: 1cm; text-indent: -1cm; }
+a:link { color: #004faf; text-decoration: none }
+a:visited { color: #672967; text-decoration: none }
+td.postheader { font-family: sans-serif }
+tr.address { font-family: sans-serif }
+body { background: #ffffff; color: black; }</style>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="left" valign="top" width="32"><img src="images/qt-logo.png" align="left" width="32" height="32" border="0" /></td>
+<td width="1">&nbsp;&nbsp;</td><td class="postheader" valign="center"><a href="index.html"><font color="#004faf">Home</font></a>&nbsp;&middot; <a href="getting-started.html"><font color="#004faf">Tutorial</font></a>&nbsp;&middot; <a href="classes.html"><font color="#004faf">Classes</font></a>&nbsp;&middot; <a href="functions.html"><font color="#004faf">Functions</font></a>&nbsp;&middot; <a href="language.html"><font color="#004faf">Language</font></a>&nbsp;&middot; <a href="workbench-reference.html"><font color="#004faf">QSA Workbench</font></a>&nbsp;&middot; <a href="http://doc.trolltech.com/4.1"><font color="#004faf">Qt Documentation</font></a>&nbsp;&middot; <a href="http://www.trolltech.com/"><font color="#004faf">www.trolltech.com</font></a></td>
+<td align="right" valign="top" width="230"><img src="images/trolltech-logo.png" align="right" width="203" height="32" border="0" /></td></tr></table><h1 class="title">Game Example<br /><span class="subtitle"></span>
+</h1>
+<p>The Game example demonstrates how to combine a simple customizable widget with non trivial script code to significantly increase the functionality of the widget.</p>
+<p>The Game example consists of two main parts: the Playfield and a script file. The C++ class <tt>PlayField</tt> contains a few properties and functions that can be accessed by the script file and that offer some basic game related functionality to the developer. The game script file describes how the game works.</p>
+<a name="the-playfield-class"></a>
+<h2>The PlayField Class</h2>
+<p>The PlayField class is a simple game engine for playing sprite based games. It contains functionality that makes it easy for game developers to create game objects and to receive input from the keyboard.</p>
+<p>Programming a game for the game engine is done by implementing three stages. The first stage is initialization; this is where the script loads the images that will be used in the game and adds them to the PlayField for later use. This is done by calling the script function <tt>init()</tt>. The second stage is the game loop where the PlayField runs a timer based loop that triggers every few milliseconds. Each time the loop triggers the script, function <tt>next()</tt> is called. This continues until the player either wins or loses and then the game calls the function <tt>gameOver()</tt>. This will tell the game loop to stop.</p>
+<p>The PlayField class has the following properties:</p>
+<p><i>up-</i> True if the user presses the <b>up</b> arrow key. <i>down-True</i> if the user presses the <b>down</b> arrow key. <i>left-</i> True if the user presses the <b>left</b> arrow key. <i>right-</i> True if the user presses the <b>right</b> arrow key. <i>space-</i> True if the user presses the space button.</p>
+<p>The PlayField class has the following script enabled functions:</p>
+<p><i>int</i> addItem( const QPixmap &amp;m )- Adds a pixmap to the playfield and returns its id. <i>void</i> moveItem( int id, int x, int y )- Moves the item with the given id. <i>void</i> enableItem( int id, bool enable )- Sets if the item should be painted or not. <i>void</i> gameOver( bool success )- Stops the game loop and displays a win or loose &quot;game over&quot; message. <i>void</i> clear()- Clears all the pixmaps in the Playfield.</p>
+<a name="the-shooter-game-script"></a>
+<h2>The Shooter Game Script</h2>
+<p>The shooter game is the epic tale of the heroic space commander battling the alien armies in outer space.</p>
+<p>The game is implemented using a Qt Script file that contains the game logics. This includes moving the participants of the game around or determining if a bullet shot hits or misses.</p>
+<p>As described above, the game is divided into three stages. Initialization is implemented in the script function <tt>init()</tt>. This function is called once before the game starts running, and is used to load the images and move them to their desired location on the screen. The second stage is the function <tt>next()</tt> which is called for every step in the game loop. In this function the script determines the actions of the player through the PlayFields properties, then moves the player, enemies and bullets around and checks for collisions. If an enemy is hit, it is disabled. If all enemies are disabled the script calls the gameOver function with true, indicating that the user won. If the player is hit, or the enemies get past the player the script calls the function gameOver with the argument false, meaning that the player lost.</p>
+<a name="the-bouncer-game-script"></a>
+<h2>The Bouncer Game Script</h2>
+<p>In the Bouncer game script, the player takes on a gang of evil bricks that just sit there. Your weapon is a ball that bounces around the screen and deals damage to the bricks when it collides into them. Smash all the bricks to win!</p>
+<p>The Bouncer game script is written in a more object-oriented way than the shooter script; consequently it shows how to use classes and inheritance in Qt Script. The base class is the <tt>GameItem</tt>, which contains a pixmap and some encapsulation of the pixmap id etc. The player is implemented in the <tt>Player</tt> class, which basically provides a specialized constructor. The ball is implemented using the <tt>Ball</tt> class which extends the GameItem with a speed vector, describing the direction and speed of the ball. The enemies are implemented in the <tt>Brick</tt> class. Each brick has three damage levels, each described by its own pixmap and id. This is encapsulated in the <tt>Brick</tt> class.</p>
+<p>The initialization stage of the game <tt>init()</tt> creates the player, ball and bricks. The bricks are then moved into place. While the game loop is running <tt>next()</tt>, the game moves the player and the ball. The player registers <tt>left</tt> and <tt>right</tt> buttons only, since the player can only move horizontally. When the ball is moved, we check for collision with the player, which will bounce the ball back up to the bricks, or collision with one of the bricks. If the ball collides with a brick, it will damage the brick, which will change the pixmap of the brick as can be seen in the function <tt>Brick.damage()</tt>. The game is over when the player either fails to bounce the ball, or manages to destroy all the bricks.</p>
+<p /><address><hr /><div align="center">
+<table width="100%" cellspacing="0" border="0"><tr class="address">
+<td width="30%">Copyright &copy; 2008 <a href="http://www.trolltech.com">Trolltech</a></td>
+<td width="40%" align="center"><a href="http://www.trolltech.com/company/copyright.html">Trademarks</a></td>
+<td width="30%" align="right"><div align="right">QSA 1.2.3</div></td>
+</tr></table></div></address></body>
+</html>

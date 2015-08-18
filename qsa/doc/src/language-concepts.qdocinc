@@ -1,0 +1,155 @@
+\chapter Qt Script Language Concepts
+
+This chapter describes the concepts behind \QS, \Q's implementation of
+\ECMA.
+\section1 Identifiers, Variables and Constants
+
+\QS identifiers match the regex pattern \bold{[_A-Za-z][_A-Za-z0-9]*}.
+Identifiers are used for variables, constants, class names, function
+names and labels.
+
+\ECMA reserves some words which are valid identifiers for its own use.
+See the \l{Built-in Functions and Operators} chapter for the complete
+list.
+
+Variables are declared using the \l var keyword:
+\code
+    var a;               // undefined
+    var c = "foliage";   // the string "foliage"
+    x = 1;               // global variable
+\endcode
+
+If a variable is assigned to without being declared, it is
+automatically declared as a global variable. Using global variables
+can make your code difficult to debug and maintain and is not
+recommended.
+
+Constants are declared using the \l const keyword:
+\code
+    const x = "Willow";
+    const y = 42;
+\endcode
+Constants must be defined at the point of declaration, because they
+cannot be changed later. If an attempt is made to assign to a
+constant, the \Q interpreter will issue an error message and stop.
+
+Constants are public globals if they are declared outside of any
+enclosing braces. When declared within the scope of some braces, e.g.
+within an \l if statment, their scope is local to the enclosing block.
+
+\section1 Classes and Methods
+
+\QS is a fully object oriented language. Classes can be defined as
+shown below in the source files of a project.
+
+Example:
+\code
+    class Circle {
+	var m_x;
+	var m_y;
+	var m_r;
+
+	function Circle( posx, posy, radius )
+	{
+	    m_x = posx;
+	    m_y = posy;
+	    m_r = radius;
+	}
+	function setX( posx ) { m_x = posy; }
+	function setY( posy ) { m_y = posy; }
+	function setR( radius ) { m_r = radius; }
+	function x() { return m_x; }
+	function y() { return m_y; }
+	function r() { return m_r; }
+    }
+
+    class ColorCircle extends Circle {
+	var m_rgb;
+
+	function ColorCircle( posx, posy, radius, rgbcolor)
+	{
+	    Circle( posx, posy, radius );
+	    m_rgb = rgbcolor;
+	}
+	function setRgb( rgbcolor ) { m_rgb = rgbcolor; }
+	function rgb() { return m_rgb; }
+    }
+\endcode
+
+A class's constructor is the function which has the same
+(case-sensitive) name as the class itself. The constructor should not
+contain an explicit return statement; it will return an object of its
+type automatically. \QS does not have a destructor function (a
+function that is called when the class is destroyed), for a class.
+
+The class's member variables are declared with \l var, and its member
+functions (methods) with \l function.
+
+The object instance itself is referred to using the \l{this
+operator}. Inside a member function of a class, member variables and
+member functions can be accessed with an explicit this
+(e.g. \c{this.x = posx;}). This is not required, but can sometimes help
+to increase visibility.
+
+\QS supports single inheritance, and if a class inherits from another
+class, the superclass's constructor can be called with \Func super().
+
+See also \l class, \l function, \l{Function type}, \l{function
+operator}.
+
+\sidebar Qualified Names
+
+When you declare an object of a particular type, the object itself
+becomes, in effect, a namespace. For example, in \Q there is a
+function called \c Math.sin(). If you wanted to have a \Func
+sin() function in your own class that would not be a problem, because
+objects of your class would call the function using the
+\c{object.function()} syntax. The period is used to distinguish the
+namespace a particular identifier belongs to.
+
+For example, in a \Q GUI application, every application object belongs
+to the \c Application object. This can lead to some rather lengthy
+code, for example \c{Application.Dialog.ListBox.count}. Such long
+names can often be shortened, for example, within a signal handler,
+e.g.  \c{this.ListBox.count}. In practice, \Q is intelligent enough to
+work out the fully qualified name, so the code you would actually
+write is simply \c{ListBox.count}. The only time that you need to
+qualify your names is when an unqualified name is ambiguous.
+
+\endsidebar
+
+\section2 Class Properties
+
+A property is an undeclared variable that can be written to and
+accessed if the class supports properties. The classes supporting
+properties are \l Object, the application objects and the classes
+provided by the object and wrapper factories.
+
+\code
+var obj = new Object
+object.myProperty = 100;
+\endcode
+
+The class Object does not define the variable \c myProperty, but since
+the class supports properties, we can define the variable with that
+name on the fly and use it later. Properties are associated with the
+object they are assigned to, so even though the object \c obj in the
+example above gets the property \c myProperty, it does not mean that
+other objects of type \c Object will have the \c myProperty property,
+unless explicitly stated.
+
+\section1 Comments
+
+\QS supports the same commenting syntax as C++. One line comments may
+appear on a line of their own, or after the statements on a line.
+Multi-line comments may appear anywhere.
+
+\code
+// A one line comment.
+
+/*
+    A multi-line
+    comment.
+*/
+\endcode
+

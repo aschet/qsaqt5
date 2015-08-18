@@ -1,0 +1,10 @@
+/*!
+
+  \page extensions_framework
+
+  \title QSA Extension Frameworks
+ 
+  \include chap-inputdialog.qdocinc
+  \include chap-utilfactory.qdocinc
+
+*/

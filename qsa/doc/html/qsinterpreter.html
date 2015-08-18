@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- ../../src/qsa/qsinterpreter.cpp -->
+<head>
+  <title>QSA 1.2: QSInterpreter Class Reference</title>
+    <style type="text/css">h3.fn,span.fn { margin-left: 1cm; text-indent: -1cm; }
+a:link { color: #004faf; text-decoration: none }
+a:visited { color: #672967; text-decoration: none }
+td.postheader { font-family: sans-serif }
+tr.address { font-family: sans-serif }
+body { background: #ffffff; color: black; }</style>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="left" valign="top" width="32"><img src="images/qt-logo.png" align="left" width="32" height="32" border="0" /></td>
+<td width="1">&nbsp;&nbsp;</td><td class="postheader" valign="center"><a href="index.html"><font color="#004faf">Home</font></a>&nbsp;&middot; <a href="getting-started.html"><font color="#004faf">Tutorial</font></a>&nbsp;&middot; <a href="classes.html"><font color="#004faf">Classes</font></a>&nbsp;&middot; <a href="functions.html"><font color="#004faf">Functions</font></a>&nbsp;&middot; <a href="language.html"><font color="#004faf">Language</font></a>&nbsp;&middot; <a href="workbench-reference.html"><font color="#004faf">QSA Workbench</font></a>&nbsp;&middot; <a href="http://doc.trolltech.com/4.1"><font color="#004faf">Qt Documentation</font></a>&nbsp;&middot; <a href="http://www.trolltech.com/"><font color="#004faf">www.trolltech.com</font></a></td>
+<td align="right" valign="top" width="230"><img src="images/trolltech-logo.png" align="right" width="203" height="32" border="0" /></td></tr></table><h1 class="title">QSInterpreter Class Reference</h1>
+<p>The QSInterpreter class provides the public API for the Qt Script for Applications script engine. <a href="#details">More...</a></p>
+<pre>    #include &lt;QSInterpreter&gt;</pre><ul>
+<li><a href="qsinterpreter-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h3>Public Types</h3>
+<ul>
+<li><div class="fn"/>enum <b><a href="qsinterpreter.html#ClassFlags-enum">ClassFlags</a></b> { AllClasses, GlobalClasses }</li>
+<li><div class="fn"/>enum <b><a href="qsinterpreter.html#ErrorMode-enum">ErrorMode</a></b> { Notify, Nothing }</li>
+<li><div class="fn"/>enum <b><a href="qsinterpreter.html#FunctionFlags-enum">FunctionFlags</a></b> { FunctionNames, FunctionSignatures, IncludeMemberFunctions }</li>
+</ul>
+<a name="public-functions"></a>
+<h3>Public Functions</h3>
+<ul>
+<li><div class="fn"/><b><a href="qsinterpreter.html#QSInterpreter">QSInterpreter</a></b> ( QObject * <i>parent</i> = 0, const char * <i>name</i> = 0 )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#addObjectFactory">addObjectFactory</a></b> ( QSObjectFactory * <i>factory</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#addTransientObject">addTransientObject</a></b> ( QObject * <i>object</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#addTransientSignalHandler">addTransientSignalHandler</a></b> ( QObject * <i>sender</i>, const char * <i>signal</i>, const char * <i>qtscriptFunction</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#addTransientVariable">addTransientVariable</a></b> ( const QString &amp; <i>variableName</i>, const QVariant &amp; <i>arg</i>, QObject * <i>context</i> = 0 )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#addWrapperFactory">addWrapperFactory</a></b> ( QSWrapperFactory * <i>factory</i> )</li>
+<li><div class="fn"/>QVariant <b><a href="qsinterpreter.html#call">call</a></b> ( const QString &amp; <i>function</i>, const QVariantList &amp; <i>arguments</i> = QVariantList(), QObject * <i>context</i> = 0 )</li>
+<li><div class="fn"/>bool <b><a href="qsinterpreter.html#checkSyntax">checkSyntax</a></b> ( const QString &amp; <i>code</i> )</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#classes">classes</a></b> ( ClassFlags <i>flags</i> = AllClasses ) const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#classes-2">classes</a></b> ( const QString &amp; <i>context</i> ) const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#classes-3">classes</a></b> ( QObject * <i>context</i> ) const</li>
+<li><div class="fn"/>QObject * <b><a href="qsinterpreter.html#currentContext">currentContext</a></b> () const</li>
+<li><div class="fn"/>QString <b><a href="qsinterpreter.html#errorMessage">errorMessage</a></b> () const</li>
+<li><div class="fn"/>ErrorMode <b><a href="qsinterpreter.html#errorMode">errorMode</a></b> () const</li>
+<li><div class="fn"/>QVariant <b><a href="qsinterpreter.html#evaluate">evaluate</a></b> ( const QString &amp; <i>code</i>, QObject * <i>context</i> = 0, const QString &amp; <i>scriptName</i> = QString::null )</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#functions">functions</a></b> ( FunctionFlags <i>flags</i> = FunctionNames ) const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#functions-2">functions</a></b> ( const QString &amp; <i>context</i>, uint <i>flags</i> = FunctionNames ) const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#functions-3">functions</a></b> ( QObject * <i>context</i>, FunctionFlags <i>flags</i> = FunctionNames ) const</li>
+<li><div class="fn"/>bool <b><a href="qsinterpreter.html#hadError">hadError</a></b> () const</li>
+<li><div class="fn"/>bool <b><a href="qsinterpreter.html#hasClass">hasClass</a></b> ( const QString &amp; <i>className</i> ) const</li>
+<li><div class="fn"/>bool <b><a href="qsinterpreter.html#hasFunction">hasFunction</a></b> ( const QString &amp; <i>function</i> ) const</li>
+<li><div class="fn"/>bool <b><a href="qsinterpreter.html#hasVariable">hasVariable</a></b> ( const QString &amp; <i>variable</i> ) const</li>
+<li><div class="fn"/>bool <b><a href="qsinterpreter.html#isRunning">isRunning</a></b> () const</li>
+<li><div class="fn"/>QObjectList <b><a href="qsinterpreter.html#presentObjects">presentObjects</a></b> () const</li>
+<li><div class="fn"/>QSProject * <b><a href="qsinterpreter.html#project">project</a></b> () const</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#removeTransientSignalHandler">removeTransientSignalHandler</a></b> ( QObject * <i>sender</i>, const char * <i>signal</i>, const char * <i>qtscriptFunction</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#setErrorMode">setErrorMode</a></b> ( ErrorMode <i>m</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#setTimeoutInterval">setTimeoutInterval</a></b> ( int <i>msecs</i> )</li>
+<li><div class="fn"/>QSStackTrace <b><a href="qsinterpreter.html#stackTrace">stackTrace</a></b> () const</li>
+<li><div class="fn"/>QString <b><a href="qsinterpreter.html#stackTraceString">stackTraceString</a></b> () const</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#throwError">throwError</a></b> ( const QString &amp; <i>message</i> )</li>
+<li><div class="fn"/>int <b><a href="qsinterpreter.html#timeoutInterval">timeoutInterval</a></b> () const</li>
+<li><div class="fn"/>QVariant <b><a href="qsinterpreter.html#variable">variable</a></b> ( const QString &amp; <i>variableName</i>, QObject * <i>context</i> = 0 ) const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#variables">variables</a></b> () const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#variables-2">variables</a></b> ( const QString &amp; <i>context</i> ) const</li>
+<li><div class="fn"/>QStringList <b><a href="qsinterpreter.html#variables-3">variables</a></b> ( QObject * <i>context</i> ) const</li>
+</ul>
+<a name="public-slots"></a>
+<h3>Public Slots</h3>
+<ul>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#clear">clear</a></b> ()</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#stopExecution">stopExecution</a></b> ()</li>
+</ul>
+<a name="signals"></a>
+<h3>Signals</h3>
+<ul>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#error">error</a></b> ( const QString &amp; <i>message</i>, const QString &amp; <i>scriptName</i>, int <i>lineNumber</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#error-2">error</a></b> ( const QString &amp; <i>message</i>, QObject * <i>context</i>, const QString &amp; <i>scriptName</i>, int <i>lineNumber</i> )</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#timeout">timeout</a></b> ( int <i>elapsedTime</i> )</li>
+</ul>
+<a name="static-public-members"></a>
+<h3>Static Public Members</h3>
+<ul>
+<li><div class="fn"/>QSInterpreter * <b><a href="qsinterpreter.html#defaultInterpreter">defaultInterpreter</a></b> ()</li>
+<li><div class="fn"/>void <b><a href="qsinterpreter.html#registerMetaObject">registerMetaObject</a></b> ( const QMetaObject * <i>metaObject</i> )</li>
+</ul>
+<a name="details"></a>
+<hr />
+<h2>Detailed Description</h2>
+<p>The QSInterpreter class provides the public API for the Qt Script for Applications script engine.</p>
+<p>This class provides the functionality required to make Qt/C++ applications scriptable with Qt Script.</p>
+<p>For convenience a single instance of the QSInterpreter class exists in an application; it is available as <a href="qsinterpreter.html#defaultInterpreter">QSInterpreter::defaultInterpreter</a>().</p>
+<p>The functions <a href="qsinterpreter.html#evaluate">evaluate</a>(), <a href="qsinterpreter.html#call">call</a>(), <a href="qsinterpreter.html#addTransientObject">addTransientObject</a>(), and <a href="qsinterpreter.html#clear">clear</a>() provide the basic functionality of the interpreter. Any string containing valid Qt Script code can be executed using <a href="qsinterpreter.html#evaluate">evaluate</a>(), and any state built up during evaluation is kept between calls. The function <a href="qsinterpreter.html#call">call</a>() can be used to call script functions from C++. The function <a href="qsinterpreter.html#addTransientObject">addTransientObject</a>() will add an object to the interpreter until the interpreter is cleared. Calling <a href="qsinterpreter.html#clear">clear</a>() will clear the state of the interpreter and remove all transient objects.</p>
+<p>The function <a href="qsinterpreter.html#checkSyntax">checkSyntax</a>() provides syntax checking without having to execute the context of the code.</p>
+<p>QSInterpreter provides several functions for script introspection. These functions are: <a href="qsinterpreter.html#classes">classes</a>(), <a href="qsinterpreter.html#functions">functions</a>(), and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<p>If an error occurs, for example, during the execution of a script, the <a href="qsinterpreter.html#error">error</a>() signal is emitted. The error behavior depends on the <a href="qsinterpreter.html#errorMode">errorMode</a>() which is set with <a href="qsinterpreter.html#setErrorMode">setErrorMode</a>(). When the interpreter stops execution because of an error, the <a href="qsinterpreter.html#hadError">hadError</a>(), <a href="qsinterpreter.html#errorMessage">errorMessage</a>(), and <a href="qsinterpreter.html#stackTrace">stackTrace</a>() functions can be used to provide error information.</p>
+<p>It is possible to run QSInterpreter in a separate thread. This allows you to have multiple interpreters running simultaneously. Interpreters can interact with QObjects in the same thread they are running. Note that normal restrictions for threading in Qt still apply, such as interacting with objects on other threads.</p>
+<p>When an object has been made accessible to the interpreter, such as through the functions <a href="qsinterpreter.html#addTransientObject">addTransientObject</a>() or <a href="qsinterpreter.html#evaluate">evaluate</a>(), all its signals, slots and properties will be made accessible from script. QSA provides a series of automatic conversions between C++ types and Qt Script types. These are listed below.</p>
+<p>The following table describes which script types are supported as function arguments when calling a C++ slot from QSA.</p>
+<p><table align="center" cellpadding="2" cellspacing="1" border="0">
+<thead><tr valign="top" class="qt-style"><th>C++ Type</th><th>Qt Script Type</th></tr></thead>
+<tr valign="top" class="odd"><td><tt>QByteArray</tt></td><td><tt>ByteArray</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QByteArray*</tt></td><td><tt>ByteArray</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QColor</tt></td><td><tt>Color</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QColor*</tt></td><td><tt>Color</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QColorGroup</tt></td><td><tt>ColorGroup</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QColorGroup*</tt></td><td><tt>ColorGroup</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QFont</tt></td><td><tt>Font</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QFont*</tt></td><td><tt>Font</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QObject*</tt></td><td><tt>QObject</tt>, <tt>undefiend</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QObjectList</tt></td><td><tt>Array</tt> (of QObjects)</td></tr>
+<tr valign="top" class="odd"><td><tt>QObjectList*</tt></td><td><tt>Array</tt> (of QObjects), <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QPalette</tt></td><td><tt>Palette</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QPalette*</tt></td><td><tt>Palette</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QPixmap</tt></td><td><tt>Pixmap</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QPixmap</tt></td><td><tt>Pixmap</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QPoint</tt></td><td><tt>Point</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QPoint*</tt></td><td><tt>Point</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QRect</tt></td><td><tt>Rect</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QRect*</tt></td><td><tt>Rect</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QSize</tt></td><td><tt>Size</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QSize*</tt></td><td><tt>Size</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QString</tt></td><td><tt>String</tt>, <tt>Number</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QString*</tt></td><td><tt>String</tt>, <tt>Number</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QStringList</tt></td><td><tt>String</tt>, Array</td></tr>
+<tr valign="top" class="odd"><td><tt>QStringList*</tt></td><td><tt>String</tt>, <tt>Array</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QList&lt;int&gt;</tt></td><td><tt>Array</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QList&lt;int&gt;*</tt></td><td><tt>Array</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QVariant</tt></td><td><tt>All</tt> types except QObject* and wrapped pointer.</td></tr>
+<tr valign="top" class="odd"><td><tt>QVariant*</tt></td><td><tt>All</tt> types except QObject* and wrapped pointer.</td></tr>
+<tr valign="top" class="even"><td><tt>bool</tt></td><td><tt>Boolean</tt>, <tt>Number</tt> (0 is false), <tt>String</tt> (&quot;&quot;, &quot;0&quot; and &quot;false&quot; is false)</td></tr>
+<tr valign="top" class="odd"><td><tt>char</tt></td><td><tt>Number</tt>, <tt>String</tt> (first character), <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>char*</tt></td><td><tt>String</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>double</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>float</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>int</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>long</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>void*</tt></td><td>Wrapped pointer, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>short</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>uchar</tt></td><td><tt>Number</tt>, <tt>String</tt> (first character), <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>uint</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>ulong</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+<tr valign="top" class="even"><td><tt>ushort</tt></td><td><tt>Number</tt>, <tt>Boolean</tt>, <tt>undefined</tt></td></tr>
+</table></p>
+<p>The following table describes which C++ types are converted to Qt Script types when used as properties or used as return values from slots.</p>
+<p><table align="center" cellpadding="2" cellspacing="1" border="0">
+<thead><tr valign="top" class="qt-style"><th>C++ Type</th><th>Qt Script Type</th></tr></thead>
+<tr valign="top" class="odd"><td><tt>QObject*</tt></td><td><tt>QObject</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QString</tt></td><td><tt>String</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>QStringList</tt></td><td><tt>Array</tt></td></tr>
+<tr valign="top" class="even"><td><tt>QVariant</tt></td><td><tt>Variant</tt> or matching type (Font, Color, etc)</td></tr>
+<tr valign="top" class="odd"><td><tt>bool</tt></td><td><tt>Boolean</tt></td></tr>
+<tr valign="top" class="even"><td><tt>double</tt></td><td><tt>Number</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>int</tt></td><td><tt>Number</tt></td></tr>
+<tr valign="top" class="even"><td><tt>uint</tt></td><td><tt>Number</tt></td></tr>
+<tr valign="top" class="odd"><td><tt>void*</tt></td><td>Wrapped pointer</td></tr>
+</table></p>
+<p>A Standalone QSInterpreter can be used without an existing QApplication.</p>
+<p>See the <a href="getting-started.html">Getting Started with QSA</a> for more explanations and examples.</p>
+<hr />
+<h2>Member Type Documentation</h2>
+<h3 class="fn"><a name="ClassFlags-enum"></a>enum QSInterpreter::ClassFlags</h3>
+<p>The ClassFlags enum specifies which classes should be made available for introspection.</p>
+<p><table border="1" cellpadding="2" cellspacing="1" width="100%">
+<tr><th width="25%">Constant</th><th width="15%">Value</th><th width="60%">Description</th></tr>
+<tr><td valign="top"><tt>QSInterpreter::AllClasses</tt></td><td align="center" valign="top"><tt>0</tt></td><td valign="top">All available classes in the interpreter, including those declared in QObject contexts, are matched.</td></tr>
+<tr><td valign="top"><tt>QSInterpreter::GlobalClasses</tt></td><td align="center" valign="top"><tt>1</tt></td><td valign="top">Only classes declared in the global scope are matched.</td></tr>
+</table></p>
+<h3 class="fn"><a name="ErrorMode-enum"></a>enum QSInterpreter::ErrorMode</h3>
+<p>The ErrorMode enum describes what happens when an error occurs while parsing or executing script code.</p>
+<p><table border="1" cellpadding="2" cellspacing="1" width="100%">
+<tr><th width="25%">Constant</th><th width="15%">Value</th><th width="60%">Description</th></tr>
+<tr><td valign="top"><tt>QSInterpreter::Notify</tt></td><td align="center" valign="top"><tt>0</tt></td><td valign="top">Notifies the user that an error occurred via a message box. If the application is running in console mode (QApplication::Tty), the notification will be output to <tt>stderr</tt>.</td></tr>
+<tr><td valign="top"><tt>QSInterpreter::Nothing</tt></td><td align="center" valign="top"><tt>1</tt></td><td valign="top">No notification is sent to the user. The interpreter still stops execution and emits the <a href="qsinterpreter.html#error">error</a>() signal.</td></tr>
+</table></p>
+<p>See also <a href="qsinterpreter.html#setErrorMode">setErrorMode</a>() and <a href="qsinterpreter.html#error">error</a>().</p>
+<h3 class="fn"><a name="FunctionFlags-enum"></a>enum QSInterpreter::FunctionFlags</h3>
+<p>The FunctionFlags enum describes matching rules and formatting for function introspection.</p>
+<p><table border="1" cellpadding="2" cellspacing="1" width="100%">
+<tr><th width="25%">Constant</th><th width="15%">Value</th><th width="60%">Description</th></tr>
+<tr><td valign="top"><tt>QSInterpreter::FunctionNames</tt></td><td align="center" valign="top"><tt>0</tt></td><td valign="top">Returns function names only.</td></tr>
+<tr><td valign="top"><tt>QSInterpreter::FunctionSignatures</tt></td><td align="center" valign="top"><tt>1</tt></td><td valign="top">Returns the functions with signatures.</td></tr>
+<tr><td valign="top"><tt>QSInterpreter::IncludeMemberFunctions</tt></td><td align="center" valign="top"><tt>2</tt></td><td valign="top">Matches member functions also, when the context to match in is a script class.</td></tr>
+</table></p>
+<hr />
+<h2>Member Function Documentation</h2>
+<h3 class="fn"><a name="QSInterpreter"></a>QSInterpreter::QSInterpreter ( QObject * <i>parent</i> = 0, const char * <i>name</i> = 0 )</h3>
+<p>Constructs a <a href="qsinterpreter.html">QSInterpreter</a> that runs without a project.</p>
+<p>The <i>parent</i> and <i>name</i> parameters are passed on to the QObject base class.</p>
+<p>There's a default instance accessible with <a href="qsinterpreter.html#defaultInterpreter">QSInterpreter::defaultInterpreter</a>().</p>
+<h3 class="fn"><a name="addObjectFactory"></a>void QSInterpreter::addObjectFactory ( <a href="qsobjectfactory.html">QSObjectFactory</a> * <i>factory</i> )</h3>
+<p>Adds the object factory <i>factory</i> to the interpreter.</p>
+<p>Using this function will clear the state of the interpreter, and will clear any transient objects.</p>
+<h3 class="fn"><a name="addTransientObject"></a>void QSInterpreter::addTransientObject ( QObject * <i>object</i> )</h3>
+<p>Makes the QObject <i>object</i> available to the scripting engine. All child named objects of <i>object</i> are also made available, recursivly.</p>
+<p>Transient objects added to the interpreter are not persistent. This means that when the interpreter is cleared, or when a project is re-evaluated, the transient objects are removed.</p>
+<p>Use <a href="qsproject.html#addObject">QSProject::addObject</a>() to add persistent objects to the interpreter.</p>
+<p>If an object in the parent hierarchy of <i>object</i> has been made available via addObject(), <i>object</i> will not be made available as a toplevel object. It is then accessible through <tt>parent1.parent2.object_name</tt> in the scripting language, assuming that <tt>parent1</tt> has previously been made available via addTransientObject().</p>
+<p>Note on threading; If the interpreter is running in the non-GUI thread, <i>object</i> cannot be a QWidget subclass.</p>
+<p><b>Warning:</b> Every object passed to this function must have a unique object name. If you want to reuse names then you need to call <a href="qsinterpreter.html#clear">clear</a>() first</p>
+<p>See also <a href="qsproject.html#addObject">QSProject::addObject</a>().</p>
+<h3 class="fn"><a name="addTransientSignalHandler"></a>void QSInterpreter::addTransientSignalHandler ( QObject * <i>sender</i>, const char * <i>signal</i>, const char * <i>qtscriptFunction</i> )</h3>
+<p>Adds the Qt Script function <i>qtscriptFunction</i> (fully qualified) as a transient signal handler for the C++ signal <i>signal</i> of the object <i>sender</i>.</p>
+<p>Example:</p>
+<pre>    interpreter-&gt;addTransientSignalHandler(myButton, SIGNAL(clicked()), &quot;classA.obj.calculate&quot;);</pre>
+<p>See also <a href="qsinterpreter.html#removeTransientSignalHandler">removeTransientSignalHandler</a>().</p>
+<h3 class="fn"><a name="addTransientVariable"></a>void QSInterpreter::addTransientVariable ( const QString &amp; <i>variableName</i>, const QVariant &amp; <i>arg</i>, QObject * <i>context</i> = 0 )</h3>
+<p>Adds the variable <i>variableName</i> to the scope <i>context</i>. The variable is given the value <i>arg</i>. If no context is specified, the global scope is used.</p>
+<p>The variable will persist until the interpreter is cleared. It is for that reason not wise to use this function on an interpreter that belongs to a <a href="qsproject.html">QSProject</a></p>
+<p>See also <a href="qsproject.html">QSProject</a> and <a href="qsinterpreter.html#addTransientObject">addTransientObject</a>().</p>
+<h3 class="fn"><a name="addWrapperFactory"></a>void QSInterpreter::addWrapperFactory ( <a href="qswrapperfactory.html">QSWrapperFactory</a> * <i>factory</i> )</h3>
+<p>Adds the wrapper factory <i>factory</i> to the interpreter.</p>
+<p>Using this function will clear the state of the interpreter, and will clear any transient objects.</p>
+<h3 class="fn"><a name="call"></a>QVariant QSInterpreter::call ( const QString &amp; <i>function</i>, const QVariantList &amp; <i>arguments</i> = QVariantList(), QObject * <i>context</i> = 0 )</h3>
+<p>Calls the function <i>function</i> with the given <i>arguments</i>. The arguments are first converted into Qt Script datatypes.</p>
+<p>Functions which were passed to <a href="qsinterpreter.html#evaluate">evaluate</a>() in previous calls or which are defined in the current project, can be called from this function.</p>
+<p>If <i>context</i> is 0 (the default), the function is called in the global scope. If a <i>context</i> is given, the function is called in the scope of that object.</p>
+<p>Interpreters that belong to a project are subject to re-evaluation, since the code which has been passed previously into <a href="qsinterpreter.html#evaluate">evaluate</a>() gets lost when calling one of these functions. This happens when the project or the scripts in it are modified.</p>
+<h3 class="fn"><a name="checkSyntax"></a>bool QSInterpreter::checkSyntax ( const QString &amp; <i>code</i> )</h3>
+<p>Checks whether the script code <i>code</i> is free of syntax errors. Returns true if the code is free of syntax errors; otherwise returns false.</p>
+<h3 class="fn"><a name="classes"></a>QStringList QSInterpreter::classes ( <a href="qsinterpreter.html#ClassFlags-enum">ClassFlags</a> <i>flags</i> = AllClasses ) const</h3>
+<p>Returns the classes in the interpreter.</p>
+<p>If <i>flags</i> is <tt>AllClasses</tt> (the default), all the classes in the interpreter are returned, including those declared in object contexts. If <i>flags</i> is <tt>GlobalClasses</tt>, only those classes declared in the global context are returned.</p>
+<p>See also <a href="qsinterpreter.html#functions">functions</a>() and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<h3 class="fn"><a name="classes-2"></a>QStringList QSInterpreter::classes ( const QString &amp; <i>context</i> ) const</h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>Returns all the classes declared in the fully qualified context <i>context</i>.</p>
+<p>See also <a href="qsinterpreter.html#functions">functions</a>() and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<h3 class="fn"><a name="classes-3"></a>QStringList QSInterpreter::classes ( QObject * <i>context</i> ) const</h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>Returns all the classes declared in the context <i>context</i>.</p>
+<p>See also <a href="qsinterpreter.html#functions">functions</a>() and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<h3 class="fn"><a name="clear"></a>void QSInterpreter::clear ()&nbsp;&nbsp;<tt> [slot]</tt></h3>
+<p>Clears the state of the interpreter.</p>
+<p>When the interpreter is cleared, all declarations parsed using the function <a href="qsinterpreter.html#evaluate">QSInterpreter::evaluate</a>() are removed. The state of all variables will also be cleared.</p>
+<p>Clearing the interpreter will also remove any transient objects. Transient objects are those added with the function <a href="qsinterpreter.html#addTransientObject">QSInterpreter::addTransientObject</a>() or by evaluating code in the context of a QObject using <a href="qsinterpreter.html#evaluate">QSInterpreter::evaluate</a>();</p>
+<p>This function does not clear persistent application objects added by the function <a href="qsproject.html#addObject">QSProject::addObject</a>().</p>
+<h3 class="fn"><a name="currentContext"></a>QObject * QSInterpreter::currentContext () const</h3>
+<p>Returns the current execution context of the interpreter. This is either a QObject pointer or 0.</p>
+<h3 class="fn"><a name="defaultInterpreter"></a>QSInterpreter * QSInterpreter::defaultInterpreter ()&nbsp;&nbsp;<tt> [static]</tt></h3>
+<p>Returns the default interpreter.</p>
+<p>The default interpreter runs without a project.</p>
+<p>This function will automatically create the interpreter if it doesn't already exist.</p>
+<h3 class="fn"><a name="error"></a>void QSInterpreter::error ( const QString &amp; <i>message</i>, const QString &amp; <i>scriptName</i>, int <i>lineNumber</i> )&nbsp;&nbsp;<tt> [signal]</tt></h3>
+<p>This signal is emitted if an error occurs when running or parsing a script. <i>message</i> contains the error message from the interpreter, <i>scriptName</i> contains the script name (if known) in which the error occurred, and <i>lineNumber</i> contains the line number at which the error occurred.</p>
+<h3 class="fn"><a name="error-2"></a>void QSInterpreter::error ( const QString &amp; <i>message</i>, QObject * <i>context</i>, const QString &amp; <i>scriptName</i>, int <i>lineNumber</i> )&nbsp;&nbsp;<tt> [signal]</tt></h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>This signal is emitted if an error occurs when running or parsing a script. <i>message</i> contains the error message from the interpreter, <i>context</i> is a pointer to the QObject context in which the error occurred or 0, if the context is the global context, <i>scriptName</i> contains the script name (if known) in which the error occurred, and <i>lineNumber</i> contains the line number at which the error occurred.</p>
+<h3 class="fn"><a name="errorMessage"></a>QString QSInterpreter::errorMessage () const</h3>
+<p>Returns the error message that was last reported if there was an error; otherwise returns QString::null</p>
+<h3 class="fn"><a name="errorMode"></a><a href="qsinterpreter.html#ErrorMode-enum">ErrorMode</a> QSInterpreter::errorMode () const</h3>
+<p>See also <a href="qsinterpreter.html#setErrorMode">setErrorMode</a>().</p>
+<h3 class="fn"><a name="evaluate"></a>QVariant QSInterpreter::evaluate ( const QString &amp; <i>code</i>, QObject * <i>context</i> = 0, const QString &amp; <i>scriptName</i> = QString::null )</h3>
+<p>Executes the string of Qt Script in <i>code</i> and returns any value produced by that <i>code</i>.</p>
+<p>This function executes the code passed in as <i>code</i>. The code can use and reference code (functions, classes, variables, etc.) which have been passed to this function previously or which are defined in the current project, if present. Also, application objects which have been added via addObject() can be accessed.</p>
+<p>If <i>context</i> is 0 (the default), the code is executed as global code. If a <i>context</i> is given, the code is executed in the context of that object.</p>
+<p>Interpreters that belong to a project are subject to re-evaluation, since the code which has been passed previously into evaluate() gets lost when calling one of these functions. This happens when the project or the scripts in it are modified.</p>
+<p><i>scriptName</i> is used for error reporting and debugging.</p>
+<h3 class="fn"><a name="functions"></a>QStringList QSInterpreter::functions ( <a href="qsinterpreter.html#FunctionFlags-enum">FunctionFlags</a> <i>flags</i> = FunctionNames ) const</h3>
+<p>Returns all the functions in the global context.</p>
+<p>If <i>flags</i> includes <tt>FunctionSignatures</tt>, then each function name returned will be of the following form:</p>
+<pre>    functionName(typeOfArg1, typeOfArg2, ...)</pre>
+<p>Otherwise just the names will be returned (which is the default).</p>
+<p>See also <a href="qsinterpreter.html#classes">classes</a>() and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<h3 class="fn"><a name="functions-2"></a>QStringList QSInterpreter::functions ( const QString &amp; <i>context</i>, uint <i>flags</i> = FunctionNames ) const</h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>Returns all the script functions in the context <i>context</i> (this can be for example, a class or a form). If <i>context</i> is empty, the functions of the global context (global functions) are returned.</p>
+<p><i>context</i> can be fully qualified.</p>
+<p>If <i>flags</i> includes <tt>FunctionSignatures</tt>, then each function name returned will be of the following form:</p>
+<pre>    functionName(typeOfArg1, typeOfArg2, ...)</pre>
+<p>Otherwise just the names will be returned (which is the default).</p>
+<p>If <i>flags</i> includes <tt>IncludeMemberFunctions</tt> and <i>context</i> represents a class declared in script, this function will return both static and non-static functions; otherwise it only returns static functions.</p>
+<p>See also <a href="qsinterpreter.html#classes">classes</a>() and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<h3 class="fn"><a name="functions-3"></a>QStringList QSInterpreter::functions ( QObject * <i>context</i>, <a href="qsinterpreter.html#FunctionFlags-enum">FunctionFlags</a> <i>flags</i> = FunctionNames ) const</h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>Returns all script functions which have been defined in the context <i>context</i>.</p>
+<p>If <i>flags</i> includes <tt>FunctionSignatures</tt>, then each function name returned will be of the following form:</p>
+<pre>    functionName(typeOfArg1, typeOfArg2, ...)</pre>
+<p>Otherwise just the names will be returned (which is the default).</p>
+<p>See also <a href="qsinterpreter.html#classes">classes</a>() and <a href="qsinterpreter.html#variables">variables</a>().</p>
+<h3 class="fn"><a name="hadError"></a>bool QSInterpreter::hadError () const</h3>
+<p>Returns true if the interpreter had an error during the last execution; otherwise returns false.</p>
+<h3 class="fn"><a name="hasClass"></a>bool QSInterpreter::hasClass ( const QString &amp; <i>className</i> ) const</h3>
+<p>Returns true if the class <i>className</i> exists; otherwise returns false.</p>
+<p>The class name can be a fully qualified in the form:</p>
+<pre>    myclass.innerClass</pre>
+<h3 class="fn"><a name="hasFunction"></a>bool QSInterpreter::hasFunction ( const QString &amp; <i>function</i> ) const</h3>
+<p>Returns true if the function <i>function</i> exists; otherwise returns false.</p>
+<p>The function can be a fully qualified in the form:</p>
+<pre>    myclass.function</pre>
+<h3 class="fn"><a name="hasVariable"></a>bool QSInterpreter::hasVariable ( const QString &amp; <i>variable</i> ) const</h3>
+<p>Returns true if the variable <i>variable</i> exists; otherwise returns false.</p>
+<p>The variable name can be fully qualified in the form:</p>
+<pre>    myobject.otherobject.var</pre>
+<h3 class="fn"><a name="isRunning"></a>bool QSInterpreter::isRunning () const</h3>
+<p>Return true if the interpreter is currently evaluating code; otherwise returns false.</p>
+<h3 class="fn"><a name="presentObjects"></a>QObjectList QSInterpreter::presentObjects () const</h3>
+<p>Returns the list of objects currently available for scripting in this interpreter.</p>
+<h3 class="fn"><a name="project"></a><a href="qsproject.html">QSProject</a> * QSInterpreter::project () const</h3>
+<p>Returns the current project of the interpreter or 0 if there is no project.</p>
+<h3 class="fn"><a name="registerMetaObject"></a>void QSInterpreter::registerMetaObject ( const QMetaObject * <i>metaObject</i> )&nbsp;&nbsp;<tt> [static]</tt></h3>
+<p>Registers a <i>metaObject</i> with the interpreter runtime.</p>
+<p>In Qt 3, all meta objects were registered in a global map. QSA used this map to decide wether or it could cast return types of that were pointers to QObjects. In Qt 4 this map is not available anymore so for QSA to treat any given subclass of QObject properly we register known meta objects.</p>
+<p>Common widgets, such as QLabel and QPushButton, are already registered by default.</p>
+<h3 class="fn"><a name="removeTransientSignalHandler"></a>void QSInterpreter::removeTransientSignalHandler ( QObject * <i>sender</i>, const char * <i>signal</i>, const char * <i>qtscriptFunction</i> )</h3>
+<p>Removes the connection between the signal <i>signal</i> of the object <i>sender</i> and the fully qualified signal handler <i>qtscriptFunction</i>.</p>
+<p>See also <a href="qsinterpreter.html#addTransientSignalHandler">addTransientSignalHandler</a>().</p>
+<h3 class="fn"><a name="setErrorMode"></a>void QSInterpreter::setErrorMode ( <a href="qsinterpreter.html#ErrorMode-enum">ErrorMode</a> <i>m</i> )</h3>
+<p>See also <a href="qsinterpreter.html#errorMode">errorMode</a>().</p>
+<h3 class="fn"><a name="setTimeoutInterval"></a>void QSInterpreter::setTimeoutInterval ( int <i>msecs</i> )</h3>
+<p>See also <a href="qsinterpreter.html#timeoutInterval">timeoutInterval</a>().</p>
+<h3 class="fn"><a name="stackTrace"></a>QSStackTrace QSInterpreter::stackTrace () const</h3>
+<p>Returns the stack trace describing the call stack of the last reported error if there was an error; otherwise returns an empty stack trace.</p>
+<h3 class="fn"><a name="stackTraceString"></a>QString QSInterpreter::stackTraceString () const</h3>
+<p>Convenience function for describing the stack trace.</p>
+<p>Each stack frame has the following format:</p>
+<pre>    function(scriptName:lineNumber) context</pre>
+<h3 class="fn"><a name="stopExecution"></a>void QSInterpreter::stopExecution ()&nbsp;&nbsp;<tt> [slot]</tt></h3>
+<p>Stops a running interpreter by throwing an error.</p>
+<h3 class="fn"><a name="throwError"></a>void QSInterpreter::throwError ( const QString &amp; <i>message</i> )</h3>
+<p>Informs the interpreter that an error has occurred. The error is treated like a normal Qt Script error. The error message is passed in <i>message</i>.</p>
+<h3 class="fn"><a name="timeout"></a>void QSInterpreter::timeout ( int <i>elapsedTime</i> )&nbsp;&nbsp;<tt> [signal]</tt></h3>
+<p>This signal is emitted on intervals specified by <a href="qsinterpreter.html#timeoutInterval">timeoutInterval</a>()</p>
+<p>The <i>elapsedTime</i> parameter describes the number of milliseconds the interpreter has been running.</p>
+<h3 class="fn"><a name="timeoutInterval"></a>int QSInterpreter::timeoutInterval () const</h3>
+<p>See also <a href="qsinterpreter.html#setTimeoutInterval">setTimeoutInterval</a>().</p>
+<h3 class="fn"><a name="variable"></a>QVariant QSInterpreter::variable ( const QString &amp; <i>variableName</i>, QObject * <i>context</i> = 0 ) const</h3>
+<p>Returns the value of the <i>variableName</i> in the scope of <i>context</i>. If the <i>context</i> is 0 (the default) the global scope is used. The variable name can be fully qualified in the form:</p>
+<pre>    a.b.c</pre>
+<h3 class="fn"><a name="variables"></a>QStringList QSInterpreter::variables () const</h3>
+<p>Returns all the variables declared in the global context.</p>
+<p>See also <a href="qsinterpreter.html#functions">functions</a>() and <a href="qsinterpreter.html#classes">classes</a>().</p>
+<h3 class="fn"><a name="variables-2"></a>QStringList QSInterpreter::variables ( const QString &amp; <i>context</i> ) const</h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>Returns all the variables declared in the fully qualified context <i>context</i>.</p>
+<p>See also <a href="qsinterpreter.html#functions">functions</a>() and <a href="qsinterpreter.html#classes">classes</a>().</p>
+<h3 class="fn"><a name="variables-3"></a>QStringList QSInterpreter::variables ( QObject * <i>context</i> ) const</h3>
+<p>This is an overloaded member function, provided for convenience.</p>
+<p>Returns all the variables declared in the context <i>context</i>.</p>
+<p>See also <a href="qsinterpreter.html#functions">functions</a>() and <a href="qsinterpreter.html#classes">classes</a>().</p>
+<p /><address><hr /><div align="center">
+<table width="100%" cellspacing="0" border="0"><tr class="address">
+<td width="30%">Copyright &copy; 2008 <a href="http://www.trolltech.com">Trolltech</a></td>
+<td width="40%" align="center"><a href="http://www.trolltech.com/company/copyright.html">Trademarks</a></td>
+<td width="30%" align="right"><div align="right">QSA 1.2.3</div></td>
+</tr></table></div></address></body>
+</html>

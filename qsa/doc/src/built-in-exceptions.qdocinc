@@ -1,0 +1,12 @@
+\chapter Built-in Exceptions
+
+The \Q interpreter supplies its own built-in exceptions, as well as
+recognizing user-defined exceptions. (See \l throw.)
+
+\PRELIMINARY
+
+The list of built-in exceptions is listed here:
+\list
+\o \Func ConstAssignException -- raised if an attempt is made to
+assign to a constant.
+\endlist

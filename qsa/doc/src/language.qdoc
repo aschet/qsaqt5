@@ -1,0 +1,12 @@
+/*!
+    \page language.html
+    \title Qt Script: Language Reference
+
+    \include language-introduction.qdocinc
+    \include language-concepts.qdocinc
+    \include built-in-types-and-objects.qdocinc
+    \include built-in-variables-and-constants.qdocinc
+    \include built-in-functions.qdocinc
+    \include control-statements.qdocinc
+
+*/

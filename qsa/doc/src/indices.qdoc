@@ -1,0 +1,107 @@
+/*!
+
+\page index.html
+
+\title Qt Script for Applications
+
+Qt Script for Applications is a cross-platform toolkit for making C++
+applications scriptable using an interpreted scripting language, Qt
+Script.
+
+Below are links to the Qt Script for Applications documentation.
+
+\table
+\row \o \bold { \l { Getting Started with QSA } }
+     \o About QSA, how to make an application scriptable, how to write
+     scripts and how to deploy these applications.
+\row \o \bold { \l { QSA  - Library Classes }}
+     \o Class reference for QSA-specific classes.
+\row \o \bold { \l { QSA - All Functions }}
+     \o Function reference for QSA-specific functions.
+\row \o \bold { \l { QSA Examples } }
+     \o Model working examples.
+\row \o \bold { \l { QSA Header files} }
+     \o Header files for QSA-specific classes.
+\row \o \bold { \l { Qt Script Language Reference} }
+     \o Qt Script's types, objects, functions and control statements. 
+\row \o \bold { \l { QSA Extension Frameworks } }
+     \o Additional scripting API's available with QSA
+\row \o \bold { \l {QSA Workbench Reference} }
+     \o The QSA Workbench manual.
+\row \o \bold { \l { Credits } }
+     \o Bug reporters, patch contributors, beta testers.
+\row \o \bold { \l { http://doc.trolltech.com/4.0 } {Qt API} }
+     \o The Qt API reference documentation.
+\endtable
+
+
+*/
+
+
+/*!
+
+\page classes.html
+
+\title QSA - Library Classes
+
+\generatelist annotatedclasses
+
+*/
+
+/*!
+
+\page headers.html
+
+\title QSA - Header Files
+
+\generatelist headerfiles
+
+*/
+
+/*!
+
+\page functions.html
+
+\title QSA - All Functions
+
+\generatelist functionindex
+
+*/
+
+/*!
+
+    \group examples
+    \page examples.html
+    \title QSA Examples
+
+\list
+
+\o \l {Console Example}, shows how to write an interactive scripting
+console with syntax highlighting and completion features.
+
+\o \l {Filters example}, shows how to extend QSA with new built-in
+types using QSObject factory. Also displays use of signals/slots and
+connect statements.
+
+\o \l {Game Example}, shows how application logic can be written in
+scripts.
+
+\o \l {Scribblescripter Example}, shows an example on how a various
+classes can be exposed to QSA.
+
+\o \l {Scriptbutton Example}, The Scriptbutton example demonstrates
+how to implement a GUI control with a customizable action on
+activation.
+
+\o \l {Spreadsheet Example}, see also \l {Getting Started with QSA}
+
+\o \l {Wrappers Example}, shows how non QObject types can be accessed
+from QSA.
+
+\o \l {Import Script Example}, shows how one can import script files from
+within a script.
+
+\endlist
+
+
+*/

@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- ./qsa.qdoc -->
+<head>
+  <title>QSA 1.2: Getting Started with QSA</title>
+    <style type="text/css">h3.fn,span.fn { margin-left: 1cm; text-indent: -1cm; }
+a:link { color: #004faf; text-decoration: none }
+a:visited { color: #672967; text-decoration: none }
+td.postheader { font-family: sans-serif }
+tr.address { font-family: sans-serif }
+body { background: #ffffff; color: black; }</style>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="left" valign="top" width="32"><img src="images/qt-logo.png" align="left" width="32" height="32" border="0" /></td>
+<td width="1">&nbsp;&nbsp;</td><td class="postheader" valign="center"><a href="index.html"><font color="#004faf">Home</font></a>&nbsp;&middot; <a href="getting-started.html"><font color="#004faf">Tutorial</font></a>&nbsp;&middot; <a href="classes.html"><font color="#004faf">Classes</font></a>&nbsp;&middot; <a href="functions.html"><font color="#004faf">Functions</font></a>&nbsp;&middot; <a href="language.html"><font color="#004faf">Language</font></a>&nbsp;&middot; <a href="workbench-reference.html"><font color="#004faf">QSA Workbench</font></a>&nbsp;&middot; <a href="http://doc.trolltech.com/4.1"><font color="#004faf">Qt Documentation</font></a>&nbsp;&middot; <a href="http://www.trolltech.com/"><font color="#004faf">www.trolltech.com</font></a></td>
+<td align="right" valign="top" width="230"><img src="images/trolltech-logo.png" align="right" width="203" height="32" border="0" /></td></tr></table><h1 class="title">Getting Started with QSA<br /><span class="subtitle"></span>
+</h1>
+<a name="preface"></a>
+<h2>Preface</h2>
+<a name="introduction"></a>
+<h3>Introduction</h3>
+<p>This guide presents <i>Qt Script for Applications</i>, a tool for making C++ applications scriptable, using <i>Qt Script</i>, an interpreted scripting language. Some basic knowledge of scripting is needed to get the most out of this guide.</p>
+<p>This guide provides an introduction to <i>Qt Script for Applications</i>, and its tools.</p>
+<p>Here is a brief overview of the chapters:</p>
+<ul>
+<li>Chapter one, <a href="#what-is-qt-script-for-applications">What is Qt Script for Applications</a>, introduces the <i>Qt Script for Applications</i> toolkit and its components. This chapter also provides a look at <i>Qt Script for Applications</i>'s features and how it compares to other scripting languages.</li>
+<li>Chapter two, <a href="#how-to-make-qt-applications-scriptable">How to Make Qt Applications Scriptable</a>, is a step-by-step tutorial on making applications scriptable.</li>
+<li>Chapter three, <a href="#how-to-design-and-implement-application-objects">How to Design and Implement Application Objects</a> explains how to make your C++ objects available to <i>Qt Script for Applications</i> scripts.</li>
+<li>Chapter four, <a href="#creating-qt-scripts">Creating Qt Scripts</a>, demonstrates how to create scripts for a scriptable application, using <i>QSA Workbench</i> (Qt Script for Applications Workbench).</li>
+</ul>
+<a name="what-is-qt-script-for-applications"></a>
+<h2>What is Qt Script for Applications</h2>
+<p>This chapter gives a brief overview of the <i>Qt Script for Applications</i> toolkit.</p>
+<a name="components-of-qt-script-for-applications"></a>
+<h3>Components of <i>Qt Script for Applications</i></h3>
+<p><i>Qt Script for Applications</i> is a cross-platform toolkit for making C++ applications scriptable using an interpreted scripting language, <i>Qt Script</i>. The <i>Qt Script for Applications</i> toolkit is made up of the following components:</p>
+<ul>
+<li><i>Qt Script for Applications</i> library, which the developer of the C++ application uses to make the application scriptable.</li>
+<li><i>Qt Script</i>, an easy-to-learn, cross-platform interpreted scripting language. <i>Qt Script</i> is based on the ECMAScript standard. Microsoft's JScript, and Netscape's JavaScript are also based on the ECMAScript standard.</li>
+<li><i>QSA Workbench</i> (Qt Script for Applications Workbench), a scripting environment for editing, managing, and running scripts within your project. <i>QSA Workbench</i> includes an output window to view errors that occur when running the script.</li>
+<li><i>Qt Script for Applications</i> makes certain objects (QObject and its subclasses) available to the scripting engine. The only thing you have to do to make your application scriptable, is to pass these objects to a function of the <i>Qt Script for Applications</i> library. No binding code is needed because it is done dynamically using Qt meta object system.</li>
+</ul>
+<p>The tutorial chapters that follow show you how to make an application scriptable and how to write a simple script for the application.</p>
+<a name="how-to-make-qt-applications-scriptable"></a>
+<h2>How to Make Qt Applications Scriptable</h2>
+<a name="overview"></a>
+<h3>Overview</h3>
+<p>This chapter demonstrates how to write a C++ Qt application which integrates <i>Qt Script for Applications</i> to make the application extensible and customizable through scripting. The goal is to write a simple spreadsheet application which can be extended by the user. To do this, the spreadsheet will provide interfaces to its sheets. The script code can access the sheets, so the user can write <i>Qt Script</i> code that presents dialogs to accept user preferences, and which can access and manipulate the spreadsheet data. The code for this example can be found in <tt>examples/spreadsheet</tt>.</p>
+<p>Additional examples that demonstrate other <i>Qt Script for Applications</i> usage are also included in the <tt>examples</tt> directory.</p>
+<a name="how-to-make-a-qt-c-application-scriptable"></a>
+<h3>How to make a Qt/C++ Application Scriptable</h3>
+<a name="1-include-the-qt-script-for-applications-library"></a>
+<h4>1) Include the Qt Script for Applications Library</h4>
+<p>To make a Qt/C++ application scriptable, you need the <tt>libqsa</tt> library that is included in the <i>Qt Script for Applications</i> package. To use <tt>libqsa</tt> and get other QSA specific build options, add the following line to your .pro file:</p>
+<pre>    CONFIG += qsa</pre>
+<p>The <tt>libqsa</tt> library provides the <a href="qsinterpreter.html">QSInterpreter</a> class. A default instance of <a href="qsinterpreter.html">QSInterpreter</a> is available, for convenience, by using the function <a href="qsinterpreter.html#defaultInterpreter">QSInterpreter::defaultInterpreter</a>().</p>
+<a name="2-add-the-application-objects-to-the-scripting-engine"></a>
+<h4>2) Add the Application Objects to the Scripting Engine</h4>
+<p>To make application functionality available to scripts, the application must provide <tt>QObject</tt>s or <tt>QObject</tt> subclasses which implement the application's functionality. By passing an object to the scripting engine (using <a href="qsinterpreter.html#addTransientObject">QSInterpreter::addTransientObject</a>() or <a href="qsproject.html#addObject">QSProject::addObject</a>()), this object and all its signals, slots, properties, and child objects are made available to scripts. Because <i>Qt Script for Applications</i> uses <a href="http://doc.trolltech.com">Qt</a>'s meta object system, there is no need to implement any additional wrappers or bindings.</p>
+<p>If no parent object of the object that is passed into the interpreter has been made available yet, the new object is added as a toplevel object to the scripting engine. This means that it is available through <tt>Application.object_name</tt> to the script writer.</p>
+<p>If a parent object of the object has been previously added via a <tt>addObject()</tt>, the new object is not added as a toplevel object, and is available through <tt>Application.parent1.parent2.object_name</tt> (given that <tt>parent1</tt> has been added previously via <tt>addObject()</tt>). The reason for doing that is because the object can be used as a namespace or context later, and code can be added in the context of that object.</p>
+<p>In most cases we do not pass <tt>QObject</tt>s which are directly used in the C++ application to the scripting engine because this would expose too many slots. Instead we implement interface <tt>QObject</tt>s which offer the signals, slots, and properties that we want to offer to the scripts and which will be simply implemented as forward function calls.</p>
+<p>In our spreadsheet example we will add interface objects for the sheets. The interface objects implement slots and properties to query and set selection ranges, retrieve and set cell data, etc.</p>
+<p>In other cases it might be possible to use an application's existing <tt>QObject</tt>s as application objects in the scripting language. An example of this approach is shown in the <tt>examples/textedit</tt> example, which is a slightly modified, scriptable, version of the Qt textedit example.</p>
+<p>To read about how to design and implement application objects, see the <a href="#how-to-design-and-implement-application-objects">How to Design and Implement Application Objects</a> chapter.</p>
+<a name="3-open-a-scripting-project"></a>
+<h4>3) Open a Scripting Project</h4>
+<p><i>Qt Script for Applications</i> always works with one current scripting project that contains all the forms and files in which all the functions and classes are implemented.</p>
+<p>An instance of <tt>QSInterpreter</tt> can be used on its own, but to get full access to the functionality of <i>Qt Script for Applications</i>, use <tt>QSProject</tt>. To use a stand alone <tt>QSInterpreter</tt> use <a href="qsinterpreter.html#defaultInterpreter">QSInterpreter::defaultInterpreter</a>() or <a href="qsinterpreter.html#QSInterpreter">QSInterpreter::QSInterpreter</a>(). To create an interpreter that runs with a project, create the project using <a href="qsproject.html#QSProject">QSProject::QSProject</a>() and access its interpreter using <a href="qsproject.html#interpreter">QSProject::interpreter</a>().</p>
+<p>If you work with a project, you can either choose to use functionality in <i>Qt Script for Applications</i> to take care of everything (saving, loading, etc.) or you can decide to take care of most functionality yourself, giving you more flexibility.</p>
+<p>If you choose to have <i>Qt Script for Applications</i> take care of everything for you, <i>Qt Script for Applications</i> then loads and saves the whole project from one file or one data block which you can specify. In this case all project data is compressed in the data block or file and extracted temporarily when loading. If you choose to take care of the functionality yourself, then open an empty project and use <tt>QSProject</tt>'s API to add scripts manually and then retrieve them and save or store them however you'd like.</p>
+<p>If you choose the first option, do the following:</p>
+<p>Create a new <tt>QSProject</tt> and load in a scripting project using <a href="qsproject.html#load">QSProject::load</a>().</p>
+<p>Loading a project can be called in one of two ways:</p>
+<ol type="1">
+<li>Call <a href="qsproject.html#load">QSProject::load</a>() with a filename (including the path). <i>Qt Script for Applications</i> will open the specified project file.</li>
+<li>Call <a href="qsproject.html#loadFromData">QSProject::loadFromData</a>() with a byte array that contains the scripting project's data. This is useful if you don't want to save the project as an individual file on disk; for example, you might prefer to keep the project data embedded in the document. If this approach is taken, the data block which contains the project is passed to <tt>load()</tt>. If an empty byte-array is passed, a new project will be created. Use <a href="qsproject.html#saveToData">QSProject::saveToData</a>() to retrieve a project as a byte-array suitable for use with the <tt>QSProject::loadFromData()</tt> overload.</li>
+</ol>
+<p>If you choose the second option, simply create a new <a href="qsproject.html">QSProject</a> and use its functions to add scripts and save the project at your convenience.</p>
+<p>Of course it is possible to use a combination of both approaches, e.g&#x2e; using the first approach, but later adding script code programmatically.</p>
+<p>Note that when saving a project, the functions in <tt>QSInterpreter</tt> will add transient content to the interpreter, while the functions in the project will add persistent content to the interpreter. This means that content that is added to the project can be saved and will remain even if the interpreter state is cleared, while the content added using the <tt>QSInterpreter</tt> will not be saved and will be cleared along with the interpreter state.</p>
+<p>In the spreadsheet example we use one scripting project for the whole application, and we let <i>Qt Script for Applications</i> save this to disk as an individual file that is opened on startup. The following code is used to initialize <tt>QSProject</tt> (adding application objects and opening the project):</p>
+<pre></pre>
+<a name="4-allow-the-user-to-create-and-edit-scripts"></a>
+<h4>4) Allow the User to Create and Edit Scripts</h4>
+<p>In some cases it might be sufficient to offer a basic editor widget which allows the user to write code. For example, you might want to embed the code editor directly into your application's user interface, and you don't want to open another toplevel window (such as <i>QSA Workbench</i>) for the user. In other cases, you want the users to be able to add and remove scripts, to have intelligent completion and hints in the editor, and to use GUI controls in the script. For these cases, including <i>QSA Workbench</i> is the best option.</p>
+<p>There are two ways for the end user to use <i>QSA Workbench</i>.</p>
+<ol type="1">
+<li>Open <i>QSA Workbench</i> and create or edit a script.</li>
+<li>Define a <a href="#macros">macro</a>.</li>
+</ol>
+<p>There are different ways to provide the scripting functionality to the end user depending on the type of application. For a typical end-user application you can offer one or both of the approaches to scripting mentioned above. For example you can provide a menu option and a toolbar button to launch <i>QSA Workbench</i>, and an editable combobox which lists all the global functions. If the user enters a function name that doesn't exist they are given the opportunity to create a new function of that name. If the user chooses an existing function, <i>QSA Workbench</i> is launched with the cursor at that function, ready for editing. A 'Run' toolbar button can be placed beside the combobox, so that the user can choose a function and click 'Run' to execute it.</p>
+<p>Other approaches include enabling a user to: define functions to validate data of data entry forms, to customize the functionality of an editor, to customize the user interface of a complex 3D graphics application or to provide scripting modules for an image processing application.</p>
+<p>The usage of application scripting can greatly vary depending on the type of application. The spreadsheet application described in this chapter is an example of a typical end-user application. This example will make you familiar with most of the important scripting concepts. Following this example will teach you how to use <i>Qt Script for Applications</i> to make your applications scriptable, even if the way your end users will use application scripting might be very different from what we describe here.</p>
+<a name="macros"></a>
+<h5>Macros</h5>
+<p>We define a macro as a stand-alone global function. Create a <a href="qsscript.html">QSScript</a> using <a href="qsproject.html#createScript">QSProject::createScript</a>() to create a script in global context. Call <a href="qsscript.html#addFunction">QSScript::addFunction</a>() to add a new macro to the script. You can then open the editor and edit the newly created function.</p>
+<pre></pre>
+<a name="launching-qsa-workbench-to-create-or-edit-a-script"></a>
+<h5>Launching <i>QSA Workbench</i> to Create or Edit a Script</h5>
+<p>In the spreadsheet example the following slot is called to open <i>QSA Workbench</i>:</p>
+<pre></pre>
+<a name="adding-and-editing-macros"></a>
+<h5>Adding and Editing Macros</h5>
+<p>In our spreadsheet example we want to enable the user to add macros as actions to the toolbar and menu which they can associate with a function that will be called when they activate the action. To add macros, we provide a dialog through which the user can either choose an existing global function to edit, or add a new function (as described in <a href="#macros">Macros</a>). If the user adds a new function, a new action and icon are created along with a menu option and toolbar button.</p>
+<p>The following code is used in the macro dialog to initialize the combo box which lets the user choose a script function:</p>
+<pre></pre>
+<p>When the user clicks <b>OK</b> in this dialog, the following slot is executed. If the function the user specified doesn't exist, the user is asked if this function should be added to the project, in which case, <tt>addFunction()</tt> is called:</p>
+<pre></pre>
+<p>At the end of the function, the <tt>newScript()</tt> signal which is connected to the <tt>addScript()</tt> slot in the spreadsheet is emitted. The <tt>addScript()</tt> function creates an action for the macro and adds a menu option and toolbar button for the macro. In addition, the action's <tt>triggered()</tt> signal is connected to <tt>runScript()</tt>. To find out which function this macro (action) will call, the action and its associated function are inserted into the scripts map:</p>
+<pre></pre>
+<a name="5-allow-the-user-to-run-scripts-directly-from-the-application"></a>
+<h4>5) Allow the User to Run Scripts Directly from the Application</h4>
+<p>It would be tedious for users if they had to launch <i>QSA Workbench</i> and click <b>Run</b> every time they want to execute a script. For this reason it is normal practice to provide a means by which the user can execute a function from within the application itself. How this is acheived depends to some extent on the application and on the functionality of the script.</p>
+<p>One approach to providing the user with access to their script functions is to provide a list, e.g&#x2e; a popup list, from which they can pick the function they wish to execute. (This approach is taken in the <tt>textedit</tt> example.) A list of existing global functions in the current project is obtained by calling <a href="qsinterpreter.html#functions">QSInterpreter::functions</a>(). To call a script function, use <a href="qsinterpreter.html#call">QSInterpreter::call</a>().</p>
+<p>In the <tt>spreadsheet</tt> example we have seen that each macro (global function) is associated with an action and has a corresponding menu option and toolbar button. Now we'll see how clicking a macro menu option or toolbar button will cause the macro to be executed.</p>
+<p>When the user invokes an action, the <tt>runScript()</tt> slot is triggered by the action, and we have to find which function should then be executed. For every slot, we call <tt>sender()</tt> (implemented in <tt>QObject</tt>), to find out what action triggered that slot. We cast the <tt>sender()</tt> to a <tt>QAction</tt> pointer (since we know it is a <tt>QAction</tt>) and then look up this pointer in the <tt>scripts</tt> map. Each action is mapped to the name of the function that it is associated with, so we can now call <tt>QSInterpreter::call()</tt> with the action's associated function name to execute it:</p>
+<pre></pre>
+<a name="establishing-connections-to-signals-and-running-the-interpreter"></a>
+<h4>Establishing Connections to Signals and Running the Interpreter</h4>
+<p>It is possible to connect script functions to an application objects signals by letting the user edit scripts in <i>QSA Workbench</i>. These connections are established when the project is evaluated. When the user opens <i>QSA Workbench</i>, the project is paused for as long as <i>QSA Workbench</i> is open, and no connections are active during this time. When a scripting function is executed while <i>QSA Workbench</i> is opened or when play is pressed, the project is run again each time so that changes to the script become active. When <i>QSA Workbench</i> is closed again, the project is re-run once more and all connections are re-established.</p>
+<a name="error-handling"></a>
+<h4>Error Handling</h4>
+<p>If an error occurs, the <a href="qsinterpreter.html">QSInterpreter</a> emits a <a href="qsinterpreter.html#error">QSInterpreter::error</a>() signal.</p>
+<a name="instantiating-from-qt-script"></a>
+<h3>Instantiating <tt>QObjects</tt> from Qt Script</h3>
+<p>We have shown that script programmers can easily access application instances of <tt>QObject</tt> subclasses if the class is made available to the interpreter. This is sufficient for most situations, but sometimes it may be desirable to allow script programmers to instantiate their own object instances. One solution is to expose an application object which has a slot that acts as a factory function, returning new <tt>QObject</tt> instances. Another solution is to allow the script writer to directly instantiate their own objects from C++ classes, with script code like this:</p>
+<pre>     var a = new SomeCppObject( arg1, arg2 );</pre>
+<p>To make a <tt>QObject</tt> subclass available as a constructable object in <i>Qt Script</i>, use the <a href="qsobjectfactory.html">QSObjectFactory</a> class. This class makes it possible to create new C++ data-types and make them available to <i>Qt Script</i>.</p>
+<a name="wrapping-non-c-datatypes"></a>
+<h3>Wrapping Non-<tt>QObject</tt> C++ Datatypes</h3>
+<p><i>Qt Script for Applications</i> automatically wraps every <tt>QObject</tt> you pass to it. It also wraps every <tt>QObject</tt> which is returned from a slot or passed into a slot. But you often have non-<tt>QObject</tt> datatypes in C++ which you want to make available to the script writer as well. One possibility is to change your C++ API and convert all those datatypes to <tt>QObject</tt> subclasses. From a design and efficiency point of view, this is a bad way to go; imagine the effects of having every item of a listview being a <tt>QObject</tt> subclass.</p>
+<p><i>Qt Script for Applications</i> provides an innovative solution by offering the <a href="qswrapperfactory.html">QSWrapperFactory</a> class. This class allows you to define non-<tt>QObject</tt>s that you can wrap. A <tt>QSWrapperFactory</tt> basically offers a <tt>QObject</tt> which can wrap a known C++ datatype. If Qt Script runs accross an unknown C++ datatype it will ask all installed <tt>QSWrapperFactories</tt> if it knows the type. If one of the <tt>QSWrapperFactories</tt> knows the datatype, a wrapper for that datatype is instantiated and used.</p>
+<p>We have demonstrated the flexibility that Qt Script offers for making applications scriptable. In the next chapter, we will extend the applications functionality to end users by teaching them to create scripts with a simple, but complete example.</p>
+<a name="how-to-design-and-implement-application-objects"></a>
+<h2>How to Design and Implement Application Objects</h2>
+<a name="overview"></a>
+<h3>Overview</h3>
+<p>This chapter explains how to implement application objects and provides the necessary technical background material.</p>
+<a name="making-a-c-object-available-to-scripts-written-in-qt-script"></a>
+<h3>Making a C++ object available to Scripts Written in Qt Script</h3>
+<p>Making C++ classes and objects available to a scripting language is not trivial since scripting languages are more dynamic than C++ and it must be possible to introspect objects (query information such as functions names, function signatures, properties, etc., at runtime). Standard C++ doesn't provide for this.</p>
+<p>We can achieve the functionality we want by extending C++, using C++'s own facilities so our code is still standard C++. The Qt meta object system provides the necessary additional functionality. It allows us to write using an extended C++ syntax, but converts this into standard C++ using a small utility program called <a href="http://doc.trolltech.com/4.0/moc">moc (Meta Object Compiler)</a>. Classes that wish to take advantage of the meta object facilities are either subclasses of QObject, or use the <tt>Q_OBJECT</tt> macro. Qt has used this approach for many years and it has proven to be solid and reliable. <i>Qt Script for Applications</i> uses this meta object technology to provide scripters with dynamic access to C++ classes and objects.</p>
+<p>To completely understand how to make C++ objects available to Qt Script, some basic knowledge of the Qt meta object system is very helpful. We recommend that you read the <a href="http://doc.trolltech.com/4.0/moc.html">Qt Object Model</a>. The information in this document and the documents it links to are very useful for understanding how to implement application objects, however this knowledge is not essential.</p>
+<p>To make an object available in Qt Script, it must derive from QObject. All classes which derive from QObject are introspective and can provide the information needed by the scripting engine, e.g&#x2e; classname, functions, signatures, etc., at runtime. Because we obtain the information we need about classes dynamically at run time, there is no need to write wrappers for QObject derived classes.</p>
+<a name="making-c-class-member-functions-available-in-qt-script"></a>
+<h4>Making C++ Class Member Functions Available in Qt Script</h4>
+<p>The meta object system makes information about slots dynamically available at runtime. This means that for QObject derived classes, only the slots are automatically made available to scripts. This is very convenient, because in practice we normally only want to make specially chosen functions available to scripters.</p>
+<p>When you create a QObject subclass, make sure that the functions you want to be available to scripters are public slots:</p>
+<pre>    class MyObject : public QObject
+    {
+        Q_OBJECT
+
+    public:
+        MyObject( ... );
+
+        void aNonScriptableFunction();
+
+    public slots: <span class="comment">// these functions (slots) will be available in Qt Script</span>
+        void calculate( ... );
+        void setEnabled( bool enabled );
+        bool isEnabled() const;
+
+    private:
+       ....
+
+    };</pre>
+<p>In the example above, aNonScriptableFunction() is not declared as a slot, so it will not be available in <i>Qt Script</i>. The other three functions will automatically be made available in <i>Qt Script</i>.</p>
+<a name="making-c-class-properties-available-in-qt-script"></a>
+<h4>Making C++ Class Properties Available in Qt Script</h4>
+<p>In the previous example, if we wanted to get or set a property using <i>Qt Script</i> we would have to write code like the following:</p>
+<pre>    var obj = new MyObject;
+    obj.setEnabled( true );
+    debug( &quot;obj is enabled: &quot; + obj.isEnabled() );</pre>
+<p>Scripting languages often provide a property syntax to modify and retrieve properties (in our case the enabled state) of an object. Many script programmers would want to write the above code like this:</p>
+<pre>    var obj = new MyObject;
+    obj.enabled = true;
+    debug( &quot;obj is enabled: &quot; + obj.enabled );</pre>
+<p>To make this possible, you must define properties in the C++ QObject subclass. The class declaration of <tt>MyObject</tt> must look like the following to declare a property <tt>enabled</tt> of the type <tt>bool</tt>, which should use the function <tt>setEnabled(bool)</tt> as its setter function and the function <tt>isEnabled()</tt> as its getter function:</p>
+<pre>    class MyObject : public QObject
+    {
+        Q_OBJECT
+        <span class="comment">// define the enabled property</span>
+        Q_PROPERTY( bool enabled WRITE setEnabled READ isEnabled )
+
+    public:
+        MyObject( ... );
+
+        void aNonScriptableFunction();
+
+    public slots: <span class="comment">// these functions (slots) will be available in Qt Script</span>
+        void calculate( ... );
+        void setEnabled( bool enabled );
+        bool isEnabled() const;
+
+    private:
+       ....
+
+    };</pre>
+<p>The only difference from the original code is the use of the macro <tt>Q_PROPERTY</tt>, which takes the type and name of the property, and the names of the setter and getter functions as arguments.</p>
+<a name="reacting-to-c-objects-signals-in-scripts"></a>
+<h4>Reacting to C++ Objects Signals in Scripts</h4>
+<p>In the Qt object model, signals are used as a notification mechanism between QObjects. This means one object can connect a signal to another object's slot and every time the signal is fired (emitted) the slot is called. This connection is established using the <tt>QObject::connect()</tt> function. This mechanism is also available to <i>Qt Script</i> programmers. The C++ code for declaring a signal is no different for a C++ class that is to be used by <i>Qt Script</i> than a C++ class used with <a href="http://doc.trolltech.com">Qt</a>.</p>
+<pre>    class MyObject : public QObject
+    {
+        Q_OBJECT
+        <span class="comment">// define the enabled property</span>
+        Q_PROPERTY( bool enabled WRITE setEnabled READ isEnabled )
+
+    public:
+        MyObject( ... );
+
+        void aNonScriptableFunction();
+
+    public slots: <span class="comment">// these functions (slots) will be available in Qt Script</span>
+        void calculate( ... );
+        void setEnabled( bool enabled );
+        bool isEnabled() const;
+
+    signals: <span class="comment">// the signals</span>
+        void enabledChanged( bool newState );
+
+    private:
+       ....
+
+    };</pre>
+<p>The only change this time is to declare a <tt>signals</tt> section, and declare the relevant signal in it.</p>
+<p>Now the script writer can write a function and connect to the object like this:</p>
+<pre>    function enabledChangedHandler( b )
+    {
+        debug( &quot;state changed to: &quot; + b );
+    }
+
+    function init()
+    {
+        var obj = new MyObject;
+        <span class="comment">// connect a script function to the signal</span>
+        connect( obj, &quot;enabledChanged(bool)&quot;, this, &quot;enabledChangedHandler&quot; );
+        obj.enabled = true;
+        debug( &quot;obj is enabled: &quot; + obj.enabled );
+    }</pre>
+<a name="design-of-application-objects"></a>
+<h3>Design of Application Objects</h3>
+<p>The previous section described how to implement C++ objects which can be used in <i>Qt Script</i>. Application objects are the same kind of objects, and they make your application's functionality available to <i>Qt Script</i> scripters.</p>
+<p>Since the C++ application is already written in Qt, many objects are already QObjects. The easiest approach would be to simply add all these QObjects as application objects to the scripting engine. For small applications this might be sufficient, but for larger applications this is probably not the right approach. The problem is that this method reveals too much of the internal API and gives script programmers access to application internals which should not be exposed.</p>
+<p>Generally, the best way of making application functionality available to scripters is to code some QObjects which define the applications public API using signals, slots, and properties. This gives you complete control of the functionality you make available. The implementation of these objects simply calls the functions in the application which do the real work. So instead of making all your QObjects available to the scripting engine, just add the <i> wrapper QObjects</i>. For an example of this technique, see the implementation of an application object in the <tt>SheetInterface</tt> (<tt>examples/spreadsheet/sheetinterface.{cpp|h}</tt>).</p>
+<a name="creating-qt-scripts"></a>
+<h2>Creating Qt Scripts</h2>
+<p>In this chapter we'll demonstrate how to create scripts for a scriptable application using <i>QSA Workbench</i>, a scripting environment for managing, creating, and running scripts. <i>QSA Workbench</i> provides a code completion feature that makes writing scripts easier. We will explain how to create a dialog using <i>Qt Script</i> and then create and implement a convertToEuro() function. We will write the scripts using the <tt>spreadsheet</tt> application that we created in the previous chapter.</p>
+<p align="center"><img src="images/dialog1.png" /></p><p>Settings for Euro Converter Finished Dialog</p>
+<a name="creating-a-new-macro"></a>
+<h3>Creating a New Macro</h3>
+<p>A 'Macro' is simply a global <i>Qt Script</i> function.</p>
+<p>Run the <tt>spreadsheet</tt> application if it isn't already running. Click the <b>New</b> button located on the Scripts toolbar to invoke the <b>New Macro</b> dialog. Once we create a new macro, a toolbar button will appear on the Scripts toolbar as a shortcut to execute the macro.</p>
+<p align="center"><img src="images/newscript.png" /></p><p>New Macro Toolbar Button</p>
+<p>Follow the steps below to create the new macro:</p>
+<ul>
+<li>The combobox is labelled 'Call Function'. Enter the name of the new global function. Functions that already exist can be viewed by clicking the arrow on the combobox, or by typing the name of the function in the combobox.</li>
+<li>In addition to the function name, the macro can have a 'display name' that appears, for example, in the application's <b>Scripts</b> menu. Enter 'Euro Conversion' in the 'Name' line edit.</li>
+<li>If you want to associate an icon with the macro, click the ellipsis button (<b>...</b>) to invoke the <b>Open File</b> dialog and select an icon to represent the macro. The icon will appear on the application's toolbar as a shortcut to the script you create.</li>
+</ul>
+<p>Click <b>OK</b> when you have entered the information in the <b>New Script</b> dialog. The <b>Add Function</b> message box will pop up, saying <i>The function doesn't exist. Do you want to add it?</i>. Click <b>Yes</b>.</p>
+<p align="center"><img src="images/addfunction.png" /></p><p>Adding the New Function</p>
+<p><i>QSA Workbench</i> opens with the new empty function added to it. We will implement the scripting function in the following section.</p>
+<a name="implementing-the-macro-and-creating-a-dialog"></a>
+<h3>Implementing the Macro and Creating a Dialog</h3>
+<p>In this section, we will implement the functionality of the convert-to-euro macro. We want to present the user with a dialog in which they can: 1) enter a range of rows and columns which are read from the spreadsheet, 2) specify where in the spreadsheet the results should be written, and 3) select a currency type to convert into Euros.</p>
+<p>In the <i>QSA Workbench</i> editor, we write the code to calculate the input values which are the input column, start row, end row, and ouput column. We initialize these variables to 1, but if the user selects a range in the spreadsheet, we then use the selection for the initial values.</p>
+<pre>        var inputCol = 1;
+        var startRow = 1;
+        var endRow = 1;
+        var outputCol = 1;
+        if ( Application.sheet1.numSelections &gt; 0 ) {
+            var sel = Application.sheet1.selection( 0 );
+            inputCol = sel.x + 1;
+            outputCol = inputCol + 1;
+            startRow = sel.y + 1;
+            endRow = sel.bottom + 1;
+        }</pre>
+<p>In <i>Qt Script</i>, we have some global objects. The most important one for our example is called <tt>Application</tt>. This object contains application objects. Application objects are the objects that the C++ application makes available to our script. In the <tt>spreadsheet</tt> example, the sheets are available this way, e.g&#x2e;, Application.sheet1.</p>
+<p>To create a new dialog, write the following code. An explanation of the code will follow.</p>
+<pre>        d = new Dialog;
+        d.caption = &quot;Settings for Euro Converter&quot;;
+        d.okButtonText = &quot;Calculate&quot;;
+        d.cancelButtonText = &quot;Cancel&quot;;</pre>
+<p>Every dialog includes an Ok and Cancel button by default. After creating the new dialog, simply change the caption property to Settings for Euro Convertor. Change the <i>text</i> of the OK Button to 'Calculate'. Change the <i>text</i> property of the Cancel button to 'Cancel'.</p>
+<a name="adding-widgets-to-the-dialog"></a>
+<h3>Adding Widgets to the Dialog</h3>
+<p>The Settings for Euro dialog consists of three spinboxes for selecting the columns and rows on the spreadsheet, a spinbox to output the result of the conversion, a group box to lay out the spinboxes, three radiobuttons in a group box to select the currency to convert from, and text labels for each of the widgets. If you run the dialog application and resize it, all the widgets scale properly. The layout of the widgets is determined by the order in which you add them to the dialog or the group box.</p>
+<a name="add-a-group-box-and-spin-boxes"></a>
+<h4>Add A Group Box and Spin boxes</h4>
+<p>We'll start with the first group box and its widgets. Write the following code in the editor to create the group box:</p>
+<pre>        var g = new GroupBox;
+        g.title = &quot;Conversion Range:&quot;;
+        d.add( g );</pre>
+<p>This code creates the new group box. Set its <i>title</i> to <tt>Conversion Range:</tt>. Then add the group box to the dialog. Note that every time a widget is created, it must be added its parent.</p>
+<p>Write the following code to add multiple spin boxes and text labels to the group box:</p>
+<pre>        var spinColumn = new SpinBox;
+        spinColumn.label = &quot;Column:&quot;;
+        spinColumn.minimum = 1;
+        spinColumn.maximum = 100;
+        spinColumn.value = inputCol;
+        g.add( spinColumn );
+
+        var spinStartRow = new SpinBox;
+        spinStartRow.label = &quot;Start at Row:&quot;;
+        spinStartRow.minimum = 1;
+        spinStartRow.maximum = 100;
+        spinStartRow.value = startRow;
+        g.add( spinStartRow );
+
+        var spinEndRow = new SpinBox;
+        spinEndRow.label = &quot;End at Row:&quot;;
+        spinEndRow.minimum = 1;
+        spinEndRow.maximum = 100;
+        spinEndRow.value = endRow;
+        g.add( spinEndRow );
+
+        var spinOutput = new SpinBox;
+        spinOutput.label = &quot;Output Column:&quot;;
+        spinOutput.minimum = 1;
+        spinOutput.maximum = 100;
+        spinOutput.value = outputCol;
+        g.add( spinOutput );</pre>
+<p>With this code, we create the first spin box in the group box and and name it spinColumn. This spin box corresponds to the column in the spreadsheet from which the numbers will be read. Set the <i>label</i> property to <tt>Column:</tt>. Set the <i>minimum</i> property to 1 and the <i>maximum</i> property to 100. Set the <i>number</i> property to the calculated input column. Add the spin box to the group box.</p>
+<p>Create the second spin box and name it spinStartRow. This spin box corresponds to first row in the spreadsheet from which the numbers will be read. Set the <i>label</i> property to <tt>Start at Row:</tt>. Set the <i>minimum</i> property to 1 and the <i>maximum</i> property to 100. Set the <i>number</i> property to the calculated start row. Add the spin box to the group box.</p>
+<p>Create the third spin box and and name it spinEndRow. This spin box corresponds to the last row in the spreadsheet from which the numbers will be read. Set the <i>label</i> property to <tt>Start at Row:</tt>. Set the <i>minimum</i> property to 1 and the <i>maximum</i> property to 100. Set the <i>number</i> property to the calculated end row. Add the spin box to the group box.</p>
+<p>Create the fourth spin box and and name it spinOutput. This spin box corresponds to the column in the spreadsheet to which the converted values will be returned. Set the <i>label</i> property to <tt>Start at Row:</tt>. Set the <i>minimum</i> property to 1 and the <i>maximum</i> property to 100. Set the <i>number</i> property to the calculated output column. Add the spin box to the group box.</p>
+<a name="widget-lay-out"></a>
+<h4>Widget Lay Out</h4>
+<p>We'll add a column to the dialog to set layout so that the new group box will be added beside the current group box.:</p>
+<pre>        d.newColumn();</pre>
+<a name="add-a-group-box-and-radio-buttons"></a>
+<h4>Add a Group Box and Radio Buttons</h4>
+<p>Now we'll add the second group box and its widgets. Write the following code to create the second group box:</p>
+<pre>        var g = new GroupBox;
+        g.title = &quot;Conversion Range:&quot;;
+        d.add( g );</pre>
+<p>This code creates the new group box similar to the first group box we created earlier in the chapter. Change the <i>title</i> property to <tt>Convert From:</tt>. Add the group box to the dialog.</p>
+<p>Write the following code to add multiple radio buttons to the group box:</p>
+<pre>        var radioUSD = new RadioButton;
+        radioUSD.text = &quot;USD&quot;;
+        radioUSD.checked = true;
+        g.add(radioUSD);
+        var radioYEN = new RadioButton;
+        radioYEN.text = &quot;YEN&quot;;
+        g.add(radioYEN);
+        var radioNOK = new RadioButton;
+        radioNOK.text = &quot;NOK&quot;;
+        g.add(radioNOK);</pre>
+<p>We create the first radio button and name it radioUSD. Set its <i>text</i> property to <tt>USD</tt> . Set the <i>checked</i> property to true to make this radio button checked. Add the radio button to the group box.</p>
+<p>Create the second radio button and name it radioYEN. Set its <i>text</i> property to <tt>YEN</tt> . Add the radio button to the group box.</p>
+<p>Create the third radio button and name it radioNOK. Set its <i>text</i> property to <tt>NOK</tt> . Add the radio button to the group box.</p>
+<a name="running-the-dialog"></a>
+<h3>Running the Dialog</h3>
+<p>To run the dialog, click the <b>Call Function</b> button in <i>QSA Workbench</i>. The Call Function dialog pops up with a drop down list of functions you created. Select convertToEuro and click <b>OK</b>. The Output Window displays errors found in the code.</p>
+<p>The first block of code reads what currency the user chose and then initializes the divisor accordingly.</p>
+<pre>        var divisor;
+
+        if( radioUSD.checked )
+            divisor = 0.930492;
+        else if( radioYEN.checked )
+            divisor = 0.007677;
+        else if ( radioNOK.checked )
+            divisor = 0.133828;</pre>
+<p>The second block of code reads the range that the user has entered in the dialog.</p>
+<pre>        inputCol = spinColumn.value - 1;
+        outputCol = spinOutput.value - 1;
+        startRow = spinStartRow.value - 1;
+        endRow = spinEndRow.value - 1;</pre>
+<p>The third block of code checks that the entered range is valid. If it is not valid, a warning is issued and the operation is canceled.</p>
+<pre>        if ( endRow &lt; startRow ) {
+            MessageBox.critical( &quot;Cannot calculate!&quot;, &quot;Error&quot; );
+            return;
+        }</pre>
+<p>The fourth block of code reads the value from the spreadsheet, calculates the results and then writes the results to the spreadsheet.</p>
+<pre>        for ( var i = startRow; i &lt;= endRow; ++i ) {
+            var input = Application.sheet1.text( i, inputCol );
+            Application.sheet1.setText( i, outputCol,
+                                        Math.round( input / divisor * 100 ) / 100 );
+        }</pre>
+<a name="running-the-euroconvertor-macro"></a>
+<h3>Running the EuroConvertor Macro</h3>
+<p>We are now ready to run the macro and invoke the dialog we just created.</p>
+<ul>
+<li>In the spreadsheet, type a few numbers in column A, rows 1-3.</li>
+<li>Select the cells you entered the numbers into so that they are highlighted.</li>
+<li>Click the <b>Euro Conversion</b> toolbar button. The <b>Settings for Euro Converter</b> dialog pops up.</li>
+<li>The 'Column', 'Start at Row', 'End at Row' and 'Output Column' spinboxes are defaulted to the selection you made on the spreadsheet.</li>
+<li>Select a currency to convert the numbers you entered on the spreadsheet to euro.</li>
+<li>Click <b>Calculate</b>.</li>
+<li>The results of the conversion are output starting at the 'Output Column' indicated in the dialog.</li>
+</ul>
+<p>We have now coded a dialog and written the code to provide its functionality, all purely using <i>Qt Script</i>. This should provide a taste of the power and flexibility that <i>Qt Script for Applications</i> can provide for your <a href="http://doc.trolltech.com">Qt</a> C++ applications.</p>
+<p /><address><hr /><div align="center">
+<table width="100%" cellspacing="0" border="0"><tr class="address">
+<td width="30%">Copyright &copy; 2008 <a href="http://www.trolltech.com">Trolltech</a></td>
+<td width="40%" align="center"><a href="http://www.trolltech.com/company/copyright.html">Trademarks</a></td>
+<td width="30%" align="right"><div align="right">QSA 1.2.3</div></td>
+</tr></table></div></address></body>
+</html>

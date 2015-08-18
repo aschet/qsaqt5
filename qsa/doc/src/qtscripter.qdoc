@@ -1,0 +1,12 @@
+/*!
+    \page workbench_reference.html
+    \title QSA Workbench Reference
+    
+    \include chap-qsad-preface.qdocinc
+    \include chap-key-bindings.qdocinc
+    \include chap-menus.qdocinc
+    \include chap-toolbuttons.qdocinc
+    \include chap-dialogs.qdocinc
+    \include chap-windows.qdocinc
+    
+*/

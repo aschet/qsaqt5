@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GameWindow</class>
+ <widget class="QMainWindow" name="GameWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>516</width>
+    <height>474</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QSA Game</string>
+  </property>
+  <widget class="QWidget" name="gridLayout">
+   <layout class="QGridLayout">
+    <item row="1" column="0" colspan="3">
+     <widget class="PlayField" name="playField" native="true"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QComboBox" name="combo">
+      <item>
+       <property name="text">
+        <string>bouncer.qs</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>shooter.qs</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="startButton">
+      <property name="text">
+       <string>Start Game</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="stopButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Stop Game</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlayField</class>
+   <extends>QWidget</extends>
+   <header>playfield.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

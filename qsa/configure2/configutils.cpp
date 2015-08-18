@@ -12,16 +12,16 @@
 ****************************************************************************/
 #include "configutils.h"
 
-#include <qdebug.h>
-#include <qcoreapplication.h>
-#include <qobject.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qlibraryinfo.h>
-#include <qprocess.h>
-#include <qtextstream.h>
-#ifdef Q_WS_WIN
+#include <QtCore/QDebug>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QObject>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QRegExp>
+#include <QtCore/QLibraryInfo>
+#include <QtCore/QProcess>
+#include <QtCore/QTextStream>
+#ifdef Q_OS_WIN
 #include <windows.h>
 #endif
 #ifdef Q_OS_UNIX
@@ -126,7 +126,7 @@ static void runQMake(const QString &dir,
         args.append(target);
     }
 
-#if defined Q_WS_MACX
+#if defined Q_OS_MACX
     args << "-spec" << "macx-g++";
 #endif
 
@@ -147,7 +147,6 @@ static void runQMake(const QString &dir,
 }
 
 
-#if QT_VERSION > 0x040100
 static void runQMakeRecursive(const QString &dir,
                               const QStringList &configs,
                               const QStringList &anti_configs,
@@ -167,16 +166,13 @@ static void runQMakeRecursive(const QString &dir,
         runQMakeRecursive(d.absoluteFilePath(subdirs.at(i)), configs, anti_configs, prefix, target);
     }
 }
-#endif
 
 void runQMake(const QStringList &configs, const QStringList &anti_configs, const QString &prefix)
 {
-#if QT_VERSION > 0x040100
     runQMakeRecursive(QLatin1String("src"), configs, anti_configs,
                       prefix, QLatin1String("Makefile.qsa"));
     runQMakeRecursive(QLatin1String("examples"), configs, anti_configs,
                       prefix, QLatin1String("Makefile.qsa"));
-#endif
     runQMake(QLatin1String("."), configs, anti_configs, prefix, QLatin1String("Makefile.qsa"));
 }
 
@@ -216,7 +212,7 @@ static void removeContentFile(const QString &name)
     lst.append(*assistant);
     // Assistant works differently in 3.2
     lst.append(QLatin1String("-removeContentFile"));
-    lst.append(QDir::convertSeparators(name));
+    lst.append(QDir::toNativeSeparators(name));
     execute(lst);
 }
 
@@ -228,7 +224,7 @@ static void addContentFile(const QString &name)
     lst.append(*assistant);
     // Assistant works differently in 3.2
     lst.append(QLatin1String("-addContentFile"));
-    lst.append(QDir::convertSeparators(name));
+    lst.append(QDir::toNativeSeparators(name));
     if(!execute(lst)) {
         warnings++;
         qdoc_warning = true;
@@ -268,32 +264,20 @@ void mkDir(const QString &dir)
 
 void copy(const QString &source, const QString &dest)
 {
-    QString s = QDir::convertSeparators(source);
-    QString d = QDir::convertSeparators(dest);
+    QString s = QDir::toNativeSeparators(source);
+    QString d = QDir::toNativeSeparators(dest);
 #ifdef Q_OS_UNIX
     system("cp " + QFile::encodeName(s) + " " + QFile::encodeName(d));
     system("chmod +w " + QFile::encodeName(d));
 #else
-    QT_WA(
-    {
-        if (!CopyFileW((TCHAR*) s.utf16(), (TCHAR*) d.utf16(), false)) {
-            message("Failed to copy file: " + s);
-            errors++;
-        }
-        if (!SetFileAttributesW((TCHAR*) d.utf16(), FILE_ATTRIBUTE_NORMAL)) {
-            message("Failed to set file attributes to normal");
-            errors++;
-        }
-    }, {
-        if (!CopyFileA(QFile::encodeName(s), QFile::encodeName(d), false)) {
-            message("Failed to copy file: " + s);
-            errors++;
-        }
-        if (!SetFileAttributesA(QFile::encodeName(d), FILE_ATTRIBUTE_NORMAL)) {
-            message("Failed to set file attributes to normal");
-            errors++;
-        }
-    });
+    if (!CopyFileW((wchar_t*) s.utf16(), (wchar_t*) d.utf16(), false)) {
+        message("Failed to copy file: " + s);
+        errors++;
+    }
+    if (!SetFileAttributesW((wchar_t*) d.utf16(), FILE_ATTRIBUTE_NORMAL)) {
+        message("Failed to set file attributes to normal");
+        errors++;
+    }
 #endif
 }
 
@@ -301,10 +285,10 @@ void copy(const QString &source, const QString &dest)
 void symLink(const QString &source, const QString &dest)
 {
 #ifdef Q_OS_UNIX
-    QString s = QDir::convertSeparators(source);
+    QString s = QDir::toNativeSeparators(source);
     QFileInfo info(s);
     s = info.absoluteFilePath();
-    QString d = QDir::convertSeparators(dest);
+    QString d = QDir::toNativeSeparators(dest);
     system("rm -f " + QFile::encodeName(d));
     system("ln -s " + QFile::encodeName(s) + " " + QFile::encodeName(d));
 #else

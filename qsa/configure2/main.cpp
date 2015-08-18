@@ -11,7 +11,7 @@
 **
 ****************************************************************************/
 
-#include <qglobal.h>
+#include <QtCore/qglobal.h>
 
 #if !defined(Q_CC_GNU)
 #pragma warning(disable : 4996)
@@ -19,13 +19,13 @@
 
 #include "configutils.h"
 
-#include <qfile.h>
-#include <qdir.h>
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <qcoreapplication.h>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
+#include <QtCore/QCoreApplication>
 #include <stdlib.h>
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #include <windows.h>
 #endif
 
@@ -39,8 +39,8 @@ int main( int argc, char **argv )
 #ifndef QT_VERSION
 #  define QT_VERSION 0x01
 #endif
-#if QT_VERSION < 0x040001
-    printf("\nThis version of QSA requires Qt 4.0.1 or later, using: %x.%x.%x\n\n",
+#if QT_VERSION < 0x050000
+    printf("\nThis version of QSA requires Qt 5.0.0 or later, using: %x.%x.%x\n\n",
            (QT_VERSION>>16) & 0xff,
            (QT_VERSION>>8) & 0xff,
            QT_VERSION & 0xff);
@@ -56,15 +56,8 @@ int main( int argc, char **argv )
     bool buildEditor = true;
     bool buildNewEditor = false;
 
-#if QT_VERSION >= 0x040100
     int arg_count = qapp.arguments().size();
     QStringList args = qapp.arguments();
-#else
-    int arg_count = qapp.argc();
-    QStringList args;
-    for (int i=0; i<arg_count; ++i)
-        args << qapp.argv()[i];
-#endif
 
     for ( int i = 1; i < arg_count; ++i ) {
         QString arg = args.at(i);

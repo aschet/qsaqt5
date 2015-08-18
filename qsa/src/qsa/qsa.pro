@@ -13,6 +13,9 @@ isEmpty(QSA_INSTALL_PREFIX) {
 DESTDIR         = $$QSA_BUILD_PREFIX/lib
 DLLDESTDIR      = $$QSA_BUILD_PREFIX/bin
 
+# TODO - QSAQt5 - fix inclusion of libraries
+QT += core widgets gui printsupport multimedia
+
 HEADERS		= \
 		  qsproject.h \
 		  qsinterpreter.h \
@@ -34,13 +37,14 @@ SOURCES		= \
 	HEADERS += qsinputdialogfactory.h
 }
 
-!noeditor|neweditor{
+#!noeditor|neweditor{
+!noeditor{
 	SOURCES += qseditor.cpp
 	HEADERS += qseditor.h
 }
 
 
-noeditor:!neweditor:!noide:CONFIG+=noide
+#noeditor:!neweditor:!noide:CONFIG+=noide
 
 shared {
 	win32:DEFINES	+= QSA_DLL
@@ -56,7 +60,7 @@ INCLUDEPATH	+= ../engine \
 		   ../kernel \
 		    .
 
-!noeditor:!neweditor: INCLUDEPATH += ../../tools/designer/editor
+#!noeditor:!neweditor: INCLUDEPATH += ../../tools/designer/editor
 
 DEFINES += HAVE_CONFIG_H QSDEBUGGER
 DEFINES += QT_INTERNAL_XML
@@ -97,26 +101,26 @@ headers.files 	= \
 
 KERNELDIR = ../kernel
 !noeditor {
-  neweditor {
+#  neweditor {
     EDITORDIR = ../neweditor
     INCLUDEPATH += ../neweditor
-  } else {
-    EDITORDIR = ../editor
-    EDITOR_BRANCH = ../../tools/designer/editor
-  }
+#  } else {
+#    EDITORDIR = ../editor
+#    EDITOR_BRANCH = ../../tools/designer/editor
+#  }
 }
 
 !noide:IDEDIR = ../ide
 include( ../kernel/kernel.pri )
 !noeditor {
-  neweditor {
+#  neweditor {
     include( ../neweditor/editor.pri )
-  } else {
-    include( ../editor/editor.pri )
-  }
+#  } else {
+#    include( ../editor/editor.pri )
+#  }
 }
 !noide:include( ../ide/ide.pri )
-!noeditor:!neweditor:include(../../tools/designer/editor/editor.pri)
+#!noeditor:!neweditor:include(../../tools/designer/editor/editor.pri)
 
 load(uic)
 contains(QT_CONFIG, release):contains(QT_CONFIG, debug) {

@@ -44,6 +44,6 @@ bool writeQSConfig(bool buildIde, bool buildEditor, bool buildNewEditor);
 uint convertor( const QString &list );
 void rmDirRecursive( const QDir &dir );
 bool writeExtraConfigs(const QStringList &configs);
-bool writeQsaPrfFile(bool include_qt3_support);
+bool writeQsaPrfFile();
 
 #endif

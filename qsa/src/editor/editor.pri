@@ -21,6 +21,3 @@ noide:!noeditor {
     HEADERS += ../ide/conf.h
 }
 
-
-#The following line was inserted by qt3to4
-QT +=  qt3support 

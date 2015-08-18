@@ -118,7 +118,7 @@ int main( int argc, char **argv )
         return 1;
     }
 
-    if (!writeQsaPrfFile(buildIde || buildEditor)) {
+    if (!writeQsaPrfFile()) {
         dumpMessages();
         return 1;
     }

@@ -15,5 +15,3 @@ load( ../qsa )
 
 CONFIG += uic
 
-#The following line was inserted by qt3to4
-!neweditor: QT +=  qt3support 

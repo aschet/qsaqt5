@@ -37,7 +37,6 @@ SOURCES		= \
 !noeditor|neweditor{
 	SOURCES += qseditor.cpp
 	HEADERS += qseditor.h
-	!noeditor:!neweditor:QT += qt3support
 }
 
 

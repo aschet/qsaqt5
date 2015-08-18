@@ -348,8 +348,11 @@ bool checkLicense()
     bool usVersion = false;
 
     QString qtEdition = QLibraryInfo::licensedProducts();
+    
     if (qtEdition == QLatin1String("Trolltech")) {
         qtLicense = Internal;
+    } else if (qtEdition == QLatin1String("Enterprise")) {
+        qtLicense = Internal;	    
     } else if (qtEdition == QLatin1String("Evaluation")) {
         qtLicense = Evaluation;
     } else if (qtEdition == QLatin1String("Desktop")) {
@@ -515,7 +518,7 @@ const char *contents_qsa_prf =
 "\n}"
 "\n";
 
-bool writeQsaPrfFile(bool include_qt3_support)
+bool writeQsaPrfFile()
 {
     QFile file("src/qsa/qsa.prf");
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -525,9 +528,6 @@ bool writeQsaPrfFile(bool include_qt3_support)
 
     QTextStream stream(&file);
     stream << contents_qsa_prf;
-
-    if (include_qt3_support)
-        stream << "mac:QT += qt3support" << endl;
 
     if (qsa_prefix && !qsa_prefix->isEmpty()) {
         stream << "INCLUDEPATH += " << QString(*qsa_prefix).replace("\\", "/") << endl;

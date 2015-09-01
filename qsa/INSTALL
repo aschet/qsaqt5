@@ -1,8 +1,8 @@
 Installing Qt Script for Applications (QSA)
 -------------------------------------------
 
-This version of QSA requires Qt 4.0.1 or newer. It will not work
-against Qt 3 or Qt 4.0.0.
+This version of QSA requires Qt 5 or newer. It will not work
+against Qt 4.
 
 Make sure that the $QTDIR environment variable points to the Qt
 installation directory and that $QTDIR/bin is in your PATH and

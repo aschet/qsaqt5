@@ -60,8 +60,8 @@ void QuickClassParser::parse( const QString &code )
     globalClass.name = gname;
     globalClass.type = QuickClass::Global;
     currClass = &globalClass;
-    static int functionLength = strlen( "function" );
-    static int constructorLength = strlen( "constructor" );
+    static int functionLength = static_cast<int>(strlen( "function" ));
+    static int constructorLength = static_cast<int>(strlen( "constructor" ));
 
     for ( pos = 0; pos < (int)formCode.length(); ++pos ) {
 	if ( legalChars.indexOf( formCode[ pos ] ) == -1 )

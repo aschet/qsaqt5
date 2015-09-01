@@ -38,9 +38,10 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "ui_console.h"
-
 #include <qsaglobal.h>
+
+#ifndef QSA_NO_EDITOR
+#include "ui_console.h"
 
 class QSInterpreter;
 
@@ -68,4 +69,5 @@ private:
     QStringList history;
 };
 
+#endif
 #endif

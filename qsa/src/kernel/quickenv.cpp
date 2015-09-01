@@ -81,7 +81,9 @@ QSByteArrayClass *QuickEnvClass::byteArrayClass() const
     return interpreter()->byteArrayClass();
 }
 
+#ifndef QSA_NO_GUI
 QSPixmapClass *QuickEnvClass::pixmapClass() const
 {
     return interpreter()->pixmapClass();
 }
+#endif

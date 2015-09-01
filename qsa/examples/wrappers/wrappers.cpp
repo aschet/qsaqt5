@@ -35,6 +35,7 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
+#include "wrappers.h"
 #include <qsinterpreter.h>
 #include <qswrapperfactory.h>
 
@@ -42,41 +43,6 @@
 #include <QtCore/QFile>
 
 #include <QtWidgets/QListWidget>
-
-
-/* Wrapper for QListWidget that gives access to the functions
- * palette() and setPalette();
- */
-class ListViewWrapper : public QObject
-{
-    Q_OBJECT
-public:
-    ListViewWrapper(QListWidget *l) : listView(l) { }
-
-public slots:
-    QPalette palette() const { return listView->palette(); }
-    void setPalette(const QPalette &palette) { listView->setPalette(palette); }
-
-private:
-    QListWidget *listView;
-};
-
-
-/* Wrapper for QListWidgetItem that gives access to the items text
- */
-class ItemWrapper : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString text READ text WRITE setText)
-
-public:
-    ItemWrapper(QListWidgetItem *i) : item(i) { };
-
-    QString text() const { return item->text(); }
-    void setText(const QString &txt) { item->setText(txt); }
-private:
-    QListWidgetItem *item;
-};
 
 
 class Wrappers : public QSWrapperFactory
@@ -142,5 +108,3 @@ int main(int argc, char **argv)
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
     return app.exec();
 }
-
-#include "wrappers.moc"

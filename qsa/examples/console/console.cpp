@@ -37,6 +37,7 @@
 ****************************************************************************/
 
 #include "console.h"
+#ifndef QSA_NO_EDITOR
 
 #include <qsinputdialogfactory.h>
 #include <qsutilfactory.h>
@@ -196,3 +197,5 @@ void Console::error( const QString &msg, const QString &, int line )
 {
     debugoutput->append("<b>Error in line " + QString::number(line) + ":</b><pre><font color=red>" + msg + "</font></pre>");
 }
+
+#endif

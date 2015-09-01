@@ -63,14 +63,16 @@ class QSMapClass;
 class QSPointClass;
 class QSSizeClass;
 class QSRectClass;
-class QSColorClass;
-class QSFontClass;
+#ifndef QSA_NO_GUI
+	class QSColorClass;
+	class QSFontClass;
+	class QSPixmapClass;
+	class QSPaletteClass;
+	class QSColorGroupClass;
+#endif
 class QSByteArrayClass;
-class QSPixmapClass;
 class QSApplicationClass;
 class QSWrapperShared;
-class QSPaletteClass;
-class QSColorGroupClass;
 class QSMetaObject;
 
 typedef QList<QSWrapperShared *> QSWrapperSharedList;
@@ -288,13 +290,15 @@ public:
     QSPointClass *pointClass() const { return pntClass; }
     QSSizeClass *sizeClass() const { return sizClass; }
     QSRectClass *rectClass() const { return rctClass; }
-    QSColorClass *colorClass() const { return colClass; }
-    QSFontClass *fontClass() const { return fntClass; }
+#ifndef QSA_NO_GUI
+	QSColorClass *colorClass() const { return colClass; }
+	QSFontClass *fontClass() const { return fntClass; }
+	QSPixmapClass *pixmapClass() const { return pixClass; }
+	QSColorGroupClass *colorGroupClass() const { return colGrpClass; }
+	QSPaletteClass *paletteClass() const { return palClass; }
+#endif
     QSByteArrayClass *byteArrayClass() const { return baClass; }
-    QSPixmapClass *pixmapClass() const { return pixClass; }
     QSApplicationClass *applicationClass() const { return appClass; }
-    QSColorGroupClass *colorGroupClass() const { return colGrpClass; }
-    QSPaletteClass *paletteClass() const { return palClass; }
     QSObject wrap(QObject *o);
 
     QVariant convertToArgument(const QSObject &object);
@@ -370,12 +374,14 @@ private:
     QSPointClass *pntClass;
     QSSizeClass *sizClass;
     QSRectClass *rctClass;
-    QSColorClass *colClass;
-    QSColorGroupClass *colGrpClass;
-    QSPaletteClass *palClass;
-    QSFontClass *fntClass;
+#ifndef QSA_NO_GUI
+	QSColorClass *colClass;
+	QSColorGroupClass *colGrpClass;
+	QSPaletteClass *palClass;
+	QSFontClass *fntClass;
+	QSPixmapClass *pixClass;
+#endif
     QSByteArrayClass *baClass;
-    QSPixmapClass *pixClass;
     QSApplicationClass *appClass;
     QSWrapperSharedList *wrapperShared;
     QuickDispatchObjectFactory *factory;

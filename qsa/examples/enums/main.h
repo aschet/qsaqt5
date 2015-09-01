@@ -35,58 +35,60 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
-#include "main.h"
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <qsinterpreter.h>
-#include <qsobjectfactory.h>
-#include <qsproject.h>
-#ifndef QSA_NO_IDE
-#include <qsworkbench.h>
-#endif
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMessageBox>
 
-/* Below is a simple example that demonstrates how enums can be exported to
- * QSA. The is trivial and has no purpose other than to demonstrate the
- * required steps.
+/* Provide an object that will represent the static part of the Direction class,
+ * allowing scripters to write contructs like:
  *
+ * var x = Direction.LeftToRight;
+ *
+ * The key is the Q_ENUMS() declaration which exports the enum Mode via through
+ * moc, which makes it available to QSA.
  */
-
-class Factory : public QSObjectFactory
+class DirectionStatic : public QObject
 {
+    Q_OBJECT
+    Q_OVERRIDE(QString objectName SCRIPTABLE false)
+    Q_ENUMS(Mode)
 public:
-    Factory()
-    {
-        registerClass("Direction", &Direction::staticMetaObject, new DirectionStatic);
-    }
-
-    QObject *create(const QString &, const QVariantList &, QObject *)
-    {
-        return new Direction(interpreter());
-    }
+    enum Mode { Undefined, LeftToRight, RightToLeft };
 };
 
-
-int main(int argc, char **argv)
+/* Proved the class that will represent the instances in the script. Notice
+ * that this class redeclares the enum mode so that it will be possible
+ * to write constructions like:
+ *
+ * var x = dir.LeftToRight;
+ *
+ * where 'x' is an instance of the direction class.
+ */
+class Direction : public QObject
 {
-    QApplication app(argc, argv);
+    Q_OBJECT
+    Q_OVERRIDE(QString objectName SCRIPTABLE false)
+    Q_ENUMS(Mode)
+public:
+    enum Mode { Undefined, LeftToRight, RightToLeft };
 
-#ifndef QSA_NO_IDE
-    QSProject p;
-    p.load("enums.qsa");
-    QSWorkbench wb(&p);
+    Direction(QSInterpreter *interp) : d(Undefined), ip(interp) { };
 
-    p.interpreter()->addObjectFactory(new Factory);
+public slots:
+    bool isLeftToRight() const { return d == LeftToRight; }
+    bool isRightToLeft() const { return d == RightToLeft; }
 
-    wb.open();
+    void setMode(int mode) {
+        if (mode == LeftToRight || mode == RightToLeft)
+            d = Mode(mode);
+        else
+            ip->throwError("mode must be Direction.LeftToRight or Direction.RightToLeft");
+    }
 
-    QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-    QObject::connect(&p, SIGNAL(projectEvaluated()), &p, SLOT(save()));
+private:
+    Mode d;
+    QSInterpreter *ip;
+};
 
-    app.exec();
-#else
-    QMessageBox::information( 0, "Disabled feature",
-			      "QSA Workbench has been disabled. Reconfigure to enable",
-			      QMessageBox::Ok );
 #endif
-    return 0;
-}

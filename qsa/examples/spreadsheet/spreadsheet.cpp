@@ -73,8 +73,10 @@ void SpreadSheet::init()
 
     project = new QSProject( this, "spreadsheet_project" );
     interpreter = project->interpreter();
-    QSInputDialogFactory *fac = new QSInputDialogFactory;
+#ifndef QSA_NO_GUI
+	QSInputDialogFactory *fac = new QSInputDialogFactory;
     interpreter->addObjectFactory( fac );
+#endif
 
     project->addObject( new SheetInterface( sheet1, this, "sheet1" ) );
 

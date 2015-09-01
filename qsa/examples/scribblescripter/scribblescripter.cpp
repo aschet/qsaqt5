@@ -267,8 +267,10 @@ Scribble::Scribble( QWidget *parent, const char *name )
 
     project = new QSProject( this, "scribblescript_project" );
     interpreter = project->interpreter();
-    QSInputDialogFactory *factory = new QSInputDialogFactory();
+#ifndef QSA_NO_GUI
+	QSInputDialogFactory *factory = new QSInputDialogFactory();
     interpreter->addObjectFactory( factory );
+#endif
 
     project->addObject( new CanvasInterface( canvas, this, "Canvas" ) );
     project->load( "scribblescript.qsa" );

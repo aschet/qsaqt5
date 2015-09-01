@@ -40,7 +40,9 @@
 #define SCRIBBLE_H
 
 #include <qsinterpreter.h>
+#ifndef QSA_NO_IDE
 #include <qsworkbench.h>
+#endif
 
 #include <QtGui/QPen>
 #include <QtWidgets/QMainWindow>

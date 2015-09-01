@@ -1067,7 +1067,7 @@ bool QSProject::loadInternal( QDataStream *stream )
     for (int i=0; i<d->editors.size(); ++i)
         delete d->editors[i];
     d->editors.clear();
-#endif // QSA_NO_EDITOR
+#endif
 
     int scriptCount;
 

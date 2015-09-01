@@ -77,47 +77,13 @@ The contents of the function is listed below.
 
 */
 
-#include <qsinterpreter.h>
+#include "main.h"
+#ifndef QSA_NO_IDE
 #include <qsworkbench.h>
+#endif
 
 #include <QtWidgets/QApplication>
-#include <QtCore/QFile>
 #include <QtWidgets/QMessageBox>
-
-class Tools : public QObject
-{
-    Q_OBJECT
-public:
-    Tools(QSInterpreter *ip, QObject *parent)
-        : QObject(parent), m_interpreter(ip)
-    {
-        setObjectName("Tools");
-    };
-
-public slots:
-    void evaluate(const QString &scriptFile)
-    {
-        QFile f(scriptFile);
-
-        if (!f.exists()) {
-            m_interpreter->throwError("File '" + scriptFile + "' does not exist");
-            return;
-        }
-
-        if (!f.open(QFile::Text | QFile::ReadOnly)) {
-            m_interpreter->throwError("File '" + scriptFile + "' could not be read");
-            return;
-        }
-
-        QString code = QString::fromLocal8Bit(f.readAll());
-        m_interpreter->evaluate(code, 0, "evaluated(" + scriptFile + ")");
-
-    }
-
-private:
-    QSInterpreter *m_interpreter;
-};
-
 
 
 int main(int argc, char **argv)
@@ -150,4 +116,3 @@ int main(int argc, char **argv)
 #endif
 };
 
-#include "main.moc"

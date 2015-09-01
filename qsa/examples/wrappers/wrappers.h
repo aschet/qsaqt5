@@ -35,58 +35,51 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 **
 ****************************************************************************/
-#include "main.h"
+
+#ifndef WRAPPERS_H
+#define WRAPPERS_H
+
 #include <qsinterpreter.h>
-#include <qsobjectfactory.h>
-#include <qsproject.h>
-#ifndef QSA_NO_IDE
-#include <qsworkbench.h>
-#endif
+#include <qswrapperfactory.h>
+
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QMessageBox>
+#include <QtCore/QFile>
 
-/* Below is a simple example that demonstrates how enums can be exported to
- * QSA. The is trivial and has no purpose other than to demonstrate the
- * required steps.
- *
+#include <QtWidgets/QListWidget>
+
+
+/* Wrapper for QListWidget that gives access to the functions
+ * palette() and setPalette();
  */
-
-class Factory : public QSObjectFactory
+class ListViewWrapper : public QObject
 {
+    Q_OBJECT
 public:
-    Factory()
-    {
-        registerClass("Direction", &Direction::staticMetaObject, new DirectionStatic);
-    }
+    ListViewWrapper(QListWidget *l) : listView(l) { }
 
-    QObject *create(const QString &, const QVariantList &, QObject *)
-    {
-        return new Direction(interpreter());
-    }
+public slots:
+    QPalette palette() const { return listView->palette(); }
+    void setPalette(const QPalette &palette) { listView->setPalette(palette); }
+
+private:
+    QListWidget *listView;
 };
 
 
-int main(int argc, char **argv)
+/* Wrapper for QListWidgetItem that gives access to the items text
+ */
+class ItemWrapper : public QObject
 {
-    QApplication app(argc, argv);
+    Q_OBJECT
+    Q_PROPERTY(QString text READ text WRITE setText)
 
-#ifndef QSA_NO_IDE
-    QSProject p;
-    p.load("enums.qsa");
-    QSWorkbench wb(&p);
+public:
+    ItemWrapper(QListWidgetItem *i) : item(i) { };
 
-    p.interpreter()->addObjectFactory(new Factory);
+    QString text() const { return item->text(); }
+    void setText(const QString &txt) { item->setText(txt); }
+private:
+    QListWidgetItem *item;
+};
 
-    wb.open();
-
-    QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-    QObject::connect(&p, SIGNAL(projectEvaluated()), &p, SLOT(save()));
-
-    app.exec();
-#else
-    QMessageBox::information( 0, "Disabled feature",
-			      "QSA Workbench has been disabled. Reconfigure to enable",
-			      QMessageBox::Ok );
 #endif
-    return 0;
-}

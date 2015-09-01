@@ -49,10 +49,12 @@ class QSMapClass;
 class QSPointClass;
 class QSSizeClass;
 class QSRectClass;
-class QSColorClass;
-class QSFontClass;
+#ifndef QSA_NO_GUI
+	class QSColorClass;
+	class QSFontClass;
+	class QSPixmapClass;
+#endif
 class QSByteArrayClass;
-class QSPixmapClass;
 class QSApplicationClass;
 
 // to be used with multiple inheritance of convenient
@@ -70,7 +72,9 @@ public:
     QSSizeClass *sizeClass() const;
     QSRectClass *rectClass() const;
     QSByteArrayClass *byteArrayClass() const;
-    QSPixmapClass *pixmapClass() const;
+#ifndef QSA_NO_GUI
+	QSPixmapClass *pixmapClass() const;
+#endif
 
 private:
     QuickInterpreter *ip;

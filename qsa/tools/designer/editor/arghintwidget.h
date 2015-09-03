@@ -14,14 +14,15 @@
 #ifndef ARGHINTWIDGET_H
 #define ARGHINTWIDGET_H
 
-#include <q3frame.h>
-#include <QLabel>
-#include <QMap>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
+#include <QtCore/QMap>
 
 class QLabel;
 class ArrowButton;
 
-class ArgHintWidget : public Q3Frame
+class ArgHintWidget : public QFrame
 {
     Q_OBJECT
 
@@ -45,6 +46,21 @@ private:
     QMap<int, QString> funcs;
     QLabel *funcLabel;
     ArrowButton *prev, *next;
+
+};
+
+class ArrowButton : public QPushButton
+{
+	Q_OBJECT
+
+public:
+	enum Dir { Left, Right };
+
+	ArrowButton(QWidget *parent, const char *name, Dir d);
+	void drawButton(QPainter *p);
+
+private:
+	QPixmap pix, pix_disabled;
 
 };
 

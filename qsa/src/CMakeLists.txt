@@ -2,23 +2,12 @@ cmake_minimum_required(VERSION 3.3.1)
 
 project(src)
 
-# QSA_NO_IDE
-# QSA_NO_EDITOR
-# QSA_NEW_EDITOR
 # QSA_NO_DLL
-
-#option(QSA_NO_EDITOR "Disable editor and other GUI dependencies" OFF)
-#cmake_dependent_option(QSA_NEW_EDITOR "Use QTextEdit based editor" ON "NOT QSA_NO_EDITOR" OFF)
+option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)
+option(QSA_NEW_EDITOR "Does compile QTextEdit instead of Q3TextEdit based editor into QSA." ON)
+option(QSA_NO_IDE "Does not compile QSA Workbench into QSA." OFF)
 
 # Qt specific setup
-#set(CMAKE_AUTOUIC ON)
-#set(CMAKE_AUTORCC ON)
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-#   -no-ide Does not compile QSA Workbench into QSA.
-#    -no-editor Does not compile QSA Workbench or QSA editor into QSA.
-# -new-editor
-# -no-gui
 
 #	win32:DEFINES	+= QSA_DLL
 #} else {
@@ -29,7 +18,7 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 # QSA
-add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL -DQSA_NO_GUI -DQSA_NO_EDITOR)
+add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL -DQSA_NO_EDITOR)
 #include_directories(editor engine ide kernel neweditor qsa)
 include_directories(engine kernel qsa)
 
@@ -44,6 +33,7 @@ set(HEADERS_MOC
 	qsa/qsscript.h
 	qsa/qsproject.h
 	qsa/qsutilfactory_p.h
+	qsa/qsinputdialogfactory_p.h
 )
 
 qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
@@ -83,14 +73,14 @@ set(HEADERS engine/qsclass.h
 	kernel/quickcoordobjects.h
 	kernel/qsmetaobject.h
 	kernel/qsslot.h
+	kernel/quickpixmapobject.h
+	kernel/quickcolorobject.h
+	kernel/quickfontobject.h
 	qsa/qsobjectfactory.h
 	qsa/qswrapperfactory.h
 	qsa/qsutilfactory.h
+	qsa/qsinputdialogfactory.h
 )
-
-#!nogui:HEADERS  += kernel/quickpixmapobject.h
-#		kernel/quickcolorobject.h
-#		kernel/quickfontobject.h
 
 set(SOURCES engine/qsclass.cpp
 	engine/qsmember.cpp
@@ -127,25 +117,20 @@ set(SOURCES engine/qsclass.cpp
 	kernel/quickcoordobjects.cpp
 	kernel/quickdispatchobject.cpp
 	kernel/qsmetaobject.cpp
+	kernel/quickpixmapobject.cpp
+	kernel/quickcolorobject.cpp
+	kernel/quickfontobject.cpp
 	qsa/qsproject.cpp
 	qsa/qsinterpreter.cpp
 	qsa/qsobjectfactory.cpp
 	qsa/qswrapperfactory.cpp
 	qsa/qsscript.cpp
-	qsa/qsutilfactory.cpp	
+	qsa/qsutilfactory.cpp
+	qsa/qsinputdialogfactory.cpp
 )
 
 add_library(qsa SHARED ${SOURCES} ${SOURCES_MOC} ${HEADERS} ${HEADERS_MOC})
 target_link_libraries(qsa Qt5::Widgets)
-
-#!nogui:SOURCES  += $$KERNELDIR/quickpixmapobject.cpp
-#		$$KERNELDIR/quickcolorobject.cpp
-#		$$KERNELDIR/quickfontobject.cpp
-
-#!nogui {
-#	SOURCES += qsinputdialogfactory.cpp
-#	HEADERS += qsinputdialogfactory.h
-#}
 
 #!noeditor|neweditor{
 #!noeditor{

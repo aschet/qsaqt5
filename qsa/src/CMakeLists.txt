@@ -2,25 +2,25 @@ cmake_minimum_required(VERSION 3.3.1)
 
 project(src)
 
-# QSA_NO_DLL
+# QSA_DLL oder QSA_NO_DLL
 option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)
 option(QSA_NEW_EDITOR "Does compile QTextEdit instead of Q3TextEdit based editor into QSA." ON)
 option(QSA_NO_IDE "Does not compile QSA Workbench into QSA." OFF)
 
-# Qt specific setup
+configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_SOURCE_DIR}/qsa/qsconfig.h")
 
-#	win32:DEFINES	+= QSA_DLL
-#} else {
-#	win32:DEFINES   += QSA_NO_DLL
-
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
-# QSA
-add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL -DQSA_NO_EDITOR)
-#include_directories(editor engine ide kernel neweditor qsa)
+
 include_directories(engine kernel qsa)
+add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL)
+
+set(UIS "")
+
+set(QRCS "")
 
 set(HEADERS_MOC
 	engine/qsengine.h
@@ -35,8 +35,6 @@ set(HEADERS_MOC
 	qsa/qsutilfactory_p.h
 	qsa/qsinputdialogfactory_p.h
 )
-
-qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
 set(HEADERS engine/qsclass.h
 	engine/qsglobal.h
@@ -129,11 +127,95 @@ set(SOURCES engine/qsclass.cpp
 	qsa/qsinputdialogfactory.cpp
 )
 
-add_library(qsa SHARED ${SOURCES} ${SOURCES_MOC} ${HEADERS} ${HEADERS_MOC})
-target_link_libraries(qsa Qt5::Widgets)
+set (QT_LIBS Qt5::Widgets)
 
-#!noeditor|neweditor{
-#!noeditor{
-#	SOURCES += qseditor.cpp
-#	HEADERS += qseditor.h
-#}
+if(NOT ${QSA_NO_EDITOR})
+
+set(HEADERS_MOC ${HEADERS_MOC}
+	qsa/qseditor.h
+)
+set(SOURCES ${SOURCES}
+	qsa/qseditor.cpp
+)
+
+if(${QSA_NEW_EDITOR})
+include_directories(neweditor)
+set(HEADERS_MOC ${HEADERS_MOC}
+	neweditor/completionbox.h	
+	neweditor/linenumberwidget.h
+	neweditor/parenmatcher.h
+	neweditor/qsaeditor.h
+	neweditor/qsaeditorinterface.h
+)
+set(HEADERS ${HEADERS}
+	neweditor/blockdata.h
+	neweditor/qsasyntaxhighlighter.h
+)
+set(SOURCES ${SOURCES}
+	neweditor/completionbox.cpp
+	neweditor/linenumberwidget.cpp
+	neweditor/parenmatcher.cpp
+	neweditor/qsaeditor.cpp
+	neweditor/qsaeditorinterface.cpp
+	neweditor/qsasyntaxhighlighter.cpp
+	neweditor/yyindent.cpp
+)
+
+else()
+
+include_directories(editor)
+
+endif(${QSA_NEW_EDITOR})
+
+if(NOT ${QSA_NO_IDE})
+
+find_package(Qt5PrintSupport REQUIRED)
+include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
+add_definitions(${Qt5PrintSupport_DEFINITIONS})
+set(QT_LIBS ${QT_LIBS}
+	Qt5::PrintSupport
+)
+
+include_directories(ide)
+set(UIS ${UIS}
+	ide/findtext.ui 
+	ide/gotoline.ui
+	ide/idewindow.ui
+	ide/outputcontainer.ui
+	ide/preferences.ui
+	ide/preferencescontainer.ui
+	ide/projectcontainer.ui
+	ide/replacetext.ui
+	ide/variablescontainer.ui
+)
+set(QRCS ${QRCS}
+	ide/ide.qrc
+)
+set(HEADERS_MOC ${HEADERS_MOC}
+	ide/idewindow.h
+	ide/preferences.h
+	ide/qsworkbench.h	
+)
+
+set(HEADERS ${HEADERS}
+	ide/conf.h
+)
+set(SOURCES ${SOURCES}
+	ide/conf.cpp
+	ide/idewindow.cpp
+	ide/preferences.cpp
+	ide/qsworkbench.cpp
+	ide/idewindow.cpp
+	ide/idewindow.cpp	
+)
+
+endif(NOT ${QSA_NO_IDE})
+
+endif(NOT ${QSA_NO_EDITOR})
+
+qt5_add_resources(SOURCES_QRC ${QRCS})
+qt5_wrap_ui(HEADERS_UIS ${UIS})
+qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
+
+add_library(qsa SHARED ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
+target_link_libraries(qsa ${QT_LIBS})

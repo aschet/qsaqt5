@@ -1,6 +1,6 @@
 project(scribblescripter)
 
-qt5_wrap_ui(HEADERS_FORMS ${FORMS})
+qt5_wrap_ui(HEADERS_UIS ${UIS})
 
 set(HEADERS_MOC scribblescripter.h)
 

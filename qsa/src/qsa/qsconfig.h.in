@@ -1,0 +1,15 @@
+#ifndef QS_CONFIG_H
+#define QS_CONFIG_H
+
+#cmakedefine QSA_NO_EDITOR
+#cmakedefine QSA_NEW_EDITOR
+#cmakedefine QSA_NO_IDE
+
+// sanitize defines, no IDE without editor
+#ifndef QSA_NO_EDITOR
+	#ifdef QSA_NO_IDE
+		#define QSA_NO_IDE
+	#endif
+#endif
+
+#endif

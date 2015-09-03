@@ -57,9 +57,9 @@ struct Parenthesis
 struct BlockData : public QTextBlockUserData
 {
     static BlockData *data(const QTextBlock &block)
-    { return static_cast<BlockData *>(QSyntaxHighlighter::userData(block)); }
-    void setToBlock(const QTextBlock &block)
-    { QSyntaxHighlighter::setUserData(block, this); }
+    { return static_cast<BlockData *>(block.userData()); }
+    void setToBlock(QTextBlock &block)
+    { block.setUserData(this); }
 
     inline BlockData() : parenthesisMatchStart(-1), parenthesisMatchEnd(-1) {}
 

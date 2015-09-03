@@ -1,6 +1,13 @@
+cmake_minimum_required(VERSION 3.3.1)
+
 project(examples)
 
-include_directories(../src/qsa)
+include_directories(../src/qsa ../src/ide)
+if(${QSA_NEW_EDITOR})
+include_directories(neweditor)
+else()
+include_directories(editor)
+endif(${QSA_NEW_EDITOR})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_subdirectory(console)

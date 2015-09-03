@@ -1,3 +1,5 @@
+// Copyright (C) 2015 Thomas Ascher. All rights reserved.
+
 #ifndef QS_CONFIG_H
 #define QS_CONFIG_H
 
@@ -6,8 +8,8 @@
 #cmakedefine QSA_NO_IDE
 
 // sanitize defines, no IDE without editor
-#ifndef QSA_NO_EDITOR
-	#ifdef QSA_NO_IDE
+#ifdef QSA_NO_EDITOR
+	#ifndef QSA_NO_IDE
 		#define QSA_NO_IDE
 	#endif
 #endif

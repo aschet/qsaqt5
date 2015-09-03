@@ -134,11 +134,16 @@ if(NOT ${QSA_NO_EDITOR})
 set(HEADERS_MOC ${HEADERS_MOC}
 	qsa/qseditor.h
 )
+set(HEADERS ${HEADERS}
+	ide/conf.h
+)
 set(SOURCES ${SOURCES}
 	qsa/qseditor.cpp
+	ide/conf.cpp
 )
 
 if(${QSA_NEW_EDITOR})
+
 include_directories(neweditor)
 set(HEADERS_MOC ${HEADERS_MOC}
 	neweditor/completionbox.h	
@@ -196,12 +201,7 @@ set(HEADERS_MOC ${HEADERS_MOC}
 	ide/preferences.h
 	ide/qsworkbench.h	
 )
-
-set(HEADERS ${HEADERS}
-	ide/conf.h
-)
 set(SOURCES ${SOURCES}
-	ide/conf.cpp
 	ide/idewindow.cpp
 	ide/preferences.cpp
 	ide/qsworkbench.cpp

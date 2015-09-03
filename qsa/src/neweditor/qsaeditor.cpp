@@ -45,7 +45,7 @@
 #include "qsenv.h"
 #include "qsinterpreter.h"
 #include "completionbox.h"
-#include "conf.h"
+#include "../ide/conf.h"
 #include <QtCore/QDebug>
 #include <QtCore/QMetaProperty>
 #include <QtWidgets/QApplication>

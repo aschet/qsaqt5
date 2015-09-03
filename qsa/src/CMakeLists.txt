@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.3.1)
+
 project(src)
 
 # QSA_NO_IDE
@@ -22,18 +24,9 @@ project(src)
 #} else {
 #	win32:DEFINES   += QSA_NO_DLL
 
-
-
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5PrintSupport REQUIRED)
-
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
-include_directories(${Qt5Multimedia_INCLUDE_DIRS})
-include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5Multimedia_DEFINITIONS})
-add_definitions(${Qt5PrintSupport_DEFINITIONS})
 
 # QSA
 add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL -DQSA_NO_GUI -DQSA_NO_EDITOR)
@@ -143,7 +136,7 @@ set(SOURCES engine/qsclass.cpp
 )
 
 add_library(qsa SHARED ${SOURCES} ${SOURCES_MOC} ${HEADERS} ${HEADERS_MOC})
-target_link_libraries(qsa Qt5::Widgets Qt5::Multimedia Qt5::PrintSupport)
+target_link_libraries(qsa Qt5::Widgets)
 
 #!nogui:SOURCES  += $$KERNELDIR/quickpixmapobject.cpp
 #		$$KERNELDIR/quickcolorobject.cpp

@@ -1176,8 +1176,6 @@ void qsKillTimers( QSEnv *env )
 
 #ifndef QSA_NO_GUI
 #include <QtWidgets/QtWidgets>
-#include <QtPrintSupport/QPageSetupDialog>
-#include <QtMultimedia/QSound>
 #endif
 
 #define INSERT_QOBJECT(object) qsa_meta_objects()->insert(#object, &object::staticMetaObject);
@@ -1241,7 +1239,6 @@ static void qsa_setup_meta_objects()
     INSERT_QOBJECT(QMessageBox);
     INSERT_QOBJECT(QMovie);
     INSERT_QOBJECT(QObject);
-    INSERT_QOBJECT(QPageSetupDialog);
     INSERT_QOBJECT(QProcess);
     INSERT_QOBJECT(QProgressBar);
     INSERT_QOBJECT(QProgressDialog);
@@ -1252,7 +1249,6 @@ static void qsa_setup_meta_objects()
     INSERT_QOBJECT(QScrollBar);
     INSERT_QOBJECT(QSettings);
     INSERT_QOBJECT(QSlider);
-    INSERT_QOBJECT(QSound);
     INSERT_QOBJECT(QSpinBox);
     INSERT_QOBJECT(QSplashScreen);
     INSERT_QOBJECT(QSplitter);

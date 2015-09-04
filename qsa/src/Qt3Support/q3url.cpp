@@ -48,7 +48,6 @@
 
 
 
-// used by q3filedialog.cpp
 bool qt_resolve_symlinks = true;
 
 class Q3UrlPrivate

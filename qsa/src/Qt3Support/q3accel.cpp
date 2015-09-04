@@ -51,7 +51,7 @@
 #include "qdockwidget.h"
 #include "qevent.h"
 #include "qkeysequence.h"
-#include "qapplication_p.h"
+//#include "qapplication_p.h"
 
 
 

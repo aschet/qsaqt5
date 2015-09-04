@@ -41,7 +41,7 @@
 
 #ifndef QSA_NO_EDITOR
 
-#include "conf.h"
+#include "../ide/conf.h"
 #include "q3richtext_p.h"
 #include <Q3IntDict>
 

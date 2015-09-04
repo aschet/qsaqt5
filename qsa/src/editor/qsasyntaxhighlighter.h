@@ -43,7 +43,7 @@
 
 #include "../ide/conf.h"
 #include "q3richtext_p.h"
-#include <Q3IntDict.h>
+#include <QtCore/QHash>
 
 class QSASyntaxHighlighter : public Q3TextPreProcessor
 {
@@ -59,7 +59,7 @@ public:
     };
 
     QSASyntaxHighlighter();
-    virtual ~QSASyntaxHighlighter() {}
+	virtual ~QSASyntaxHighlighter();
     void process(Q3TextDocument *doc, Q3TextParagraph *string, int start, bool invalidate = true);
     void updateStyles(const QMap<QString, ConfigStyle> &styles);
 
@@ -74,7 +74,7 @@ private:
 
     Q3TextFormat *lastFormat;
     int lastFormatId;
-    Q3IntDict<Q3TextFormat> formats;
+    QHash<int, Q3TextFormat*> formats;
 
 };
 

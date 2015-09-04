@@ -56,7 +56,7 @@
 #ifndef QT_NO_MIMEFACTORY
 
 class QStringList;
-class QMimeSource;
+class QMimeData;
 class Q3MimeSourceFactoryData;
 
 class QSA_EXPORT Q3MimeSourceFactory {
@@ -70,14 +70,14 @@ public:
     static void addFactory(Q3MimeSourceFactory *f);
     static void removeFactory(Q3MimeSourceFactory *f);
 
-    virtual const QMimeSource* data(const QString& abs_name) const;
+    virtual const QMimeData* data(const QString& abs_name) const;
     virtual QString makeAbsolute(const QString& abs_or_rel_name, const QString& context) const;
-    const QMimeSource* data(const QString& abs_or_rel_name, const QString& context) const;
+    const QMimeData* data(const QString& abs_or_rel_name, const QString& context) const;
 
     virtual void setText(const QString& abs_name, const QString& text);
     virtual void setImage(const QString& abs_name, const QImage& im);
     virtual void setPixmap(const QString& abs_name, const QPixmap& pm);
-    virtual void setData(const QString& abs_name, QMimeSource* data);
+    virtual void setData(const QString& abs_name, QMimeData* data);
     virtual void setFilePath(const QStringList&);
     inline  void setFilePath(const QString &path) { setFilePath(QStringList(path)); }
     virtual QStringList filePath() const;
@@ -85,7 +85,7 @@ public:
     virtual void setExtensionType(const QString& ext, const char* mimetype);
 
 private:
-    QMimeSource *dataInternal(const QString& abs_name, const QMap<QString, QString> &extensions) const;
+    QMimeData *dataInternal(const QString& abs_name, const QMap<QString, QString> &extensions) const;
     Q3MimeSourceFactoryData* d;
 };
 

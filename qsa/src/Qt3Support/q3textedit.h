@@ -498,7 +498,7 @@ private:
     void normalCopy();
     void copyToClipboard();
 #ifndef QT_NO_MIME
-    QByteArray pickSpecial(QMimeSource* ms, bool always_ask, const QPoint&);
+    QByteArray pickSpecial(const QMimeData* ms, bool always_ask, const QPoint&);
     Q3TextDrag *dragObject(QWidget *parent = 0) const;
 #endif
 #ifndef QT_NO_MIMECLIPBOARD
@@ -550,7 +550,7 @@ private Q_SLOTS:
 
 private:
 #ifndef QT_NO_CLIPBOARD
-    void pasteSubType(const QByteArray &subtype, QMimeSource *m);
+    void pasteSubType(const QByteArray &subtype, const QMimeData *m);
 #endif
 
 private:

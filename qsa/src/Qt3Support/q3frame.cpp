@@ -40,7 +40,8 @@
 ****************************************************************************/
 
 #include "q3frame.h"
-#include "qevent.h"
+#include <QtCore/QEvent>
+#include <QtGui/QPaintEvent>
 #include <QtGui/QPainter>
 
 

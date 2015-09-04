@@ -48,12 +48,6 @@
 #include <QtGui/QImage>
 #include <QtCore/QList>
 
-
-
-
-
-
-
 class QWidget;
 class Q3TextDragPrivate;
 class Q3DragObjectPrivate;

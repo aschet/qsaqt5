@@ -43,9 +43,8 @@
 // #include "quickdebugger.h"
 
 #include "qsproject.h"
-//Added by qt3to4:
-#include <QKeyEvent>
-#include <QEvent>
+#include <QtGui/QKeyEvent>
+#include <QtCore/QEvent>
 
 #include <stdio.h>
 
@@ -56,7 +55,7 @@ QSAEditorBrowser::QSAEditorBrowser( Editor *e )
 
 void QSAEditorBrowser::showHelp( const QString &str )
 {
-    qFatal( "QSAEditorBrowser::showHelp( %s )", str.latin1() );
+    qFatal( "QSAEditorBrowser::showHelp( %s )", str.toLatin1().data() );
 #if 0
     if ( ( (QSAEditor*)curEditor)->isDebugging() ) {
 	QString s = str.trimmed();

@@ -19,7 +19,7 @@
 #include "q3richtext_p.h"
 #include "conf.h"
 #include <QtWidgets/QApplication>
-#include <q3accel.h>
+#include <QtWidgets/QShortCut>
 #include <QtGui/QClipBoard>
 
 Editor::Editor( const QString &fn, QWidget *parent, const char *name )
@@ -50,12 +50,10 @@ Editor::Editor( const QString &fn, QWidget *parent, const char *name )
 //     document()->setInvertSelectionText( ParenMatcher::Match, false );
 //     document()->setInvertSelectionText( ParenMatcher::Mismatch, false );
 
-    accelComment = new Q3Accel( this );
-    accelComment->connectItem( accelComment->insertItem( Qt::ALT + Qt::Key_C ),
-			       this, SLOT( commentSelection() ) );
-    accelUncomment = new Q3Accel( this );
-    accelUncomment->connectItem( accelUncomment->insertItem( Qt::ALT + Qt::Key_U ),
-				 this, SLOT( uncommentSelection() ) );
+	accelComment = new QShortcut(Qt::ALT + Qt::Key_C, this);
+	connect(accelComment, SIGNAL(activated()), this, SLOT(commentSelection()));			       
+	accelUncomment = new QShortcut(Qt::ALT + Qt::Key_U, this);
+	connect(accelUncomment, SIGNAL(activated()), this, SLOT(uncommentSelection()));
     editable = true;
 }
 

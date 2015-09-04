@@ -38,11 +38,11 @@
 
 #include "qsasyntaxhighlighter.h"
 
-#include <qapplication.h>
-#include <qmap.h>
-#include <qregexp.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QtWidgets/QApplication>
+#include <QtCore/QMap>
+#include <QtCore/QRegExp>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
 #include "paragdata.h"
 #include "q3richtext_p.h"
@@ -141,14 +141,22 @@ QSASyntaxHighlighter::QSASyntaxHighlighter()
     wordMap = new QMap<int, QMap<QString, int> >;
     int len;
     for ( int i = 0; keywords[ i ]; ++i ) {
-	len = strlen( keywords[ i ] );
+	len = static_cast<int>(strlen( keywords[ i ] ));
 	if ( !wordMap->contains( len ) )
 	    wordMap->insert( len, QMap<QString, int >() );
 	QMap<QString, int> &map = wordMap->operator[]( len );
 	map[ QString::fromLatin1(keywords[ i ]) ] = Keyword;
     }
+}
 
-    formats.setAutoDelete( true );
+QSASyntaxHighlighter::~QSASyntaxHighlighter()
+{
+	QHash<int, Q3TextFormat*>::iterator it = formats.begin(), endIt = formats.end();
+	while (it != endIt)
+	{
+		delete *it;
+		++it;
+	}
 }
 
 static int string2Id( const QString &s )
@@ -317,7 +325,7 @@ void QSASyntaxHighlighter::process( Q3TextDocument *doc, Q3TextParagraph *string
 	if ( lastWasBackSlash ) {
 	    input = InputSep;
 	} else {
-	    switch ( c.latin1() ) {
+	    switch ( c.toLatin1() ) {
 	    case '*':
 		input = InputAsterix;
 		break;
@@ -370,11 +378,11 @@ void QSASyntaxHighlighter::process( Q3TextDocument *doc, Q3TextParagraph *string
 		break;
 	    case '1': case '2': case '3': case '4': case '5':
 	    case '6': case '7': case '8': case '9': case '0':
-		if ( alphabeth.find( lastChar ) != -1 &&
-		     ( mathChars.find( lastChar ) == -1 || numbers.find( string->at( i - 1 )->c ) == -1 ) ) {
+		if ( alphabeth.indexOf( lastChar ) != -1 &&
+		     ( mathChars.indexOf( lastChar ) == -1 || numbers.indexOf( string->at( i - 1 )->c ) == -1 ) ) {
 		    input = InputAlpha;
 		} else {
-		    if ( input == InputAlpha && numbers.find( lastChar ) != -1 )
+		    if ( input == InputAlpha && numbers.indexOf( lastChar ) != -1 )
 			input = InputAlpha;
 		    else
 			input = InputNumber;
@@ -397,7 +405,7 @@ void QSASyntaxHighlighter::process( Q3TextDocument *doc, Q3TextParagraph *string
 	    default: {
 		if ( c != '\t' )
 		    firstWord += c;
-		QString s = firstWord.simplifyWhiteSpace();
+		QString s = firstWord.simplified();
 		if ( s == QString::fromLatin1("private") || s == QString::fromLatin1("protected") || s == QString::fromLatin1("public") || s == QString::fromLatin1("static") )
 		    firstWord = "";
 		if ( !questionMark && c == '?' )

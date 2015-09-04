@@ -23,7 +23,7 @@ struct Config;
 class ParenMatcher;
 class EditorCompletion;
 class EditorBrowser;
-class Q3Accel;
+class QShortcut;
 
 class Editor : public Q3TextEdit
 {
@@ -86,7 +86,7 @@ protected:
     QString filename;
     Config *cfg;
     bool hasError;
-    Q3Accel *accelComment, *accelUncomment;
+	QShortcut *accelComment, *accelUncomment;
     bool editable;
 
 };

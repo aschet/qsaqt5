@@ -62,9 +62,8 @@
 #include "qstyleoption.h"
 #include "q3stylesheet.h"
 #include "qtextstream.h"
-//#include <qtextdocument_p.h>
-//#include <qtextengine_p.h>
-//#include <QtGui/QTextEngine>
+#include <private/qtextdocument_p.h>
+#include <private/qtextengine_p.h>
 
 #include <stdlib.h>
 
@@ -81,7 +80,7 @@ class Q3TextFormatCollection;
 
 const int border_tolerance = 2;
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 QT_BEGIN_INCLUDE_NAMESPACE
 #include "qt_windows.h"
 QT_END_INCLUDE_NAMESPACE
@@ -260,7 +259,7 @@ Q3TextCursor *Q3TextDeleteCommand::unexecute(Q3TextCursor *c)
 
 #ifndef QT_NO_DATASTREAM
     if (!styleInformation.isEmpty()) {
-        QDataStream styleStream(&styleInformation, IO_ReadOnly);
+        QDataStream styleStream(&styleInformation, QIODevice::ReadOnly);
         int num;
         styleStream >> num;
         Q3TextParagraph *p = s;
@@ -384,7 +383,7 @@ QByteArray Q3TextStyleCommand::readStyleInformation( Q3TextDocument* doc, int fP
     Q3TextParagraph *p = doc->paragAt(fParag);
     if (!p)
         return style;
-    QDataStream styleStream(&style, IO_WriteOnly);
+    QDataStream styleStream(&style, QIODevice::WriteOnly);
     int num = lParag - fParag + 1;
     styleStream << num;
     while (num -- && p) {
@@ -402,7 +401,7 @@ void Q3TextStyleCommand::writeStyleInformation( Q3TextDocument* doc, int fParag,
     if (!p)
         return;
     QByteArray copy = style;
-    QDataStream styleStream(&copy, IO_ReadOnly);
+    QDataStream styleStream(&copy, QIODevice::ReadOnly);
     int num;
     styleStream >> num;
     while (num-- && p) {
@@ -1735,7 +1734,7 @@ void Q3TextDocument::setRichTextInternal(const QString &text, Q3TextCursor* curs
 #ifndef QT_NO_MIME
                             QImage img;
                             QString bg = *it;
-                            const QMimeSource* m = factory_->data(bg, contxt);
+                            const QMimeData* m = factory_->data(bg, contxt);
                             if (!m) {
                                 qCritical("QRichText: no mimesource for %s",
                                           QFile::encodeName(bg).data());
@@ -1983,7 +1982,7 @@ void Q3TextDocument::setRichTextInternal(const QString &text, Q3TextCursor* curs
                 while (curtag.name != tagname) {
                     QString msg;
                     msg.sprintf("QText Warning: Document not valid ('%s' not closed before '%s' #%d)",
-                                 curtag.name.ascii(), tagname.ascii(), pos);
+                                 curtag.name.toLatin1().data(), tagname.toLatin1().data(), pos);
                     sheet_->error(msg);
                     if (tags.isEmpty())
                         break;
@@ -3937,7 +3936,7 @@ void Q3TextString::checkBidi() const
     textEngine.text = toString();
     textEngine.option.setTextDirection(rightToLeft ? Qt::RightToLeft : Qt::LeftToRight);
     textEngine.itemize();
-    const HB_CharAttributes *ca = textEngine.attributes() + length-1;
+    const QCharAttributes *ca = textEngine.attributes() + length-1;
     Q3TextStringChar *ch = (Q3TextStringChar *)end - 1;
     QScriptItem *item = &textEngine.layoutData->items[textEngine.layoutData->items.size()-1];
     unsigned char bidiLevel = item->analysis.bidiLevel;
@@ -3951,7 +3950,7 @@ void Q3TextString::checkBidi() const
             if (bidiLevel)
                 that->bidi = true;
         }
-        ch->softBreak = ca->lineBreakType >= HB_Break;
+		ch->softBreak = ca->lineBreak >= HB_Break;
         ch->whiteSpace = ca->whiteSpace;
         ch->charStop = ca->charStop;
         ch->bidiLevel = bidiLevel;
@@ -4337,7 +4336,7 @@ void Q3TextParagraph::move(int &dy)
     if (dy == 0)
         return;
     changed = true;
-    r.moveBy(0, dy);
+    r.translate(0, dy);
 #ifndef QT_NO_TEXTCUSTOMITEM
     if (mFloatingItems) {
         for (int idx = 0; idx < mFloatingItems->size(); ++idx) {
@@ -6677,7 +6676,7 @@ Q3TextImage::Q3TextImage(Q3TextDocument *p, const QMap<QString, QString> &attr, 
             height = pm.height();
         } else {
             QImage img;
-            const QMimeSource* m =
+            const QMimeData* m =
                 factory.data(imageName, context);
             if (!m) {
                 qCritical("Q3TextImage: no mimesource for %s", imageName.toLatin1().data());
@@ -7021,7 +7020,7 @@ Q3TextCustomItem* Q3TextDocument::parseTable(const QMap<QString, QString> &attr,
 bool Q3TextDocument::eatSpace(const QChar* doc, int length, int& pos, bool includeNbsp)
 {
     int old_pos = pos;
-    while (pos < length && doc[pos].isSpace() && (includeNbsp || (doc[pos] != QChar(QChar::nbsp))))
+    while (pos < length && doc[pos].isSpace() && (includeNbsp || (doc[pos] != QChar(QChar::Nbsp))))
         pos++;
     return old_pos < pos;
 }
@@ -7420,7 +7419,7 @@ QChar Q3TextDocument::parseChar(const QChar* doc, int length, int& pos, Q3StyleS
     if (c == QLatin1Char('<'))
         return QChar::null;
 
-    if (c.isSpace() && c != QChar(QChar::nbsp)) {
+    if (c.isSpace() && c != QChar(QChar::Nbsp)) {
         if (wsm == Q3StyleSheetItem::WhiteSpacePre) {
             if (c == QLatin1Char('\n'))
                 return QChar::LineSeparator;
@@ -7428,7 +7427,7 @@ QChar Q3TextDocument::parseChar(const QChar* doc, int length, int& pos, Q3StyleS
                 return c;
         } else { // non-pre mode: collapse whitespace except nbsp
             while (pos< length &&
-                    doc[pos].isSpace()  && doc[pos] != QChar(QChar::nbsp))
+                    doc[pos].isSpace()  && doc[pos] != QChar(QChar::Nbsp))
                 pos++;
             return QLatin1Char(' ');
         }

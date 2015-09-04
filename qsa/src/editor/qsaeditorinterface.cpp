@@ -41,13 +41,13 @@
 #include "qsaeditorinterface.h"
 
 #include <QtCore/QEvent>
-#include <Q3PtrList>
+#include <QtCore/qlist.h>
 #include "q3richtext_p.h"
 
-#include <qaction.h>
-#include <qapplication.h>
-#include <qicon.h>
-#include <qtimer.h>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtGui/QIcon>
+#include <QtCore/qtimer.h>
 
 #include <markerwidget.h>
 #include <viewmanager.h>
@@ -55,14 +55,14 @@
 // #include "qsabreakpointsettingsimpl.h"
 // #include "qsdebugger.h"
 
-static Q3PtrList<QSAEditorInterface> *editorInterfaces = 0;
+static QList<QSAEditorInterface*> *editorInterfaces = 0;
 bool QSAEditorInterface::debuggerEnabled = true;
 
 QSAEditorInterface::QSAEditorInterface()
     : viewManager( 0 )
 {
     if ( !editorInterfaces )
-	editorInterfaces = new Q3PtrList<QSAEditorInterface>;
+	editorInterfaces = new QList<QSAEditorInterface*>;
     editorInterfaces->append( this );
     updateTimer = new QTimer( this );
 	updateTimer->setSingleShot( true );
@@ -73,7 +73,7 @@ QSAEditorInterface::QSAEditorInterface()
 
 QSAEditorInterface::~QSAEditorInterface()
 {
-    editorInterfaces->removeRef( this );
+    editorInterfaces->removeAll( this );
     updateTimer->stop();
     delete viewManager;
 //     delete actionToggleBreakPoint;
@@ -107,7 +107,7 @@ QWidget *QSAEditorInterface::editor( bool readonly, QWidget *parent )
 
 //         QApplication::processEvents();
 //
-        QApplication::sendPostedEvents( viewManager, QEvent::ChildInserted );
+        QApplication::sendPostedEvents( viewManager, QEvent::ChildAdded );
 
 //         QChildEvent event(QEvent::ChildAdded, e);
 //         QApplication::sendEvent(viewManager, &event);
@@ -267,7 +267,7 @@ void QSAEditorInterface::scrollTo( const QString &txt, const QString &first )
     Q3TextDocument *doc = ( (QSAEditor*)viewManager->currentView() )->document();
     Q3TextParagraph *p = doc->firstParagraph();
     while ( p ) {
-	if ( p->string()->toString().find( expr ) != -1 ) {
+	if ( p->string()->toString().indexOf( expr ) != -1 ) {
 	    ( (QSAEditor*)viewManager->currentView() )->setCursorPosition( p->paragId() + 2, 0 );
 	    if ( expr == txt )
 		break;
@@ -372,21 +372,21 @@ bool QSAEditorInterface::eventFilter( QObject *o, QEvent *e )
 	} else if ( e->type() == QEvent::FocusOut && !ignoreNextFocusOut ) {
 	    ignoreNextFocusOut = false;
 	    update();
-	    for ( QSAEditorInterface *iface = editorInterfaces->first();
-		  iface; iface = editorInterfaces->next() ) {
+//	    for ( QSAEditorInterface *iface = editorInterfaces->first();
+//		  iface; iface = editorInterfaces->next() ) {
 // 		if ( iface->actionToggleBreakPoint ) {
 // 		    iface->actionToggleBreakPoint->setEnabled( false );
 // 		    break;
 // 		}
-	    }
+//	    }
 	} else if ( e->type() == QEvent::FocusIn ) {
-	    for ( QSAEditorInterface *iface = editorInterfaces->first();
-		  iface; iface = editorInterfaces->next() ) {
+//	    for ( QSAEditorInterface *iface = editorInterfaces->first();
+//		  iface; iface = editorInterfaces->next() ) {
 // 		if ( iface->actionToggleBreakPoint ) {
 // 		    iface->actionToggleBreakPoint->setEnabled( debuggerEnabled );
 // 		    break;
 // 		}
-	    }
+//	    }
 	}
     } else if ( viewManager ) {
 	if ( e->type() == QEvent::Close )

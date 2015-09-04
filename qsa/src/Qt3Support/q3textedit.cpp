@@ -44,10 +44,11 @@
 #ifndef QT_NO_TEXTEDIT
 
 #include <q3richtext_p.h>
+#include <QtWidgets/QAction>
 #include <QtGui/QPainter>
-#include "qpen.h"
-#include "qbrush.h"
-#include "qpixmap.h"
+#include <QtGui/QPen>
+#include <QtGui/QBrush>
+#include <QtGui/QPixmap>
 #include "qfont.h"
 #include "qcolor.h"
 #include "qstyle.h"
@@ -63,14 +64,11 @@
 #include "qurl.h"
 #include "qcursor.h"
 #include "qregexp.h"
-#include "q3popupmenu.h"
 #include "qstack.h"
 #include "qmetaobject.h"
 #include "q3syntaxhighlighter_p.h"
 #include "qtextformat.h"
-#ifndef QT_NO_IM
-#include <qinputcontext.h>
-#endif
+#include <QtWidgets/QMenu>
 
 #ifndef QT_NO_ACCEL
 #include <qkeysequence.h>
@@ -112,7 +110,7 @@ public:
         for (int i=0; i<7; i++)
             id[i] = 0;
     }
-    int id[7];
+    QAction* id[7];
     int preeditStart;
     int preeditLength;
     int numPreeditSelections;
@@ -149,9 +147,9 @@ public:
     virtual QByteArray encodedData(const char *mime) const;
     virtual const char* format(int i) const;
 
-    static bool decode(QMimeSource *e, QString &str, const QString &mimetype,
+    static bool decode(const QMimeData *e, QString &str, const QString &mimetype,
                         const QString &subtype);
-    static bool canDecode(QMimeSource* e);
+    static bool canDecode(const QMimeData* e);
 
 private:
     QString richTxt;
@@ -171,7 +169,7 @@ QByteArray Q3RichTextDrag::encodedData(const char *mime) const
         return Q3TextDrag::encodedData(mime);
 }
 
-bool Q3RichTextDrag::decode(QMimeSource *e, QString &str, const QString &mimetype,
+bool Q3RichTextDrag::decode(QMimeData *e, QString &str, const QString &mimetype,
                             const QString &subtype)
 {
     if (mimetype == QLatin1String("application/x-qrichtext")) {
@@ -192,7 +190,7 @@ bool Q3RichTextDrag::decode(QMimeSource *e, QString &str, const QString &mimetyp
     return Q3TextDrag::decode(e, str, st);
 }
 
-bool Q3RichTextDrag::canDecode(QMimeSource* e)
+bool Q3RichTextDrag::canDecode(const QMimeData* e)
 {
     if (e->provides("application/x-qrichtext"))
         return true;
@@ -930,7 +928,7 @@ void Q3TextEdit::init()
     doc->formatCollection()->defaultFormat()->setFont(f);
     doc->formatCollection()->defaultFormat()->setColor(palette().color(QPalette::Text));
     currentFormat = doc->formatCollection()->defaultFormat();
-    currentAlignment = Qt::AlignAuto;
+    currentAlignment = Qt::AlignLeft;
 
     setBackgroundRole(QPalette::Base);
     viewport()->setBackgroundRole(QPalette::Base);
@@ -980,7 +978,6 @@ void Q3TextEdit::init()
     viewport()->setFocusProxy(this);
     viewport()->setFocusPolicy(Qt::WheelFocus);
     setFocusPolicy(Qt::WheelFocus);
-    setInputMethodEnabled(true);
     viewport()->installEventFilter(this);
     connect(this, SIGNAL(horizontalSliderReleased()), this, SLOT(sliderReleased()));
     connect(this, SIGNAL(verticalSliderReleased()), this, SLOT(sliderReleased()));
@@ -1075,11 +1072,11 @@ void Q3TextEdit::drawContents(QPainter *p)
 
 bool Q3TextEdit::event(QEvent *e)
 {
-    if (e->type() == QEvent::AccelOverride && !isReadOnly()) {
+    if (e->type() == QEvent::ShortcutOverride && !isReadOnly()) {
         QKeyEvent* ke = (QKeyEvent*) e;
         switch(ke->modifiers()) {
         case Qt::NoButton:
-        case Qt::Keypad:
+        case Qt::KeypadModifier:
         case Qt::ShiftModifier:
             if (ke->key() < Qt::Key_Escape) {
                 ke->accept();
@@ -1102,8 +1099,8 @@ bool Q3TextEdit::event(QEvent *e)
 
         case Qt::ControlModifier:
         case Qt::ControlModifier|Qt::ShiftModifier:
-        case Qt::ControlModifier|Qt::Keypad:
-        case Qt::ControlModifier|Qt::ShiftModifier|Qt::Keypad:
+        case Qt::ControlModifier|Qt::KeypadModifier:
+        case Qt::ControlModifier|Qt::ShiftModifier|Qt::KeypadModifier:
             switch (ke->key()) {
             case Qt::Key_Tab:
             case Qt::Key_Backtab:
@@ -1349,7 +1346,7 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
         repaintChanged();
         break;
     default: {
-            unsigned char ascii = e->text().length() ? e->text().unicode()->latin1() : 0;
+            unsigned char ascii = e->text().length() ? e->text().unicode()->toLatin1() : 0;
             if (e->text().length() &&
                 ((!(e->modifiers() & Qt::ControlModifier) &&
 #ifndef Q_OS_MAC
@@ -1745,7 +1742,7 @@ void Q3TextEdit::doKeyboardAction(Q3TextEdit::KeyboardAction action)
 void Q3TextEdit::readFormats(Q3TextCursor &c1, Q3TextCursor &c2, Q3TextString &text, bool fillStyles)
 {
 #ifndef QT_NO_DATASTREAM
-    QDataStream styleStream(&undoRedoInfo.styleInformation, IO_WriteOnly);
+    QDataStream styleStream(&undoRedoInfo.styleInformation, QIODevice::WriteOnly);
 #endif
     c2.restoreState();
     c1.restoreState();
@@ -1954,7 +1951,6 @@ void Q3TextEdit::moveCursor(Q3TextEdit::CursorAction action, bool select)
 
 void Q3TextEdit::moveCursor(Q3TextEdit::CursorAction action)
 {
-    resetInputContext();
     switch (action) {
     case MoveBackward:
         cursor->gotoPreviousLetter();
@@ -2499,7 +2495,7 @@ void Q3TextEdit::contentsDragMoveEvent(QDragMoveEvent *e)
     drawCursor(false);
     placeCursor(e->pos(),  cursor);
     drawCursor(true);
-    e->acceptAction();
+	e->acceptProposedAction();
 }
 
 /*!
@@ -2521,7 +2517,7 @@ void Q3TextEdit::contentsDropEvent(QDropEvent *e)
     if (isReadOnly())
         return;
     inDnD = false;
-    e->acceptAction();
+    e->acceptProposedAction();
     bool intern = false;
     if (Q3RichTextDrag::canDecode(e)) {
         bool hasSel = doc->hasSelection(Q3TextDocument::Standard);
@@ -2559,7 +2555,7 @@ void Q3TextEdit::contentsDropEvent(QDropEvent *e)
             }
          }
 
-        if (internalDrag && e->action() == QDropEvent::Move) {
+        if (internalDrag && e->dropAction() == QDropEvent::Move) {
             removeSelectedText();
             intern = true;
             doc->removeSelection(Q3TextDocument::Standard);
@@ -2576,7 +2572,7 @@ void Q3TextEdit::contentsDropEvent(QDropEvent *e)
         if (!cursor->nestedDepth()) {
             QString subType = QLatin1String("plain");
             if (textFormat() != Qt::PlainText) {
-                if (e->provides("application/x-qrichtext"))
+                if (e->mimeData()->hasFormat("application/x-qrichtext"))
                     subType = QLatin1String("x-qrichtext");
             }
 #ifndef QT_NO_CLIPBOARD
@@ -2606,12 +2602,12 @@ void Q3TextEdit::contentsContextMenuEvent(QContextMenuEvent *e)
 
     e->accept();
 #ifndef QT_NO_POPUPMENU
-    Q3PopupMenu *popup = createPopupMenu(e->pos());
+    QMenu *popup = createPopupMenu(e->pos());
     if (!popup)
         popup = createPopupMenu();
     if (!popup)
         return;
-    int r = popup->exec(e->globalPos(), -1);
+    QAction* r = popup->exec(e->globalPos());
     delete popup;
 
     if (r == d->id[IdClear])
@@ -2739,8 +2735,6 @@ void Q3TextEdit::placeCursor(const QPoint &pos, Q3TextCursor *c, bool link)
     if (!c)
         c = cursor;
 
-    if(c == cursor)
-        resetInputContext();
     c->restoreState();
     Q3TextParagraph *s = doc->firstParagraph();
     c->place(pos, s, link);
@@ -3205,7 +3199,7 @@ void Q3TextEdit::paste()
         return;
     QString subType = QLatin1String("plain");
     if (textFormat() != Qt::PlainText) {
-        QMimeSource *m = QApplication::clipboard()->data(d->clipboard_mode);
+        const QMimeData *m = QApplication::clipboard()->mimeData(d->clipboard_mode);
         if (!m)
             return;
         if (m->provides("application/x-qrichtext"))
@@ -3279,7 +3273,7 @@ void Q3TextEdit::normalCopy()
     if (!drag)
         return;
 #ifndef QT_NO_MIMECLIPBOARD
-    QApplication::clipboard()->setData(drag, d->clipboard_mode);
+    QApplication::clipboard()->setMimeData(drag, d->clipboard_mode);
 #endif // QT_NO_MIMECLIPBOARD
 #endif // QT_NO_MIME
 }
@@ -4448,7 +4442,7 @@ bool Q3TextEdit::UndoRedoInfo::valid() const
 
 void Q3TextEdit::resetFormat()
 {
-    setAlignment(Qt::AlignAuto);
+    setAlignment(Qt::AlignLeft);
     setParagType(Q3StyleSheetItem::DisplayBlock, Q3StyleSheetItem::ListDisc);
     setFormat(doc->formatCollection()->defaultFormat(), Q3TextFormat::Format);
 }
@@ -4879,14 +4873,14 @@ void Q3TextEdit::setDocument(Q3TextDocument *dc)
 void Q3TextEdit::pasteSubType(const QByteArray &subtype)
 {
 #ifndef QT_NO_MIMECLIPBOARD
-    QMimeSource *m = QApplication::clipboard()->data(d->clipboard_mode);
+    const QMimeData *m = QApplication::clipboard()->mimeData(d->clipboard_mode);
     pasteSubType(subtype, m);
 #endif
 }
 
 /*! \internal */
 
-void Q3TextEdit::pasteSubType(const QByteArray& subtype, QMimeSource *m)
+void Q3TextEdit::pasteSubType(const QByteArray& subtype, const QMimeData *m)
 {
 #ifndef QT_NO_MIME
     QByteArray st = subtype;
@@ -5006,14 +5000,14 @@ void Q3TextEdit::pasteSubType(const QByteArray& subtype, QMimeSource *m)
 */
 void Q3TextEdit::pasteSpecial(const QPoint& pt)
 {
-    QByteArray st = pickSpecial(QApplication::clipboard()->data(d->clipboard_mode),
+    QByteArray st = pickSpecial(QApplication::clipboard()->mimeData(d->clipboard_mode),
                                true, pt);
     if (!st.isEmpty())
         pasteSubType(st);
 }
 #endif
 #ifndef QT_NO_MIME
-QByteArray Q3TextEdit::pickSpecial(QMimeSource* ms, bool always_ask, const QPoint& pt)
+QByteArray Q3TextEdit::pickSpecial(const QMimeData* ms, bool always_ask, const QPoint& pt)
 {
     if (ms)  {
 #ifndef QT_NO_MENU
@@ -5029,7 +5023,7 @@ QByteArray Q3TextEdit::pickSpecial(QMimeSource* ms, bool always_ask, const QPoin
                 fmt = fmt.mid(5);
                 if (!done.contains(fmt)) {
                     done.insert(fmt,true);
-                    popup.insertItem(fmt, i);
+                    popup.insertAction(fmt, i);
                     n++;
                 }
             }
@@ -5421,46 +5415,47 @@ bool Q3TextEdit::getParagraphFormat(int para, QFont *font, QColor *color,
     sure to specify ID values larger than 7.
 */
 
-Q3PopupMenu *Q3TextEdit::createPopupMenu(const QPoint& pos)
+QMenu *Q3TextEdit::createPopupMenu(const QPoint& pos)
 {
     Q_UNUSED(pos)
 #ifndef QT_NO_POPUPMENU
-    Q3PopupMenu *popup = new Q3PopupMenu(this, "qt_edit_menu");
+    QMenu *popup = new QMenu(this);
+	popup->setObjectName("qt_edit_menu");
     if (!isReadOnly()) {
-        d->id[IdUndo] = popup->insertItem(tr("&Undo") + ACCEL_KEY(Z));
-        d->id[IdRedo] = popup->insertItem(tr("&Redo") + ACCEL_KEY(Y));
+        d->id[IdUndo] = popup->addAction(tr("&Undo") + ACCEL_KEY(Z));
+		d->id[IdRedo] = popup->addAction(tr("&Redo") + ACCEL_KEY(Y));
         popup->addSeparator();
     }
 #ifndef QT_NO_CLIPBOARD
     if (!isReadOnly())
-        d->id[IdCut] = popup->insertItem(tr("Cu&t") + ACCEL_KEY(X));
-    d->id[IdCopy] = popup->insertItem(tr("&Copy") + ACCEL_KEY(C));
+		d->id[IdCut] = popup->addAction(tr("Cu&t") + ACCEL_KEY(X));
+	d->id[IdCopy] = popup->addAction(tr("&Copy") + ACCEL_KEY(C));
     if (!isReadOnly())
-        d->id[IdPaste] = popup->insertItem(tr("&Paste") + ACCEL_KEY(V));
+		d->id[IdPaste] = popup->addAction(tr("&Paste") + ACCEL_KEY(V));
 #endif
     if (!isReadOnly()) {
-        d->id[IdClear] = popup->insertItem(tr("Clear"));
+		d->id[IdClear] = popup->addAction(tr("Clear"));
         popup->addSeparator();
     }
 #if defined(Q_WS_X11)
-    d->id[IdSelectAll] = popup->insertItem(tr("Select All"));
+	d->id[IdSelectAll] = popup->addAction(tr("Select All"));
 #else
-    d->id[IdSelectAll] = popup->insertItem(tr("Select All") + ACCEL_KEY(A));
+	d->id[IdSelectAll] = popup->addAction(tr("Select All") + ACCEL_KEY(A));
 #endif
-    popup->setItemEnabled(d->id[IdUndo], !isReadOnly() && doc->commands()->isUndoAvailable());
-    popup->setItemEnabled(d->id[IdRedo], !isReadOnly() && doc->commands()->isRedoAvailable());
+	d->id[IdUndo]->setEnabled(!isReadOnly() && doc->commands()->isUndoAvailable());
+	d->id[IdRedo]->setEnabled(!isReadOnly() && doc->commands()->isRedoAvailable());
 #ifndef QT_NO_CLIPBOARD
-    popup->setItemEnabled(d->id[IdCut], !isReadOnly() && doc->hasSelection(Q3TextDocument::Standard, true));
+	d->id[IdCut]->setEnabled(!isReadOnly() && doc->hasSelection(Q3TextDocument::Standard, true));
 #ifdef QT_TEXTEDIT_OPTIMIZATION
-    popup->setItemEnabled(d->id[IdCopy], d->optimMode ? optimHasSelection() : doc->hasSelection(Q3TextDocument::Standard, true));
+	d->id[IdCopy]->setEnabled(d->optimMode ? optimHasSelection() : doc->hasSelection(Q3TextDocument::Standard, true));
 #else
-    popup->setItemEnabled(d->id[IdCopy], doc->hasSelection(Q3TextDocument::Standard, true));
+	d->id[IdCopy]->setEnabled(doc->hasSelection(Q3TextDocument::Standard, true));
 #endif
-    popup->setItemEnabled(d->id[IdPaste], !isReadOnly() && !QApplication::clipboard()->text(d->clipboard_mode).isEmpty());
+	d->id[IdPaste]->setEnabled(!isReadOnly() && !QApplication::clipboard()->text(d->clipboard_mode).isEmpty());
 #endif
     const bool isEmptyDocument = (length() == 0);
-    popup->setItemEnabled(d->id[IdClear], !isReadOnly() && !isEmptyDocument);
-    popup->setItemEnabled(d->id[IdSelectAll], !isEmptyDocument);
+	d->id[IdClear]->setEnabled(!isReadOnly() && !isEmptyDocument);
+	d->id[IdSelectAll]->setEnabled(!isEmptyDocument);
     return popup;
 #else
     return 0;
@@ -5477,7 +5472,7 @@ Q3PopupMenu *Q3TextEdit::createPopupMenu(const QPoint& pos)
     returns 0.
 */
 
-Q3PopupMenu *Q3TextEdit::createPopupMenu()
+QMenu *Q3TextEdit::createPopupMenu()
 {
     return 0;
 }
@@ -5672,7 +5667,6 @@ void Q3TextEdit::setReadOnly(bool b)
         viewport()->setCursor(Qt::ArrowCursor);
     else
         viewport()->setCursor(Qt::IBeamCursor);
-    setInputMethodEnabled(!readonly);
 #endif
 #ifdef QT_TEXTEDIT_OPTIMIZATION
     checkOptimMode();

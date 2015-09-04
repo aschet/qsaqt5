@@ -61,7 +61,7 @@
 #include "qdrag.h"
 #include "QStringList.h"
 
-//#include <qobject_p.h>
+#include <private/qobject_p.h>
 
 #include <ctype.h>
 #if defined(Q_OS_WINCE)
@@ -142,19 +142,12 @@ QByteArray QDragMime::data(const QString &mimetype) const
 
 bool QDragMime::hasFormat(const QString &mimetype) const
 {
-    return dragObject->provides(mimetype.toLatin1());
+    return dragObject->hasFormat(mimetype.toLatin1());
 }
 
 QStringList QDragMime::formats() const
 {
-    int i = 0;
-    const char *format;
-    QStringList f;
-    while ((format = dragObject->format(i))) {
-        f.append(QLatin1String(format));
-        ++i;
-    }
-    return f;
+	return dragObject->formats();
 }
 
 /*!
@@ -839,7 +832,7 @@ QByteArray Q3ImageDrag::encodedData(const char* fmt) const
         imgFormat = QLatin1String("image/PNG");
 
     if (imgFormat.startsWith("image/")){
-        QByteArray f(imgFormat.mid(6).toAscii());
+        QByteArray f(imgFormat.mid(6).toLatin1());
         QByteArray dat;
         QBuffer w(&dat);
         w.open(QIODevice::WriteOnly);
@@ -1243,7 +1236,7 @@ QByteArray Q3UriDrag::unicodeUriToUri(const QString& uuri)
             // Everything else is escaped as %HH
             QString s;
             s.sprintf("%%%02x",(uchar)utf8[i]);
-            escutf8 += s.latin1();
+			escutf8 += s.toUtf8();
         }
     }
     return escutf8;
@@ -1414,7 +1407,7 @@ bool Q3UriDrag::decodeLocalFiles(const QMimeData* e, QStringList& l)
 
     l.clear();
     for (uint i = 0; i < u.count(); ++i) {
-        QString lf = uriToLocalFile(u.at(i));
+        QString lf = uriToLocalFile(u.at(i).toLatin1());
         if (!lf.isEmpty())
             l.append(lf);
     }
@@ -1525,7 +1518,7 @@ void Q3ColorDrag::setColor(const QColor &col)
 
 bool Q3ColorDrag::canDecode(QMimeData *e)
 {
-    return e->provides("application/x-color");
+    return e->hasFormat("application/x-color");
 }
 
 /*!

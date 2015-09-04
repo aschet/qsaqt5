@@ -44,12 +44,6 @@
 
 #include <QtWidgets/QFrame>
 
-
-
-
-
-
-
 class QSA_EXPORT Q3Frame : public QFrame
 {
     Q_OBJECT
@@ -82,9 +76,5 @@ private:
 
     int marg;
 };
-
-
-
-
 
 #endif // Q3FRAME_H

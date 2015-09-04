@@ -42,7 +42,7 @@
 #ifndef QSA_NO_EDITOR
 
 #include <browser.h>
-#include <QEvent>
+#include <QtCore/QEvent>
 
 class QSAEditorBrowser : public EditorBrowser
 {

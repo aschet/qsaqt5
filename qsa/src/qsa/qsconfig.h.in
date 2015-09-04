@@ -3,6 +3,7 @@
 #ifndef QS_CONFIG_H
 #define QS_CONFIG_H
 
+#cmakedefine QSA_NO_DLL
 #cmakedefine QSA_NO_EDITOR
 #cmakedefine QSA_NEW_EDITOR
 #cmakedefine QSA_NO_IDE

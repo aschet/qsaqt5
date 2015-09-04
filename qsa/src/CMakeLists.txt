@@ -2,10 +2,17 @@ cmake_minimum_required(VERSION 3.3.1)
 
 project(src)
 
-# QSA_DLL oder QSA_NO_DLL
+option(QSA_NO_DLL "Does not compile as shared library." OFF)
 option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)
 option(QSA_NEW_EDITOR "Does compile QTextEdit instead of Q3TextEdit based editor into QSA." ON)
 option(QSA_NO_IDE "Does not compile QSA Workbench into QSA." OFF)
+
+if(${QSA_NO_DLL})
+set(LIB_MODE STATIC)
+else()
+set(LIB_MODE SHARED)
+add_definitions(-DQSA_DLL)
+endif(${QSA_NO_DLL})
 
 configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_SOURCE_DIR}/qsa/qsconfig.h")
 
@@ -13,7 +20,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
-
 
 include_directories(engine kernel qsa)
 add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL)
@@ -74,6 +80,8 @@ set(HEADERS engine/qsclass.h
 	kernel/quickpixmapobject.h
 	kernel/quickcolorobject.h
 	kernel/quickfontobject.h
+	qsa/qsaglobal.h
+	qsa/qsconfig.h
 	qsa/qsobjectfactory.h
 	qsa/qswrapperfactory.h
 	qsa/qsutilfactory.h
@@ -168,7 +176,43 @@ set(SOURCES ${SOURCES}
 
 else()
 
-include_directories(editor)
+include_directories(editor ../tools/designer/editor Qt3Support)
+set(UIS ${UIS}
+#	../tools/designer/editor/preferences.ui
+#	../tools/designer/editor/preferences.ui.h
+)
+set(HEADERS_MOC ${HEADERS_MOC}
+	editor/qsabrowser.h
+	editor/qsacompletion.h
+	editor/qsaeditor.h
+	editor/qsaeditorinterface.h
+	../tools/designer/editor/arghintwidget.h
+	../tools/designer/editor/browser.h
+	../tools/designer/editor/completion.h
+	../tools/designer/editor/editor.h
+	../tools/designer/editor/markerwidget.h
+	../tools/designer/editor/viewmanager.h
+)
+set(HEADERS ${HEADERS}
+	../tools/designer/editor/cindent.h
+	../tools/designer/editor/paragdata.h
+	../tools/designer/editor/parenmatcher.h
+)
+set(SOURCES ${SOURCES}
+	editor/qsabrowser.cpp
+	editor/qsacompletion.cpp
+	editor/qsaeditor.cpp
+	editor/qsaeditorinterface.cpp
+	../tools/designer/editor/arghintwidget.cpp
+	../tools/designer/editor/browser.cpp
+	../tools/designer/editor/cindent.cpp
+	../tools/designer/editor/completion.cpp
+	../tools/designer/editor/editor.cpp
+	../tools/designer/editor/markerwidget.cpp
+	../tools/designer/editor/parenmatcher.cpp
+	../tools/designer/editor/viewmanager.cpp
+	../tools/designer/editor/yyindent.cpp
+)
 
 endif(${QSA_NEW_EDITOR})
 
@@ -217,5 +261,5 @@ qt5_add_resources(SOURCES_QRC ${QRCS})
 qt5_wrap_ui(HEADERS_UIS ${UIS})
 qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
-add_library(qsa SHARED ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
+add_library(qsa ${LIB_MODE} ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
 target_link_libraries(qsa ${QT_LIBS})

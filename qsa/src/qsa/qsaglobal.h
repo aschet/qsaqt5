@@ -67,8 +67,11 @@
 #  else
 #    define QSA_EXPORT __declspec(dllimport)
 #  endif
+// TODO: QSAQt5 - fix definition
+# define QSA_EXPORT_INLINE
 #else
-#  define QSA_EXPORT
+# define QSA_EXPORT
+# define QSA_EXPORT_INLINE
 #endif
 
 #endif

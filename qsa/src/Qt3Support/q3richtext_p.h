@@ -53,12 +53,13 @@
 // We mean it.
 //
 
-#include "QtGui/qapplication.h"
+#include "QtWidgets/QApplication"
 #include "QtGui/qcolor.h"
 #include "QtCore/qhash.h"
 #include "QtGui/qfont.h"
+#include "QtGui/qpalette.h"
 #include "QtGui/qfontmetrics.h"
-#include "QtGui/qlayout.h"
+#include "QtWidgets/QLayout"
 #include "QtCore/qmap.h"
 #include "QtCore/qvector.h"
 #include "QtCore/qstack.h"

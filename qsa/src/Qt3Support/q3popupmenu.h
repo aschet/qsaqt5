@@ -42,7 +42,7 @@
 #ifndef Q3POPUPMENU_H
 #define Q3POPUPMENU_H
 
-#include <QtGui/qmenu.h>
+#include <QtWidgets/QMenu>
 
 QT_BEGIN_HEADER
 

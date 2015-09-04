@@ -43,7 +43,7 @@
 #define Q3SCROLLVIEW_H
 
 #include <Qt3Support/q3frame.h>
-#include <QtGui/qscrollbar.h>
+#include <QtWidgets/QScrollBar>
 
 QT_BEGIN_HEADER
 

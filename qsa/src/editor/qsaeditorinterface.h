@@ -43,9 +43,9 @@
 
 #include "viewmanager.h"
 
-#include <QObject>
-#include <QPointer>
-#include <QEvent>
+#include <QtCore/QObject>
+#include <QtCore/QPointer>
+#include <QtCore/QEvent>
 class QTimer;
 class QAction;
 class Q3TextEdit;

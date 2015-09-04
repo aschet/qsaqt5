@@ -39,8 +39,8 @@
 #include "qsacompletion.h"
 #include "qsaeditor.h"
 #include "qsaeditorinterface.h"
-//Added by qt3to4:
-#include <QEvent>
+
+#include <QtCore/QEvent>
 #include <Q3PtrList>
 #include "q3richtext_p.h"
 
@@ -65,6 +65,7 @@ QSAEditorInterface::QSAEditorInterface()
 	editorInterfaces = new Q3PtrList<QSAEditorInterface>;
     editorInterfaces->append( this );
     updateTimer = new QTimer( this );
+	updateTimer->setSingleShot( true );
     connect( updateTimer, SIGNAL( timeout() ), this, SLOT( update() ) );
 //     actionToggleBreakPoint = 0;
 //     actionEditBreakpoints = 0;
@@ -418,7 +419,7 @@ int QSAEditorInterface::numLines() const
 
 void QSAEditorInterface::intervalChanged()
 {
-    updateTimer->start( 2000, true );
+    updateTimer->start( 2000 );
 }
 
 void QSAEditorInterface::update()

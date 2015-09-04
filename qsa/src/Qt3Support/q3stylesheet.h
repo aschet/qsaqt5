@@ -42,12 +42,12 @@
 #ifndef Q3STYLESHEET_H
 #define Q3STYLESHEET_H
 
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 #include <QtCore/QList>
-#include <QtCore/qhash.h>
+#include <QtCore/QHash>
 #include <QtCore/QObject>
 #include <QtGui/QColor>
-#include <QtGui/qfont.h>
+#include <QtGui/QFont>
 
 
 

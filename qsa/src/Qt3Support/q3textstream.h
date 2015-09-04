@@ -43,7 +43,7 @@
 #define Q3TEXTSTREAM_H
 
 #include <QtCore/qiodevice.h>
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 #ifndef QT_NO_TEXTCODEC
 #include <QtCore/qtextcodec.h>
 #endif

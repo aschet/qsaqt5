@@ -42,7 +42,7 @@
 #ifndef Q3STRVEC_H
 #define Q3STRVEC_H
 
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 #include <q3ptrvector.h>
 #include <QtCore/qdatastream.h>
 

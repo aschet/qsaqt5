@@ -43,9 +43,9 @@
 #define Q3MIMEFACTORY_H
 
 #include <QtGui/qwindowdefs.h>
-#include <QtCore/qstring.h>
-#include <QtCore/qmap.h>
-#include <QtGui/qpixmap.h>
+#include <QtCore/QString>
+#include <QtCore/QMap>
+#include <QtGui/QPixmap>
 
 
 

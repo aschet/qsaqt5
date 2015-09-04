@@ -1078,10 +1078,10 @@ bool Q3TextEdit::event(QEvent *e)
 {
     if (e->type() == QEvent::AccelOverride && !isReadOnly()) {
         QKeyEvent* ke = (QKeyEvent*) e;
-        switch(ke->state()) {
+        switch(ke->modifiers()) {
         case Qt::NoButton:
         case Qt::Keypad:
-        case Qt::ShiftButton:
+        case Qt::ShiftModifier:
             if (ke->key() < Qt::Key_Escape) {
                 ke->accept();
             } else {
@@ -1101,10 +1101,10 @@ bool Q3TextEdit::event(QEvent *e)
             }
             break;
 
-        case Qt::ControlButton:
-        case Qt::ControlButton|Qt::ShiftButton:
-        case Qt::ControlButton|Qt::Keypad:
-        case Qt::ControlButton|Qt::ShiftButton|Qt::Keypad:
+        case Qt::ControlModifier:
+        case Qt::ControlModifier|Qt::ShiftModifier:
+        case Qt::ControlModifier|Qt::Keypad:
+        case Qt::ControlModifier|Qt::ShiftModifier|Qt::Keypad:
             switch (ke->key()) {
             case Qt::Key_Tab:
             case Qt::Key_Backtab:
@@ -1187,7 +1187,8 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
     if (isReadOnly()) {
         if (!handleReadOnlyKeyEvent(e))
             Q3ScrollView::keyPressEvent(e);
-        changeIntervalTimer->start(100, true);
+		changeIntervalTimer->setSingleShot(true);
+		changeIntervalTimer->start(100);
         return;
     }
 
@@ -1211,34 +1212,34 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
         // correct semantics and movement for BiDi and non BiDi text.
         CursorAction a;
         if (cursor->paragraph()->string()->isRightToLeft() == (e->key() == Qt::Key_Right))
-            a = e->state() & Qt::ControlButton ? MoveWordBackward : MoveBackward;
+            a = e->modifiers() & Qt::ControlModifier ? MoveWordBackward : MoveBackward;
         else
-            a = e->state() & Qt::ControlButton ? MoveWordForward : MoveForward;
-        moveCursor(a, e->state() & Qt::ShiftButton);
+            a = e->modifiers() & Qt::ControlModifier ? MoveWordForward : MoveForward;
+        moveCursor(a, e->modifiers() & Qt::ShiftModifier);
         break;
     }
     case Qt::Key_Up:
-        moveCursor(e->state() & Qt::ControlButton ? MovePgUp : MoveUp, e->state() & Qt::ShiftButton);
+        moveCursor(e->modifiers() & Qt::ControlModifier ? MovePgUp : MoveUp, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_Down:
-        moveCursor(e->state() & Qt::ControlButton ? MovePgDown : MoveDown, e->state() & Qt::ShiftButton);
+        moveCursor(e->modifiers() & Qt::ControlModifier ? MovePgDown : MoveDown, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_Home:
-        moveCursor(e->state() & Qt::ControlButton ? MoveHome : MoveLineStart, e->state() & Qt::ShiftButton);
+        moveCursor(e->modifiers() & Qt::ControlModifier ? MoveHome : MoveLineStart, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_End:
-        moveCursor(e->state() & Qt::ControlButton ? MoveEnd : MoveLineEnd, e->state() & Qt::ShiftButton);
+        moveCursor(e->modifiers() & Qt::ControlModifier ? MoveEnd : MoveLineEnd, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_Prior:
-        moveCursor(MovePgUp, e->state() & Qt::ShiftButton);
+        moveCursor(MovePgUp, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_Next:
-        moveCursor(MovePgDown, e->state() & Qt::ShiftButton);
+        moveCursor(MovePgDown, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_Return: case Qt::Key_Enter:
         if (doc->hasSelection(Q3TextDocument::Standard, false))
             removeSelectedText();
-        if (textFormat() == Qt::RichText && (e->state() & Qt::ControlButton)) {
+        if (textFormat() == Qt::RichText && (e->modifiers() & Qt::ControlModifier)) {
             // Ctrl-Enter inserts a line break in rich text mode
             insert(QString(QChar(QChar::LineSeparator)), true, false);
         } else {
@@ -1252,7 +1253,7 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Delete:
 #if defined (Q_WS_WIN)
-        if (e->state() & Qt::ShiftButton) {
+        if (e->modifiers() & Qt::ShiftModifier) {
             cut();
             break;
         } else
@@ -1261,16 +1262,16 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
             removeSelectedText();
             break;
         }
-        doKeyboardAction(e->state() & Qt::ControlButton ? ActionWordDelete
+        doKeyboardAction(e->modifiers() & Qt::ControlModifier ? ActionWordDelete
                           : ActionDelete);
         clearUndoRedoInfo = false;
 
         break;
     case Qt::Key_Insert:
-        if (e->state() & Qt::ShiftButton)
+        if (e->modifiers() & Qt::ShiftModifier)
             paste();
 #if defined (Q_WS_WIN)
-        else if (e->state() & Qt::ControlButton)
+        else if (e->modifiers() & Qt::ControlModifier)
             copy();
 #endif
         else
@@ -1278,10 +1279,10 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Backspace:
 #if defined (Q_WS_WIN)
-        if (e->state() & Qt::AltButton) {
-            if (e->state() & Qt::ControlButton) {
+        if (e->modifiers() & Qt::AltModifier) {
+            if (e->modifiers() & Qt::ControlModifier) {
                 break;
-            } else if (e->state() & Qt::ShiftButton) {
+            } else if (e->modifiers() & Qt::ShiftModifier) {
                 redo();
                 break;
             } else {
@@ -1295,7 +1296,7 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
             break;
         }
 
-        doKeyboardAction(e->state() & Qt::ControlButton ? ActionWordBackspace
+        doKeyboardAction(e->modifiers() & Qt::ControlModifier ? ActionWordBackspace
                           : ActionBackspace);
         clearUndoRedoInfo = false;
         break;
@@ -1351,12 +1352,12 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
     default: {
             unsigned char ascii = e->text().length() ? e->text().unicode()->latin1() : 0;
             if (e->text().length() &&
-                ((!(e->state() & Qt::ControlButton) &&
+                ((!(e->modifiers() & Qt::ControlModifier) &&
 #ifndef Q_OS_MAC
-                  !(e->state() & Qt::AltButton) &&
+                  !(e->modifiers() & Qt::AltModifier) &&
 #endif
-                  !(e->state() & Qt::MetaButton)) ||
-                 (((e->state() & (Qt::ControlButton | Qt::AltButton))) == (Qt::ControlButton|Qt::AltButton))) &&
+                  !(e->modifiers() & Qt::MetaModifier)) ||
+                 (((e->modifiers() & (Qt::ControlModifier | Qt::AltModifier))) == (Qt::ControlModifier|Qt::AltModifier))) &&
                  (!ascii || ascii >= 32 || e->text() == QString(QLatin1Char('\t')))) {
                 clearUndoRedoInfo = false;
                 if (e->key() == Qt::Key_Tab) {
@@ -1408,7 +1409,7 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
                 QString t = e->text();
                 insert(t, true, false);
                 break;
-            } else if (e->state() & Qt::ControlButton) {
+            } else if (e->modifiers() & Qt::ControlModifier) {
                 switch (e->key()) {
                 case Qt::Key_C: case Qt::Key_F16: // Copy key on Sun keyboards
                     copy();
@@ -1425,16 +1426,16 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
                     break;
                 case Qt::Key_A:
 #if defined(Q_WS_X11)
-                    moveCursor(MoveLineStart, e->state() & Qt::ShiftButton);
+                    moveCursor(MoveLineStart, e->modifiers() & Qt::ShiftModifier);
 #else
                     selectAll(true);
 #endif
                     break;
                 case Qt::Key_B:
-                    moveCursor(MoveBackward, e->state() & Qt::ShiftButton);
+                    moveCursor(MoveBackward, e->modifiers() & Qt::ShiftModifier);
                     break;
                 case Qt::Key_F:
-                    moveCursor(MoveForward, e->state() & Qt::ShiftButton);
+                    moveCursor(MoveForward, e->modifiers() & Qt::ShiftModifier);
                     break;
                 case Qt::Key_D:
                     if (doc->hasSelection(Q3TextDocument::Standard)) {
@@ -1457,16 +1458,16 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
                     clearUndoRedoInfo = false;
                     break;
                 case Qt::Key_E:
-                    moveCursor(MoveLineEnd, e->state() & Qt::ShiftButton);
+                    moveCursor(MoveLineEnd, e->modifiers() & Qt::ShiftModifier);
                     break;
                 case Qt::Key_N:
-                    moveCursor(MoveDown, e->state() & Qt::ShiftButton);
+                    moveCursor(MoveDown, e->modifiers() & Qt::ShiftModifier);
                     break;
                 case Qt::Key_P:
-                    moveCursor(MoveUp, e->state() & Qt::ShiftButton);
+                    moveCursor(MoveUp, e->modifiers() & Qt::ShiftModifier);
                     break;
                 case Qt::Key_Z:
-                    if(e->state() & Qt::ShiftButton)
+                    if(e->modifiers() & Qt::ShiftModifier)
                         redo();
                     else
                         undo();
@@ -1499,7 +1500,8 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
     emit cursorPositionChanged(cursor->paragraph()->paragId(), cursor->index());
     if (clearUndoRedoInfo)
         clearUndoRedo();
-    changeIntervalTimer->start(100, true);
+	changeIntervalTimer->setSingleShot(true);
+	changeIntervalTimer->start(100);
     if (unknownKey)
         e->ignore();
 }
@@ -2095,7 +2097,7 @@ enum {
 void Q3TextEdit::contentsWheelEvent(QWheelEvent *e)
 {
     if (isReadOnly()) {
-        if (e->state() & Qt::ControlButton) {
+        if (e->modifiers() & Qt::ControlModifier) {
             if (e->delta() > 0)
                 zoomOut();
             else if (e->delta() < 0)
@@ -2173,7 +2175,8 @@ void Q3TextEdit::contentsMousePressEvent(QMouseEvent *e)
         if (doc->inSelection(Q3TextDocument::Standard, e->pos())) {
             mightStartDrag = true;
             drawCursor(true);
-            dragStartTimer->start(QApplication::startDragTime(), true);
+			dragStartTimer->setSingleShot(true);
+			dragStartTimer->start(QApplication::startDragTime());
             dragStartPos = e->pos();
             return;
         }
@@ -2181,14 +2184,14 @@ void Q3TextEdit::contentsMousePressEvent(QMouseEvent *e)
 
         bool redraw = false;
         if (doc->hasSelection(Q3TextDocument::Standard)) {
-            if (!(e->state() & Qt::ShiftButton)) {
+            if (!(e->modifiers() & Qt::ShiftModifier)) {
                 redraw = doc->removeSelection(Q3TextDocument::Standard);
                 doc->setSelectionStart(Q3TextDocument::Standard, *cursor);
             } else {
                 redraw = doc->setSelectionEnd(Q3TextDocument::Standard, *cursor) || redraw;
             }
         } else {
-            if (isReadOnly() || !(e->state() & Qt::ShiftButton)) {
+            if (isReadOnly() || !(e->modifiers() & Qt::ShiftModifier)) {
                 doc->setSelectionStart(Q3TextDocument::Standard, *cursor);
             } else {
                 doc->setSelectionStart(Q3TextDocument::Standard, c);
@@ -2461,7 +2464,8 @@ void Q3TextEdit::contentsMouseDoubleClickEvent(QMouseEvent * e)
 
         repaintChanged();
 
-        d->trippleClickTimer->start(qApp->doubleClickInterval(), true);
+		d->trippleClickTimer->setSingleShot(true);
+        d->trippleClickTimer->start(qApp->doubleClickInterval());
         d->trippleClickPoint = e->globalPos();
     }
     inDoubleClick = true;
@@ -2477,11 +2481,11 @@ void Q3TextEdit::contentsMouseDoubleClickEvent(QMouseEvent * e)
 
 void Q3TextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
 {
-    if (isReadOnly() || !Q3TextDrag::canDecode(e)) {
+    if (isReadOnly() || !Q3TextDrag::canDecode(e->mimeData())) {
         e->ignore();
         return;
     }
-    e->acceptAction();
+	e->accept();
     inDnD = true;
 }
 
@@ -2661,7 +2665,7 @@ void Q3TextEdit::handleMouseMove(const QPoint& pos)
         return;
 
     if ((!scrollTimer->isActive() && pos.y() < contentsY()) || pos.y() > contentsY() + visibleHeight())
-        scrollTimer->start(100, false);
+        scrollTimer->start(100);
     else if (scrollTimer->isActive() && pos.y() >= contentsY() && pos.y() <= contentsY() + visibleHeight())
         scrollTimer->stop();
 
@@ -2798,8 +2802,11 @@ void Q3TextEdit::formatMore()
                             visibleHeight() - contentsHeight());
     }
 
-    if (lastFormatted)
-        formatTimer->start(interval, true);
+	if (lastFormatted)
+	{
+		formatTimer->setSingleShot(true);
+		formatTimer->start(interval);
+	}
     else
         interval = qMax(0, interval);
 }
@@ -4724,7 +4731,7 @@ bool Q3TextEdit::handleReadOnlyKeyEvent(QKeyEvent *e)
     } break;
 #endif
     default:
-        if (e->state() & Qt::ControlButton) {
+        if (e->modifiers() & Qt::ControlModifier) {
             switch (e->key()) {
             case Qt::Key_C: case Qt::Key_F16: // Copy key on Sun keyboards
                 copy();
@@ -6954,7 +6961,7 @@ void Q3TextEdit::optimDoAutoScroll()
     }
 
     if ((!scrollTimer->isActive() && pos.y() < 0) || pos.y() > height())
-        scrollTimer->start(100, false);
+        scrollTimer->start(100);
     else if (scrollTimer->isActive() && pos.y() >= 0 && pos.y() <= height())
         scrollTimer->stop();
 }

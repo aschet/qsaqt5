@@ -42,7 +42,7 @@
 #ifndef Q3FTP_H
 #define Q3FTP_H
 
-#include <QtCore/qstring.h> // char*->QString conversion
+#include <QtCore/QString> // char*->QString conversion
 #include <QtNetwork/qurlinfo.h>
 #include <q3networkprotocol.h>
 

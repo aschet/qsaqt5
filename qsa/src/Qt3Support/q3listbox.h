@@ -43,7 +43,7 @@
 #define Q3LISTBOX_H
 
 #include <q3scrollview.h>
-#include <QtGui/qpixmap.h>
+#include <QtGui/QPixmap>
 
 
 

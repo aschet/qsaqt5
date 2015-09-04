@@ -42,7 +42,7 @@
 #ifndef Q3NETWORKPROTOCOL_H
 #define Q3NETWORKPROTOCOL_H
 
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 #include <QtCore/QObject>
 #include <q3dict.h>
 #include <q3valuelist.h>

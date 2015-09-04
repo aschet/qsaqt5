@@ -45,7 +45,7 @@
 #include <QtGui/qicon.h>
 #include <QtGui/qkeysequence.h>
 #include <QtCore/QObject>
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 
 
 

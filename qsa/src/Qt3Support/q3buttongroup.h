@@ -44,7 +44,7 @@
 
 #include <QtGui/qbuttongroup.h>
 #include <q3groupbox.h>
-#include <QtCore/qmap.h>
+#include <QtCore/QMap>
 
 
 

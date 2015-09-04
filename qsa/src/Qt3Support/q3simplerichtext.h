@@ -43,15 +43,9 @@
 #define Q3SIMPLERICHTEXT_H
 
 #include <QtCore/qnamespace.h>
-#include <QtCore/qstring.h>
-#include <QtGui/qregion.h>
+#include <QtCore/QString>
+#include <QtGui/QRegion>
 #include <QtGui/QColor>
-
-
-
-
-
-
 
 #ifndef QT_NO_RICHTEXT
 
@@ -82,10 +76,10 @@ public:
     void adjustSize();
 
     void draw(QPainter* p, int x, int y, const QRect& clipRect,
-               const QColorGroup& cg, const QBrush* paper = 0) const;
+               const QPalette& cg, const QBrush* paper = 0) const;
 
     void draw(QPainter* p, int x, int y, const QRegion& clipRegion,
-               const QColorGroup& cg, const QBrush* paper = 0) const {
+               const QPalette& cg, const QBrush* paper = 0) const {
         draw(p, x, y, clipRegion.boundingRect(), cg, paper);
     }
 
@@ -101,9 +95,5 @@ private:
 };
 
 #endif // QT_NO_RICHTEXT
-
-
-
-
 
 #endif // Q3SIMPLERICHTEXT_H

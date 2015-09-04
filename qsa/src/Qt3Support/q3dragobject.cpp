@@ -43,6 +43,7 @@
 
 #ifndef QT_NO_MIME
 
+
 #include "q3dragobject.h"
 #include "qpixmap.h"
 #include "qevent.h"
@@ -61,7 +62,7 @@
 #include "q3strlist.h"
 #include "q3cstring.h"
 
-#include <qobject_p.h>
+//#include <qobject_p.h>
 
 #include <ctype.h>
 #if defined(Q_OS_WINCE)
@@ -137,12 +138,12 @@ QDragMime::~QDragMime()
 }
 QByteArray QDragMime::data(const QString &mimetype) const
 {
-    return dragObject->encodedData(mimetype.latin1());
+    return dragObject->encodedData(mimetype.toLatin1());
 }
 
 bool QDragMime::hasFormat(const QString &mimetype) const
 {
-    return dragObject->provides(mimetype.latin1());
+    return dragObject->provides(mimetype.toLatin1());
 }
 
 QStringList QDragMime::formats() const
@@ -601,7 +602,7 @@ static QTextCodec *codecForHTML(const QByteArray &ba)
 }
 
 static
-QTextCodec* findcodec(const QMimeSource* e)
+QTextCodec* findcodec(const QMimeData* e)
 {
     QTextCodec* r = 0;
     const char* f;
@@ -632,14 +633,14 @@ QByteArray Q3TextDrag::encodedData(const char* mime) const
 }
 
 /*!
-    \fn bool Q3TextDrag::canDecode(const QMimeSource *source)
+    \fn bool Q3TextDrag::canDecode(const QMimeData *source)
 
     Returns true if the information in the MIME \a source can be decoded
     into a QString; otherwise returns false.
 
     \sa decode()
 */
-bool Q3TextDrag::canDecode(const QMimeSource* e)
+bool Q3TextDrag::canDecode(const QMimeData* e)
 {
     const char* f;
     for (int i=0; (f=e->format(i)); i++) {
@@ -651,7 +652,7 @@ bool Q3TextDrag::canDecode(const QMimeSource* e)
 }
 
 /*!
-    \fn bool Q3TextDrag::decode(const QMimeSource *source, QString &string, QString &subtype)
+    \fn bool Q3TextDrag::decode(const QMimeData *source, QString &string, QString &subtype)
 
     \overload
 
@@ -663,7 +664,7 @@ bool Q3TextDrag::canDecode(const QMimeSource* e)
 
     \sa canDecode()
 */
-bool Q3TextDrag::decode(const QMimeSource* e, QString& str, QString& subtype)
+bool Q3TextDrag::decode(const QMimeData* e, QString& str, QString& subtype)
 {
     if(!e)
         return false;
@@ -715,7 +716,7 @@ bool Q3TextDrag::decode(const QMimeSource* e, QString& str, QString& subtype)
 }
 
 /*!
-    \fn bool Q3TextDrag::decode(const QMimeSource *source, QString &string)
+    \fn bool Q3TextDrag::decode(const QMimeData *source, QString &string)
 
     Attempts to decode the dropped information in the MIME \a source into
     the \a string given.
@@ -723,7 +724,7 @@ bool Q3TextDrag::decode(const QMimeSource* e, QString& str, QString& subtype)
 
     \sa canDecode()
 */
-bool Q3TextDrag::decode(const QMimeSource* e, QString& str)
+bool Q3TextDrag::decode(const QMimeData* e, QString& str)
 {
     QString st;
     return decode(e, str, st);
@@ -854,27 +855,27 @@ QByteArray Q3ImageDrag::encodedData(const char* fmt) const
 }
 
 /*!
-    \fn bool Q3ImageDrag::canDecode(const QMimeSource *source)
+    \fn bool Q3ImageDrag::canDecode(const QMimeData *source)
 
     Returns true if the information in the MIME \a source can be decoded
     into an image; otherwise returns false.
 
     \sa decode()
 */
-bool Q3ImageDrag::canDecode(const QMimeSource* e)
+bool Q3ImageDrag::canDecode(const QMimeData* e)
 {
     return e->provides("application/x-qt-image");
 }
 
 /*!
-    \fn bool Q3ImageDrag::decode(const QMimeSource *source, QImage &image)
+    \fn bool Q3ImageDrag::decode(const QMimeData *source, QImage &image)
 
     Decode the dropped information in the MIME \a source into the \a image.
     Returns true if successful; otherwise returns false.
 
     \sa canDecode()
 */
-bool Q3ImageDrag::decode(const QMimeSource* e, QImage& img)
+bool Q3ImageDrag::decode(const QMimeData* e, QImage& img)
 {
     if (!e)
         return false;
@@ -891,7 +892,7 @@ bool Q3ImageDrag::decode(const QMimeSource* e, QImage& img)
 }
 
 /*!
-    \fn bool Q3ImageDrag::decode(const QMimeSource *source, QPixmap &pixmap)
+    \fn bool Q3ImageDrag::decode(const QMimeData *source, QPixmap &pixmap)
 
     \overload
 
@@ -903,7 +904,7 @@ bool Q3ImageDrag::decode(const QMimeSource* e, QImage& img)
 
     \sa canDecode()
 */
-bool Q3ImageDrag::decode(const QMimeSource* e, QPixmap& pm)
+bool Q3ImageDrag::decode(const QMimeData* e, QPixmap& pm)
 {
     if (!e)
         return false;
@@ -1096,18 +1097,18 @@ void Q3UriDrag::setUris(const QList<QByteArray> &uris)
 
 
 /*!
-    \fn bool Q3UriDrag::canDecode(const QMimeSource *source)
+    \fn bool Q3UriDrag::canDecode(const QMimeData *source)
 
     Returns true if decode() can decode the MIME \a source; otherwise
     returns false.
 */
-bool Q3UriDrag::canDecode(const QMimeSource* e)
+bool Q3UriDrag::canDecode(const QMimeData* e)
 {
     return e->provides("text/uri-list");
 }
 
 /*!
-    \fn bool Q3UriDrag::decode(const QMimeSource* source, Q3StrList& list)
+    \fn bool Q3UriDrag::decode(const QMimeData* source, Q3StrList& list)
 
     Decodes URIs from the MIME \a source, placing the result in the \a list.
     The list is cleared before any items are inserted.
@@ -1115,7 +1116,7 @@ bool Q3UriDrag::canDecode(const QMimeSource* e)
     Returns true if the MIME \a source contained a valid list of URIs;
     otherwise returns false.
 */
-bool Q3UriDrag::decode(const QMimeSource* e, Q3StrList& l)
+bool Q3UriDrag::decode(const QMimeData* e, Q3StrList& l)
 {
     QByteArray payload = e->encodedData("text/uri-list");
     if (payload.size()) {
@@ -1397,7 +1398,7 @@ QString Q3UriDrag::uriToLocalFile(const char* uri)
 }
 
 /*!
-    \fn bool Q3UriDrag::decodeLocalFiles(const QMimeSource *source, QStringList &list)
+    \fn bool Q3UriDrag::decodeLocalFiles(const QMimeData *source, QStringList &list)
 
     Decodes URIs from the MIME \a source, converting them to local filenames
     where possible, and places them in the \a list (which is first cleared).
@@ -1406,7 +1407,7 @@ QString Q3UriDrag::uriToLocalFile(const char* uri)
     otherwise returns false. The list will be empty if no URIs referred to
     local files.
 */
-bool Q3UriDrag::decodeLocalFiles(const QMimeSource* e, QStringList& l)
+bool Q3UriDrag::decodeLocalFiles(const QMimeData* e, QStringList& l)
 {
     Q3StrList u;
     if (!decode(e, u))
@@ -1422,7 +1423,7 @@ bool Q3UriDrag::decodeLocalFiles(const QMimeSource* e, QStringList& l)
 }
 
 /*!
-    \fn bool Q3UriDrag::decodeToUnicodeUris(const QMimeSource *source, QStringList &list)
+    \fn bool Q3UriDrag::decodeToUnicodeUris(const QMimeData *source, QStringList &list)
 
     Decodes URIs from the MIME \a source, converting them to Unicode URIs
     (only useful for displaying to humans), and places them in the \a list
@@ -1431,7 +1432,7 @@ bool Q3UriDrag::decodeLocalFiles(const QMimeSource* e, QStringList& l)
     Returns true if the MIME \a source contained a valid list of URIs;
     otherwise returns false.
 */
-bool Q3UriDrag::decodeToUnicodeUris(const QMimeSource* e, QStringList& l)
+bool Q3UriDrag::decodeToUnicodeUris(const QMimeData* e, QStringList& l)
 {
     Q3StrList u;
     if (!decode(e, u))
@@ -1517,19 +1518,19 @@ void Q3ColorDrag::setColor(const QColor &col)
 }
 
 /*!
-    \fn bool Q3ColorDrag::canDecode(QMimeSource *source)
+    \fn bool Q3ColorDrag::canDecode(QMimeData *source)
 
     Returns true if the color drag object can decode the MIME \a source;
     otherwise returns false.
 */
 
-bool Q3ColorDrag::canDecode(QMimeSource *e)
+bool Q3ColorDrag::canDecode(QMimeData *e)
 {
     return e->provides("application/x-color");
 }
 
 /*!
-    \fn bool Q3ColorDrag::decode(QMimeSource *source, QColor &color)
+    \fn bool Q3ColorDrag::decode(QMimeData *source, QColor &color)
 
     Decodes the MIME \a source, and sets the decoded values to the
     given \a color. Returns true if the decoding is successful.
@@ -1537,7 +1538,7 @@ bool Q3ColorDrag::canDecode(QMimeSource *e)
     expected size.
 */
 
-bool Q3ColorDrag::decode(QMimeSource *e, QColor &col)
+bool Q3ColorDrag::decode(QMimeData *e, QColor &col)
 {
     QByteArray data = e->encodedData("application/x-color");
     ushort rgba[4];

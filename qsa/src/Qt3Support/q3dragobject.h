@@ -44,9 +44,8 @@
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>
-#include <QtGui/qmime.h>
+#include <QtCore/QMimeData>
 #include <QtGui/QImage>
-#include <q3strlist.h>
 #include <QtCore/QList>
 
 
@@ -66,7 +65,7 @@ class Q3StrList;
 class QImage;
 class QPixmap;
 
-class QSA_EXPORT Q3DragObject : public QObject, public QMimeSource {
+class QSA_EXPORT Q3DragObject : public QObject, public QMimeData {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DragObject)
 public:
@@ -130,9 +129,9 @@ public:
     const char * format(int i) const;
     virtual QByteArray encodedData(const char*) const;
 
-    static bool canDecode(const QMimeSource* e);
-    static bool decode(const QMimeSource* e, QString& s);
-    static bool decode(const QMimeSource* e, QString& s, QString& subtype);
+    static bool canDecode(const QMimeData* e);
+    static bool decode(const QMimeData* e, QString& s);
+    static bool decode(const QMimeData* e, QString& s, QString& subtype);
 
 protected:
     Q3TextDrag(Q3TextDragPrivate &, QWidget * dragSource = 0);
@@ -154,9 +153,9 @@ public:
     const char * format(int i) const;
     virtual QByteArray encodedData(const char*) const;
 
-    static bool canDecode(const QMimeSource* e);
-    static bool decode(const QMimeSource* e, QImage& i);
-    static bool decode(const QMimeSource* e, QPixmap& i);
+    static bool canDecode(const QMimeData* e);
+    static bool decode(const QMimeData* e, QImage& i);
+    static bool decode(const QMimeData* e, QPixmap& i);
 
 protected:
     Q3ImageDrag(Q3ImageDragPrivate &, QWidget * dragSource = 0);
@@ -185,10 +184,10 @@ public:
     static QByteArray localFileToUri(const QString&);
     static QString uriToUnicodeUri(const char*);
     static QByteArray unicodeUriToUri(const QString&);
-    static bool canDecode(const QMimeSource* e);
-    static bool decode(const QMimeSource* e, Q3StrList& i);
-    static bool decodeToUnicodeUris(const QMimeSource* e, QStringList& i);
-    static bool decodeLocalFiles(const QMimeSource* e, QStringList& i);
+    static bool canDecode(const QMimeData* e);
+    static bool decode(const QMimeData* e, Q3StrList& i);
+    static bool decodeToUnicodeUris(const QMimeData* e, QStringList& i);
+    static bool decodeLocalFiles(const QMimeData* e, QStringList& i);
 
 private:
     Q_DISABLE_COPY(Q3UriDrag)
@@ -204,8 +203,8 @@ public:
     Q3ColorDrag(QWidget * dragSource = 0, const char * name = 0);
     void setColor(const QColor &col);
 
-    static bool canDecode(QMimeSource *);
-    static bool decode(QMimeSource *, QColor &col);
+    static bool canDecode(QMimeData *);
+    static bool decode(QMimeData *, QColor &col);
 
 private:
     Q_DISABLE_COPY(Q3ColorDrag)

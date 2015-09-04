@@ -43,9 +43,7 @@
 
 #ifndef QT_NO_RICHTEXT
 #include "q3richtext_p.h"
-#include "qapplication.h"
-
-
+#include <QtWidgets/QApplication>
 
 class Q3SimpleRichTextData
 {
@@ -323,14 +321,14 @@ void Q3SimpleRichText::adjustSize()
 */
 
 void Q3SimpleRichText::draw(QPainter *p, int x, int y, const QRect& clipRect,
-                            const QColorGroup &cg, const QBrush* paper) const
+                            const QPalette &cg, const QBrush* paper) const
 {
     p->save();
     if (d->cachedWidth < 0)
         d->adjustSize();
     QRect r = clipRect;
     if (!r.isNull())
-        r.moveBy(-x, -y);
+        r.translate(-x, -y);
 
     if (paper)
         d->doc->setPaper(new QBrush(*paper));

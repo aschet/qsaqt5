@@ -42,7 +42,7 @@
 #ifndef Q3URL_H
 #define Q3URL_H
 
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 
 
 

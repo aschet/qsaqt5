@@ -42,7 +42,7 @@
 #ifndef Q3PAINTER_H
 #define Q3PAINTER_H
 
-#include <QtGui/qpainter.h>
+#include <QtGui/QPainter>
 
 
 

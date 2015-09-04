@@ -43,7 +43,7 @@
 #define Q3MEMARRAY_H
 
 #include <q3garray.h>
-#include <QtCore/qvector.h>
+#include <QtCore/QVector>
 
 
 

@@ -44,7 +44,7 @@
 
 #include <QtCore/QObject>
 #include <q3networkprotocol.h>
-#include <QtCore/qmap.h>
+#include <QtCore/QMap>
 #include <QtCore/QStringList>
 
 

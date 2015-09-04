@@ -42,7 +42,7 @@
 #ifndef Q3VALUEVECTOR_H
 #define Q3VALUEVECTOR_H
 
-#include <QtCore/qvector.h>
+#include <QtCore/QVector>
 
 #ifndef QT_NO_STL
 #include <vector>

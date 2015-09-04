@@ -45,7 +45,7 @@
 #include <q3scrollview.h>
 #include <q3stylesheet.h>
 #include <q3mimefactory.h>
-#include <QtCore/qmap.h>
+#include <QtCore/QMap>
 
 
 

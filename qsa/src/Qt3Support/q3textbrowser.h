@@ -42,7 +42,7 @@
 #ifndef Q3TEXTBROWSER_H
 #define Q3TEXTBROWSER_H
 
-#include <QtGui/qpixmap.h>
+#include <QtGui/QPixmap>
 #include <QtGui/QColor>
 #include <q3textedit.h>
 

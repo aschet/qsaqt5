@@ -42,9 +42,9 @@
 #ifndef Q3SYNTAXHIGHLIGHTER_H
 #define Q3SYNTAXHIGHLIGHTER_H
 
-#include <QtGui/qfont.h>
+#include <QtGui/QFont>
 #include <QtGui/QColor>
-#include <QtCore/qstring.h>
+#include <QtCore/QString>
 
 
 

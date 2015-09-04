@@ -53,24 +53,24 @@
 // We mean it.
 //
 
-#include "QtWidgets/QApplication"
-#include "QtGui/QColor"
-#include "QtCore/qhash.h"
-#include "QtGui/qfont.h"
-#include "QtGui/qpalette.h"
-#include "QtGui/qfontmetrics.h"
-#include "QtWidgets/QLayout"
-#include "QtCore/qmap.h"
-#include "QtCore/qvector.h"
-#include "QtCore/qstack.h"
-#include "QtCore/QList"
-#include "QtCore/QObject"
-#include "QtGui/qpainter.h"
-#include "QtGui/qpixmap.h"
-#include "QtCore/qrect.h"
-#include "QtCore/qsize.h"
-#include "QtCore/qstring.h"
-#include "QtCore/QStringList"
+#include <QtWidgets/QApplication>
+#include <QtGui/QColor>
+#include <QtCore/QHash>
+#include <QtGui/QFont>
+#include <QtGui/QPalette>
+#include <QtGui/QFontMetrics>
+#include <QtWidgets/QLayout>
+#include <QtCore/QMap>
+#include <QtCore/QVector>
+#include <QtCore/QStack>
+#include <QtCore/QList>
+#include <QtCore/QObject>
+#include <QtGui/QPainter>
+#include <QtGui/QPixmap>
+#include <QtCore/QRect>
+#include <QtCore/QSize>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 #include "q3stylesheet.h"
 #include "q3mimefactory.h"
 
@@ -1360,7 +1360,7 @@ public:
 
 protected:
     virtual QTextLineStart *formatLine(Q3TextParagraph *parag, Q3TextString *string, QTextLineStart *line, Q3TextStringChar *start,
-                                               Q3TextStringChar *last, int align = Qt::AlignAuto, int space = 0);
+                                               Q3TextStringChar *last, int align = Qt::AlignLeft, int space = 0);
 #ifndef QT_NO_COMPLEXTEXT
     virtual QTextLineStart *bidiReorderLine(Q3TextParagraph *parag, Q3TextString *string, QTextLineStart *line, Q3TextStringChar *start,
                                                     Q3TextStringChar *last, int align, int space);

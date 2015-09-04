@@ -42,7 +42,7 @@
 #ifndef Q3MULTILINEEDIT_H
 #define Q3MULTILINEEDIT_H
 
-#include <Qt3Support/q3textedit.h>
+#include <q3textedit.h>
 
 QT_BEGIN_HEADER
 

@@ -903,7 +903,7 @@ public:
     Q3PtrList<QLabel> extraLabels;
     Q3PtrList<QWidget> extraWidgets;
     Q3PtrList<QWidget> extraButtons;
-    Q3PtrList<QAbstractButton> toolButtons;
+    Q3PtrList<qAbstractButton> toolButtons;
 
     Q3WidgetStack * stack;
 
@@ -2740,7 +2740,7 @@ void Q3FileDialog::changeMode(int id)
     if (!d->infoPreview && !d->contentsPreview)
         return;
 
-    QAbstractButton*btn = d->modeButtons->find(id);
+    qAbstractButton*btn = d->modeButtons->find(id);
     if (!btn)
         return;
 
@@ -3762,7 +3762,7 @@ r.setHeight(qMax(r.height(),t.height()))
     d->mcView->setFixedSize(r);
     d->detailView->setFixedSize(r);
 
-    QAbstractButton *b = 0;
+    qAbstractButton *b = 0;
     if (!d->toolButtons.isEmpty()) {
         for (b = d->toolButtons.first(); b; b = d->toolButtons.next())
             b->setFixedSize(b->sizeHint().width(), r.height());
@@ -4645,7 +4645,7 @@ void Q3FileDialog::addWidgets(QLabel * l, QWidget * w, QPushButton * b)
   \sa addWidgets(), addLeftWidget(), addRightWidget()
 */
 
-void Q3FileDialog::addToolButton(QAbstractButton *b, bool separator)
+void Q3FileDialog::addToolButton(qAbstractButton *b, bool separator)
 {
     if (!b || !d->buttonLayout)
         return;

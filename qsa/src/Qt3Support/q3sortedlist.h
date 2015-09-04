@@ -42,7 +42,7 @@
 #ifndef Q3SORTEDLIST_H
 #define Q3SORTEDLIST_H
 
-#include <Qt3Support/q3ptrlist.h>
+#include <q3ptrlist.h>
 
 QT_BEGIN_HEADER
 

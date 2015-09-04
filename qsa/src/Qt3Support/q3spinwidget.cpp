@@ -43,7 +43,7 @@
 
 #ifndef QT_NO_SPINWIDGET
 
-#include "qabstractspinbox.h"
+#include "qAbstractspinbox.h"
 #include "qevent.h"
 #include <QtGui/QPainter>
 #include "qrect.h"
@@ -181,12 +181,12 @@ static QStyleOptionSpinBox getStyleOption(const Q3SpinWidget *spin)
     opt.init(spin);
     opt.frame = true;
     opt.subControls = 0;
-    opt.buttonSymbols = (QAbstractSpinBox::ButtonSymbols)spin->buttonSymbols();
+    opt.buttonSymbols = (qAbstractSpinBox::ButtonSymbols)spin->buttonSymbols();
     opt.stepEnabled = 0;
     if (spin->isUpEnabled())
-        opt.stepEnabled |= QAbstractSpinBox::StepUpEnabled;
+        opt.stepEnabled |= qAbstractSpinBox::StepUpEnabled;
     if (spin->isDownEnabled())
-        opt.stepEnabled |= QAbstractSpinBox::StepDownEnabled;
+        opt.stepEnabled |= qAbstractSpinBox::StepDownEnabled;
     opt.activeSubControls = 0;
     return opt;
 }
@@ -322,11 +322,11 @@ void Q3SpinWidget::wheelEvent(QWheelEvent *e)
         offset = 0;
     }
     offset += -e->delta()/120;
-    if (QABS(offset) < 1)
+    if (qAbs(offset) < 1)
         return;
     int ioff = int(offset);
     int i;
-    for(i=0; i < QABS(ioff); i++)
+    for(i=0; i < qAbs(ioff); i++)
         offset > 0 ? stepDown() : stepUp();
     offset -= ioff;
 }

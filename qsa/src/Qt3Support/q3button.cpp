@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
     \compat
 
-    \bold{In new code, use QAbstractButton.}
+    \bold{In new code, use qAbstractButton.}
 
     To subclass Q3Button, you must reimplement at least drawButton()
     (to draw the button's outline) and drawButtonLabel() (to draw its
@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
 */
 
 Q3Button::Q3Button( QWidget *parent, const char *name, Qt::WindowFlags f )
-    : QAbstractButton( parent /*, f*/ )
+    : qAbstractButton( parent /*, f*/ )
 {
 	setObjectName( name );
 }

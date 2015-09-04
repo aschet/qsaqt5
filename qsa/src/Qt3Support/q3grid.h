@@ -42,7 +42,7 @@
 #ifndef Q3GRID_H
 #define Q3GRID_H
 
-#include <Qt3Support/q3frame.h>
+#include <q3frame.h>
 
 QT_BEGIN_HEADER
 

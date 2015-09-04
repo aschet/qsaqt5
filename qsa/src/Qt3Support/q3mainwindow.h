@@ -43,7 +43,7 @@
 #define Q3MAINWINDOW_H
 
 #include <QtWidgets/QWidget>
-#include <Qt3Support/q3toolbar.h>
+#include <q3toolbar.h>
 #include <QtCore/qtextstream.h>
 
 QT_BEGIN_HEADER

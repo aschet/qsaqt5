@@ -143,8 +143,8 @@ Q3RangeControl::Q3RangeControl(int minValue, int maxValue,
 {
     minVal  = minValue;
     maxVal  = maxValue;
-    line    = QABS(lineStep);
-    page    = QABS(pageStep);
+    line    = qAbs(lineStep);
+    page    = qAbs(pageStep);
     prevVal = minVal - 1;
     val            = bound(value);
     d            = 0;
@@ -390,8 +390,8 @@ void Q3RangeControl::setRange(int minValue, int maxValue)
 void Q3RangeControl::setSteps(int lineStep, int pageStep)
 {
     if (lineStep != line || pageStep != page) {
-        line = QABS(lineStep);
-        page = QABS(pageStep);
+        line = qAbs(lineStep);
+        page = qAbs(pageStep);
         stepChange();
     }
 }

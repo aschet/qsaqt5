@@ -44,8 +44,8 @@
 
 #include <QtCore/qstring.h>
 #include <QtCore/QObject>
-#include <Qt3Support/q3dict.h>
-#include <Qt3Support/q3valuelist.h>
+#include <q3dict.h>
+#include <q3valuelist.h>
 
 QT_BEGIN_HEADER
 

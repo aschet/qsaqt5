@@ -44,12 +44,12 @@
 
 #include <QtCore/qstring.h>
 #include <QtCore/qvariant.h>
-#include <Qt3Support/q3table.h>
+#include <q3table.h>
 #include <QtSql/qsql.h>
-#include <Qt3Support/q3sqlcursor.h>
+#include <q3sqlcursor.h>
 #include <QtSql/qsqlindex.h>
-#include <Qt3Support/q3sqleditorfactory.h>
-#include <Qt3Support/qiconset.h>
+#include <q3sqleditorfactory.h>
+#include <qiconset.h>
 
 QT_BEGIN_HEADER
 

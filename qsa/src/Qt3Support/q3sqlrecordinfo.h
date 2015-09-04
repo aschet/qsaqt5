@@ -45,9 +45,9 @@
 #include <QtCore/qglobal.h>
 
 #ifndef QT_NO_SQL
-#   include <Qt3Support/q3valuelist.h>
+#   include <q3valuelist.h>
 #   include <QtSql/qsqlrecord.h>
-#   include <Qt3Support/q3sqlfieldinfo.h>
+#   include <q3sqlfieldinfo.h>
 #endif
 
 QT_BEGIN_HEADER

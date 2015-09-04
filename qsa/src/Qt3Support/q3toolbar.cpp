@@ -277,7 +277,7 @@ QT_END_INCLUDE_NAMESPACE
     at the right or bottom of the toolbar depending on its
     orientation. Clicking this button pops up a menu that shows the
     'overflowing' items. QToolButtons are represented in the menu using
-    their textLabel property, other QAbstractButton subclasses are represented
+    their textLabel property, other qAbstractButton subclasses are represented
     using their text property, and QComboBoxes are represented as submenus,
     with the caption text being used in the submenu item.
 
@@ -652,8 +652,8 @@ void Q3ToolBar::createPopup()
                     d->extensionPopup->setItemChecked(id, b->isOn());
                 if (!b->isEnabled())
                     d->extensionPopup->setItemEnabled(id, false);
-            } else if (qobject_cast<QAbstractButton*>(w)) {
-                QAbstractButton *b = (QAbstractButton*)w;
+            } else if (qobject_cast<qAbstractButton*>(w)) {
+                qAbstractButton *b = (qAbstractButton*)w;
                 QString s = b->text();
                 if (s.isEmpty())
                     s = QLatin1String("");

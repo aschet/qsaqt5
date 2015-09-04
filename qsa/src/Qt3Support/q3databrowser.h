@@ -47,7 +47,7 @@
 #include <QtCore/QStringList>
 #include <QtSql/qsql.h>
 #include <QtSql/qsqlindex.h>
-#include <Qt3Support/q3sqlcursor.h>
+#include <q3sqlcursor.h>
 #include <QtSql/qsqlerror.h>
 
 QT_BEGIN_HEADER

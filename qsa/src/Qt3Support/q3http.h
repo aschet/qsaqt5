@@ -43,7 +43,7 @@
 #define Q3HTTP_H
 
 #include <QtCore/QObject>
-#include <Qt3Support/q3networkprotocol.h>
+#include <q3networkprotocol.h>
 #include <QtCore/qmap.h>
 #include <QtCore/QStringList>
 

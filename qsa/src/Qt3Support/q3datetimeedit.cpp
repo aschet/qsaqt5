@@ -155,7 +155,7 @@ static void readLocaleSettings()
         // this code needs to change if new formats are added
 
 #ifndef Q_WS_WIN
-        QString sep = d.mid(qMin(dpos, mpos) + 2, QABS(dpos - mpos) - 2);
+        QString sep = d.mid(qMin(dpos, mpos) + 2, qAbs(dpos - mpos) - 2);
         if (d.count(sep) == 2) {
             *lDateSep = sep;
         }

@@ -104,12 +104,12 @@ void QSVChildRec::hideOrShow(Q3ScrollView* sv, QWidget* clipped_viewport)
     }
 }
 
-class QAbstractScrollAreaWidget : public QWidget
+class qAbstractScrollAreaWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    QAbstractScrollAreaWidget(Q3ScrollView* parent=0, const char* name=0, Qt::WindowFlags f = 0)
+    qAbstractScrollAreaWidget(Q3ScrollView* parent=0, const char* name=0, Qt::WindowFlags f = 0)
         : QWidget(parent, name, f)
     {
         setAutoFillBackground(true);
@@ -134,7 +134,7 @@ public:
     Q3ScrollViewData(Q3ScrollView* parent, int vpwflags) :
         hbar(new QScrollBar(Qt::Horizontal, parent, "qt_hbar")),
         vbar(new QScrollBar(Qt::Vertical, parent, "qt_vbar")),
-        viewport(new QAbstractScrollAreaWidget(parent, "qt_viewport", QFlag(vpwflags))),
+        viewport(new qAbstractScrollAreaWidget(parent, "qt_viewport", QFlag(vpwflags))),
         clipped_viewport(0),
         flags(vpwflags),
         vx(0), vy(0), vwidth(1), vheight(1),
@@ -190,7 +190,7 @@ public:
     QScrollBar*  vbar;
     bool hbarPressed;
     bool vbarPressed;
-    QAbstractScrollAreaWidget*    viewport;
+    qAbstractScrollAreaWidget*    viewport;
     QClipperWidget*     clipped_viewport;
     int         flags;
     Q3PtrList<QSVChildRec>       children;
@@ -344,7 +344,7 @@ void Q3ScrollViewData::viewportResized(int w, int h)
         if (r) {
             QSize sh = r->child->sizeHint();
             sh = sh.boundedTo(r->child->maximumSize());
-            r->child->resize(QMAX(w,sh.width()), QMAX(h,sh.height()));
+            r->child->resize(qMax(w,sh.width()), qMax(h,sh.height()));
         }
 
     }
@@ -940,7 +940,7 @@ void Q3ScrollView::updateScrollBars()
         d->vbar->setRange(0, 0);
     }
     if (needh) {
-        d->hbar->setRange(0, QMAX(0, d->contentsWidth()-portw));
+        d->hbar->setRange(0, qMax(0, d->contentsWidth()-portw));
         d->hbar->setSteps(Q3ScrollView::d->hbar->lineStep(), portw);
     } else {
         d->hbar->setRange(0, 0);
@@ -1033,13 +1033,13 @@ void Q3ScrollView::updateScrollBars()
             x =QMIN(0,d->contentsWidth()-visibleWidth());
         else
 #endif
-            x =QMAX(0,d->contentsWidth()-visibleWidth());
+            x =qMax(0,d->contentsWidth()-visibleWidth());
         d->hbar->setValue(x);
         // Do it even if it is recursive
         moveContents(-x, -d->contentsY());
     }
     if (d->contentsY()+visibleHeight() > contentsHeight()) {
-        int y=QMAX(0,contentsHeight()-visibleHeight());
+        int y=qMax(0,contentsHeight()-visibleHeight());
         d->vbar->setValue(y);
         // Do it even if it is recursive
         moveContents(-d->contentsX(), -y);
@@ -2019,7 +2019,7 @@ void Q3ScrollView::setContentsPos(int x, int y)
 */
 void Q3ScrollView::scrollBy(int dx, int dy)
 {
-    setContentsPos(QMAX(d->contentsX()+dx, 0), QMAX(d->contentsY()+dy, 0));
+    setContentsPos(qMax(d->contentsX()+dx, 0), qMax(d->contentsY()+dy, 0));
 }
 
 /*!
@@ -2070,7 +2070,7 @@ void Q3ScrollView::moveContents(int x, int y)
     if (-x+visibleWidth() > d->contentsWidth())
 #if 0
         if(QApplication::reverseLayout())
-            x=QMAX(0,-d->contentsWidth()+visibleWidth());
+            x=qMax(0,-d->contentsWidth()+visibleWidth());
         else
 #endif
             x=QMIN(0,-d->contentsWidth()+visibleWidth());
@@ -2092,8 +2092,8 @@ void Q3ScrollView::moveContents(int x, int y)
         // Cheap move (usually)
         d->moveAllBy(dx,dy);
     } else if (/*dx && dy ||*/
-         (QABS(dy) * 5 > visibleHeight() * 4) ||
-         (QABS(dx) * 5 > visibleWidth() * 4)
+         (qAbs(dy) * 5 > visibleHeight() * 4) ||
+         (qAbs(dx) * 5 > visibleWidth() * 4)
        )
     {
         // Big move
@@ -2736,7 +2736,7 @@ void Q3ScrollView::doDragAutoScroll()
         d->autoscroll_time--;
         d->autoscroll_timer.start(d->autoscroll_time);
     }
-    int l = QMAX(1, (initialScrollTime- d->autoscroll_time));
+    int l = qMax(1, (initialScrollTime- d->autoscroll_time));
 
     int dx = 0, dy = 0;
     if (p.y() < autoscroll_margin) {

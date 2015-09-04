@@ -42,9 +42,9 @@
 #ifndef Q3GCACHE_H
 #define Q3GCACHE_H
 
-#include <Qt3Support/q3ptrcollection.h>
-#include <Qt3Support/q3glist.h>
-#include <Qt3Support/q3gdict.h>
+#include <q3ptrcollection.h>
+#include <q3glist.h>
+#include <q3gdict.h>
 
 QT_BEGIN_HEADER
 

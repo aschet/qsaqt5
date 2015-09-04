@@ -755,8 +755,8 @@ bool Q3TextCursor::place(const QPoint &p, Q3TextParagraph *s, bool link)
                 cpos += cw;
             int diff = cpos - pos.x();
             bool dm = diff < 0 ? !chr->rightToLeft : chr->rightToLeft;
-            if ((QABS(diff) < dist || (dist == diff && dm == true)) && para->string()->validCursorPosition(i)) {
-                dist = QABS(diff);
+            if ((qAbs(diff) < dist || (dist == diff && dm == true)) && para->string()->validCursorPosition(i)) {
+                dist = qAbs(diff);
                 if (!link || pos.x() >= x + chr->x)
                     curpos = i;
             }
@@ -1295,7 +1295,7 @@ void Q3TextCursor::fixCursorPosition()
     int lineIdx;
     Q3TextStringChar *start = para->lineStartOfChar(idx, &lineIdx, 0);
     int x = para->string()->at(idx).x;
-    int diff = QABS(start->x - x);
+    int diff = qAbs(start->x - x);
     int best = lineIdx;
 
     Q3TextStringChar *c = start;
@@ -1306,7 +1306,7 @@ void Q3TextCursor::fixCursorPosition()
         int xp = c->x;
         if (c->rightToLeft)
             xp += para->string()->width(lineIdx + (c-start));
-        int ndiff = QABS(xp - x);
+        int ndiff = qAbs(xp - x);
         if (ndiff < diff && para->string()->validCursorPosition(lineIdx + (c-start))) {
             diff = ndiff;
             best = lineIdx + (c-start);

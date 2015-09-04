@@ -44,8 +44,8 @@
 
 #include <QtCore/QDir>
 #include <QtWidgets/QDialog>
-#include <Qt3Support/q3urloperator.h>
-#include <Qt3Support/q3valuelist.h>
+#include <q3urloperator.h>
+#include <q3valuelist.h>
 
 QT_BEGIN_HEADER
 
@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class QAbstractButton;
+class qAbstractButton;
 class QPushButton;
 class QLabel;
 class QWidget;
@@ -208,7 +208,7 @@ protected:
     void keyPressEvent(QKeyEvent *);
 
     void addWidgets(QLabel *, QWidget *, QPushButton *);
-    void addToolButton(QAbstractButton *b, bool separator = false);
+    void addToolButton(qAbstractButton *b, bool separator = false);
     void addLeftWidget(QWidget *w);
     void addRightWidget(QWidget *w);
 

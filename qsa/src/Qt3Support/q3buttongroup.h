@@ -43,7 +43,7 @@
 #define Q3BUTTONGROUP_H
 
 #include <QtGui/qbuttongroup.h>
-#include <Qt3Support/q3groupbox.h>
+#include <q3groupbox.h>
 #include <QtCore/qmap.h>
 
 QT_BEGIN_HEADER
@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class QAbstractButton;
+class qAbstractButton;
 
 class QSA_EXPORT Q3ButtonGroup : public Q3GroupBox
 {
@@ -77,15 +77,15 @@ public:
     void setRadioButtonExclusive(bool);
 
 public:
-    int insert(QAbstractButton *, int id=-1);
-    void remove(QAbstractButton *);
-    QAbstractButton    *find(int id) const;
-    int id(QAbstractButton *) const;
+    int insert(qAbstractButton *, int id=-1);
+    void remove(qAbstractButton *);
+    qAbstractButton    *find(int id) const;
+    int id(qAbstractButton *) const;
     int count() const;
 
     void setButton(int id);
 
-    QAbstractButton *selected() const;
+    qAbstractButton *selected() const;
     int selectedId() const;
 
 Q_SIGNALS:
@@ -109,12 +109,12 @@ private:
 
     void init();
     void fixChildren() const;
-    int insert_helper(QAbstractButton* , int id=-1);
-    void remove_helper(QAbstractButton *);
+    int insert_helper(qAbstractButton* , int id=-1);
+    void remove_helper(qAbstractButton *);
 
     bool excl_grp; // Not used.
     bool radio_excl;
-    QMap<int, QAbstractButton*> buttonIds;
+    QMap<int, qAbstractButton*> buttonIds;
     QButtonGroup group;
 };
 

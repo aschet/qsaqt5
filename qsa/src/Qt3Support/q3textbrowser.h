@@ -44,7 +44,7 @@
 
 #include <QtGui/qpixmap.h>
 #include <QtGui/qcolor.h>
-#include <Qt3Support/q3textedit.h>
+#include <q3textedit.h>
 
 QT_BEGIN_HEADER
 

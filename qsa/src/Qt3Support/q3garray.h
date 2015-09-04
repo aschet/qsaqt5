@@ -42,7 +42,7 @@
 #ifndef Q3GARRAY_H
 #define Q3GARRAY_H
 
-#include <Qt3Support/q3shared.h>
+#include <q3shared.h>
 
 QT_BEGIN_HEADER
 

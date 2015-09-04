@@ -44,7 +44,7 @@
 
 #include <QtCore/QObject>
 #include <QtNetwork/qhostaddress.h>
-#include <Qt3Support/q3socketdevice.h> // ### remove or keep for users' convenience?
+#include <q3socketdevice.h> // ### remove or keep for users' convenience?
 
 QT_BEGIN_HEADER
 

@@ -46,7 +46,7 @@
 #include <QtNetwork/qhostaddress.h>
 #include <QtCore/qsocketnotifier.h>
 #include <QtCore/QStringList>
-#include <Qt3Support/q3valuelist.h>
+#include <q3valuelist.h>
 
 QT_BEGIN_HEADER
 

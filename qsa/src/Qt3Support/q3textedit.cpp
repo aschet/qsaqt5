@@ -2676,9 +2676,9 @@ void Q3TextEdit::handleMouseMove(const QPoint& pos)
         Q3TextCursor cr = *cursor;
         cr.gotoNextWord();
 
-        int diff = QABS(oldCursor.paragraph()->at(oldCursor.index())->x - mousePos.x());
-        int ldiff = QABS(cl.paragraph()->at(cl.index())->x - mousePos.x());
-        int rdiff = QABS(cr.paragraph()->at(cr.index())->x - mousePos.x());
+        int diff = qAbs(oldCursor.paragraph()->at(oldCursor.index())->x - mousePos.x());
+        int ldiff = qAbs(cl.paragraph()->at(cl.index())->x - mousePos.x());
+        int rdiff = qAbs(cr.paragraph()->at(cr.index())->x - mousePos.x());
 
 
         if (cursor->paragraph()->lineStartOfChar(cursor->index()) !=
@@ -6939,7 +6939,7 @@ void Q3TextEdit::optimDoAutoScroll()
     if (d->od->numLines * fm.lineSpacing() < viewport()->height()) {
         repaintContents(contentsX(), contentsY(), width(), height());
     } else {
-        int h = QABS(mousePos.y() - oldMousePos.y()) + fm.lineSpacing() * 2;
+        int h = qAbs(mousePos.y() - oldMousePos.y()) + fm.lineSpacing() * 2;
         int y;
         if (oldMousePos.y() < mousePos.y()) {
             y = oldMousePos.y() - fm.lineSpacing();
@@ -6979,8 +6979,8 @@ int Q3TextEdit::optimCharIndex(const QString &str, int mx) const
     while (i < str.length()) {
         strWidth = qStrWidth(str.left(i), tabStopWidth(), fm);
         dd = strWidth - mx;
-        if (QABS(dd) <= dist) {
-            dist = QABS(dd);
+        if (qAbs(dd) <= dist) {
+            dist = qAbs(dd);
             if (mx >= strWidth)
                 curpos = i;
         }

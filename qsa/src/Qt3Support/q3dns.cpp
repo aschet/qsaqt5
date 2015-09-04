@@ -785,8 +785,8 @@ void Q3DnsAnswer::parse()
                             rr->expireTime );
 #endif
 		    older->t = Q3Dns::None;
-		    rr->expireTime = QMAX( older->expireTime, rr->expireTime );
-		    rr->deleteTime = QMAX( older->deleteTime, rr->deleteTime );
+		    rr->expireTime = qMax( older->expireTime, rr->expireTime );
+		    rr->deleteTime = qMax( older->deleteTime, rr->deleteTime );
 		    older->deleteTime = 0;
 #if defined(Q3DNS_DEBUG)
 		    qDebug( "    adjusted expire is %d", rr->expireTime );

@@ -42,14 +42,14 @@
 #ifndef Q3TABLE_H
 #define Q3TABLE_H
 
-#include <Qt3Support/q3scrollview.h>
+#include <q3scrollview.h>
 #include <QtGui/qpixmap.h>
-#include <Qt3Support/q3ptrvector.h>
-#include <Qt3Support/q3header.h>
-#include <Qt3Support/q3memarray.h>
-#include <Qt3Support/q3ptrlist.h>
-#include <Qt3Support/q3shared.h>
-#include <Qt3Support/q3intdict.h>
+#include <q3ptrvector.h>
+#include <q3header.h>
+#include <q3memarray.h>
+#include <q3ptrlist.h>
+#include <q3shared.h>
+#include <q3intdict.h>
 #include <QtCore/QStringList>
 
 QT_BEGIN_HEADER

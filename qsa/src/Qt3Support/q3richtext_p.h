@@ -71,8 +71,8 @@
 #include "QtCore/qsize.h"
 #include "QtCore/qstring.h"
 #include "QtCore/QStringList"
-#include "Qt3Support/q3stylesheet.h"
-#include "Qt3Support/q3mimefactory.h"
+#include "q3stylesheet.h"
+#include "q3mimefactory.h"
 
 QT_BEGIN_NAMESPACE
 

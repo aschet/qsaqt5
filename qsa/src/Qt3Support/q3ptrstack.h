@@ -42,7 +42,7 @@
 #ifndef Q3PTRSTACK_H
 #define Q3PTRSTACK_H
 
-#include <Qt3Support/q3glist.h>
+#include <q3glist.h>
 
 QT_BEGIN_HEADER
 

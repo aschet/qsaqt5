@@ -1281,11 +1281,11 @@ QRect Q3Canvas::changeBounds(const QRect& inarea)
 void Q3Canvas::ensureOffScrSize(int osw, int osh)
 {
     if (osw > offscr.width() || osh > offscr.height())
-	offscr.resize(QMAX(osw,offscr.width()),
-		      QMAX(osh,offscr.height()));
+	offscr.resize(qMax(osw,offscr.width()),
+		      qMax(osh,offscr.height()));
     else if (offscr.width() == 0 || offscr.height() == 0)
-	offscr.resize(QMAX(offscr.width(), 1),
-		       QMAX(offscr.height(), 1));
+	offscr.resize(qMax(offscr.width(), 1),
+		       qMax(offscr.height(), 1));
 }
 
 /*!
@@ -1639,7 +1639,7 @@ void Q3Canvas::setTiles(QPixmap p,
     }
     if (h + v > 10) {
 	int s = scm(tilewidth,tileheight);
-	retune(s < 128 ? s : QMAX(tilewidth,tileheight));
+	retune(s < 128 ? s : qMax(tilewidth,tileheight));
     }
     setAllChanged();
 }
@@ -3767,7 +3767,7 @@ public:
 	    int x = pt[j].x();
 	    int x1 = x/cs-bounds.x();
         if (x1 > bounds.width()) continue;
-        x1  = QMAX(0,x1);
+        x1  = qMax(0,x1);
 	    int x2 = (x+w[j])/cs-bounds.x();
         if (x2 < 0) continue;
         x2 = QMIN(bounds.width(), x2);
@@ -4268,8 +4268,8 @@ Q3PointArray Q3CanvasLine::areaPoints() const
     int xi = int(x());
     int yi = int(y());
     int pw = pen().width();
-    int dx = QABS(x1-x2);
-    int dy = QABS(y1-y2);
+    int dx = qAbs(x1-x2);
+    int dy = qAbs(y1-y2);
     pw = pw*4/3+2; // approx pw*sqrt(2)
     int px = x1<x2 ? -pw : pw ;
     int py = y1<y2 ? -pw : pw ;

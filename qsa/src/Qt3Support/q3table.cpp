@@ -951,13 +951,13 @@ QSize Q3TableItem::sizeHint() const
     QString t = text();
     if (!wordwrap && t.find(QLatin1Char('\n')) == -1)
         return QSize(s.width() + table()->fontMetrics().width(text()) + 10,
-                      QMAX(s.height(), table()->fontMetrics().height())).expandedTo(strutSize);
+                      qMax(s.height(), table()->fontMetrics().height())).expandedTo(strutSize);
 
     QRect r = table()->fontMetrics().boundingRect(x + 2, 0, table()->columnWidth(col()) - x - 4, 0,
                                                    wordwrap ? (alignment() | WordBreak) : alignment(),
                                                    text());
-    r.setWidth(QMAX(r.width() + 10, table()->columnWidth(col())));
-    return QSize(r.width(), QMAX(s.height(), r.height())).expandedTo(strutSize);
+    r.setWidth(qMax(r.width() + 10, table()->columnWidth(col())));
+    return QSize(r.width(), qMax(s.height(), r.height())).expandedTo(strutSize);
 }
 
 /*!
@@ -1645,7 +1645,7 @@ QSize Q3CheckTableItem::sizeHint() const
                       table()->style()->pixelMetric(QStyle::PM_IndicatorHeight));
     sz.setWidth(sz.width() + 6);
     QSize sh(Q3TableItem::sizeHint());
-    return QSize(sh.width() + sz.width(), QMAX(sh.height(), sz.height())).
+    return QSize(sh.width() + sz.width(), qMax(sh.height(), sz.height())).
         expandedTo(QApplication::globalStrut());
 }
 
@@ -2088,9 +2088,9 @@ void Q3Table::init(int rows, int cols)
     // Initialize headers
     int i = 0;
     for (i = 0; i < numCols(); ++i)
-        topHeader->resizeSection(i, QMAX(100, QApplication::globalStrut().height()));
+        topHeader->resizeSection(i, qMax(100, QApplication::globalStrut().height()));
     for (i = 0; i < numRows(); ++i)
-        leftHeader->resizeSection(i, QMAX(20, QApplication::globalStrut().width()));
+        leftHeader->resizeSection(i, qMax(20, QApplication::globalStrut().width()));
     topHeader->setUpdatesEnabled(true);
     leftHeader->setUpdatesEnabled(true);
 
@@ -3524,8 +3524,8 @@ void Q3Table::selectCells(int start_row, int start_col, int end_row, int end_col
     const int maxr = numRows()-1;
     const int maxc = numCols()-1;
 
-    start_row = QMIN(maxr, QMAX(0, start_row));
-    start_col = QMIN(maxc, QMAX(0, start_col));
+    start_row = QMIN(maxr, qMax(0, start_row));
+    start_col = QMIN(maxc, qMax(0, start_col));
     end_row = QMIN(maxr, end_row);
     end_col = QMIN(maxc, end_col);
     Q3TableSelection sel(start_row, start_col, end_row, end_col);
@@ -3651,7 +3651,7 @@ void Q3Table::contentsMousePressEventEx(QMouseEvent* e)
         Q3TableItem *itm = item(tmpRow, tmpCol);
         if (itm && itm->editType() == Q3TableItem::WhenCurrent) {
             QWidget *w = cellWidget(tmpRow, tmpCol);
-            if (qobject_cast<Q3ComboBox*>(w) || qobject_cast<QAbstractButton*>(w)) {
+            if (qobject_cast<Q3ComboBox*>(w) || qobject_cast<qAbstractButton*>(w)) {
                 QMouseEvent ev(e->type(), w->mapFromGlobal(e->globalPos()),
                                 e->globalPos(), e->button(), e->state());
                 QApplication::sendPostedEvents(w, 0);
@@ -3962,7 +3962,7 @@ bool Q3Table::eventFilter(QObject *o, QEvent *e)
                 } else { // Key_BackTab
                     if (currentColumn() == 0)
                         return true;
-                    int cc  = QMAX(0, currentColumn() - 1);
+                    int cc  = qMax(0, currentColumn() - 1);
                     while (cc >= 0) {
                         Q3TableItem *i = item(currentRow(), cc);
                         if (!d->hiddenCols.find(cc) && !isColumnReadOnly(cc) && (!i || i->isEnabled()))
@@ -4094,7 +4094,7 @@ void Q3Table::keyPressEvent(QKeyEvent* e)
     int r;
     switch (e->key()) {
     case Key_Left:
-        tmpCol = QMAX(0, tmpCol - 1);
+        tmpCol = qMax(0, tmpCol - 1);
         navigationKey = true;
         break;
     case Key_Right:
@@ -4102,7 +4102,7 @@ void Q3Table::keyPressEvent(QKeyEvent* e)
         navigationKey = true;
         break;
     case Key_Up:
-        tmpRow = QMAX(0, tmpRow - 1);
+        tmpRow = qMax(0, tmpRow - 1);
         navigationKey = true;
         break;
     case Key_Down:
@@ -4110,7 +4110,7 @@ void Q3Table::keyPressEvent(QKeyEvent* e)
         navigationKey = true;
         break;
     case Key_Prior:
-        r = QMAX(0, rowAt(rowPos(tmpRow) - visibleHeight()));
+        r = qMax(0, rowAt(rowPos(tmpRow) - visibleHeight()));
         if (r < tmpRow || tmpRow < 0)
             tmpRow = r;
         navigationKey = true;
@@ -4153,7 +4153,7 @@ void Q3Table::keyPressEvent(QKeyEvent* e)
         } else { // Key_BackTab
             if (currentColumn() == 0)
                 return;
-            int cc  = QMAX(0, currentColumn() - 1);
+            int cc  = qMax(0, currentColumn() - 1);
             while (cc >= 0) {
                 Q3TableItem *i = item(currentRow(), cc);
                 if (!d->hiddenCols.find(cc) && !isColumnReadOnly(cc) && (!i || i->isEnabled()))
@@ -5292,13 +5292,13 @@ void Q3Table::repaintSelections(Q3TableSelection *oldSelection,
     {
         int oldBottomRow = oldSelection ? oldSelection->bottomRow() : 0;
         int newBottomRow = newSelection ? newSelection->bottomRow() : 0;
-        bottom = QMAX(oldBottomRow, newBottomRow);
+        bottom = qMax(oldBottomRow, newBottomRow);
     }
 
     {
         int oldRightCol = oldSelection ? oldSelection->rightCol() : 0;
         int newRightCol = newSelection ? newSelection->rightCol() : 0;
-        right = QMAX(oldRightCol, newRightCol);
+        right = qMax(oldRightCol, newRightCol);
     }
 
     if (updateHorizontal && numCols() > 0 && left >= 0 && !isRowSelection(selectionMode())) {
@@ -5396,8 +5396,8 @@ void Q3Table::clearSelection(bool repaint)
 QRect Q3Table::rangeGeometry(int topRow, int leftCol,
                              int bottomRow, int rightCol, bool &optimize)
 {
-    topRow = QMAX(topRow, rowAt(contentsY()));
-    leftCol = QMAX(leftCol, columnAt(contentsX()));
+    topRow = qMax(topRow, rowAt(contentsY()));
+    leftCol = qMax(leftCol, columnAt(contentsX()));
     int ra = rowAt(contentsY() + visibleHeight());
     if (ra != -1)
         bottomRow = QMIN(bottomRow, ra);
@@ -5758,21 +5758,21 @@ void Q3Table::adjustColumn(int col)
     }
     if (topHeader->iconSet(col))
         w += topHeader->iconSet(col)->pixmap().width();
-    w = QMAX(w, 20);
+    w = qMax(w, 20);
     for (int i = 0; i < numRows(); ++i) {
         Q3TableItem *itm = item(i, col);
         if (!itm) {
             QWidget *widget = cellWidget(i, col);
             if (widget)
-                w = QMAX(w, widget->sizeHint().width());
+                w = qMax(w, widget->sizeHint().width());
         } else {
             if (itm->colSpan() > 1)
-                w = QMAX(w, itm->sizeHint().width() / itm->colSpan());
+                w = qMax(w, itm->sizeHint().width() / itm->colSpan());
             else
-                w = QMAX(w, itm->sizeHint().width());
+                w = qMax(w, itm->sizeHint().width());
         }
     }
-    w = QMAX(w, QApplication::globalStrut().width());
+    w = qMax(w, QApplication::globalStrut().width());
     setColumnWidth(col, w);
 }
 
@@ -5786,23 +5786,23 @@ void Q3Table::adjustColumn(int col)
 void Q3Table::adjustRow(int row)
 {
     int h = 20;
-    h = QMAX(h, leftHeader->sectionSizeHint(row, leftHeader->fontMetrics()).height());
+    h = qMax(h, leftHeader->sectionSizeHint(row, leftHeader->fontMetrics()).height());
     if (leftHeader->iconSet(row))
-        h = QMAX(h, leftHeader->iconSet(row)->pixmap().height());
+        h = qMax(h, leftHeader->iconSet(row)->pixmap().height());
     for (int i = 0; i < numCols(); ++i) {
         Q3TableItem *itm = item(row, i);
         if (!itm) {
             QWidget *widget = cellWidget(row, i);
             if (widget)
-                h = QMAX(h, widget->sizeHint().height());
+                h = qMax(h, widget->sizeHint().height());
         } else {
             if (itm->rowSpan() > 1)
-                h = QMAX(h, itm->sizeHint().height() / itm->rowSpan());
+                h = qMax(h, itm->sizeHint().height() / itm->rowSpan());
             else
-                h = QMAX(h, itm->sizeHint().height());
+                h = qMax(h, itm->sizeHint().height());
         }
     }
-    h = QMAX(h, QApplication::globalStrut().height());
+    h = qMax(h, QApplication::globalStrut().height());
     setRowHeight(row, h);
 }
 
@@ -6099,8 +6099,8 @@ void Q3Table::insertRows(int row, int count)
     if (updatesWereEnabled)
         setUpdatesEnabled(true);
 
-    int cr = QMAX(0, currentRow());
-    int cc = QMAX(0, currentColumn());
+    int cr = qMax(0, currentRow());
+    int cc = qMax(0, currentColumn());
     if (curRow > row)
         curRow -= count; // this is where curRow was
     setCurrentCell(cr, cc, true, false); // without ensureCellVisible
@@ -6161,8 +6161,8 @@ void Q3Table::insertColumns(int col, int count)
     if (updatesWereEnabled)
         setUpdatesEnabled(true);
 
-    int cr = QMAX(0, currentRow());
-    int cc = QMAX(0, currentColumn());
+    int cr = qMax(0, currentRow());
+    int cc = qMax(0, currentColumn());
     if (curCol > col)
         curCol -= count; // this is where curCol was
     setCurrentCell(cr, cc, true, false); // without ensureCellVisible
@@ -6986,7 +6986,7 @@ void Q3TableHeader::updateStretches()
         if (i == (int)stretchable.count() - 1 &&
              sectionPos(i) + pd < dim)
             pd = dim - sectionPos(i);
-        resizeSection(i, QMAX(20, pd));
+        resizeSection(i, qMax(20, pd));
     }
     blockSignals(block);
     table->repaintContents(false);
@@ -7009,7 +7009,7 @@ void Q3TableHeader::updateSelections()
     int a = sectionAt(startPos);
     int b = sectionAt(endPos);
     int start = QMIN(a, b);
-    int end = QMAX(a, b);
+    int end = qMax(a, b);
     register int *s = states.data();
     for (int i = 0; i < count(); ++i) {
         if (i < start || i > end)

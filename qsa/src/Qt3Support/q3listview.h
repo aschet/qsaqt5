@@ -42,7 +42,7 @@
 #ifndef Q3LISTVIEW_H
 #define Q3LISTVIEW_H
 
-#include <Qt3Support/q3scrollview.h>
+#include <q3scrollview.h>
 
 QT_BEGIN_HEADER
 

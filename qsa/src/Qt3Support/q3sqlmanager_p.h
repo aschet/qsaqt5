@@ -60,7 +60,7 @@
 #include "QtSql/qsql.h"
 #include "QtSql/qsqlerror.h"
 #include "QtSql/qsqlindex.h"
-#include "Qt3Support/q3sqlcursor.h"
+#include "q3sqlcursor.h"
 
 QT_BEGIN_NAMESPACE
 

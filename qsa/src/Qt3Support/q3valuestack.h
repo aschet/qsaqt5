@@ -42,7 +42,7 @@
 #ifndef Q3VALUESTACK_H
 #define Q3VALUESTACK_H
 
-#include <Qt3Support/q3valuelist.h>
+#include <q3valuelist.h>
 
 QT_BEGIN_HEADER
 

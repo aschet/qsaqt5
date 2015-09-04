@@ -820,7 +820,7 @@ void Q3Header::mouseMoveEvent(QMouseEvent *e)
     case Blocked:
         break;
     case Pressed:
-        if (QABS(c - clickPos) > 4 && d->move) {
+        if (qAbs(c - clickPos) > 4 && d->move) {
             state = Moving;
             moveToIdx = -1;
 #ifndef QT_NO_CURSOR
@@ -1140,7 +1140,7 @@ QSize Q3Header::sectionSizeHint(int section, const QFontMetrics& fm) const
             QStringList list = label.split(QLatin1Char('\n'));
             for (int i=0; i < list.count(); ++i) {
                 int tmpw = fm.width(list.at(i));
-                w = QMAX(w, tmpw);
+                w = qMax(w, tmpw);
             }
         } else {
             bound.setHeight(fm.height());

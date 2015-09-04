@@ -116,7 +116,7 @@ The default property mappings used by Qt widgets are:
      \i dateTime
 \row \i \l QTextBrowser
      \i source
-\row \i \l QAbstractButton,
+\row \i \l qAbstractButton,
         \l QDial,
         \l QLabel,
         \l QLineEdit,
@@ -145,7 +145,7 @@ Q3SqlPropertyMap::Q3SqlPropertyMap()
         { "Q3DateTimeEdit", "dateTime" },
         { "Q3ListBox", "currentItem" },
         { "Q3TimeEdit", "time" },
-        { "QAbstractButton", "text" },
+        { "qAbstractButton", "text" },
         { "QCheckBox", "checked" },
         { "QRadioButton", "checked" },
         { "QComboBox", "currentIndex" },

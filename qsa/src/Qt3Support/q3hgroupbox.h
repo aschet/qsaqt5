@@ -42,7 +42,7 @@
 #ifndef Q3HGROUPBOX_H
 #define Q3HGROUPBOX_H
 
-#include <Qt3Support/q3groupbox.h>
+#include <q3groupbox.h>
 
 QT_BEGIN_HEADER
 

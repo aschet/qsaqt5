@@ -40,7 +40,7 @@
 ****************************************************************************/
 
 #include "q3buttongroup.h"
-#include "qabstractbutton.h"
+#include "qAbstractbutton.h"
 #include "qmap.h"
 #include "qapplication.h"
 #include "qradiobutton.h"
@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class Q3ButtonGroup
-    \brief The Q3ButtonGroup widget organizes QAbstractButton widgets in a group.
+    \brief The Q3ButtonGroup widget organizes qAbstractButton widgets in a group.
 
     \compat
 
@@ -217,13 +217,13 @@ void Q3ButtonGroup::setExclusive(bool enable)
     \sa find(), remove(), setExclusive()
 */
 
-int Q3ButtonGroup::insert(QAbstractButton *button, int id)
+int Q3ButtonGroup::insert(qAbstractButton *button, int id)
 {
     remove_helper(button);
     return insert_helper(button, id);
 }
 
-int Q3ButtonGroup::insert_helper(QAbstractButton *button, int id)
+int Q3ButtonGroup::insert_helper(qAbstractButton *button, int id)
 {
     if (isExclusive() || !qobject_cast<QRadioButton*>(button))
         group.addButton(button);
@@ -256,15 +256,15 @@ int Q3ButtonGroup::count() const
     \sa insert()
 */
 
-void Q3ButtonGroup::remove(QAbstractButton *button)
+void Q3ButtonGroup::remove(qAbstractButton *button)
 {
     fixChildren();
     remove_helper(button);
 }
 
-void Q3ButtonGroup::remove_helper(QAbstractButton *button)
+void Q3ButtonGroup::remove_helper(qAbstractButton *button)
 {
-    QMap<int, QAbstractButton*>::Iterator it = buttonIds.begin();
+    QMap<int, qAbstractButton*>::Iterator it = buttonIds.begin();
     while (it != buttonIds.end()) {
         if (it.value() == button) {
             buttonIds.erase(it);
@@ -282,7 +282,7 @@ void Q3ButtonGroup::remove_helper(QAbstractButton *button)
     the button was not found.
 */
 
-QAbstractButton *Q3ButtonGroup::find(int id) const
+qAbstractButton *Q3ButtonGroup::find(int id) const
 {
     fixChildren();
     return buttonIds.value(id);
@@ -293,7 +293,7 @@ QAbstractButton *Q3ButtonGroup::find(int id) const
     \fn void Q3ButtonGroup::pressed(int id)
 
     This signal is emitted when a button in the group is \link
-    QAbstractButton::pressed() pressed\endlink. The \a id argument is the
+    qAbstractButton::pressed() pressed\endlink. The \a id argument is the
     button's identifier.
 
     \sa insert()
@@ -303,7 +303,7 @@ QAbstractButton *Q3ButtonGroup::find(int id) const
     \fn void Q3ButtonGroup::released(int id)
 
     This signal is emitted when a button in the group is \link
-    QAbstractButton::released() released\endlink. The \a id argument is the
+    qAbstractButton::released() released\endlink. The \a id argument is the
     button's identifier.
 
     \sa insert()
@@ -313,7 +313,7 @@ QAbstractButton *Q3ButtonGroup::find(int id) const
     \fn void Q3ButtonGroup::clicked(int id)
 
     This signal is emitted when a button in the group is \link
-    QAbstractButton::clicked() clicked\endlink. The \a id argument is the
+    qAbstractButton::clicked() clicked\endlink. The \a id argument is the
     button's identifier.
 
     \sa insert()
@@ -323,12 +323,12 @@ QAbstractButton *Q3ButtonGroup::find(int id) const
 /*!
   \internal
   This slot is activated when one of the buttons in the group emits the
-  QAbstractButton::pressed() signal.
+  qAbstractButton::pressed() signal.
 */
 
 void Q3ButtonGroup::buttonPressed()
 {
-    QAbstractButton *senderButton = qobject_cast<QAbstractButton *>(sender());
+    qAbstractButton *senderButton = qobject_cast<qAbstractButton *>(sender());
     Q_ASSERT(senderButton);
     int senderId = id(senderButton);
     if (senderId != -1)
@@ -338,12 +338,12 @@ void Q3ButtonGroup::buttonPressed()
 /*!
   \internal
   This slot is activated when one of the buttons in the group emits the
-  QAbstractButton::released() signal.
+  qAbstractButton::released() signal.
 */
 
 void Q3ButtonGroup::buttonReleased()
 {
-    QAbstractButton *senderButton = qobject_cast<QAbstractButton *>(sender());
+    qAbstractButton *senderButton = qobject_cast<qAbstractButton *>(sender());
     Q_ASSERT(senderButton);
     int senderId = id(senderButton);
     if (senderId != -1)
@@ -353,12 +353,12 @@ void Q3ButtonGroup::buttonReleased()
 /*!
   \internal
   This slot is activated when one of the buttons in the group emits the
-  QAbstractButton::clicked() signal.
+  qAbstractButton::clicked() signal.
 */
 
 void Q3ButtonGroup::buttonClicked()
 {
-    QAbstractButton *senderButton = qobject_cast<QAbstractButton *>(sender());
+    qAbstractButton *senderButton = qobject_cast<qAbstractButton *>(sender());
     Q_ASSERT(senderButton);
     int senderId = id(senderButton);
     if (senderId != -1)
@@ -370,14 +370,14 @@ void Q3ButtonGroup::buttonClicked()
 */
 void Q3ButtonGroup::buttonDestroyed()
 {
-    int id = buttonIds.key(static_cast<QAbstractButton *>(sender()), -1);
+    int id = buttonIds.key(static_cast<qAbstractButton *>(sender()), -1);
     if (id != -1)
         buttonIds.remove(id);
 }
 
 void Q3ButtonGroup::setButton(int id)
 {
-    QAbstractButton *b = find(id);
+    qAbstractButton *b = find(id);
     if (b)
         b->setOn(true);
 }
@@ -395,11 +395,11 @@ void Q3ButtonGroup::setRadioButtonExclusive(bool on)
     \sa selectedId()
 */
 
-QAbstractButton *Q3ButtonGroup::selected() const
+qAbstractButton *Q3ButtonGroup::selected() const
 {
     fixChildren();
-    QAbstractButton *candidate = 0;
-    QMap<int, QAbstractButton*>::ConstIterator it = buttonIds.constBegin();
+    qAbstractButton *candidate = 0;
+    QMap<int, qAbstractButton*>::ConstIterator it = buttonIds.constBegin();
     while (it != buttonIds.constEnd()) {
         if (it.value()->isCheckable() && it.value()->isChecked()) {
             if (candidate)
@@ -437,10 +437,10 @@ int Q3ButtonGroup::selectedId() const
     \sa selectedId()
 */
 
-int Q3ButtonGroup::id(QAbstractButton *button) const
+int Q3ButtonGroup::id(qAbstractButton *button) const
 {
     fixChildren();
-    QMap<int, QAbstractButton*>::ConstIterator it = buttonIds.constBegin();
+    QMap<int, qAbstractButton*>::ConstIterator it = buttonIds.constBegin();
     while (it != buttonIds.constEnd()) {
         if (it.value() == button)
             return it.key();
@@ -457,11 +457,11 @@ bool Q3ButtonGroup::event(QEvent * e)
 {
     if (e->type() == QEvent::ChildInserted) {
         QChildEvent * ce = (QChildEvent *) e;
-        if (QAbstractButton *button = qobject_cast<QAbstractButton*>(ce->child())) {
+        if (qAbstractButton *button = qobject_cast<qAbstractButton*>(ce->child())) {
             button->setAutoExclusive(false);
             if (group.exclusive() || qobject_cast<QRadioButton*>(button)) {
                 button->setAutoExclusive(true);
-                QMap<int, QAbstractButton*>::ConstIterator it = buttonIds.constBegin();
+                QMap<int, qAbstractButton*>::ConstIterator it = buttonIds.constBegin();
                 while (it != buttonIds.constEnd()) {
                     if (it.value() == button)
                         return Q3GroupBox::event(e);
@@ -479,15 +479,15 @@ void Q3ButtonGroup::fixChildren() const
     if (children().count() == buttonIds.count())
         return; // small optimization, all our children have ids.
 
-    QSet<QAbstractButton*> set;
-    for (QMap<int, QAbstractButton*>::ConstIterator it = buttonIds.constBegin();
+    QSet<qAbstractButton*> set;
+    for (QMap<int, qAbstractButton*>::ConstIterator it = buttonIds.constBegin();
             it != buttonIds.constEnd(); ++it)
         set.insert(*it);
-     // Use children() instead of qFindChildren<QAbstractButton*> because the search
+     // Use children() instead of qFindChildren<qAbstractButton*> because the search
      // should not be recursive.We match with the behavior of Qt3
      const QObjectList childList = children();
      Q_FOREACH(QObject* obj, childList) {
-         QAbstractButton *button = qobject_cast<QAbstractButton*>(obj);
+         qAbstractButton *button = qobject_cast<qAbstractButton*>(obj);
          if ( button && !set.contains(button))
              const_cast<Q3ButtonGroup*>(this)->insert_helper(button);
     }

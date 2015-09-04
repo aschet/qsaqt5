@@ -42,7 +42,7 @@
 #ifndef Q3INTCACHE_H
 #define Q3INTCACHE_H
 
-#include <Qt3Support/q3gcache.h>
+#include <q3gcache.h>
 
 QT_BEGIN_HEADER
 

@@ -42,7 +42,7 @@
 #ifndef Q3GVECTOR_H
 #define Q3GVECTOR_H
 
-#include <Qt3Support/q3ptrcollection.h>
+#include <q3ptrcollection.h>
 
 QT_BEGIN_HEADER
 

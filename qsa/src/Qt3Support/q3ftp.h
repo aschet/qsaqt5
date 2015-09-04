@@ -44,7 +44,7 @@
 
 #include <QtCore/qstring.h> // char*->QString conversion
 #include <QtNetwork/qurlinfo.h>
-#include <Qt3Support/q3networkprotocol.h>
+#include <q3networkprotocol.h>
 
 QT_BEGIN_HEADER
 

@@ -43,9 +43,9 @@
 #define Q3URLOPERATOR_H
 
 #include <QtCore/QObject>
-#include <Qt3Support/q3url.h>
-#include <Qt3Support/q3ptrlist.h>
-#include <Qt3Support/q3networkprotocol.h>
+#include <q3url.h>
+#include <q3ptrlist.h>
+#include <q3networkprotocol.h>
 #include <QtCore/QStringList> // QString->QStringList conversion
 
 QT_BEGIN_HEADER

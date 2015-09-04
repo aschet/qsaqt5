@@ -46,7 +46,7 @@
 #include <QtGui/qcolor.h>
 #include <QtGui/qmime.h>
 #include <QtGui/qimage.h>
-#include <Qt3Support/q3strlist.h>
+#include <q3strlist.h>
 #include <QtCore/QList>
 
 QT_BEGIN_HEADER

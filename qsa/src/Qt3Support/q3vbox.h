@@ -42,7 +42,7 @@
 #ifndef Q3VBOX_H
 #define Q3VBOX_H
 
-#include <Qt3Support/q3hbox.h>
+#include <q3hbox.h>
 
 QT_BEGIN_HEADER
 

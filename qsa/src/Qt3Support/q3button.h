@@ -42,7 +42,7 @@
 #ifndef Q3BUTTON_H
 #define Q3BUTTON_H
 
-#include <QtWidgets/QAbstractButton>
+#include <QtWidgets/qAbstractButton>
 
 QT_BEGIN_HEADER
 
@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class QSA_EXPORT Q3Button : public QAbstractButton
+class QSA_EXPORT Q3Button : public qAbstractButton
 {
     Q_OBJECT
 public:

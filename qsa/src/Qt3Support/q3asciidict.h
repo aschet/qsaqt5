@@ -42,7 +42,7 @@
 #ifndef Q3ASCIIDICT_H
 #define Q3ASCIIDICT_H
 
-#include <Qt3Support/q3gdict.h>
+#include <q3gdict.h>
 
 QT_BEGIN_HEADER
 

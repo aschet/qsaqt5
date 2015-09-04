@@ -43,7 +43,7 @@
 #define Q3STRVEC_H
 
 #include <QtCore/qstring.h>
-#include <Qt3Support/q3ptrvector.h>
+#include <q3ptrvector.h>
 #include <QtCore/qdatastream.h>
 
 QT_BEGIN_HEADER

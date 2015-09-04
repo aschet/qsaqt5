@@ -73,7 +73,7 @@ using namespace Qt;
     used in both menus and toolbars. If you're only interested in
     menus use Q3MenuData::insertItem() or Q3MenuData::setAccel() to make
     accelerators for operations that are also available on menus. Many
-    widgets automatically generate accelerators, such as QAbstractButton,
+    widgets automatically generate accelerators, such as qAbstractButton,
     QGroupBox, QLabel (with QLabel::setBuddy()), QMenuBar, and QTabBar.
     Example:
     \snippet doc/src/snippets/code/src_qt3support_other_q3accel.cpp 0
@@ -129,7 +129,7 @@ using namespace Qt;
     \snippet doc/src/snippets/code/src_qt3support_other_q3accel.cpp 2
 
     \sa QKeyEvent QWidget::keyPressEvent()
-    QAbstractButton::setAccel() QLabel::setBuddy() QKeySequence
+    qAbstractButton::setAccel() QLabel::setBuddy() QKeySequence
 */
 
 
@@ -441,7 +441,7 @@ bool Q3AccelManager::dispatchAccelEvent(QWidget* w, QKeyEvent* e)
                                 lastitem = item;
                                 n++;
                                 matchFound = true;
-                                if (n > QMAX(clash,0))
+                                if (n > qMax(clash,0))
                                     goto doclash;
                             } else {
                                 identicalDisabled = true;

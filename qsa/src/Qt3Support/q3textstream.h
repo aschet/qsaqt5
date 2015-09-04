@@ -47,7 +47,7 @@
 #ifndef QT_NO_TEXTCODEC
 #include <QtCore/qtextcodec.h>
 #endif
-#include <Qt3Support/q3cstring.h>
+#include <q3cstring.h>
 
 #include <stdio.h>
 

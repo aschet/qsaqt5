@@ -43,7 +43,7 @@
 #define Q3OBJECTDICT_H
 
 #include <QtCore/qmetaobject.h>
-#include <Qt3Support/q3asciidict.h>
+#include <q3asciidict.h>
 
 QT_BEGIN_HEADER
 

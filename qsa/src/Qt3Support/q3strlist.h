@@ -43,7 +43,7 @@
 #define Q3STRLIST_H
 
 #include <QtCore/qstring.h>
-#include <Qt3Support/q3ptrlist.h>
+#include <q3ptrlist.h>
 #include <QtCore/qdatastream.h>
 #include <QtCore/QList>
 

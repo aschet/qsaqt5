@@ -41,16 +41,12 @@
 
 #include "q3stylesheet.h"
 
-#ifndef QT_NO_RICHTEXT
-
-#include "qlayout.h"
+#include <QtWidgets/QLayout>
 #include <QtGui/QPainter>
 #include "q3cleanuphandler.h"
-#include <qtextdocument.h>
+#include <QtGui/QTextDocument>
 
 #include <stdio.h>
-
-
 
 class Q3StyleSheetItemData
 {
@@ -1376,7 +1372,7 @@ QString Q3StyleSheet::convertFromPlainText(const QString& plain, Q3StyleSheetIte
 */
 QString Q3StyleSheet::escape(const QString& plain)
 {
-    return Qt::escape(plain);
+	return QString(plain).toHtmlEscaped();
 }
 
 // Must doc this enum somewhere, and it is logically related to Q3StyleSheet
@@ -1465,7 +1461,3 @@ void Q3StyleSheet::scaleFont(QFont& font, int logicalSize) const
     else
         font.setPointSize(qMax(1, s));
 }
-
-
-
-#endif // QT_NO_RICHTEXT

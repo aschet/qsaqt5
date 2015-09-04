@@ -66,7 +66,6 @@
 #include "q3popupmenu.h"
 #include "qstack.h"
 #include "qmetaobject.h"
-#include "q3textbrowser.h"
 #include "q3syntaxhighlighter_p.h"
 #include "qtextformat.h"
 #ifndef QT_NO_IM
@@ -2369,8 +2368,6 @@ void Q3TextEdit::contentsMouseReleaseEvent(QMouseEvent * e)
             QUrl u = QUrl(doc->context()).resolved(onLink);
             emitLinkClicked(u.toString(QUrl::None));
         }
-        if (Q3TextBrowser *browser = qobject_cast<Q3TextBrowser*>(this))
-            emit browser->anchorClicked(d->onName, onLink);
 
         // emitting linkClicked() may result in that the cursor winds
         // up hovering over a different valid link - check this and
@@ -3371,7 +3368,7 @@ bool Q3TextEdit::focusNextPrevChild(bool n)
                 }
             }
         }
-        setContentsPos( contentsX(), QMIN( y, contentsHeight() - visibleHeight() ) );
+        setContentsPos( contentsX(), qMin( y, contentsHeight() - visibleHeight() ) );
     }
     return b;
 }
@@ -4720,9 +4717,6 @@ bool Q3TextEdit::handleReadOnlyKeyEvent(QKeyEvent *e)
                 QUrl u = QUrl(doc->context()).resolved(doc->focusIndicator.href);
                 emitLinkClicked(u.toString(QUrl::None));
             }
-            if (!doc->focusIndicator.name.isEmpty())
-                if (Q3TextBrowser *browser = qobject_cast<Q3TextBrowser*>(this))
-                    emit browser->anchorClicked(doc->focusIndicator.name, doc->focusIndicator.href);
 
 #ifndef QT_NO_CURSOR
             viewport()->setCursor(isReadOnly() ? Qt::ArrowCursor : Qt::IBeamCursor);

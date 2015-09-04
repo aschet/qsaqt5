@@ -47,8 +47,6 @@
 #include <QtGui/QRegion>
 #include <QtGui/QColor>
 
-#ifndef QT_NO_RICHTEXT
-
 class QPainter;
 class QWidget;
 class Q3StyleSheet;
@@ -94,6 +92,4 @@ private:
     Q3SimpleRichTextData* d;
 };
 
-#endif // QT_NO_RICHTEXT
-
-#endif // Q3SIMPLERICHTEXT_H
+#endif

@@ -1549,7 +1549,7 @@ void Q3ComboBox::wheelEvent( QWheelEvent *e )
 static int listHeight( Q3ListBox *l, int sl )
 {
     if ( l->count() > 0 )
-	return QMIN( l->count(), (uint)sl) * l->item( 0 )->height(l);
+	return qMin( l->count(), (uint)sl) * l->item( 0 )->height(l);
     else
 	return l->sizeHint().height();
 }

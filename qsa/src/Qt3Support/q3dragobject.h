@@ -65,7 +65,7 @@ class Q3StrList;
 class QImage;
 class QPixmap;
 
-class QSA_EXPORT Q3DragObject : public QObject, public QMimeData {
+class QSA_EXPORT Q3DragObject : public QMimeData {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3DragObject)
 public:

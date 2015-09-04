@@ -49,14 +49,6 @@
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 
-
-
-
-
-
-
-#ifndef QT_NO_RICHTEXT
-
 class Q3StyleSheet;
 class Q3TextDocument;
 template<class Key, class T> class QMap;
@@ -225,11 +217,5 @@ private:
     QHash<QString, Q3StyleSheetItem *> styles;
     Q3StyleSheetItem* nullstyle;
 };
-
-#endif // QT_NO_RICHTEXT
-
-
-
-
 
 #endif // Q3STYLESHEET_H

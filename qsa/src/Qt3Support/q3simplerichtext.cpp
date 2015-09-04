@@ -41,7 +41,6 @@
 
 #include "q3simplerichtext.h"
 
-#ifndef QT_NO_RICHTEXT
 #include "q3richtext_p.h"
 #include <QtWidgets/QApplication>
 
@@ -413,7 +412,3 @@ void Q3SimpleRichText::setDefaultFont(const QFont &f)
     d->doc->setDefaultFormat(f, QColor());
     d->doc->setText(d->doc->originalText(), d->doc->context());
 }
-
-
-
-#endif //QT_NO_RICHTEXT

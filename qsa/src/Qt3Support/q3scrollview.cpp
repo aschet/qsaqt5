@@ -1030,7 +1030,7 @@ void Q3ScrollView::updateScrollBars()
         int x;
 #if 0
         if (reverse)
-            x =QMIN(0,d->contentsWidth()-visibleWidth());
+            x =qMin(0,d->contentsWidth()-visibleWidth());
         else
 #endif
             x =qMax(0,d->contentsWidth()-visibleWidth());
@@ -2073,9 +2073,9 @@ void Q3ScrollView::moveContents(int x, int y)
             x=qMax(0,-d->contentsWidth()+visibleWidth());
         else
 #endif
-            x=QMIN(0,-d->contentsWidth()+visibleWidth());
+            x=qMin(0,-d->contentsWidth()+visibleWidth());
     if (-y+visibleHeight() > contentsHeight())
-        y=QMIN(0,-contentsHeight()+visibleHeight());
+        y=qMin(0,-contentsHeight()+visibleHeight());
 
     int dx = x - d->vx;
     int dy = y - d->vy;

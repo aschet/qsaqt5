@@ -156,7 +156,6 @@
     and capturing their output. Microsoft recommends using an intermediate
     application to start 16-bit applications.
 
-    \sa Q3Socket
 */
 
 /*!

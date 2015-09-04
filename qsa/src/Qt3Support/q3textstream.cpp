@@ -615,7 +615,7 @@ uint Q3TextStream::ts_getbuf( QChar* buf, uint len )
 		    break; // it seems we are in sync now
 	    }
 	    uint i = 0;
-	    uint end = QMIN( len-rnum, uint(s.length()) );
+	    uint end = qMin( len-rnum, uint(s.length()) );
 	    while( i < end ) {
 		*buf = s.constref(i++);
 		buf++;

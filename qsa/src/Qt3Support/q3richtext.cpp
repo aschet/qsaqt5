@@ -55,7 +55,7 @@
 #include "qfont.h"
 #include "qimage.h"
 #include "qmap.h"
-#include "qmime.h"
+#include "qmimedata.h"
 #include "q3paintdevicemetrics.h"
 #include <QtGui/QPainter>
 #include "qstringlist.h"
@@ -63,8 +63,9 @@
 #include "qstyleoption.h"
 #include "q3stylesheet.h"
 #include "qtextstream.h"
-#include <qtextdocument_p.h>
-#include <qtextengine_p.h>
+//#include <qtextdocument_p.h>
+//#include <qtextengine_p.h>
+//#include <QtGui/QTextEngine>
 
 #include <stdlib.h>
 
@@ -1348,7 +1349,7 @@ void Q3TextDocument::init()
     minw = 0;
     wused = 0;
     minwParag = curParag = 0;
-    align = Qt::AlignAuto;
+    align = Qt::AlignLeft;
     nSelections = 1;
 
     setStyleSheet(Q3StyleSheet::defaultSheet());
@@ -1518,7 +1519,7 @@ void Q3TextDocument::setPlainText(const QString &text)
 struct Q3TextDocumentTag {
     Q3TextDocumentTag(){}
     Q3TextDocumentTag(const QString&n, const Q3StyleSheetItem* s, const Q3TextFormat& f)
-        :name(n),style(s), format(f), alignment(Qt::AlignAuto), direction(QChar::DirON),liststyle(Q3StyleSheetItem::ListDisc) {
+        :name(n),style(s), format(f), alignment(Qt::AlignLeft), direction(QChar::DirON),liststyle(Q3StyleSheetItem::ListDisc) {
             wsm = Q3StyleSheetItem::WhiteSpaceNormal;
     }
     QString name;
@@ -1656,7 +1657,7 @@ void Q3TextDocument::setRichTextInternal(const QString &text, Q3TextCursor* curs
                     while (!nstyle->allowedInContext(curtag.style)) {
                         QString msg;
                         msg.sprintf("QText Warning: Document not valid ('%s' not allowed in '%s' #%d)",
-                                     tagname.ascii(), curtag.style->name().ascii(), pos);
+							tagname.toLatin1().data(), curtag.style->name().toLatin1().data(), pos);
                         sheet_->error(msg);
                         if (tags.isEmpty())
                             break;
@@ -5825,7 +5826,7 @@ int Q3TextFormatterBreakWords::format(Q3TextDocument *doc, Q3TextParagraph *para
     bool lastWasNonInlineCustom = false;
 
     int align = parag->alignment();
-    if (align == Qt::AlignAuto && doc && doc->alignment() != Qt::AlignAuto)
+    if (align == Qt::AlignLeft && doc && doc->alignment() != Qt::AlignLeft)
         align = doc->alignment();
 
     align &= Qt::AlignHorizontal_Mask;
@@ -6260,7 +6261,7 @@ Q3TextFormat *Q3TextFormatCollection::format(const QFont &f, const QColor &c)
     cachedFormat->collection = this;
     cKey.insert(cachedFormat->key(), cachedFormat);
     if (cachedFormat->key() != key)
-        qWarning("ASSERT: keys for format not identical: '%s '%s'", cachedFormat->key().latin1(), key.latin1());
+        qWarning("ASSERT: keys for format not identical: '%s '%s'", cachedFormat->key().toLatin1().data(), key.toLatin1().data());
     return cachedFormat;
 }
 
@@ -6681,11 +6682,11 @@ Q3TextImage::Q3TextImage(Q3TextDocument *p, const QMap<QString, QString> &attr, 
             const QMimeSource* m =
                 factory.data(imageName, context);
             if (!m) {
-                qCritical("Q3TextImage: no mimesource for %s", imageName.latin1());
+                qCritical("Q3TextImage: no mimesource for %s", imageName.toLatin1().data());
             }
             else {
                 if (!Q3ImageDrag::decode(m, img)) {
-                    qCritical("Q3TextImage: cannot decode %s", imageName.latin1());
+                    qCritical("Q3TextImage: cannot decode %s", imageName.toLatin1().data());
                 }
             }
 

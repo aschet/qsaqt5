@@ -139,7 +139,6 @@ public:
 
 class QSA_EXPORT Q3TextEdit : public Q3ScrollView
 {
-    friend class Q3TextBrowser;
     friend class Q3SyntaxHighlighter;
 
     Q_OBJECT

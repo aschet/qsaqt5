@@ -41,7 +41,7 @@
 
 #include "q3paintdevicemetrics.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3PaintDeviceMetrics
@@ -146,4 +146,4 @@ QT_BEGIN_NAMESPACE
     \internal
 */
 
-QT_END_NAMESPACE
+

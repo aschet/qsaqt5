@@ -50,9 +50,9 @@
 #include "q3ptrqueue.h"
 #include "q3valuelist.h"
 #include "qurlinfo.h"
-#include <private/qobject_p.h>
+#include <qobject_p.h>
 
-QT_BEGIN_NAMESPACE
+
 
 //#define Q3NETWORKPROTOCOL_DEBUG
 #define NETWORK_OP_DELAY 1000
@@ -1202,7 +1202,7 @@ void Q3NetworkOperation::deleteMe()
     delete this;
 }
 
-QT_END_NAMESPACE
+
 
 #include "moc_q3networkprotocol.cpp"
 

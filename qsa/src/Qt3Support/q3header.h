@@ -46,11 +46,11 @@
 #include <QtWidgets/QWidget>
 #include <QtCore/qstring.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_HEADER
 
@@ -218,8 +218,8 @@ extern QSA_EXPORT bool qt_qheader_label_return_null_strings; // needed for profe
 
 #endif // QT_NO_HEADER
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3HEADER_H

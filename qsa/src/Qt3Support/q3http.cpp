@@ -53,12 +53,12 @@
 #include "qbuffer.h"
 #include "q3urloperator.h"
 #include "qtimer.h"
-#include "private/q3membuf_p.h"
+#include "q3membuf_p.h"
 #include "qevent.h"
 #include "q3url.h"
 #include "qhttp.h"
 
-QT_BEGIN_NAMESPACE
+
 
 //#define Q3HTTP_DEBUG
 
@@ -2316,6 +2316,6 @@ void Q3Http::clientStateChanged( int state )
     }
 }
 
-QT_END_NAMESPACE
+
 
 #endif

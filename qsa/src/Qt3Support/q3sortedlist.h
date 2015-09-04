@@ -44,11 +44,11 @@
 
 #include <q3ptrlist.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 template<class type>
 class Q3SortedList : public Q3PtrList<type>
@@ -64,8 +64,8 @@ public:
       { if ( *((type*)s1) == *((type*)s2) ) return 0; return ( *((type*)s1) < *((type*)s2) ? -1 : 1 ); }
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SORTEDLIST_H

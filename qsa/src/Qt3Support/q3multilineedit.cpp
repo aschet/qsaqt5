@@ -50,9 +50,9 @@
 #include "qapplication.h"
 #include "q3dragobject.h"
 #include "qtimer.h"
-#include <private/q3richtext_p.h>
+#include <q3richtext_p.h>
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
   \class Q3MultiLineEdit
@@ -530,6 +530,6 @@ QString Q3MultiLineEdit::textLine(int line) const
     return str;
 }
 
-QT_END_NAMESPACE
+
 
 #endif

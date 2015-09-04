@@ -41,7 +41,7 @@
 
 #include "q3shared.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
   \class Q3Shared
@@ -69,4 +69,4 @@ QT_BEGIN_NAMESPACE
   any references remain. 
 */
 
-QT_END_NAMESPACE
+

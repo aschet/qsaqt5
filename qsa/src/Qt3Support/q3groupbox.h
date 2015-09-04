@@ -44,11 +44,11 @@
 
 #include <QtWidgets/QGroupBox>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3GroupBoxPrivate;
 
@@ -152,8 +152,8 @@ private:
     Q_DISABLE_COPY(Q3GroupBox)
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3GROUPBOX_H

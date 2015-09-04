@@ -43,7 +43,7 @@
 
 #ifndef QT_NO_DATETIMEEDIT
 
-#include <private/q3richtext_p.h>
+#include <q3richtext_p.h>
 #include "qevent.h"
 #include "q3rangecontrol.h"
 #include "qapplication.h"
@@ -56,7 +56,7 @@
 #include "qt_windows.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 #define QDATETIMEEDIT_HIDDEN_CHAR QLatin1Char('0')
 
@@ -2800,7 +2800,7 @@ bool Q3DateTimeEdit::autoAdvance() const
     datetime.
 */
 
-QT_END_NAMESPACE
+
 
 #include "q3datetimeedit.moc"
 

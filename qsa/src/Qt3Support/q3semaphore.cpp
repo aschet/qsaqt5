@@ -44,7 +44,7 @@
 #include "qmutex.h"
 #include "qwaitcondition.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3Semaphore
@@ -251,4 +251,4 @@ bool Q3Semaphore::tryAccess(int n)
     return true;
 }
 
-QT_END_NAMESPACE
+

@@ -52,7 +52,7 @@
 #include "qevent.h"
 #include <limits.h>
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3ProgressBar
@@ -461,4 +461,4 @@ void Q3ProgressBar::paintEvent(QPaintEvent *)
     \sa setMargin(), QWidget::getContentsMargins()
 */
 
-QT_END_NAMESPACE
+

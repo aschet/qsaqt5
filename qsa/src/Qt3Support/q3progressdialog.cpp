@@ -55,7 +55,7 @@
 #include "qtimer.h"
 #include <limits.h>
 
-QT_BEGIN_NAMESPACE
+
 
 // If the operation is expected to take this long (as predicted by
 // progress time), show the progress dialog.
@@ -845,6 +845,6 @@ void Q3ProgressDialog::forceShow()
 }
 
 
-QT_END_NAMESPACE
+
 
 #endif

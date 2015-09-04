@@ -47,11 +47,11 @@
 #include <QtCore/qdatastream.h>
 #include <QtCore/QList>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #if defined(qdoc)
 class Q3StrListIterator : public Q3PtrListIterator<char>
@@ -130,8 +130,8 @@ inline Q3StrList::Q3StrList( const Q3StrList &strList )
     operator=( strList );
 }
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3STRLIST_H

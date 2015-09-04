@@ -61,7 +61,7 @@
 #  define QT_SS_PAD1SIZE (QT_SS_ALIGNSIZE - sizeof (short))
 #  define QT_SS_PAD2SIZE (QT_SS_MAXSIZE - (sizeof (short) + QT_SS_PAD1SIZE + QT_SS_ALIGNSIZE))
 
-QT_BEGIN_NAMESPACE
+
 
 struct qt_sockaddr_storage {
       short ss_family;
@@ -84,11 +84,11 @@ typedef struct {
     u_long  sin6_scope_id;          /* set of interfaces for a scope */
 } qt_sockaddr_in6;
 
-QT_END_NAMESPACE
+
 
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 #ifndef AF_INET6
 #define AF_INET6        23              /* Internetwork Version 6 */
@@ -1064,4 +1064,4 @@ QHostAddress Q3SocketDevice::peerAddress() const
     return pa;
 }
 
-QT_END_NAMESPACE
+

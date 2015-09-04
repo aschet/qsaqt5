@@ -64,7 +64,7 @@
 
 #include <stdlib.h>
 
-QT_BEGIN_NAMESPACE
+
 
 class Q3ListBoxPrivate
 {
@@ -4682,6 +4682,6 @@ int Q3ListBoxItem::rtti() const
     \sa StringComparisonMode
 */
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_LISTBOX

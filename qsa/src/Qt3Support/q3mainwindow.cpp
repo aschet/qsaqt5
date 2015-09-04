@@ -63,12 +63,12 @@
 #include "qtooltip.h"
 #include "qwhatsthis.h"
 #ifdef Q_WS_MAC
-#  include <private/qt_mac_p.h>
+#  include <qt_mac_p.h>
 #endif
 
-#include <private/q3mainwindow_p.h>
+#include <q3mainwindow_p.h>
 
-QT_BEGIN_NAMESPACE
+
 
 class QHideDock;
 
@@ -2420,7 +2420,7 @@ QTextStream &operator>>(QTextStream &ts, Q3MainWindow &mainWindow)
 }
 #endif
 
-QT_END_NAMESPACE
+
 
 #include "q3mainwindow.moc"
 

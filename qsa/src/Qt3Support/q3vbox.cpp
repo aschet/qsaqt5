@@ -42,7 +42,7 @@
 
 #include "q3vbox.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3VBox
@@ -69,4 +69,4 @@ Q3VBox::Q3VBox( QWidget *parent, const char *name, Qt::WindowFlags f )
 {
 }
 
-QT_END_NAMESPACE
+

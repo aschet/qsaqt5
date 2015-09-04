@@ -41,11 +41,11 @@
 
 #include "q3widgetstack.h"
 #include "qlayout.h"
-#include "private/qlayoutengine_p.h"
+#include "qlayoutengine_p.h"
 #include "qapplication.h"
 #include <QtGui/QPainter>
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -568,4 +568,4 @@ bool Q3WidgetStack::event(QEvent* e)
     return Q3Frame::event(e);
 }
 
-QT_END_NAMESPACE
+

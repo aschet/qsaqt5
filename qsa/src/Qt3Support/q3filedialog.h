@@ -47,11 +47,11 @@
 #include <q3urloperator.h>
 #include <q3valuelist.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class qAbstractButton;
 class QPushButton;
@@ -339,8 +339,8 @@ private:
 
 #endif // QT_NO_FILEDIALOG
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3FILEDIALOG_H

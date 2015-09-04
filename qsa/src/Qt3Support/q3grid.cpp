@@ -43,7 +43,7 @@
 #include "qlayout.h"
 #include "qapplication.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3Grid
@@ -135,4 +135,4 @@ QSize Q3Grid::sizeHint() const
     return Q3Frame::sizeHint();
 }
 
-QT_END_NAMESPACE
+

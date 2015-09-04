@@ -52,7 +52,7 @@
 
 #include <stdlib.h>
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -5162,4 +5162,4 @@ void Q3CanvasPolygonalItem::scanPolygon(const Q3PointArray& pa, int winding, QPo
     scanner.scan(pa,winding);
 }
 
-QT_END_NAMESPACE
+

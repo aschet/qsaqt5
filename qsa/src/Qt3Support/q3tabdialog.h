@@ -45,11 +45,11 @@
 #include <QtWidgets/QDialog>
 #include <QtGui/qicon.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class  QTabBar;
 class  QTab;
@@ -136,8 +136,8 @@ private:
     Q_DISABLE_COPY(Q3TabDialog)
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3TABDIALOG_H

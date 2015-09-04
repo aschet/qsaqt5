@@ -51,11 +51,11 @@
 
 #include <stdio.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3TextStreamPrivate;
 
@@ -290,8 +290,8 @@ QSA_EXPORT Q3TextStream &flush( Q3TextStream &s );	// flush output
 QSA_EXPORT Q3TextStream &ws( Q3TextStream &s );	// eat whitespace on input
 QSA_EXPORT Q3TextStream &reset( Q3TextStream &s );	// set default flags
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3TEXTSTREAM_H

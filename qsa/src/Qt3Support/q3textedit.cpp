@@ -43,7 +43,7 @@
 
 #ifndef QT_NO_TEXTEDIT
 
-#include <private/q3richtext_p.h>
+#include <q3richtext_p.h>
 #include <QtGui/QPainter>
 #include "qpen.h"
 #include "qbrush.h"
@@ -67,7 +67,7 @@
 #include "qstack.h"
 #include "qmetaobject.h"
 #include "q3textbrowser.h"
-#include "private/q3syntaxhighlighter_p.h"
+#include "q3syntaxhighlighter_p.h"
 #include "qtextformat.h"
 #ifndef QT_NO_IM
 #include <qinputcontext.h>
@@ -84,7 +84,7 @@
 #define LOGOFFSET(i) d->logOffset + i
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 struct QUndoRedoInfoPrivate
 {
@@ -7239,6 +7239,6 @@ Q3SyntaxHighlighter * Q3TextEdit::syntaxHighlighter() const
         return 0;
 }
 
-QT_END_NAMESPACE
+
 
 #endif //QT_NO_TEXTEDIT

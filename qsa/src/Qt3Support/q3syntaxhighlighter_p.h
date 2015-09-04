@@ -55,9 +55,9 @@
 
 #ifndef QT_NO_SYNTAXHIGHLIGHTER
 #include "q3syntaxhighlighter.h"
-#include "private/q3richtext_p.h"
+#include "q3richtext_p.h"
 
-QT_BEGIN_NAMESPACE
+
 
 class Q3SyntaxHighlighterPrivate
 {
@@ -109,6 +109,6 @@ private:
 
 #endif // QT_NO_SYNTAXHIGHLIGHTER
 
-QT_END_NAMESPACE
+
 
 #endif // Q3SYNTAXHIGHLIGHTER_P_H

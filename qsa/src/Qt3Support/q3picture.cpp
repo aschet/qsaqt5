@@ -39,13 +39,13 @@
 **
 ****************************************************************************/
 
-#include "private/qpicture_p.h"
+#include "qpicture_p.h"
 #include "qfile.h"
 #include <QtGui/QPainter>
 #include "q3picture.h"
 #include "q3paintengine_svg_p.h"
 
-QT_BEGIN_NAMESPACE
+
 
 class Q3SvgDevice : public QPaintDevice
 {
@@ -232,4 +232,4 @@ bool Q3Picture::save(QIODevice *dev, const char *format)
     return QPicture::save(dev, format);
 }
 
-QT_END_NAMESPACE
+

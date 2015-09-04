@@ -43,14 +43,14 @@
 #define Q3TEXTBROWSER_H
 
 #include <QtGui/qpixmap.h>
-#include <QtGui/qcolor.h>
+#include <QtGui/QColor>
 #include <q3textedit.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_TEXTBROWSER
 
@@ -101,8 +101,8 @@ private:
 
 #endif // QT_NO_TEXTBROWSER
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3TEXTBROWSER_H

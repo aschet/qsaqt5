@@ -60,11 +60,11 @@
 #include "qt_windows.h"
 #endif
 
-#include "private/qapplication_p.h"
-#include "private/q3titlebar_p.h"
-#include "private/qwidget_p.h"
+#include "qapplication_p.h"
+#include "q3titlebar_p.h"
+#include "qwidget_p.h"
 
-QT_BEGIN_NAMESPACE
+
 
 class Q3TitleBarPrivate : public QWidgetPrivate
 {
@@ -625,6 +625,6 @@ QSize Q3TitleBar::sizeHint() const
     return QSize(menur.width(), style()->pixelMetric(QStyle::PM_TitleBarHeight, &opt, this));
 }
 
-QT_END_NAMESPACE
+
 
 #endif //QT_NO_TITLEBAR

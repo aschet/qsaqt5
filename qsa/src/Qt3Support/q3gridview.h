@@ -44,11 +44,11 @@
 
 #include <q3scrollview.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3GridViewPrivate;
 
@@ -130,8 +130,8 @@ inline QRect Q3GridView::cellRect() const
 inline QSize Q3GridView::gridSize() const
 { return QSize(ncols * cellw, nrows * cellh); }
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3GRIDVIEW_H

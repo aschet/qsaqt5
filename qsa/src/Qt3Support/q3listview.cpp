@@ -66,7 +66,7 @@
 #include "qaccessible.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 const int Unsorted = 16383;
 
@@ -7948,6 +7948,6 @@ void Q3ListView::adjustColumn(int col)
     \sa StringComparisonMode
 */
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_LISTVIEW

@@ -45,7 +45,7 @@
 
 #ifndef QT_NO_FILEDIALOG
 
-#include "private/qapplication_p.h"
+#include "qapplication_p.h"
 #include "q3buttongroup.h"
 #include "q3header.h"
 #include "q3listview.h"
@@ -90,7 +90,7 @@
 #ifdef Q_WS_WIN
 #ifndef QT_NO_THREAD
 #  include "qwindowsstyle.h"
-#  include "private/qmutexpool_p.h"
+#  include "qmutexpool_p.h"
 #endif
 #endif // Q_WS_WIN
 
@@ -105,7 +105,7 @@
 
 #ifdef Q_WS_MAC
 #include "qmacstyle_mac.h"
-#include "private/qt_mac_p.h"
+#include "qt_mac_p.h"
 #undef check
 #endif
 
@@ -113,7 +113,7 @@
 #include <sys/param.h>
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 /* XPM */
 static const char * const start_xpm[]={
@@ -6059,7 +6059,7 @@ Q3FilePreview::Q3FilePreview()
 */
 
    
-QT_END_NAMESPACE
+
 
 #include "moc_q3filedialog.cpp"
 #include "q3filedialog.moc"

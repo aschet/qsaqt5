@@ -53,10 +53,10 @@
 #include <stdlib.h>
 
 #ifndef QT_NO_THREAD
-#  include "private/qmutexpool_p.h"
+#  include "qmutexpool_p.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 #define USE_MALLOC				// comment to use new/delete
 
@@ -594,4 +594,4 @@ bool Q3GVector::operator==( const Q3GVector &v ) const
 
 #endif // QT_NO_DATASTREAM
 
-QT_END_NAMESPACE
+

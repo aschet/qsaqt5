@@ -44,11 +44,11 @@
 
 #include <q3valuelist.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 template<class T>
 class Q3ValueStack : public Q3ValueList<T>
@@ -68,8 +68,8 @@ public:
     const T& top() const { return this->last(); }
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3VALUESTACK_H

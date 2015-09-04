@@ -50,7 +50,7 @@
 #include <QtGui/QPainter>
 #include "q3accel.h"
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -903,4 +903,4 @@ QWidget* Q3Wizard::page( int index ) const
     return d->pages.at( index )->w;
 }
 
-QT_END_NAMESPACE
+

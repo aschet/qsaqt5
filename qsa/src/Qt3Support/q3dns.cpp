@@ -41,7 +41,7 @@
 
 #include "qplatformdefs.h"
 #include "qbytearray.h"
-#include <private/qsystemlibrary_p.h>
+#include <qsystemlibrary_p.h>
 #if defined(Q_OS_WIN32) || defined(Q_OS_WINCE) || defined(Q_OS_CYGWIN)
 # include "qt_windows.h"
 #else
@@ -91,7 +91,7 @@ extern "C" int res_init();
 #include "q3cleanuphandler.h"
 #include <limits.h>
 
-QT_BEGIN_NAMESPACE
+
 
 //#define Q3DNS_DEBUG
 
@@ -2593,6 +2593,6 @@ void Q3Dns::doResInit()
 
 #endif
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_DNS

@@ -44,11 +44,11 @@
 
 #include <q3gcache.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 template<class type>
 class Q3IntCache
@@ -124,8 +124,8 @@ public:
     type *operator-=(uint j)  { return (type *)Q3GCacheIterator::operator-=(j);}
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3INTCACHE_H

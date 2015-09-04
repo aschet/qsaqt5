@@ -48,9 +48,9 @@
 #include <QtCore/QStringList>
 #include <q3valuelist.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
+
+
 
 QT_MODULE(Qt3Support)
 
@@ -167,8 +167,8 @@ private Q_SLOTS:
 
 #endif // QT_NO_DNS
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3DNS_H

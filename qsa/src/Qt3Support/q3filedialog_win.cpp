@@ -44,7 +44,7 @@
 #ifndef QT_NO_FILEDIALOG
 
 #include "qapplication.h"
-#include "private/qapplication_p.h"
+#include "qapplication_p.h"
 #include "qt_windows.h"
 #include "qregexp.h"
 #include "qbuffer.h"
@@ -53,7 +53,7 @@
 #include "qlibrary.h"
 
 #ifndef QT_NO_THREAD
-#  include "private/qmutexpool_p.h"
+#  include "qmutexpool_p.h"
 #endif
 
 #include <shlobj.h>
@@ -62,7 +62,7 @@
 #include <commdlg.h>
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 extern const char qt3_file_dialog_filter_reg_exp[]; // defined in qfiledialog.cpp
 
@@ -508,6 +508,6 @@ QString Q3FileDialog::winGetExistingDirectory(const QString& initialDirectory,
 #endif
 }
 
-QT_END_NAMESPACE
+
 
 #endif

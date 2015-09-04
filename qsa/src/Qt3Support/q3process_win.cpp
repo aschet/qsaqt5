@@ -49,14 +49,14 @@
 #include "q3ptrqueue.h"
 #include "qtimer.h"
 #include "qregexp.h"
-#include "private/q3membuf_p.h"
+#include "q3membuf_p.h"
 #include "qt_windows.h"
 
 #ifdef Q_OS_WINCE
 #define STARTF_USESTDHANDLES 1
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 //#define QT_Q3PROCESS_DEBUG
 
@@ -623,6 +623,6 @@ Q3Process::PID Q3Process::processIdentifier()
     return d->pid;
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_PROCESS

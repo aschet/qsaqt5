@@ -44,7 +44,7 @@
 #include "q3dict.h"
 #include "qstring.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
   \class Q3GCache
@@ -864,4 +864,4 @@ Q3PtrCollection::Item Q3GCacheIterator::operator-=(uint jump)
     return item ? item->data : 0;
 }
 
-QT_END_NAMESPACE
+

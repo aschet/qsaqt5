@@ -44,11 +44,11 @@
 
 #include <QtWidgets/QMenu>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3PopupMenu : public QMenu
 {
@@ -86,8 +86,8 @@ private:
     Q_DISABLE_COPY(Q3PopupMenu)
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // QPOPUPMENU_H

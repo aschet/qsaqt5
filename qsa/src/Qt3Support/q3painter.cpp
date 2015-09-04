@@ -42,9 +42,9 @@
 #include "q3painter.h"
 #include "qpaintengine.h"
 
-#include <private/qpainter_p.h>
+#include <qpainter_p.h>
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3Painter
@@ -237,4 +237,4 @@ QRect Q3Painter::adjustedRectangle(const QRect &r)
     and \a yrnd specifies the roundness in x and y direction.
 */
 
-QT_END_NAMESPACE
+

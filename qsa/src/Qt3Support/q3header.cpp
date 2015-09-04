@@ -52,7 +52,7 @@
 #include "qstyleoption.h"
 #include "qvector.h"
 
-QT_BEGIN_NAMESPACE
+
 
 class Q3HeaderData
 {
@@ -2035,6 +2035,6 @@ void Q3Header::changeEvent(QEvent *ev)
     QWidget::changeEvent(ev);
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_HEADER

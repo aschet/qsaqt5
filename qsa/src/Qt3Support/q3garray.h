@@ -44,11 +44,11 @@
 
 #include <q3shared.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3GArray					// generic array
 {
@@ -133,8 +133,8 @@ inline char *Q3GArray::at(uint index) const
     return &shd->data[index];
 }
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3GARRAY_H

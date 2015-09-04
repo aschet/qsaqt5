@@ -44,7 +44,7 @@
 #include "qpointer.h"
 #include "q3cstring.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3Signal
@@ -223,4 +223,4 @@ int Q3Signal::parameter() const
 }
 #endif //QT_NO_VARIANT
 
-QT_END_NAMESPACE
+

@@ -51,7 +51,7 @@
 #include "q3mainwindow.h"
 #include "q3toolbar.h"
 
-QT_BEGIN_NAMESPACE
+
 
 //#define QDOCKAREA_DEBUG
 
@@ -1346,6 +1346,6 @@ QTextStream &operator>>(QTextStream &ts, Q3DockArea &dockArea)
 }
 #endif
 
-QT_END_NAMESPACE
+
 
 #endif //QT_NO_MAINWINDOW

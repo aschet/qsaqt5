@@ -46,9 +46,9 @@
 #include <QtNetwork/qhostaddress.h>
 #include <q3socketdevice.h> // ### remove or keep for users' convenience?
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
+
+
 
 QT_MODULE(Qt3Support)
 
@@ -87,8 +87,8 @@ private:
     void init( const QHostAddress & address, Q_UINT16 port, int backlog );
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SERVERSOCKET_H

@@ -68,7 +68,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -7329,6 +7329,6 @@ void Q3TableHeader::setLabels(const QStringList & labels)
     }
 }
 
-QT_END_NAMESPACE
+
 
 #include "q3table.moc"

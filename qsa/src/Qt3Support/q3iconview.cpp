@@ -49,7 +49,7 @@
 
 #ifndef QT_NO_ICONVIEW
 
-#include "private/q3richtext_p.h"
+#include "q3richtext_p.h"
 #include "q3textedit.h"
 #include "qapplication.h"
 #include "qbitmap.h"
@@ -75,7 +75,7 @@
 #include <limits.h>
 #include <stdlib.h>
 
-QT_BEGIN_NAMESPACE
+
 
 #define RECT_EXTENSION 300
 
@@ -6205,6 +6205,6 @@ bool Q3IconView::isRenaming() const
     \sa StringComparisonMode
 */
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_ICONVIEW

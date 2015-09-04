@@ -42,7 +42,7 @@
 #include "q3button.h"
 #include <QtGui/QPainter>
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3Button
@@ -125,4 +125,4 @@ void Q3Button::drawButtonLabel( QPainter * )
 {
 }
 
-QT_END_NAMESPACE
+

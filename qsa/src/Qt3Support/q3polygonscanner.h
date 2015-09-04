@@ -44,11 +44,11 @@
 
 #include <QtCore/qglobal.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3PointArray;
 class QPoint;
@@ -63,8 +63,8 @@ public:
     virtual void processSpans(int n, QPoint* point, int* width)=0;
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3POLYGONSCANNER_H

@@ -54,7 +54,7 @@
 //
 
 #include "QtWidgets/QApplication"
-#include "QtGui/qcolor.h"
+#include "QtGui/QColor"
 #include "QtCore/qhash.h"
 #include "QtGui/qfont.h"
 #include "QtGui/qpalette.h"
@@ -74,7 +74,7 @@
 #include "q3stylesheet.h"
 #include "q3mimefactory.h"
 
-QT_BEGIN_NAMESPACE
+
 
 #ifndef QT_NO_RICHTEXT
 
@@ -2098,6 +2098,6 @@ inline int Q3TextStringChar::descent() const
 
 #endif // QT_NO_RICHTEXT
 
-QT_END_NAMESPACE
+
 
 #endif // Q3RICHTEXT_P_H

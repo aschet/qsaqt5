@@ -44,11 +44,11 @@
 
 #include <QtCore/qbytearray.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 /*****************************************************************************
   QCString class
@@ -266,8 +266,8 @@ QSA_EXPORT_INLINE const Q3CString operator+(char c1, const Q3CString &s2)
     return tmp;
 }
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3CSTRING_H

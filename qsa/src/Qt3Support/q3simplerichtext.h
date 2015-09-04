@@ -45,13 +45,13 @@
 #include <QtCore/qnamespace.h>
 #include <QtCore/qstring.h>
 #include <QtGui/qregion.h>
-#include <QtGui/qcolor.h>
+#include <QtGui/QColor>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_RICHTEXT
 
@@ -102,8 +102,8 @@ private:
 
 #endif // QT_NO_RICHTEXT
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SIMPLERICHTEXT_H

@@ -44,11 +44,11 @@
 
 #include <q3ptrcollection.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3GVector : public Q3PtrCollection	// generic vector
 {
@@ -125,8 +125,8 @@ QSA_EXPORT QDataStream &operator>>( QDataStream &, Q3GVector & );
 QSA_EXPORT QDataStream &operator<<( QDataStream &, const Q3GVector & );
 #endif
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3GVECTOR_H

@@ -50,7 +50,7 @@
 
 #include <stdio.h>
 
-QT_BEGIN_NAMESPACE
+
 
 class Q3StyleSheetItemData
 {
@@ -1466,6 +1466,6 @@ void Q3StyleSheet::scaleFont(QFont& font, int logicalSize) const
         font.setPointSize(qMax(1, s));
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_RICHTEXT

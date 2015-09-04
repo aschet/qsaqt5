@@ -46,11 +46,11 @@
 #include <q3ptrvector.h>
 #include <QtCore/qdatastream.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3StrVec : public Q3PtrVector<char>
 {
@@ -86,8 +86,8 @@ private:
 						 (const char*)s2); }
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3STRVEC_H

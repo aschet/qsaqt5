@@ -61,7 +61,7 @@
 #include "qtextcodec.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 //#define Q3FTPPI_DEBUG
 //#define Q3FTPDTP_DEBUG
@@ -2371,7 +2371,7 @@ void Q3Ftp::error( int )
 {
 }
 
-QT_END_NAMESPACE
+
 
 #include "q3ftp.moc"
 

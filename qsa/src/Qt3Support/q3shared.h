@@ -44,11 +44,11 @@
 
 #include <QtCore/qglobal.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 struct QSA_EXPORT Q3Shared
 {
@@ -58,8 +58,8 @@ struct QSA_EXPORT Q3Shared
     uint count;
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SHARED_H

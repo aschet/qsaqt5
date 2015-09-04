@@ -39,8 +39,8 @@
 **
 ****************************************************************************/
 
-#include <private/qpainter_p.h>
-#include <private/qpaintengine_p.h>
+#include <qpainter_p.h>
+#include <qpaintengine_p.h>
 #include "qfile.h"
 #include "qimage.h"
 #include "qlist.h"
@@ -53,7 +53,7 @@
 
 #include <math.h>
 
-QT_BEGIN_NAMESPACE
+
 
 static const double deg2rad = 0.017453292519943295769;        // pi/180
 static const char piData[] = "version=\"1.0\" standalone=\"no\"";
@@ -1535,4 +1535,4 @@ static QString qt_svg_compose_path(const QPainterPath &path)
     return str;
 }
 
-QT_END_NAMESPACE
+

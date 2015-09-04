@@ -44,11 +44,11 @@
 
 #include <q3textedit.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_TEXTVIEW
 
@@ -69,8 +69,8 @@ private:
 
 #endif // QT_NO_TEXTVIEW
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3TEXTVIEW_H

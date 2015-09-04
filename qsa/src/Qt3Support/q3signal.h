@@ -45,11 +45,11 @@
 #include <QtCore/qvariant.h>
 #include <QtCore/QObject>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3Signal : public QObject
 {
@@ -90,8 +90,8 @@ private:
 
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SIGNAL_H

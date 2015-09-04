@@ -53,7 +53,7 @@
 
 #include "qapplication.h"
 
-QT_BEGIN_NAMESPACE
+
 
 //#define Q3URLOPERATOR_DEBUG
 
@@ -1205,7 +1205,7 @@ void Q3UrlOperator::slotItemChanged( Q3NetworkOperation *op )
     }
 }
 
-QT_END_NAMESPACE
+
 
 #include "moc_q3urloperator.cpp"
 

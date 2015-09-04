@@ -45,11 +45,11 @@
 #include <q3ptrcollection.h>
 #include <QtCore/qstring.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3GDictIterator;
 class Q3GDItList;
@@ -226,8 +226,8 @@ inline void *Q3GDictIterator::getKeyPtr() const
     return curNode ? ((Q3PtrBucket*)curNode)->getKey() : 0;
 }
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3GDICT_H

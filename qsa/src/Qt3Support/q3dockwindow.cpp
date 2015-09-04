@@ -57,12 +57,12 @@
 #include "q3toolbar.h"
 #include "qtoolbutton.h"
 #include "qtooltip.h"
-#include <private/q3titlebar_p.h>
-#include <private/qwidgetresizehandler_p.h>
+#include <q3titlebar_p.h>
+#include <qwidgetresizehandler_p.h>
 #include <qrubberband.h>
 #include <qdebug.h>
 
-QT_BEGIN_NAMESPACE
+
 
 #ifdef Q_WS_MAC
 static bool default_opaque = true;
@@ -2108,7 +2108,7 @@ void Q3DockWindow::contextMenuEvent(QContextMenuEvent *e)
         e->ignore();
 }
 
-QT_END_NAMESPACE
+
 
 #include "q3dockwindow.moc"
 

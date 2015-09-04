@@ -49,8 +49,8 @@
 //#define DEBUG_FILEDIALOG_FILTERS
 
 #include "qapplication.h"
-#include <private/qapplication_p.h>
-#include <private/qt_mac_p.h>
+#include <qapplication_p.h>
+#include <qt_mac_p.h>
 #include "qregexp.h"
 #include "qbuffer.h"
 #include "qstringlist.h"
@@ -59,7 +59,7 @@
 #include "qfiledialog.h"
 #include <stdlib.h>
 
-QT_BEGIN_NAMESPACE
+
 
 #ifdef QT_MAC_USE_COCOA
 
@@ -587,6 +587,6 @@ QString Q3FileDialog::macGetSaveFileName(const QString &start, const QString &fi
 
 #endif // QT_MAC_USE_COCOA
 
-QT_END_NAMESPACE
+
 
 #endif

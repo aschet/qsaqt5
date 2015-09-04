@@ -41,7 +41,7 @@
 
 #include "q3vgroupbox.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3VGroupBox
@@ -89,4 +89,4 @@ Q3VGroupBox::~Q3VGroupBox()
 {
 }
 
-QT_END_NAMESPACE
+

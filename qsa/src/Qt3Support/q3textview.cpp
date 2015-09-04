@@ -43,7 +43,7 @@
 
 #ifndef QT_NO_TEXTVIEW
 
-QT_BEGIN_NAMESPACE
+
 
 /*! 
   \class Q3TextView
@@ -79,6 +79,6 @@ Q3TextView::~Q3TextView()
 {
 }
 
-QT_END_NAMESPACE
+
 
 #endif

@@ -52,9 +52,9 @@
 #include "qpixmap.h"
 #include "qimagereader.h"
 #include "q3cleanuphandler.h"
-#include "private/qtextimagehandler_p.h"
+#include "qtextimagehandler_p.h"
 
-QT_BEGIN_NAMESPACE
+
 
 static Q3MimeSourceFactory* defaultfactory = 0;
 static Q3SingleCleanupHandler<Q3MimeSourceFactory> qmime_cleanup_factory;
@@ -541,6 +541,6 @@ QImage qImageFromMimeSource(const QString &abs_name)
     return img;
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_MIMEFACTORY

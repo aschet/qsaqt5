@@ -59,7 +59,7 @@
 #include "qt_windows.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 #ifndef QT_NO_TEXTCODEC
 static void resetCodecConverterState(QTextCodec::ConverterState *state) {
@@ -2431,6 +2431,6 @@ QTextCodec *Q3TextStream::codec()
 
 #endif
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_TEXTSTREAM

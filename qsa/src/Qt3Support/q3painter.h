@@ -44,11 +44,11 @@
 
 #include <QtGui/qpainter.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3Painter : public QPainter
 {
@@ -116,8 +116,8 @@ void inline Q3Painter::drawChord(const QRect &r, int angle, int arcLength)
     QPainter::drawChord(adjustedRectangle(r), angle, arcLength);
 }
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3PAINTER_H

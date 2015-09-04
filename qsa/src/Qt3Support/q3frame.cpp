@@ -43,7 +43,7 @@
 #include "qevent.h"
 #include <QtGui/QPainter>
 
-QT_BEGIN_NAMESPACE
+
 
 /*! \class Q3Frame
 
@@ -197,4 +197,4 @@ int Q3Frame::frameWidth() const
     return QFrame::frameWidth() + marg;
 }
 
-QT_END_NAMESPACE
+

@@ -46,7 +46,7 @@
 #include "q3cstring.h"
 #include "qdir.h"
 
-QT_BEGIN_NAMESPACE
+
 
 // used by q3filedialog.cpp
 bool qt_resolve_symlinks = true;
@@ -1313,6 +1313,6 @@ bool Q3Url::cdUp()
     return true;
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_URL

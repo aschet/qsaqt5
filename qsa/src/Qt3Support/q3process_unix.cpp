@@ -58,15 +58,15 @@
 #include "qtimer.h"
 #include "q3cleanuphandler.h"
 #include "qregexp.h"
-#include "private/q3membuf_p.h"
-#include "private/qobject_p.h"
-#include "private/qcore_unix_p.h"
+#include "q3membuf_p.h"
+#include "qobject_p.h"
+#include "qcore_unix_p.h"
 
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/types.h>
 
-QT_BEGIN_NAMESPACE
+
 
 #ifdef __MIPSEL__
 # ifndef SOCK_DGRAM
@@ -1270,6 +1270,6 @@ Q3Process::PID Q3Process::processIdentifier()
     return d->proc->pid;
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_PROCESS

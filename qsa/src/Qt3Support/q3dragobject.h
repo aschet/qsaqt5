@@ -43,17 +43,17 @@
 #define Q3DRAGOBJECT_H
 
 #include <QtCore/QObject>
-#include <QtGui/qcolor.h>
+#include <QtGui/QColor>
 #include <QtGui/qmime.h>
-#include <QtGui/qimage.h>
+#include <QtGui/QImage>
 #include <q3strlist.h>
 #include <QtCore/QList>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QWidget;
 class Q3TextDragPrivate;
@@ -211,8 +211,8 @@ private:
     Q_DISABLE_COPY(Q3ColorDrag)
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3DRAGOBJECT_H

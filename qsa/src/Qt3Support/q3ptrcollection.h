@@ -44,11 +44,11 @@
 
 #include <QtCore/qglobal.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3GVector;
 class Q3GList;
@@ -76,8 +76,8 @@ protected:
     virtual void     deleteItem(Item) = 0;	// delete object
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3PTRCOLLECTION_H

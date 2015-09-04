@@ -40,10 +40,10 @@
 ****************************************************************************/
 
 #include "q3pointarray.h"
-#include "private/qbezier_p.h"
-#include "private/qpainterpath_p.h"
+#include "qbezier_p.h"
+#include "qpainterpath_p.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3PointArray
@@ -186,4 +186,4 @@ Q3PointArray Q3PointArray::cubicBezier() const
 }
 #endif //QT_NO_BEZIER
 
-QT_END_NAMESPACE
+

@@ -51,7 +51,7 @@
 #include "qlayout.h"
 #include "qevent.h"
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -1084,4 +1084,4 @@ void Q3TabDialog::removePage(QWidget * w)
     d->tw->removePage(w);
 }
 
-QT_END_NAMESPACE
+

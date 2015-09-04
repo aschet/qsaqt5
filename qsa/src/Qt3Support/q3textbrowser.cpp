@@ -41,7 +41,7 @@
 
 #include "q3textbrowser.h"
 #ifndef QT_NO_TEXTBROWSER
-#include <private/q3richtext_p.h>
+#include <q3richtext_p.h>
 
 #include "qevent.h"
 #include "qdesktopwidget.h"
@@ -60,7 +60,7 @@
 #include "qurl.h"
 #include "qcursor.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3TextBrowser
@@ -521,6 +521,6 @@ void Q3TextBrowser::emitLinkClicked(const QString &s)
         setSource(s);
 }
 
-QT_END_NAMESPACE
+
 
 #endif  // QT_NO_TEXTBROWSER

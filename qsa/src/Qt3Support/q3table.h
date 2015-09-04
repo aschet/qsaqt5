@@ -52,9 +52,9 @@
 #include <q3intdict.h>
 #include <QtCore/QStringList>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
+
+
 
 QT_MODULE(Qt3Support)
 
@@ -541,8 +541,8 @@ private:
     Q_DISABLE_COPY(Q3Table)
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3TABLE_H

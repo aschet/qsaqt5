@@ -47,11 +47,11 @@
 #include <QtCore/qmap.h>
 #include <QtGui/qpixmap.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_MIMEFACTORY
 
@@ -95,8 +95,8 @@ QSA_EXPORT QImage qImageFromMimeSource(const QString &abs_name);
 
 #endif // QT_NO_MIMEFACTORY
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3MIMEFACTORY_H

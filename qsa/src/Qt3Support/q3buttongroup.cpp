@@ -47,7 +47,7 @@
 #include "qevent.h"
 #include "qset.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3ButtonGroup
@@ -562,4 +562,4 @@ void Q3ButtonGroup::fixChildren() const
     constructor.
 */
 
-QT_END_NAMESPACE
+

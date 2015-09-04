@@ -61,7 +61,7 @@
 #include "q3strlist.h"
 #include "q3cstring.h"
 
-#include <private/qobject_p.h>
+#include <qobject_p.h>
 
 #include <ctype.h>
 #if defined(Q_OS_WINCE)
@@ -69,7 +69,7 @@
 #include "qfunctions_wince.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 static QWidget *last_target = 0;
 
@@ -1566,4 +1566,4 @@ bool Q3ColorDrag::decode(QMimeSource *e, QColor &col)
     return true;
 }
 
-QT_END_NAMESPACE
+

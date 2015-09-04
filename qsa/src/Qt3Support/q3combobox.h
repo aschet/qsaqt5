@@ -44,11 +44,11 @@
 
 #include <QtWidgets/QWidget>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_COMBOBOX
 
@@ -217,8 +217,8 @@ private:	// Disabled copy constructor and operator=
 
 #endif // QT_NO_COMBOBOX
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3COMBOBOX_H

@@ -49,7 +49,7 @@
 #include "q3ftp.h"
 #include "q3http.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \relates Q3UrlOperator
@@ -68,6 +68,6 @@ void q3InitNetworkProtocols()
 #endif
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_NETWORK

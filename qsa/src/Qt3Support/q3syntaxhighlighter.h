@@ -43,14 +43,14 @@
 #define Q3SYNTAXHIGHLIGHTER_H
 
 #include <QtGui/qfont.h>
-#include <QtGui/qcolor.h>
+#include <QtGui/QColor>
 #include <QtCore/qstring.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3TextEdit;
 class Q3SyntaxHighlighterInternal;
@@ -82,8 +82,8 @@ private:
     Q3SyntaxHighlighterPrivate *d;
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SYNTAXHIGHLIGHTER_H

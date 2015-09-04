@@ -44,11 +44,11 @@
 
 #include <QtCore/qglobal.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 template <class T>
 class Q3DeepCopy
@@ -82,8 +82,8 @@ private:
     T deepcopy;
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3DEEPCOPY_H

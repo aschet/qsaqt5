@@ -48,11 +48,11 @@
 #include <vector>
 #endif
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 template <typename T>
 class Q3ValueVector : public QVector<T>
@@ -106,8 +106,8 @@ public:
     }
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3VALUEVECTOR_H

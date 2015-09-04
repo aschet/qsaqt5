@@ -51,9 +51,9 @@
 #include "qdockwidget.h"
 #include "qevent.h"
 #include "qkeysequence.h"
-#include "private/qapplication_p.h"
+#include "qapplication_p.h"
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -979,4 +979,4 @@ bool Q3Accel::ignoreWhatsThis() const
     \internal
 */
 
-QT_END_NAMESPACE
+

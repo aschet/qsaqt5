@@ -54,10 +54,10 @@
 #include "qevent.h"
 #include "q3listview.h"
 #ifdef Q_WS_MAC
-# include "private/qt_mac_p.h"
+# include "qt_mac_p.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -2802,6 +2802,6 @@ QSize Q3ScrollView::cachedSizeHint() const
     return d->use_cached_size_hint ? d->cachedSizeHint : QSize();
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_SCROLLVIEW

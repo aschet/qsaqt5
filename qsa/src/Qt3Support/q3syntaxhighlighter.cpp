@@ -46,7 +46,7 @@
 #include "q3textedit.h"
 #include "qtimer.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3SyntaxHighlighter
@@ -218,6 +218,6 @@ int Q3SyntaxHighlighter::currentParagraph() const
     return d->currentParagraph;
 }
 
-QT_END_NAMESPACE
+
 
 #endif

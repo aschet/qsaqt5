@@ -45,11 +45,11 @@
 #include <q3frame.h>
 #include <QtWidgets/QScrollBar>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3ScrollViewData;
 
@@ -246,8 +246,8 @@ public:
 
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3SCROLLVIEW_H

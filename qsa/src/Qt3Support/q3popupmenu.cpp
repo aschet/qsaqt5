@@ -40,7 +40,7 @@
 ****************************************************************************/
 #include "q3popupmenu.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3PopupMenu
@@ -187,4 +187,4 @@ QT_BEGIN_NAMESPACE
     \internal
 */
 
-QT_END_NAMESPACE
+

@@ -44,11 +44,11 @@
 
 #include <QtWidgets/QFrame>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3Frame : public QFrame
 {
@@ -83,8 +83,8 @@ private:
     int marg;
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3FRAME_H

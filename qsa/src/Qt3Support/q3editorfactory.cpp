@@ -50,7 +50,7 @@
 
 #ifndef QT_NO_SQL_EDIT_WIDGETS
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3EditorFactory
@@ -197,6 +197,6 @@ QWidget * Q3EditorFactory::createEditor(QWidget * parent, const QVariant & v)
     return w;
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_SQL

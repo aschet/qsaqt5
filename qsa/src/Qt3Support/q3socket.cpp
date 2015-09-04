@@ -45,7 +45,7 @@
 #include "qtimer.h"
 #include "q3socketdevice.h"
 #include "q3dns.h"
-#include "private/q3membuf_p.h"
+#include "q3membuf_p.h"
 
 #include <string.h>
 #ifndef NO_ERRNO_H
@@ -56,7 +56,7 @@
 #endif
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 //#define Q3SOCKET_DEBUG
 
@@ -1513,6 +1513,6 @@ Q_ULONG Q3Socket::readBufferSize() const
     \internal
 */
 
-QT_END_NAMESPACE
+
 
 #endif //QT_NO_NETWORK

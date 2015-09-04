@@ -54,13 +54,13 @@
 #include <string.h>
 
 #ifndef QT_NO_THREAD
-#  include "private/qmutexpool_p.h"
+#  include "qmutexpool_p.h"
 #endif
 
 #if defined(Q_OS_WINCE)
 #   include "qfunctions_wince.h"
 #endif
-QT_BEGIN_NAMESPACE
+
 
 /*
   If USE_MALLOC isn't defined, we use new[] and delete[] to allocate
@@ -795,4 +795,4 @@ void Q3GArray::deleteData(array_data *p)
     delete p;
 }
 
-QT_END_NAMESPACE
+

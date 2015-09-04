@@ -49,7 +49,7 @@
 #include <ctype.h>
 #include <limits.h>
 
-QT_BEGIN_NAMESPACE
+
 
 /*****************************************************************************
   Q3CString member functions
@@ -1069,4 +1069,4 @@ QDataStream &operator>>(QDataStream &d, Q3CString &s) {
     Returns a string which consists of the concatenation of \a c and \a s.
 */
 
-QT_END_NAMESPACE
+

@@ -48,11 +48,11 @@
 #include <q3networkprotocol.h>
 #include <QtCore/QStringList> // QString->QStringList conversion
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_NETWORKPROTOCOL
 
@@ -131,8 +131,8 @@ private:
 
 #endif // QT_NO_NETWORKPROTOCOL
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3URLOPERATOR_H

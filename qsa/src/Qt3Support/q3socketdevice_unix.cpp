@@ -76,7 +76,7 @@ static inline int qt_socket_socket(int domain, int type, int protocol)
 #include <errno.h>
 #include <sys/types.h>
 
-QT_BEGIN_NAMESPACE
+
 
 static inline void qt_socket_getportaddr( struct sockaddr *sa,
 					  Q_UINT16 *port, QHostAddress *addr )
@@ -921,6 +921,6 @@ QHostAddress Q3SocketDevice::peerAddress() const
     return pa;
 }
 
-QT_END_NAMESPACE
+
 
 #endif //QT_NO_NETWORK

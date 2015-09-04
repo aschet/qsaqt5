@@ -55,7 +55,7 @@
 #include "qstatusbar.h"
 #include "qaction.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3Action
@@ -2231,6 +2231,6 @@ void Q3ActionGroup::addedTo(int index, Q3PopupMenu *menu)
     Use add(\a action) instead.
 */
 
-QT_END_NAMESPACE
+
 
 #endif

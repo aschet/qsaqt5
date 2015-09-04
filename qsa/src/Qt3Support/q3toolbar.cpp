@@ -60,7 +60,7 @@
 #include "qtoolbutton.h"
 #include "qtooltip.h"
 
-QT_BEGIN_NAMESPACE
+
 
 static const char * const arrow_v_xpm[] = {
     "7 9 3 1",
@@ -835,6 +835,6 @@ more predictable.
 items.
 */
 
-QT_END_NAMESPACE
+
 
 #endif

@@ -43,7 +43,7 @@
 #include "q3gridview.h"
 #include <QtGui/QPainter>
 
-QT_BEGIN_NAMESPACE
+
 
 using namespace Qt;
 
@@ -364,4 +364,4 @@ void Q3GridView::dimensionChange(int, int) {}
   Returns the size of the grid in pixels.
 */
 
-QT_END_NAMESPACE
+

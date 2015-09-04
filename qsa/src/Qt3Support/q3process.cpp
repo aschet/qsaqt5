@@ -44,12 +44,12 @@
 #ifndef QT_NO_PROCESS
 
 #include "qapplication.h"
-#include "private/q3membuf_p.h"
+#include "q3membuf_p.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-QT_BEGIN_NAMESPACE
+
 
 //#define QT_Q3PROCESS_DEBUG
 
@@ -922,6 +922,6 @@ void Q3Process::disconnectNotify( const char * )
     }
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_PROCESS

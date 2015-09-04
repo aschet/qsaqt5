@@ -44,11 +44,11 @@
 
 #include <q3groupbox.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class QSA_EXPORT Q3VGroupBox : public Q3GroupBox
 {
@@ -62,8 +62,8 @@ private:
     Q_DISABLE_COPY(Q3VGroupBox)
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3VGROUPBOX_H

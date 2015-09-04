@@ -46,11 +46,11 @@
 #include <QtCore/qstring.h>
 #include <QtCore/qdatetime.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_DATETIMEEDIT
 
@@ -281,8 +281,8 @@ private:
 
 #endif // QT_NO_DATETIMEEDIT
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3DATETIMEEDIT_H

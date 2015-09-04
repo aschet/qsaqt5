@@ -47,11 +47,11 @@
 #include <q3mimefactory.h>
 #include <QtCore/qmap.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_TEXTEDIT
 // uncomment below to enable optimization mode - also uncomment the
@@ -606,8 +606,8 @@ inline void Q3TextEdit::setCurrentFont(const QFont &f)
 
 #endif // QT_NO_TEXTEDIT
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3TEXTEDIT_H

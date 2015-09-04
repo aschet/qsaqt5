@@ -56,7 +56,7 @@
 #include "qwidget.h"
 #include "qstyleoption.h"
 
-QT_BEGIN_NAMESPACE
+
 
 #if !defined(QT_NO_TITLEBAR)
 
@@ -129,6 +129,6 @@ private:
 
 #endif
 
-QT_END_NAMESPACE
+
 
 #endif //Q3TITLEBAR_P_H

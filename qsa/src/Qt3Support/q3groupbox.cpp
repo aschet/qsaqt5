@@ -54,7 +54,7 @@
 #include "qstyleoption.h"
 #include "qdebug.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3GroupBox
@@ -961,4 +961,4 @@ int Q3GroupBox::frameWidth() const
     \sa setMargin(), QWidget::getContentsMargins()
 */
 
-QT_END_NAMESPACE
+

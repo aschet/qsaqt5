@@ -43,7 +43,7 @@
 #include "qlayout.h"
 #include "qapplication.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3HBox
@@ -142,4 +142,4 @@ bool Q3HBox::setStretchFactor(QWidget* w, int stretch)
     return false;
 }
 
-QT_END_NAMESPACE
+

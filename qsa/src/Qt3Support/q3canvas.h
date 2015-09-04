@@ -50,9 +50,9 @@
 #include <q3valuelist.h>
 #include <q3pointarray.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
+
+
 
 QT_MODULE(Qt3Support)
 
@@ -780,8 +780,8 @@ private:
                       const Q3CanvasText*) const;
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3CANVAS_H

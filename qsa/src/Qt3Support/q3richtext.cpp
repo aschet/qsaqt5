@@ -63,8 +63,8 @@
 #include "qstyleoption.h"
 #include "q3stylesheet.h"
 #include "qtextstream.h"
-#include <private/qtextdocument_p.h>
-#include <private/qtextengine_p.h>
+#include <qtextdocument_p.h>
+#include <qtextengine_p.h>
 
 #include <stdlib.h>
 
@@ -72,7 +72,7 @@
 #include "qx11info_x11.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 static Q3TextCursor* richTextExportStart = 0;
 static Q3TextCursor* richTextExportEnd = 0;
@@ -8349,6 +8349,6 @@ void Q3TextTableCell::draw(QPainter* p, int x, int y, int cx, int cy, int cw, in
 }
 #endif
 
-QT_END_NAMESPACE
+
 
 #endif //QT_NO_RICHTEXT

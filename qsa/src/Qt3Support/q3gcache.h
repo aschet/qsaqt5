@@ -46,11 +46,11 @@
 #include <q3glist.h>
 #include <q3gdict.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 class Q3CList;					// internal classes
 class Q3CListIt;
@@ -130,8 +130,8 @@ protected:
     Q3CListIt *it;				// iterator on cache list
 };
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3GCACHE_H

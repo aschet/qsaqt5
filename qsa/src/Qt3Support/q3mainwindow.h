@@ -46,11 +46,11 @@
 #include <q3toolbar.h>
 #include <QtCore/qtextstream.h>
 
-QT_BEGIN_HEADER
 
-QT_BEGIN_NAMESPACE
 
-QT_MODULE(Qt3SupportLight)
+
+
+
 
 #ifndef QT_NO_MAINWINDOW
 
@@ -260,8 +260,8 @@ QSA_EXPORT QTextStream &operator>>(QTextStream &, Q3MainWindow &);
 
 #endif // QT_NO_MAINWINDOW
 
-QT_END_NAMESPACE
 
-QT_END_HEADER
+
+
 
 #endif // Q3MAINWINDOW_H

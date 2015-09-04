@@ -62,13 +62,13 @@
 #include <limits.h>
 #include <qdebug.h>
 #ifndef QT_NO_EFFECTS
-# include <private/qeffects_p.h>
+# include <qeffects_p.h>
 #endif
 #if defined(QT_ACCESSIBILITY_SUPPORT)
 #include "qaccessible.h"
 #endif
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3ComboBox
@@ -2352,6 +2352,6 @@ void Q3ComboBox::hide()
 	d->popup()->hide();
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_COMBOBOX

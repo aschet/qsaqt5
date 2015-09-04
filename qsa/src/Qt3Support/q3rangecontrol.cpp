@@ -44,7 +44,7 @@
 #include "qglobal.h"
 #include <limits.h>
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3RangeControl
@@ -545,6 +545,6 @@ int Q3RangeControl::valueFromPosition(int pos, int span) const
     // pos <= span < sqrt(INT_MAX+0.0625)+0.25 ~ sqrt(INT_MAX)
 }
 
-QT_END_NAMESPACE
+
 
 #endif // QT_NO_RANGECONTROL

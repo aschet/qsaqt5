@@ -41,7 +41,7 @@
 
 #include "q3deepcopy.h"
 
-QT_BEGIN_NAMESPACE
+
 
 /*!
     \class Q3DeepCopy
@@ -120,4 +120,4 @@ QT_BEGIN_NAMESPACE
     Returns a deep copy of the encapsulated data.
 */
 
-QT_END_NAMESPACE
+

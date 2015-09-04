@@ -1,456 +1,385 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
-<class>PreferencesBase</class>
-<comment>*********************************************************************
-** Copyright (C) 2000-2002 Trolltech AS.  All rights reserved.
-**
-** This file is part of Qt Designer.
-**
-** This file may be distributed and/or modified under the terms of the
-** GNU General Public License version 2 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.
-**
-** Licensees holding valid Qt Enterprise Edition or Qt Professional Edition
-** licenses may use this file in accordance with the Qt Commercial License
-** Agreement provided with the Software.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** See http://www.trolltech.com/gpl/ for GPL licensing information.
-** See http://www.trolltech.com/pricing.html or email sales@trolltech.com for
-**   information about Qt Commercial License Agreements.
-**
-** Contact info@trolltech.com if any conditions of this licensing are
-** not clear to you.
-**
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0" stdsetdef="1">
+  <author></author>
+  <comment>*********************************************************************
+** Copyright (C) 2000-2002 Trolltech AS.  All rights reserved.
+**
+** This file is part of Qt Designer.
+**
+** This file may be distributed and/or modified under the terms of the
+** GNU General Public License version 2 as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.
+**
+** Licensees holding valid Qt Enterprise Edition or Qt Professional Edition
+** licenses may use this file in accordance with the Qt Commercial License
+** Agreement provided with the Software.
+**
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+** See http://www.trolltech.com/gpl/ for GPL licensing information.
+** See http://www.trolltech.com/pricing.html or email sales@trolltech.com for
+**   information about Qt Commercial License Agreements.
+**
+** Contact info@trolltech.com if any conditions of this licensing are
+** not clear to you.
+**
 *********************************************************************</comment>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>PreferencesBase</cstring>
-    </property>
+  <exportmacro></exportmacro>
+  <class>PreferencesBase</class>
+  <widget class="QWidget" name="PreferencesBase">
     <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>362</width>
-            <height>396</height>
-        </rect>
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>362</width>
+        <height>396</height>
+      </rect>
     </property>
-    <property name="caption">
-        <string>Form1</string>
+    <property name="windowTitle">
+      <string>Form1</string>
     </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>6</number>
-        </property>
-        <property name="spacing">
-            <number>6</number>
-        </property>
-        <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>GroupBox2</cstring>
+    <layout class="QGridLayout">
+      <property name="margin">
+        <number>6</number>
+      </property>
+      <property name="spacing">
+        <number>6</number>
+      </property>
+      <item row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox" name="GroupBox2">
+          <property name="frameShape">
+            <enum>QGroupBox::Box</enum>
+          </property>
+          <property name="frameShadow">
+            <enum>QGroupBox::Sunken</enum>
+          </property>
+          <property name="title">
+            <string>S&amp;yntax Highlighting</string>
+          </property>
+          <layout class="QGridLayout">
+            <property name="margin">
+              <number>11</number>
             </property>
-            <property name="frameShape">
-                <enum>Box</enum>
+            <property name="spacing">
+              <number>6</number>
             </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="title">
-                <string>S&amp;yntax Highlighting</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
+            <item row="0" column="0">
+              <widget class="QLabel" name="TextLabel1">
+                <property name="text">
+                  <string>&amp;Element:</string>
                 </property>
+                <property name="buddy" stdset="0">
+                  <cstring>listElements</cstring>
+                </property>
+                <property name="wordWrap">
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="1" rowspan="3" colspan="1">
+              <layout class="QGridLayout">
                 <property name="margin">
-                    <number>11</number>
+                  <number>0</number>
                 </property>
                 <property name="spacing">
-                    <number>6</number>
+                  <number>6</number>
                 </property>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>TextLabel1</cstring>
+                <item row="2" column="0" rowspan="1" colspan="2">
+                  <widget class="QCheckBox" name="checkBold">
+                    <property name="text">
+                      <string>&amp;Bold</string>
+                    </property>
+                  </widget>
+                </item>
+                <item row="5" column="1">
+                  <widget class="QToolButton" name="buttonColor">
+                    <property name="sizePolicy">
+                      <sizepolicy>
+                        <hsizetype>1</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>&amp;Element:</string>
+                      <string>...</string>
+                    </property>
+                  </widget>
+                </item>
+                <item row="0" column="1">
+                  <widget class="QComboBox" name="comboFamily">
+                    <property name="editable">
+                      <bool>true</bool>
+                    </property>
+                  </widget>
+                </item>
+                <item row="0" column="0">
+                  <widget class="QLabel" name="TextLabel2">
+                    <property name="text">
+                      <string>&amp;Family:</string>
                     </property>
                     <property name="buddy" stdset="0">
-                        <cstring>listElements</cstring>
+                      <cstring>comboFamily</cstring>
                     </property>
-                </widget>
-                <widget class="QLayoutWidget" row="1" column="1" rowspan="3" colspan="1">
-                    <property name="name">
-                        <cstring>Layout1</cstring>
+                    <property name="wordWrap">
+                      <bool>false</bool>
                     </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>checkBold</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Bold</string>
-                            </property>
-                        </widget>
-                        <widget class="QToolButton" row="5" column="1">
-                            <property name="name">
-                                <cstring>buttonColor</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>1</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>...</string>
-                            </property>
-                        </widget>
-                        <widget class="QComboBox" row="0" column="1">
-                            <property name="name">
-                                <cstring>comboFamily</cstring>
-                            </property>
-                            <property name="editable">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>TextLabel2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Family:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>comboFamily</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>checkUnderline</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Underline</string>
-                            </property>
-                        </widget>
-                        <widget class="QSpinBox" row="1" column="1">
-                            <property name="name">
-                                <cstring>spinSize</cstring>
-                            </property>
-                            <property name="minValue">
-                                <number>1</number>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
-                            <property name="name">
-                                <cstring>checkItalic</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Italic</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="5" column="0">
-                            <property name="name">
-                                <cstring>TextLabel4</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Change co&amp;lor:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>buttonColor</cstring>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>TextLabel3</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Size:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>spinSize</cstring>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <widget class="QListBox" row="1" column="0">
-                    <item>
-                        <property name="text">
-                            <string>Comment</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Number</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>String</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Type</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Keyword</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Preprocessor</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Label</string>
-                        </property>
-                    </item>
-                    <item>
-                        <property name="text">
-                            <string>Standard</string>
-                        </property>
-                    </item>
-                    <property name="name">
-                        <cstring>listElements</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>TextLabel2_2</cstring>
-                    </property>
+                  </widget>
+                </item>
+                <item row="4" column="0" rowspan="1" colspan="2">
+                  <widget class="QCheckBox" name="checkUnderline">
                     <property name="text">
-                        <string>&amp;Preview:</string>
+                      <string>&amp;Underline</string>
+                    </property>
+                  </widget>
+                </item>
+                <item row="1" column="1">
+                  <widget class="QSpinBox" name="spinSize">
+                    <property name="minimum">
+                      <number>1</number>
+                    </property>
+                  </widget>
+                </item>
+                <item row="3" column="0" rowspan="1" colspan="2">
+                  <widget class="QCheckBox" name="checkItalic">
+                    <property name="text">
+                      <string>&amp;Italic</string>
+                    </property>
+                  </widget>
+                </item>
+                <item row="5" column="0">
+                  <widget class="QLabel" name="TextLabel4">
+                    <property name="text">
+                      <string>Change co&amp;lor:</string>
                     </property>
                     <property name="buddy" stdset="0">
-                        <cstring>editPreview</cstring>
+                      <cstring>buttonColor</cstring>
                     </property>
-                </widget>
-                <widget class="QLineEdit" row="3" column="0">
-                    <property name="name">
-                        <cstring>editPreview</cstring>
+                    <property name="wordWrap">
+                      <bool>false</bool>
                     </property>
+                  </widget>
+                </item>
+                <item row="1" column="0">
+                  <widget class="QLabel" name="TextLabel3">
                     <property name="text">
-                        <string>Some Text</string>
+                      <string>&amp;Size:</string>
                     </property>
-                </widget>
-                <spacer row="4" column="1">
-                    <property name="name">
-                        <cstring>Spacer2</cstring>
+                    <property name="buddy" stdset="0">
+                      <cstring>spinSize</cstring>
                     </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
+                    <property name="wordWrap">
+                      <bool>false</bool>
                     </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                </spacer>
-            </grid>
-        </widget>
-        <widget class="QGroupBox" row="1" column="0">
-            <property name="name">
-                <cstring>GroupBox3</cstring>
-            </property>
-            <property name="title">
-                <string>Optio&amp;ns</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+            <item row="1" column="0">
+              <widget class="QListWidget" name="listElements">
+                <item>
+                  <property name="text">
+                    <string>Comment</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Number</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>String</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Type</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Keyword</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Preprocessor</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Label</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Standard</string>
+                  </property>
+                </item>
+              </widget>
+            </item>
+            <item row="2" column="0">
+              <widget class="QLabel" name="TextLabel2_2">
+                <property name="text">
+                  <string>&amp;Preview:</string>
                 </property>
+                <property name="buddy" stdset="0">
+                  <cstring>editPreview</cstring>
+                </property>
+                <property name="wordWrap">
+                  <bool>false</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="3" column="0">
+              <widget class="QLineEdit" name="editPreview">
+                <property name="text">
+                  <string>Some Text</string>
+                </property>
+              </widget>
+            </item>
+            <item row="4" column="1">
+              <spacer name="Spacer2">
+                <property name="sizeHint">
+                  <size>
+                    <width>20</width>
+                    <height>0</height>
+                  </size>
+                </property>
+                <property name="sizeType">
+                  <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                </property>
+              </spacer>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item row="1" column="0">
+        <widget class="QGroupBox" name="GroupBox3">
+          <property name="title">
+            <string>Optio&amp;ns</string>
+          </property>
+          <layout class="QVBoxLayout">
+            <property name="margin">
+              <number>11</number>
+            </property>
+            <property name="spacing">
+              <number>6</number>
+            </property>
+            <item>
+              <widget class="QCheckBox" name="checkWordWrap">
+                <property name="text">
+                  <string>&amp;Word Wrap</string>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QCheckBox" name="checkCompletion">
+                <property name="text">
+                  <string>Comple&amp;tion</string>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QCheckBox" name="checkParenMatching">
+                <property name="text">
+                  <string>Parentheses &amp;Matching</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item row="1" column="1">
+        <widget class="QGroupBox" name="GroupBox3_2">
+          <property name="title">
+            <string>Indentation</string>
+          </property>
+          <layout class="QVBoxLayout">
+            <property name="margin">
+              <number>11</number>
+            </property>
+            <property name="spacing">
+              <number>6</number>
+            </property>
+            <item>
+              <layout class="QGridLayout">
                 <property name="margin">
-                    <number>11</number>
+                  <number>0</number>
                 </property>
                 <property name="spacing">
-                    <number>6</number>
+                  <number>6</number>
                 </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkWordWrap</cstring>
+                <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinTabSize">
+                    <property name="value">
+                      <number>8</number>
                     </property>
+                  </widget>
+                </item>
+                <item row="0" column="0">
+                  <widget class="QLabel" name="TextLabel1_2">
                     <property name="text">
-                        <string>&amp;Word Wrap</string>
+                      <string>Tab Size:</string>
                     </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkCompletion</cstring>
+                    <property name="wordWrap">
+                      <bool>false</bool>
                     </property>
+                  </widget>
+                </item>
+                <item row="1" column="1">
+                  <widget class="QSpinBox" name="spinIndentSize">
+                    <property name="value">
+                      <number>4</number>
+                    </property>
+                  </widget>
+                </item>
+                <item row="1" column="0">
+                  <widget class="QLabel" name="TextLabel2_3">
                     <property name="text">
-                        <string>Comple&amp;tion</string>
+                      <string>Indent Size:</string>
                     </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkParenMatching</cstring>
+                    <property name="wordWrap">
+                      <bool>false</bool>
                     </property>
-                    <property name="text">
-                        <string>Parentheses &amp;Matching</string>
-                    </property>
-                </widget>
-            </vbox>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+            <item>
+              <widget class="QCheckBox" name="checkKeepTabs">
+                <property name="text">
+                  <string>Keep Tabs</string>
+                </property>
+                <property name="checked">
+                  <bool>true</bool>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QCheckBox" name="checkAutoIndent">
+                <property name="text">
+                  <string>Auto Indent</string>
+                </property>
+                <property name="checked">
+                  <bool>true</bool>
+                </property>
+              </widget>
+            </item>
+          </layout>
         </widget>
-        <widget class="QGroupBox" row="1" column="1">
-            <property name="name">
-                <cstring>GroupBox3_2</cstring>
-            </property>
-            <property name="title">
-                <string>Indentation</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>11</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>Layout2</cstring>
-                    </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="QSpinBox" row="0" column="1">
-                            <property name="name">
-                                <cstring>spinTabSize</cstring>
-                            </property>
-                            <property name="value">
-                                <number>8</number>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>TextLabel1_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Tab Size:</string>
-                            </property>
-                        </widget>
-                        <widget class="QSpinBox" row="1" column="1">
-                            <property name="name">
-                                <cstring>spinIndentSize</cstring>
-                            </property>
-                            <property name="value">
-                                <number>4</number>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>TextLabel2_3</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Indent Size:</string>
-                            </property>
-                        </widget>
-                    </grid>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkKeepTabs</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Keep Tabs</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkAutoIndent</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Auto Indent</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-    </grid>
-</widget>
-<connections>
-    <connection>
-        <sender>spinSize</sender>
-        <signal>valueChanged(int)</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>sizeChanged(int)</slot>
-    </connection>
-    <connection>
-        <sender>checkBold</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>boldChanged(bool)</slot>
-    </connection>
-    <connection>
-        <sender>checkItalic</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>italicChanged(bool)</slot>
-    </connection>
-    <connection>
-        <sender>checkUnderline</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>underlineChanged(bool)</slot>
-    </connection>
-    <connection>
-        <sender>buttonColor</sender>
-        <signal>clicked()</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>colorClicked()</slot>
-    </connection>
-    <connection>
-        <sender>comboFamily</sender>
-        <signal>activated(const QString&amp;)</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>familyChanged(const QString&amp;)</slot>
-    </connection>
-    <connection>
-        <sender>listElements</sender>
-        <signal>highlighted(const QString&amp;)</signal>
-        <receiver>PreferencesBase</receiver>
-        <slot>elementChanged(const QString&amp;)</slot>
-    </connection>
-</connections>
-<tabstops>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11"/>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
     <tabstop>listElements</tabstop>
     <tabstop>editPreview</tabstop>
     <tabstop>comboFamily</tabstop>
@@ -461,43 +390,53 @@
     <tabstop>checkWordWrap</tabstop>
     <tabstop>checkCompletion</tabstop>
     <tabstop>checkParenMatching</tabstop>
-</tabstops>
-<includes>
-    <include location="global" impldecl="in declaration">qmap.h</include>
-    <include location="local" impldecl="in declaration">conf.h</include>
-    <include location="global" impldecl="in implementation">qpalette.h</include>
-    <include location="global" impldecl="in implementation">qlineedit.h</include>
-    <include location="global" impldecl="in implementation">qpixmap.h</include>
-    <include location="global" impldecl="in implementation">qcombobox.h</include>
-    <include location="global" impldecl="in implementation">qfontdatabase.h</include>
-    <include location="local" impldecl="in implementation">editor.h</include>
-    <include location="global" impldecl="in implementation">qpushbutton.h</include>
-    <include location="global" impldecl="in implementation">qcheckbox.h</include>
-    <include location="global" impldecl="in implementation">qcolordialog.h</include>
-    <include location="global" impldecl="in implementation">qsettings.h</include>
-    <include location="local" impldecl="in implementation">preferences.ui.h</include>
-</includes>
-<variables>
-    <variable>QString path;</variable>
-    <variable>QMap&lt;QString, ConfigStyle&gt; styles;</variable>
-    <variable>ConfigStyle currentStyle;</variable>
-    <variable>QString currentElement;</variable>
-</variables>
-<slots>
-    <slot>init()</slot>
-    <slot>destroy()</slot>
-    <slot>colorClicked()</slot>
-    <slot>reInit()</slot>
-    <slot>save()</slot>
-    <slot>updatePreview()</slot>
-    <slot>boldChanged( bool b )</slot>
-    <slot>elementChanged( const QString &amp; element )</slot>
-    <slot>familyChanged( const QString &amp; f )</slot>
-    <slot>italicChanged( bool b )</slot>
-    <slot>setColorPixmap( const QColor &amp; c )</slot>
-    <slot>setPath( const QString &amp; p )</slot>
-    <slot>sizeChanged( int s )</slot>
-    <slot>underlineChanged( bool b )</slot>
-</slots>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+  </tabstops>
+  <includes>
+    <include location="global">qmap.h</include>
+    <include location="local">conf.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>spinSize</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>sizeChanged(int)</slot>
+    </connection>
+    <connection>
+      <sender>checkBold</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>boldChanged(bool)</slot>
+    </connection>
+    <connection>
+      <sender>checkItalic</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>italicChanged(bool)</slot>
+    </connection>
+    <connection>
+      <sender>checkUnderline</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>underlineChanged(bool)</slot>
+    </connection>
+    <connection>
+      <sender>buttonColor</sender>
+      <signal>clicked()</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>colorClicked()</slot>
+    </connection>
+    <connection>
+      <sender>comboFamily</sender>
+      <signal>activated(QString)</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>familyChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>listElements</sender>
+      <signal>highlighted(QString)</signal>
+      <receiver>PreferencesBase</receiver>
+      <slot>elementChanged(QString)</slot>
+    </connection>
+  </connections>
+</ui>

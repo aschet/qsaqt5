@@ -53,11 +53,8 @@
 // We mean it.
 //
 
-#ifndef QT_NO_SYNTAXHIGHLIGHTER
 #include "q3syntaxhighlighter.h"
 #include "q3richtext_p.h"
-
-
 
 class Q3SyntaxHighlighterPrivate
 {
@@ -106,9 +103,5 @@ private:
 
     friend class Q3TextEdit;
 };
-
-#endif // QT_NO_SYNTAXHIGHLIGHTER
-
-
 
 #endif // Q3SYNTAXHIGHLIGHTER_P_H

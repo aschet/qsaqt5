@@ -40,8 +40,8 @@
 ****************************************************************************/
 
 #include "q3cstring.h"
-#include "qregexp.h"
-#include "qdatastream.h"
+#include <QtCore/QRegExp>
+#include <QtCore/QDataStream>
 
 #include <stdio.h>
 #include <stdarg.h>

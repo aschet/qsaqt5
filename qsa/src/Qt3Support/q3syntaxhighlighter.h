@@ -46,12 +46,6 @@
 #include <QtGui/QColor>
 #include <QtCore/QString>
 
-
-
-
-
-
-
 class Q3TextEdit;
 class Q3SyntaxHighlighterInternal;
 class Q3SyntaxHighlighterPrivate;
@@ -81,9 +75,5 @@ private:
     Q3TextEdit *edit;
     Q3SyntaxHighlighterPrivate *d;
 };
-
-
-
-
 
 #endif // Q3SYNTAXHIGHLIGHTER_H

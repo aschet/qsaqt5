@@ -52,7 +52,6 @@
 #include "qstyle.h"
 #include "q3ptrlist.h"
 #include "qevent.h"
-#include "q3listview.h"
 #ifdef Q_WS_MAC
 # include "qt_mac_p.h"
 #endif

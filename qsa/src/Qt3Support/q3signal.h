@@ -42,14 +42,8 @@
 #ifndef Q3SIGNAL_H
 #define Q3SIGNAL_H
 
-#include <QtCore/qvariant.h>
+#include <QtCore/QVariant>
 #include <QtCore/QObject>
-
-
-
-
-
-
 
 class QSA_EXPORT Q3Signal : public QObject
 {

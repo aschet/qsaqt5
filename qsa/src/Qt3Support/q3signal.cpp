@@ -40,10 +40,9 @@
 ****************************************************************************/
 
 #include "q3signal.h"
-#include "qmetaobject.h"
-#include "qpointer.h"
+#include <QtCore/QMetaObject>
+#include <QtCore/QPointer>
 #include "q3cstring.h"
-
 
 
 /*!
@@ -79,8 +78,9 @@
 */
 
 Q3Signal::Q3Signal(QObject *parent, const char *name)
-    : QObject(parent, name)
+    : QObject(parent)
 {
+	setObjectName(name);
 #ifndef QT_NO_VARIANT
     val = 0;
 #endif
@@ -98,8 +98,8 @@ Q3Signal::~Q3Signal()
 static inline bool intSignature(const char *member)
 {
     Q3CString s(member);
-    int p = s.find('(');
-    return p > 0 && p < s.findRev("int");
+    int p = s.indexOf('(');
+    return p > 0 && p < s.lastIndexOf("int");
 }
 #endif
 /*!

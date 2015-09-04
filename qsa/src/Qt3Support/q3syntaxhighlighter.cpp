@@ -42,11 +42,8 @@
 #include "q3syntaxhighlighter.h"
 #include "q3syntaxhighlighter_p.h"
 
-#ifndef QT_NO_SYNTAXHIGHLIGHTER
 #include "q3textedit.h"
-#include "qtimer.h"
-
-
+#include <QtCore/QTimer>
 
 /*!
     \class Q3SyntaxHighlighter
@@ -217,7 +214,3 @@ int Q3SyntaxHighlighter::currentParagraph() const
 {
     return d->currentParagraph;
 }
-
-
-
-#endif

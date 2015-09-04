@@ -73,7 +73,7 @@ struct Q3TablePrivate;
 struct Q3TableHeaderPrivate;
 
 
-class Q_COMPAT_EXPORT Q3TableSelection
+class QSA_EXPORT Q3TableSelection
 {
 public:
     Q3TableSelection();
@@ -102,7 +102,7 @@ private:
     int aRow, aCol;
 };
 
-class Q_COMPAT_EXPORT Q3TableItem
+class QSA_EXPORT Q3TableItem
 {
     friend class Q3Table;
 
@@ -166,7 +166,7 @@ private:
     int rowspan, colspan;
 };
 
-class Q_COMPAT_EXPORT Q3ComboTableItem : public Q3TableItem
+class QSA_EXPORT Q3ComboTableItem : public Q3TableItem
 {
 public:
     Q3ComboTableItem(Q3Table *table, const QStringList &list, bool editable = false);
@@ -206,7 +206,7 @@ private:
 
 };
 
-class Q_COMPAT_EXPORT Q3CheckTableItem : public Q3TableItem
+class QSA_EXPORT Q3CheckTableItem : public Q3TableItem
 {
 public:
     Q3CheckTableItem(Q3Table *table, const QString &txt);
@@ -229,7 +229,7 @@ private:
 
 };
 
-class Q_COMPAT_EXPORT Q3Table : public Q3ScrollView
+class QSA_EXPORT Q3Table : public Q3ScrollView
 {
     Q_OBJECT
     Q_ENUMS(SelectionMode FocusStyle)

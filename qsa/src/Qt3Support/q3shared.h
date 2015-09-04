@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-struct Q_COMPAT_EXPORT Q3Shared
+struct QSA_EXPORT Q3Shared
 {
     Q3Shared() : count( 1 ) { }
     void ref()		{ count++; }

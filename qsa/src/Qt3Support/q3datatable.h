@@ -64,7 +64,7 @@ class QSqlField;
 class Q3SqlPropertyMap;
 class Q3DataTablePrivate;
 
-class Q_COMPAT_EXPORT Q3DataTable : public Q3Table
+class QSA_EXPORT Q3DataTable : public Q3Table
 {
     Q_OBJECT
 

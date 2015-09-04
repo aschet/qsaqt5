@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3Signal : public QObject
+class QSA_EXPORT Q3Signal : public QObject
 {
     Q_OBJECT
 

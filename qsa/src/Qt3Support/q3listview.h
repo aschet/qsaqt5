@@ -67,7 +67,7 @@ class QMimeSource;
 class QLineEdit;
 class Q3ListViewToolTip;
 
-class Q_COMPAT_EXPORT Q3ListViewItem
+class QSA_EXPORT Q3ListViewItem
 {
     friend class Q3ListViewItemIterator;
     friend class Q3ListViewToolTip;
@@ -234,7 +234,7 @@ private:
 
 class Q3CheckListItem;
 
-class Q_COMPAT_EXPORT Q3ListView : public Q3ScrollView
+class QSA_EXPORT Q3ListView : public Q3ScrollView
 {
     friend class Q3ListViewItemIterator;
     friend class Q3ListViewItem;
@@ -470,7 +470,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CheckListItem : public Q3ListViewItem
+class QSA_EXPORT Q3CheckListItem : public Q3ListViewItem
 {
 public:
     enum Type { RadioButton,
@@ -542,7 +542,7 @@ private:
     Q3CheckListItemPrivate *d;
 };
 
-class Q_COMPAT_EXPORT Q3ListViewItemIterator
+class QSA_EXPORT Q3ListViewItemIterator
 {
     friend struct Q3ListViewPrivate;
     friend class Q3ListView;

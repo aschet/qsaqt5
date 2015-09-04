@@ -137,7 +137,7 @@ public:
 };
 #endif
 
-class Q_COMPAT_EXPORT Q3TextEdit : public Q3ScrollView
+class QSA_EXPORT Q3TextEdit : public Q3ScrollView
 {
     friend class Q3TextBrowser;
     friend class Q3SyntaxHighlighter;
@@ -468,7 +468,7 @@ private Q_SLOTS:
     void clipboardChanged();
 
 private:
-    struct Q_COMPAT_EXPORT UndoRedoInfo {
+    struct QSA_EXPORT UndoRedoInfo {
         enum Type { Invalid, Insert, Delete, Backspace, Return, RemoveSelected, Format, Style, IME };
 
         UndoRedoInfo(Q3TextDocument *dc);

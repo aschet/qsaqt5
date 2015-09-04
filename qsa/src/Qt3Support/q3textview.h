@@ -52,7 +52,7 @@ QT_MODULE(Qt3SupportLight)
 
 #ifndef QT_NO_TEXTVIEW
 
-class Q_COMPAT_EXPORT Q3TextView : public Q3TextEdit
+class QSA_EXPORT Q3TextView : public Q3TextEdit
 {
     Q_OBJECT
 

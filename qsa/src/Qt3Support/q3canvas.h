@@ -69,7 +69,7 @@ class Q3CanvasItem;
 class Q3CanvasView;
 class Q3CanvasPixmap;
 
-class Q_COMPAT_EXPORT Q3CanvasItemList : public Q3ValueList<Q3CanvasItem*> {
+class QSA_EXPORT Q3CanvasItemList : public Q3ValueList<Q3CanvasItem*> {
 public:
     void sort();
     void drawUnique(QPainter& painter);
@@ -79,7 +79,7 @@ public:
 
 class Q3CanvasItemExtra;
 
-class Q_COMPAT_EXPORT Q3CanvasItem
+class QSA_EXPORT Q3CanvasItem
 {
 public:
     Q3CanvasItem(Q3Canvas* canvas);
@@ -201,7 +201,7 @@ private:
 
 class Q3CanvasData;
 
-class Q_COMPAT_EXPORT Q3Canvas : public QObject
+class QSA_EXPORT Q3Canvas : public QObject
 {
     Q_OBJECT
 public:
@@ -343,7 +343,7 @@ private:
 
 class Q3CanvasViewData;
 
-class Q_COMPAT_EXPORT Q3CanvasView : public Q3ScrollView
+class QSA_EXPORT Q3CanvasView : public Q3ScrollView
 {
     Q_OBJECT
 public:
@@ -379,7 +379,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasPixmap : public QPixmap
+class QSA_EXPORT Q3CanvasPixmap : public QPixmap
 {
 public:
 #ifndef QT_NO_IMAGEIO
@@ -411,7 +411,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasPixmapArray
+class QSA_EXPORT Q3CanvasPixmapArray
 {
 public:
     Q3CanvasPixmapArray();
@@ -452,7 +452,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasSprite : public Q3CanvasItem
+class QSA_EXPORT Q3CanvasSprite : public Q3CanvasItem
 {
 public:
     Q3CanvasSprite(Q3CanvasPixmapArray* array, Q3Canvas* canvas);
@@ -528,7 +528,7 @@ private:
 
 class QPolygonalProcessor;
 
-class Q_COMPAT_EXPORT Q3CanvasPolygonalItem : public Q3CanvasItem
+class QSA_EXPORT Q3CanvasPolygonalItem : public Q3CanvasItem
 {
 public:
     Q3CanvasPolygonalItem(Q3Canvas* canvas);
@@ -579,7 +579,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasRectangle : public Q3CanvasPolygonalItem
+class QSA_EXPORT Q3CanvasRectangle : public Q3CanvasPolygonalItem
 {
 public:
     Q3CanvasRectangle(Q3Canvas* canvas);
@@ -617,7 +617,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasPolygon : public Q3CanvasPolygonalItem
+class QSA_EXPORT Q3CanvasPolygon : public Q3CanvasPolygonalItem
 {
 public:
     Q3CanvasPolygon(Q3Canvas* canvas);
@@ -637,7 +637,7 @@ protected:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasSpline : public Q3CanvasPolygon
+class QSA_EXPORT Q3CanvasSpline : public Q3CanvasPolygon
 {
 public:
     Q3CanvasSpline(Q3Canvas* canvas);
@@ -657,7 +657,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasLine : public Q3CanvasPolygonalItem
+class QSA_EXPORT Q3CanvasLine : public Q3CanvasPolygonalItem
 {
 public:
     Q3CanvasLine(Q3Canvas* canvas);
@@ -684,7 +684,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3CanvasEllipse : public Q3CanvasPolygonalItem
+class QSA_EXPORT Q3CanvasEllipse : public Q3CanvasPolygonalItem
 {
 
 public:
@@ -726,7 +726,7 @@ private:
 
 class Q3CanvasTextExtra;
 
-class Q_COMPAT_EXPORT Q3CanvasText : public Q3CanvasItem
+class QSA_EXPORT Q3CanvasText : public Q3CanvasItem
 {
 public:
     Q3CanvasText(Q3Canvas* canvas);

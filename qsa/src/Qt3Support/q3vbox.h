@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3VBox : public Q3HBox
+class QSA_EXPORT Q3VBox : public Q3HBox
 {
     Q_OBJECT
 public:

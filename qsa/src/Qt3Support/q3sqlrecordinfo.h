@@ -64,7 +64,7 @@ QT_MODULE(Qt3Support)
 
 typedef Q3ValueList<Q3SqlFieldInfo> Q3SqlFieldInfoList;
 
-class Q_COMPAT_EXPORT Q3SqlRecordInfo: public Q3SqlFieldInfoList
+class QSA_EXPORT Q3SqlRecordInfo: public Q3SqlFieldInfoList
 {
 public:
     Q3SqlRecordInfo(): Q3SqlFieldInfoList() {}

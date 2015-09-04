@@ -54,7 +54,7 @@ QT_MODULE(Qt3Support)
 
 class QSqlField;
 
-class Q_COMPAT_EXPORT Q3SqlEditorFactory : public Q3EditorFactory
+class QSA_EXPORT Q3SqlEditorFactory : public Q3EditorFactory
 {
 public:
     Q3SqlEditorFactory (QObject * parent = 0);

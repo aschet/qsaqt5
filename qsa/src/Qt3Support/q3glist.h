@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3LNode
+class QSA_EXPORT Q3LNode
 {
 friend class Q3GList;
 friend class Q3GListIterator;
@@ -66,7 +66,7 @@ private:
 
 class Q3GListIteratorList; // internal helper class
 
-class Q_COMPAT_EXPORT Q3GList : public Q3PtrCollection	// doubly linked generic list
+class QSA_EXPORT Q3GList : public Q3PtrCollection	// doubly linked generic list
 {
 friend class Q3GListIterator;
 friend class Q3GListIteratorList;
@@ -209,15 +209,15 @@ inline Q3PtrCollection::Item Q3GList::clast() const
  *****************************************************************************/
 
 #ifndef QT_NO_DATASTREAM
-Q_COMPAT_EXPORT QDataStream &operator>>( QDataStream &, Q3GList & );
-Q_COMPAT_EXPORT QDataStream &operator<<( QDataStream &, const Q3GList & );
+QSA_EXPORT QDataStream &operator>>( QDataStream &, Q3GList & );
+QSA_EXPORT QDataStream &operator<<( QDataStream &, const Q3GList & );
 #endif
 
 /*****************************************************************************
   Q3GListIterator class
  *****************************************************************************/
 
-class Q_COMPAT_EXPORT Q3GListIterator			// Q3GList iterator
+class QSA_EXPORT Q3GListIterator			// Q3GList iterator
 {
 friend class Q3GList;
 friend class Q3GListIteratorList;
@@ -262,7 +262,7 @@ inline Q3PtrCollection::Item Q3GListIterator::get() const
     return curNode ? curNode->data : 0;
 }
 
-class Q_COMPAT_EXPORT Q3GListStdIterator
+class QSA_EXPORT Q3GListStdIterator
 {
 public:
     inline Q3GListStdIterator( Q3LNode* n ) : node( n ){}

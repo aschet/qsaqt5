@@ -52,7 +52,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3GroupBoxPrivate;
 
-class Q_COMPAT_EXPORT Q3GroupBox : public QGroupBox
+class QSA_EXPORT Q3GroupBox : public QGroupBox
 {
     Q_OBJECT
 public:

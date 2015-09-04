@@ -69,7 +69,7 @@ class QUrlInfo;
 
 #ifndef QT_NO_FILEDIALOG
 
-class Q_COMPAT_EXPORT Q3FileIconProvider : public QObject
+class QSA_EXPORT Q3FileIconProvider : public QObject
 {
     Q_OBJECT
 public:
@@ -80,7 +80,7 @@ private:
     Q_DISABLE_COPY(Q3FileIconProvider)
 };
 
-class Q_COMPAT_EXPORT Q3FilePreview
+class QSA_EXPORT Q3FilePreview
 {
 public:
     Q3FilePreview();
@@ -89,7 +89,7 @@ public:
 
 };
 
-class Q_COMPAT_EXPORT Q3FileDialog : public QDialog
+class QSA_EXPORT Q3FileDialog : public QDialog
 {
     Q_OBJECT
     Q_ENUMS(Mode ViewMode PreviewMode)

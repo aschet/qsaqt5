@@ -52,7 +52,7 @@ QT_MODULE(Qt3SupportLight)
 
 class QBoxLayout;
 
-class Q_COMPAT_EXPORT Q3HBox : public Q3Frame
+class QSA_EXPORT Q3HBox : public Q3Frame
 {
     Q_OBJECT
 public:

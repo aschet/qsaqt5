@@ -79,7 +79,7 @@ class QColorGroup;
 
 #ifndef QT_NO_DRAGANDDROP
 
-class Q_COMPAT_EXPORT Q3IconDragItem
+class QSA_EXPORT Q3IconDragItem
 {
 public:
     Q3IconDragItem();
@@ -93,7 +93,7 @@ private:
 
 };
 
-class Q_COMPAT_EXPORT Q3IconDrag : public Q3DragObject
+class QSA_EXPORT Q3IconDrag : public Q3DragObject
 {
     Q_OBJECT
 public:
@@ -121,7 +121,7 @@ private:
 class Q3IconViewToolTip;
 class Q3IconViewItemPrivate;
 
-class Q_COMPAT_EXPORT Q3IconViewItem
+class QSA_EXPORT Q3IconViewItem
 {
     friend class Q3IconView;
     friend class Q3IconViewToolTip;
@@ -264,7 +264,7 @@ private:
 
 class Q3IconViewPrivate;
 
-class Q_COMPAT_EXPORT Q3IconView : public Q3ScrollView
+class QSA_EXPORT Q3IconView : public Q3ScrollView
 {
     friend class Q3IconViewItem;
     friend class Q3IconViewPrivate;

@@ -297,7 +297,7 @@ static void qt_setcliprect(QPainter *p, const QRect &r)
 }
 
 
-class Q_COMPAT_EXPORT Q3CanvasItemPtr {
+class QSA_EXPORT Q3CanvasItemPtr {
 public:
     Q3CanvasItemPtr() : ptr(0) { }
     Q3CanvasItemPtr(Q3CanvasItem* p) : ptr(p) { }

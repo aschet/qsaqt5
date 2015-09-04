@@ -53,7 +53,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3ScrollViewData;
 
-class Q_COMPAT_EXPORT Q3ScrollView : public Q3Frame
+class QSA_EXPORT Q3ScrollView : public Q3Frame
 {
     Q_OBJECT
     Q_ENUMS( ResizePolicy ScrollBarMode )

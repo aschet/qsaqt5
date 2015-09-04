@@ -55,7 +55,7 @@ QT_MODULE(Qt3SupportLight)
 class Q3MainWindow;
 class Q3ToolBarPrivate;
 
-class Q_COMPAT_EXPORT Q3ToolBar: public Q3DockWindow
+class QSA_EXPORT Q3ToolBar: public Q3DockWindow
 {
     Q_OBJECT
     Q_PROPERTY(QString label READ label WRITE setLabel)

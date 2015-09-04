@@ -53,7 +53,7 @@ QT_MODULE(Qt3Support)
 
 #ifndef QT_NO_SQL_EDIT_WIDGETS
 
-class Q_COMPAT_EXPORT Q3EditorFactory : public QObject
+class QSA_EXPORT Q3EditorFactory : public QObject
 {
 public:
     Q3EditorFactory (QObject * parent = 0);

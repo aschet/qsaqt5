@@ -55,7 +55,7 @@ QT_MODULE(Qt3Support)
 
 class Q3SocketDevicePrivate;
 
-class Q_COMPAT_EXPORT Q3SocketDevice: public QIODevice
+class QSA_EXPORT Q3SocketDevice: public QIODevice
 {
 public:
     enum Type { Stream, Datagram };

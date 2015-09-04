@@ -63,7 +63,7 @@ class Q3PopupMenu;
 class QHideDock;
 template<class T> class QList;
 
-class Q_COMPAT_EXPORT Q3MainWindow: public QWidget
+class QSA_EXPORT Q3MainWindow: public QWidget
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3MainWindow)
@@ -254,8 +254,8 @@ inline void Q3MainWindow::setToolBarsMovable(bool b)
 #endif
 
 #ifndef QT_NO_TEXTSTREAM
-Q_COMPAT_EXPORT QTextStream &operator<<(QTextStream &, const Q3MainWindow &);
-Q_COMPAT_EXPORT QTextStream &operator>>(QTextStream &, Q3MainWindow &);
+QSA_EXPORT QTextStream &operator<<(QTextStream &, const Q3MainWindow &);
+QSA_EXPORT QTextStream &operator>>(QTextStream &, Q3MainWindow &);
 #endif
 
 #endif // QT_NO_MAINWINDOW

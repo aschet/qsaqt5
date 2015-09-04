@@ -56,7 +56,7 @@ QT_MODULE(Qt3Support)
 class QWidget;
 class Q3SqlPropertyMapPrivate;
 
-class Q_COMPAT_EXPORT Q3SqlPropertyMap
+class QSA_EXPORT Q3SqlPropertyMap
 {
 public:
     Q3SqlPropertyMap();

@@ -53,7 +53,7 @@ QT_MODULE(Qt3SupportLight)
 class Q3PointArray;
 class QPoint;
 
-class Q_COMPAT_EXPORT Q3PolygonScanner {
+class QSA_EXPORT Q3PolygonScanner {
 public:
     virtual ~Q3PolygonScanner() {}
     void scan(const Q3PointArray& pa, bool winding, int index=0, int npoints=-1);

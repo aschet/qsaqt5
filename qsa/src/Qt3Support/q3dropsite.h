@@ -52,7 +52,7 @@ QT_MODULE(Qt3SupportLight)
 
 class QWidget;
 
-class Q_COMPAT_EXPORT Q3DropSite {
+class QSA_EXPORT Q3DropSite {
 public:
     Q3DropSite(QWidget* parent);
     virtual ~Q3DropSite();

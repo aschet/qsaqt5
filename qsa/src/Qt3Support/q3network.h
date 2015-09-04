@@ -52,7 +52,7 @@ QT_MODULE(Qt3Support)
 
 #ifndef QT_NO_NETWORK
 
-Q_COMPAT_EXPORT void q3InitNetworkProtocols();
+QSA_EXPORT void q3InitNetworkProtocols();
 
 #endif // QT_NO_NETWORK
 

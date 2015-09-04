@@ -60,7 +60,7 @@ QT_MODULE(Qt3Support)
 
 class Q3DnsPrivate;
 
-class Q_COMPAT_EXPORT Q3Dns: public QObject {
+class QSA_EXPORT Q3Dns: public QObject {
     Q_OBJECT
 public:
     enum RecordType {
@@ -91,7 +91,7 @@ public:
     // to query for replies
     Q3ValueList<QHostAddress> addresses() const;
 
-    class Q_COMPAT_EXPORT MailServer {
+    class QSA_EXPORT MailServer {
     public:
 	MailServer( const QString & n=QString(), Q_UINT16 p=0 )
 	    :name(n), priority(p) {}
@@ -101,7 +101,7 @@ public:
     };
     Q3ValueList<MailServer> mailServers() const;
 
-    class Q_COMPAT_EXPORT Server {
+    class QSA_EXPORT Server {
     public:
 	Server(const QString & n=QString(), Q_UINT16 p=0, Q_UINT16 w=0, Q_UINT16 po=0 )
 	    : name(n), priority(p), weight(w), port(po) {}

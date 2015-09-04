@@ -54,7 +54,7 @@ QT_MODULE(Qt3SupportLight)
 
 #ifndef QT_NO_DATETIMEEDIT
 
-class Q_COMPAT_EXPORT Q3DateTimeEditBase : public QWidget
+class QSA_EXPORT Q3DateTimeEditBase : public QWidget
 {
     Q_OBJECT
 public:
@@ -76,7 +76,7 @@ private:
 
 class Q3DateEditPrivate;
 
-class Q_COMPAT_EXPORT Q3DateEdit : public Q3DateTimeEditBase
+class QSA_EXPORT Q3DateEdit : public Q3DateTimeEditBase
 {
     Q_OBJECT
     Q_ENUMS(Order)
@@ -153,7 +153,7 @@ private:
 
 class Q3TimeEditPrivate;
 
-class Q_COMPAT_EXPORT Q3TimeEdit : public Q3DateTimeEditBase
+class QSA_EXPORT Q3TimeEdit : public Q3DateTimeEditBase
 {
     Q_OBJECT
     Q_FLAGS(Display)
@@ -234,7 +234,7 @@ private:
 
 class Q3DateTimeEditPrivate;
 
-class Q_COMPAT_EXPORT Q3DateTimeEdit : public QWidget
+class QSA_EXPORT Q3DateTimeEdit : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QDateTime dateTime READ dateTime WRITE setDateTime USER true)

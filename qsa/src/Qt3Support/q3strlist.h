@@ -61,7 +61,7 @@ class Q3StrListIterator : public Q3PtrListIterator<char>
 typedef Q3PtrListIterator<char> Q3StrListIterator;
 #endif
 
-class Q_COMPAT_EXPORT Q3StrList : public Q3PtrList<char>
+class QSA_EXPORT Q3StrList : public Q3PtrList<char>
 {
 public:
     Q3StrList( bool deepCopies=true ) { dc = deepCopies; del_item = deepCopies; }
@@ -102,7 +102,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3StrIList : public Q3StrList	// case insensitive string list
+class QSA_EXPORT Q3StrIList : public Q3StrList	// case insensitive string list
 {
 public:
     Q3StrIList( bool deepCopies=true ) : Q3StrList( deepCopies ) {}

@@ -62,7 +62,7 @@ class Q3TextDocument;
 template<class Key, class T> class QMap;
 class Q3StyleSheetItemData;
 
-class Q_COMPAT_EXPORT Q3StyleSheetItem
+class QSA_EXPORT Q3StyleSheetItem
 {
 public:
     Q3StyleSheetItem(Q3StyleSheet* parent, const QString& name);
@@ -193,7 +193,7 @@ private:
 class Q3TextCustomItem;
 #endif
 
-class Q_COMPAT_EXPORT Q3StyleSheet : public QObject
+class QSA_EXPORT Q3StyleSheet : public QObject
 {
     Q_OBJECT
 public:

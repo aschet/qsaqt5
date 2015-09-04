@@ -61,7 +61,7 @@ QT_MODULE(Qt3Support)
 class Q3SqlForm;
 class Q3DataBrowserPrivate;
 
-class Q_COMPAT_EXPORT Q3DataBrowser : public QWidget
+class QSA_EXPORT Q3DataBrowser : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool boundaryChecking READ boundaryChecking WRITE setBoundaryChecking)

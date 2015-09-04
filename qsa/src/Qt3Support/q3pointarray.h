@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3PointArray : public QPolygon
+class QSA_EXPORT Q3PointArray : public QPolygon
 {
 public:
     inline Q3PointArray() : QPolygon() {}

@@ -60,7 +60,7 @@ class Q3ListBox;
 class Q3ComboBoxData;
 class QWheelEvent;
 
-class Q_COMPAT_EXPORT Q3ComboBox : public QWidget
+class QSA_EXPORT Q3ComboBox : public QWidget
 {
     Q_OBJECT
     Q_ENUMS( Policy )

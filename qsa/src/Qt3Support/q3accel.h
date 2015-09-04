@@ -53,7 +53,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3AccelPrivate;
 
-class Q_COMPAT_EXPORT Q3Accel : public QObject			// accelerator class
+class QSA_EXPORT Q3Accel : public QObject			// accelerator class
 {
     Q_OBJECT
 public:

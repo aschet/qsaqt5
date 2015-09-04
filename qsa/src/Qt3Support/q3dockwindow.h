@@ -68,7 +68,7 @@ class Q3ToolBar;
 class QWindowsXPStyle;
 class QRubberBand;
 
-class Q_COMPAT_EXPORT Q3DockWindow : public Q3Frame
+class QSA_EXPORT Q3DockWindow : public Q3Frame
 {
     Q_OBJECT
     Q_ENUMS(CloseMode Place)

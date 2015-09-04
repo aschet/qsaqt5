@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3Picture : public QPicture
+class QSA_EXPORT Q3Picture : public QPicture
 {
 public:
     Q3Picture() : QPicture(-1) { }

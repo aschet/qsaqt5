@@ -56,7 +56,7 @@ class Q3MultiLineEditCommand;
 class QValidator;
 class Q3MultiLineEditData;
 
-class Q_COMPAT_EXPORT Q3MultiLineEdit : public Q3TextEdit
+class QSA_EXPORT Q3MultiLineEdit : public Q3TextEdit
 {
     Q_OBJECT
     Q_PROPERTY(int numLines READ numLines)

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3VGroupBox : public Q3GroupBox
+class QSA_EXPORT Q3VGroupBox : public Q3GroupBox
 {
     Q_OBJECT
 public:

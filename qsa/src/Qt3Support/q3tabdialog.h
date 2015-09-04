@@ -55,7 +55,7 @@ class  QTabBar;
 class  QTab;
 class  Q3TabDialogPrivate;
 
-class Q_COMPAT_EXPORT Q3TabDialog : public QDialog
+class QSA_EXPORT Q3TabDialog : public QDialog
 {
     Q_OBJECT
 public:

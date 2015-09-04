@@ -57,7 +57,7 @@ QT_MODULE(Qt3Support)
 class Q3Socket;
 class Q3FtpCommand;
 
-class Q_COMPAT_EXPORT Q3Ftp : public Q3NetworkProtocol
+class QSA_EXPORT Q3Ftp : public Q3NetworkProtocol
 {
     Q_OBJECT
 

@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
 
 #define QDATETIMEEDIT_HIDDEN_CHAR QLatin1Char('0')
 
-class Q_COMPAT_EXPORT QNumberSection
+class QSA_EXPORT QNumberSection
 {
 public:
     QNumberSection(int selStart = 0, int selEnd = 0, bool separat = true, int actual = -1)

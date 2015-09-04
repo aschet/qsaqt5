@@ -53,7 +53,7 @@ QT_MODULE(Qt3SupportLight)
 class QHBoxLayout;
 class Q3WizardPrivate;
 
-class Q_COMPAT_EXPORT Q3Wizard : public QDialog
+class QSA_EXPORT Q3Wizard : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY( QFont titleFont READ titleFont WRITE setTitleFont )

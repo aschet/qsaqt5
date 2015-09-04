@@ -54,7 +54,7 @@ QT_MODULE(Qt3Support)
 
 class Q3SqlSelectCursorPrivate;
 
-class Q_COMPAT_EXPORT Q3SqlSelectCursor : public Q3SqlCursor
+class QSA_EXPORT Q3SqlSelectCursor : public Q3SqlCursor
 {
 public:
     Q3SqlSelectCursor(const QString& query = QString(), QSqlDatabase db = QSqlDatabase());

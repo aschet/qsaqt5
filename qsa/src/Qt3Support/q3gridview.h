@@ -52,7 +52,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3GridViewPrivate;
 
-class Q_COMPAT_EXPORT Q3GridView : public Q3ScrollView
+class QSA_EXPORT Q3GridView : public Q3ScrollView
 {
     Q_OBJECT
     Q_PROPERTY(int numRows READ numRows WRITE setNumRows)

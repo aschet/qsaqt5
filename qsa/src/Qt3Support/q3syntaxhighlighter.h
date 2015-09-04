@@ -57,7 +57,7 @@ class Q3SyntaxHighlighterInternal;
 class Q3SyntaxHighlighterPrivate;
 class Q3TextParagraph;
 
-class Q_COMPAT_EXPORT Q3SyntaxHighlighter
+class QSA_EXPORT Q3SyntaxHighlighter
 {
     friend class Q3SyntaxHighlighterInternal;
 

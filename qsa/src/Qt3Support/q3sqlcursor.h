@@ -60,7 +60,7 @@ QT_MODULE(Qt3Support)
 class Q3SqlCursorPrivate;
 class Q3SqlFieldInfo;
 
-class Q_COMPAT_EXPORT Q3SqlCursor : public QSqlRecord, public QSqlQuery
+class QSA_EXPORT Q3SqlCursor : public QSqlRecord, public QSqlQuery
 {
 public:
     Q3SqlCursor(const QString & name = QString(), bool autopopulate = true,

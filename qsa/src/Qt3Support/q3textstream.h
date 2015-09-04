@@ -59,7 +59,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3TextStreamPrivate;
 
-class Q_COMPAT_EXPORT Q3TextStream				// text stream class
+class QSA_EXPORT Q3TextStream				// text stream class
 {
 public:
     enum Encoding { Locale, Latin1, Unicode, UnicodeNetworkOrder,
@@ -263,7 +263,7 @@ inline QChar Q3TextStream::ts_getc()
 typedef Q3TextStream & (*Q3TSFUNC)(Q3TextStream &);// manipulator function
 typedef int (Q3TextStream::*Q3TSMFI)(int);	// manipulator w/int argument
 
-class Q_COMPAT_EXPORT Q3TSManip {			// text stream manipulator
+class QSA_EXPORT Q3TSManip {			// text stream manipulator
 public:
     Q3TSManip( Q3TSMFI m, int a ) { mf=m; arg=a; }
     void exec( Q3TextStream &s ) { (s.*mf)(arg); }
@@ -272,23 +272,23 @@ private:
     int	   arg;					// member function argument
 };
 
-Q_COMPAT_EXPORT_INLINE Q3TextStream &operator>>( Q3TextStream &s, Q3TSFUNC f )
+QSA_EXPORT_INLINE Q3TextStream &operator>>( Q3TextStream &s, Q3TSFUNC f )
 { return (*f)( s ); }
 
-Q_COMPAT_EXPORT_INLINE Q3TextStream &operator<<( Q3TextStream &s, Q3TSFUNC f )
+QSA_EXPORT_INLINE Q3TextStream &operator<<( Q3TextStream &s, Q3TSFUNC f )
 { return (*f)( s ); }
 
-Q_COMPAT_EXPORT_INLINE Q3TextStream &operator<<( Q3TextStream &s, Q3TSManip m )
+QSA_EXPORT_INLINE Q3TextStream &operator<<( Q3TextStream &s, Q3TSManip m )
 { m.exec(s); return s; }
 
-Q_COMPAT_EXPORT Q3TextStream &bin( Q3TextStream &s );	// set bin notation
-Q_COMPAT_EXPORT Q3TextStream &oct( Q3TextStream &s );	// set oct notation
-Q_COMPAT_EXPORT Q3TextStream &dec( Q3TextStream &s );	// set dec notation
-Q_COMPAT_EXPORT Q3TextStream &hex( Q3TextStream &s );	// set hex notation
-Q_COMPAT_EXPORT Q3TextStream &endl( Q3TextStream &s );	// insert EOL ('\n')
-Q_COMPAT_EXPORT Q3TextStream &flush( Q3TextStream &s );	// flush output
-Q_COMPAT_EXPORT Q3TextStream &ws( Q3TextStream &s );	// eat whitespace on input
-Q_COMPAT_EXPORT Q3TextStream &reset( Q3TextStream &s );	// set default flags
+QSA_EXPORT Q3TextStream &bin( Q3TextStream &s );	// set bin notation
+QSA_EXPORT Q3TextStream &oct( Q3TextStream &s );	// set oct notation
+QSA_EXPORT Q3TextStream &dec( Q3TextStream &s );	// set dec notation
+QSA_EXPORT Q3TextStream &hex( Q3TextStream &s );	// set hex notation
+QSA_EXPORT Q3TextStream &endl( Q3TextStream &s );	// insert EOL ('\n')
+QSA_EXPORT Q3TextStream &flush( Q3TextStream &s );	// flush output
+QSA_EXPORT Q3TextStream &ws( Q3TextStream &s );	// eat whitespace on input
+QSA_EXPORT Q3TextStream &reset( Q3TextStream &s );	// set default flags
 
 QT_END_NAMESPACE
 

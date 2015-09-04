@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3Frame : public QFrame
+class QSA_EXPORT Q3Frame : public QFrame
 {
     Q_OBJECT
     Q_PROPERTY(int margin READ margin WRITE setMargin)

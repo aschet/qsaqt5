@@ -58,7 +58,7 @@ class Q3ListBoxItem;
 class QString;
 class QStringList;
 
-class Q_COMPAT_EXPORT Q3ListBox : public Q3ScrollView
+class QSA_EXPORT Q3ListBox : public Q3ScrollView
 {
     friend class Q3ListBoxItem;
     friend class Q3ListBoxPrivate;
@@ -317,7 +317,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3ListBoxItem
+class QSA_EXPORT Q3ListBoxItem
 {
 public:
     Q3ListBoxItem(Q3ListBox* listbox = 0);
@@ -370,7 +370,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3ListBoxText : public Q3ListBoxItem
+class QSA_EXPORT Q3ListBoxText : public Q3ListBoxItem
 {
 public:
     Q3ListBoxText(Q3ListBox* listbox, const QString & text=QString());
@@ -392,7 +392,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3ListBoxPixmap : public Q3ListBoxItem
+class QSA_EXPORT Q3ListBoxPixmap : public Q3ListBoxItem
 {
 public:
     Q3ListBoxPixmap(Q3ListBox* listbox, const QPixmap &);

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3PaintDeviceMetrics                        // paint device metrics
+class QSA_EXPORT Q3PaintDeviceMetrics                        // paint device metrics
 {
 public:
     Q3PaintDeviceMetrics(const QPaintDevice *device) : pdev(device) {}

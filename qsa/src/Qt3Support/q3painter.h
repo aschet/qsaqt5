@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3Painter : public QPainter
+class QSA_EXPORT Q3Painter : public QPainter
 {
 public:
     Q3Painter() : QPainter() { }

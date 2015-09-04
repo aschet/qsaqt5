@@ -70,7 +70,7 @@ class Q3SqlCursor;
 class Q3SqlForm;
 class Q3SqlCursorManagerPrivate;
 
-class Q_COMPAT_EXPORT Q3SqlCursorManager
+class QSA_EXPORT Q3SqlCursorManager
 {
 public:
     Q3SqlCursorManager();
@@ -98,7 +98,7 @@ private:
 
 class Q3SqlFormManagerPrivate;
 
-class Q_COMPAT_EXPORT Q3SqlFormManager
+class QSA_EXPORT Q3SqlFormManager
 {
 public:
     Q3SqlFormManager();
@@ -122,7 +122,7 @@ private:
 class QWidget;
 class Q3DataManagerPrivate;
 
-class Q_COMPAT_EXPORT Q3DataManager
+class QSA_EXPORT Q3DataManager
 {
 public:
     Q3DataManager();

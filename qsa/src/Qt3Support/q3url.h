@@ -54,7 +54,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3UrlPrivate;
 
-class Q_COMPAT_EXPORT Q3Url
+class QSA_EXPORT Q3Url
 {
 public:
     Q3Url();

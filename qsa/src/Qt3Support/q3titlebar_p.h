@@ -64,7 +64,7 @@ class QToolTip;
 class Q3TitleBarPrivate;
 class QPixmap;
 
-class Q_COMPAT_EXPORT Q3TitleBar : public QWidget
+class QSA_EXPORT Q3TitleBar : public QWidget
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Q3TitleBar)

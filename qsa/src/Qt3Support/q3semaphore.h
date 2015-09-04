@@ -52,7 +52,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3SemaphorePrivate;
 
-class Q_COMPAT_EXPORT Q3Semaphore
+class QSA_EXPORT Q3Semaphore
 {
 public:
     Q3Semaphore(int);

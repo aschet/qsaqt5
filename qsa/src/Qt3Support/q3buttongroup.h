@@ -54,7 +54,7 @@ QT_MODULE(Qt3SupportLight)
 
 class QAbstractButton;
 
-class Q_COMPAT_EXPORT Q3ButtonGroup : public Q3GroupBox
+class QSA_EXPORT Q3ButtonGroup : public Q3GroupBox
 {
     Q_OBJECT
     Q_PROPERTY(bool exclusive READ isExclusive WRITE setExclusive)
@@ -118,7 +118,7 @@ private:
     QButtonGroup group;
 };
 
-class Q_COMPAT_EXPORT Q3VButtonGroup : public Q3ButtonGroup
+class QSA_EXPORT Q3VButtonGroup : public Q3ButtonGroup
 {
     Q_OBJECT
 public:
@@ -132,7 +132,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3HButtonGroup : public Q3ButtonGroup
+class QSA_EXPORT Q3HButtonGroup : public Q3ButtonGroup
 {
     Q_OBJECT
 public:

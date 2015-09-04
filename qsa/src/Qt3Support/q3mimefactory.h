@@ -59,7 +59,7 @@ class QStringList;
 class QMimeSource;
 class Q3MimeSourceFactoryData;
 
-class Q_COMPAT_EXPORT Q3MimeSourceFactory {
+class QSA_EXPORT Q3MimeSourceFactory {
 public:
     Q3MimeSourceFactory();
     virtual ~Q3MimeSourceFactory();
@@ -89,9 +89,9 @@ private:
     Q3MimeSourceFactoryData* d;
 };
 
-Q_COMPAT_EXPORT QPixmap qPixmapFromMimeSource(const QString &abs_name);
+QSA_EXPORT QPixmap qPixmapFromMimeSource(const QString &abs_name);
 
-Q_COMPAT_EXPORT QImage qImageFromMimeSource(const QString &abs_name);
+QSA_EXPORT QImage qImageFromMimeSource(const QString &abs_name);
 
 #endif // QT_NO_MIMEFACTORY
 

@@ -58,7 +58,7 @@ class QPushButton;
 class QTimer;
 class Q3ProgressBar;
 
-class Q_COMPAT_EXPORT Q3ProgressDialog : public QDialog
+class QSA_EXPORT Q3ProgressDialog : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(bool wasCanceled READ wasCanceled)

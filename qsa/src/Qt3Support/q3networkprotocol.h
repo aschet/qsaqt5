@@ -63,7 +63,7 @@ class Q3NetworkProtocolPrivate;
 class QUrlInfo;
 template <class T> class Q3ValueList;
 
-class Q_COMPAT_EXPORT Q3NetworkProtocolFactoryBase
+class QSA_EXPORT Q3NetworkProtocolFactoryBase
 {
 public:
     virtual ~Q3NetworkProtocolFactoryBase() {}
@@ -82,7 +82,7 @@ public:
 
 typedef Q3Dict< Q3NetworkProtocolFactoryBase > Q3NetworkProtocolDict;
 
-class Q_COMPAT_EXPORT Q3NetworkProtocol : public QObject
+class QSA_EXPORT Q3NetworkProtocol : public QObject
 {
     Q_OBJECT
 
@@ -198,7 +198,7 @@ private:	// Disabled copy constructor and operator=
 
 class Q3NetworkOperationPrivate;
 
-class Q_COMPAT_EXPORT Q3NetworkOperation : public QObject
+class QSA_EXPORT Q3NetworkOperation : public QObject
 {
     Q_OBJECT
     friend class Q3UrlOperator;

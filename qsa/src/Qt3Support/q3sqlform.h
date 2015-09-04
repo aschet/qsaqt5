@@ -60,7 +60,7 @@ class Q3SqlPropertyMap;
 class QWidget;
 class Q3SqlFormPrivate;
 
-class Q_COMPAT_EXPORT Q3SqlForm : public QObject
+class QSA_EXPORT Q3SqlForm : public QObject
 {
     Q_OBJECT
 public:

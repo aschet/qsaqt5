@@ -63,7 +63,7 @@ class Q3DockWindowResizeHandle;
 class Q3DockAreaPrivate;
 class QTextStream;
 
-class Q_COMPAT_EXPORT Q3DockAreaLayout : public QLayout
+class QSA_EXPORT Q3DockAreaLayout : public QLayout
 {
     Q_OBJECT
     friend class Q3DockArea;
@@ -114,7 +114,7 @@ private:
     QList<Q3DockWindow *> ls;
 };
 
-class Q_COMPAT_EXPORT Q3DockArea : public QWidget
+class QSA_EXPORT Q3DockArea : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(HandlePosition)
@@ -186,8 +186,8 @@ private:
 };
 
 #ifndef QT_NO_TEXTSTREAM
-Q_COMPAT_EXPORT QTextStream &operator<<(QTextStream &, const Q3DockArea &);
-Q_COMPAT_EXPORT QTextStream &operator>>(QTextStream &, Q3DockArea &);
+QSA_EXPORT QTextStream &operator<<(QTextStream &, const Q3DockArea &);
+QSA_EXPORT QTextStream &operator>>(QTextStream &, Q3DockArea &);
 #endif
 
 #endif // QT_NO_MAINWINDOW

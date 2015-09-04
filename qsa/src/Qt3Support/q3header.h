@@ -59,7 +59,7 @@ class Q3HeaderData;
 class Q3Table;
 class Q3ListView;
 
-class Q_COMPAT_EXPORT Q3Header : public QWidget
+class QSA_EXPORT Q3Header : public QWidget
 {
     friend class Q3Table;
     friend class Q3TableHeader;
@@ -214,7 +214,7 @@ inline Qt::Orientation Q3Header::orientation() const
 inline void Q3Header::setTracking(bool enable) { trackingIsOn = enable; }
 inline bool Q3Header::tracking() const { return trackingIsOn; }
 
-extern Q_COMPAT_EXPORT bool qt_qheader_label_return_null_strings; // needed for professional edition
+extern QSA_EXPORT bool qt_qheader_label_return_null_strings; // needed for professional edition
 
 #endif // QT_NO_HEADER
 

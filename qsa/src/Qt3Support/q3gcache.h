@@ -56,7 +56,7 @@ class Q3CList;					// internal classes
 class Q3CListIt;
 class Q3CDict;
 
-class Q_COMPAT_EXPORT Q3GCache : public Q3PtrCollection	// generic LRU cache
+class QSA_EXPORT Q3GCache : public Q3PtrCollection	// generic LRU cache
 {
 friend class Q3GCacheIterator;
 protected:
@@ -101,7 +101,7 @@ private:
 };
 
 
-class Q_COMPAT_EXPORT Q3GCacheIterator			// generic cache iterator
+class QSA_EXPORT Q3GCacheIterator			// generic cache iterator
 {
 protected:
     Q3GCacheIterator(const Q3GCache &);

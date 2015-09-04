@@ -54,7 +54,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3ProgressBarPrivate;
 
-class Q_COMPAT_EXPORT Q3ProgressBar : public QFrame
+class QSA_EXPORT Q3ProgressBar : public QFrame
 {
     Q_OBJECT
     Q_PROPERTY(int totalSteps READ totalSteps WRITE setTotalSteps)

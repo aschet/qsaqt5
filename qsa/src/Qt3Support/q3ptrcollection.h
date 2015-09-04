@@ -54,7 +54,7 @@ class Q3GVector;
 class Q3GList;
 class Q3GDict;
 
-class Q_COMPAT_EXPORT Q3PtrCollection			// inherited by all collections
+class QSA_EXPORT Q3PtrCollection			// inherited by all collections
 {
 public:
     bool autoDelete()	const	       { return del_item; }

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3GVector : public Q3PtrCollection	// generic vector
+class QSA_EXPORT Q3GVector : public Q3PtrCollection	// generic vector
 {
 friend class Q3GList;				// needed by Q3GList::toVector
 public:
@@ -121,8 +121,8 @@ private:
  *****************************************************************************/
 
 #ifndef QT_NO_DATASTREAM
-Q_COMPAT_EXPORT QDataStream &operator>>( QDataStream &, Q3GVector & );
-Q_COMPAT_EXPORT QDataStream &operator<<( QDataStream &, const Q3GVector & );
+QSA_EXPORT QDataStream &operator>>( QDataStream &, Q3GVector & );
+QSA_EXPORT QDataStream &operator<<( QDataStream &, const Q3GVector & );
 #endif
 
 QT_END_NAMESPACE

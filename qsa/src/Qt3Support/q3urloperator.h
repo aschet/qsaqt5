@@ -60,7 +60,7 @@ class QUrlInfo;
 class Q3UrlOperatorPrivate;
 class Q3NetworkProtocol;
 
-class Q_COMPAT_EXPORT Q3UrlOperator : public QObject, public Q3Url
+class QSA_EXPORT Q3UrlOperator : public QObject, public Q3Url
 {
     Q_OBJECT
     friend class Q3NetworkProtocol;

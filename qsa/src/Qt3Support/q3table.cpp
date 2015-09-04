@@ -79,14 +79,14 @@ extern void qt_set_null_label_bit(Q3HeaderData *data, int section, bool b);
 static bool qt_update_cell_widget = true;
 static bool qt_table_clipper_enabled = true;
 #ifndef QT_INTERNAL_TABLE
-Q_COMPAT_EXPORT
+QSA_EXPORT
 #endif
 void qt_set_table_clipper_enabled(bool enabled)
 {
     qt_table_clipper_enabled = enabled;
 }
 
-class Q_COMPAT_EXPORT Q3TableHeader : public Q3Header
+class QSA_EXPORT Q3TableHeader : public Q3Header
 {
     friend class Q3Table;
     Q_OBJECT

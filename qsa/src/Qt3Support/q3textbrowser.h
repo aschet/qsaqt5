@@ -56,7 +56,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3TextBrowserData;
 
-class Q_COMPAT_EXPORT Q3TextBrowser : public Q3TextEdit
+class QSA_EXPORT Q3TextBrowser : public Q3TextEdit
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ source WRITE setSource)

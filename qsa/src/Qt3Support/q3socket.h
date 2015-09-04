@@ -54,7 +54,7 @@ QT_MODULE(Qt3Support)
 class Q3SocketPrivate;
 class Q3SocketDevice;
 
-class Q_COMPAT_EXPORT Q3Socket : public QIODevice
+class QSA_EXPORT Q3Socket : public QIODevice
 {
     Q_OBJECT
 public:

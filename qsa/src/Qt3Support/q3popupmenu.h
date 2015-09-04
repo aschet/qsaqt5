@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 QT_MODULE(Qt3SupportLight)
 
-class Q_COMPAT_EXPORT Q3PopupMenu : public QMenu
+class QSA_EXPORT Q3PopupMenu : public QMenu
 {
     Q_OBJECT
 public:

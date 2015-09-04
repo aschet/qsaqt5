@@ -55,7 +55,7 @@ QT_MODULE(Qt3SupportLight)
 
 class Q3RangeControlPrivate;
 
-class Q_COMPAT_EXPORT Q3RangeControl
+class QSA_EXPORT Q3RangeControl
 {
 public:
     Q3RangeControl();
@@ -128,7 +128,7 @@ inline int Q3RangeControl::pageStep() const
 #ifndef QT_NO_SPINWIDGET
 
 class Q3SpinWidgetPrivate;
-class Q_COMPAT_EXPORT Q3SpinWidget : public QWidget
+class QSA_EXPORT Q3SpinWidget : public QWidget
 {
     Q_OBJECT
 public:

@@ -62,7 +62,7 @@ class QBrush;
 class Q3MimeSourceFactory;
 class Q3SimpleRichTextData;
 
-class Q_COMPAT_EXPORT Q3SimpleRichText
+class QSA_EXPORT Q3SimpleRichText
 {
 public:
     Q3SimpleRichText(const QString& text, const QFont& fnt,

@@ -58,7 +58,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_COMPAT_EXPORT Q3Membuf
+class QSA_EXPORT Q3Membuf
 {
 public:
     Q3Membuf();

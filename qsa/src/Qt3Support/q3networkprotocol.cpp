@@ -57,7 +57,7 @@ QT_BEGIN_NAMESPACE
 //#define Q3NETWORKPROTOCOL_DEBUG
 #define NETWORK_OP_DELAY 1000
 
-extern Q_COMPAT_EXPORT Q3NetworkProtocolDict *q3networkProtocolRegister;
+extern QSA_EXPORT Q3NetworkProtocolDict *q3networkProtocolRegister;
 
 Q3NetworkProtocolDict *q3networkProtocolRegister = 0;
 

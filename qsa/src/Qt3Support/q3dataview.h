@@ -56,7 +56,7 @@ class Q3SqlForm;
 class QSqlRecord;
 class Q3DataViewPrivate;
 
-class Q_COMPAT_EXPORT Q3DataView : public QWidget
+class QSA_EXPORT Q3DataView : public QWidget
 {
     Q_OBJECT
 

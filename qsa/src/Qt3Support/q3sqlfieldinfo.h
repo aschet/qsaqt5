@@ -57,7 +57,7 @@ QT_MODULE(Qt3Support)
    obsoleted, use QSqlField instead
 */
 
-class Q_COMPAT_EXPORT Q3SqlFieldInfo
+class QSA_EXPORT Q3SqlFieldInfo
 {
     // class is obsoleted, won't change anyways,
     // so no d pointer

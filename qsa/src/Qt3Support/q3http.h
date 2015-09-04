@@ -62,7 +62,7 @@ class QIODevice;
 class Q3HttpPrivate;
 class Q3HttpRequest;
 
-class Q_COMPAT_EXPORT Q3HttpHeader
+class QSA_EXPORT Q3HttpHeader
 {
 public:
     Q3HttpHeader();
@@ -103,7 +103,7 @@ private:
     bool valid;
 };
 
-class Q_COMPAT_EXPORT Q3HttpResponseHeader : public Q3HttpHeader
+class QSA_EXPORT Q3HttpResponseHeader : public Q3HttpHeader
 {
 private:
     Q3HttpResponseHeader( int code, const QString& text = QString(), int majorVer = 1, int minorVer = 1 );
@@ -135,7 +135,7 @@ private:
     friend class Q3Http;
 };
 
-class Q_COMPAT_EXPORT Q3HttpRequestHeader : public Q3HttpHeader
+class QSA_EXPORT Q3HttpRequestHeader : public Q3HttpHeader
 {
 public:
     Q3HttpRequestHeader();
@@ -163,7 +163,7 @@ private:
     int minVer;
 };
 
-class Q_COMPAT_EXPORT Q3Http : public Q3NetworkProtocol
+class QSA_EXPORT Q3Http : public Q3NetworkProtocol
 {
     Q_OBJECT
 

@@ -62,7 +62,7 @@ class Q3PopupMenu;
 class QToolTipGroup;
 class QWidget;
 
-class Q_COMPAT_EXPORT Q3Action : public QObject
+class QSA_EXPORT Q3Action : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool toggleAction READ isToggleAction WRITE setToggleAction)
@@ -156,7 +156,7 @@ private:
     friend class Q3ActionGroupPrivate;
 };
 
-class Q_COMPAT_EXPORT Q3ActionGroup : public Q3Action
+class QSA_EXPORT Q3ActionGroup : public Q3Action
 {
     Q_OBJECT
     Q_PROPERTY(bool exclusive READ isExclusive WRITE setExclusive)

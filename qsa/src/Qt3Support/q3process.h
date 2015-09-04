@@ -57,7 +57,7 @@ QT_MODULE(Qt3SupportLight)
 class Q3ProcessPrivate;
 class Q3Membuf;
 
-class Q_COMPAT_EXPORT Q3Process : public QObject
+class QSA_EXPORT Q3Process : public QObject
 {
     Q_OBJECT
 public:

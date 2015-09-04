@@ -14,25 +14,24 @@
 #include "viewmanager.h"
 #include "editor.h"
 #include "markerwidget.h"
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <Q3Frame>
-#include <Q3ValueList>
-#include <QHBoxLayout>
-#include <QResizeEvent>
-#include <QEvent>
-#include <QChildEvent>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtGui/QResizeEvent>
+#include <QtCore/QEvent>
+#include <QtCore/QChildEvent>
 #include "q3richtext_p.h"
 #include "paragdata.h"
-#include <qobject.h>
-#include <qlabel.h>
-#include <qtimer.h>
+#include <QtCore/QObject>
+#include <QtWidgets/QLabel>
+#include <QtCore/QTimer>
 
 ViewManager::ViewManager( QWidget *parent, const char *name )
-    : QWidget( parent, name ), curView( 0 )
+    : QWidget( parent ), curView( 0 )
 {
-    QHBoxLayout *l = new QHBoxLayout( this );
+	setObjectName( name );
+	
+	QHBoxLayout *l = new QHBoxLayout( this );
     markerWidget = new MarkerWidget( this, "editor_markerwidget" );
     connect( markerWidget, SIGNAL( markersChanged() ),
 	     this, SIGNAL( markersChanged() ) );
@@ -67,10 +66,11 @@ void ViewManager::addView( QWidget *view )
 	     markerWidget, SLOT( doRepaint() ) );
     connect( (Editor*)curView, SIGNAL( clearErrorMarker() ),
 	     this, SLOT( clearErrorMarker() ) );
-    posLabel = new QLabel( this, "editor_poslabel" );
+    posLabel = new QLabel( this );
+	posLabel->setObjectName( "editor_poslabel" );
     posLabel->setAlignment( Qt::AlignVCenter | Qt::AlignRight );
     posLabel->setText( QString::fromLatin1(" Line: 1 Col: 1") );
-    posLabel->setFrameStyle( Q3Frame::Sunken | Q3Frame::Panel );
+    posLabel->setFrameStyle( QFrame::Sunken | QFrame::Panel );
     posLabel->setLineWidth( 1 );
     posLabel->setFixedHeight( posLabel->fontMetrics().height() );
     layout->addWidget( posLabel );
@@ -85,7 +85,7 @@ QWidget *ViewManager::currentView() const
 
 void ViewManager::childEvent( QChildEvent *e )
 {
-    if ( e->type() == QEvent::ChildInserted && qobject_cast<Editor*>(e->child()))
+    if ( e->type() == QEvent::ChildAdded && qobject_cast<Editor*>(e->child()))
         addView((QWidget*)e->child());
     QWidget::childEvent( e );
 }
@@ -191,12 +191,12 @@ void ViewManager::clearErrorMarker()
     markerWidget->doRepaint();
 }
 
-void ViewManager::setBreakPoints( const Q3ValueList<uint> &l )
+void ViewManager::setBreakPoints( const QList<uint> &l )
 {
     Q3TextParagraph *p = ( (Editor*)curView )->document()->firstParagraph();
     int i = 0;
     while ( p ) {
-	if ( l.find( i ) != l.end() ) {
+	if ( l.indexOf( i ) >= 0 ) {
 	    if ( !p->extraData() ) {
 		ParagData *data = new ParagData;
 		p->setExtraData( data );
@@ -213,9 +213,9 @@ void ViewManager::setBreakPoints( const Q3ValueList<uint> &l )
     markerWidget->doRepaint();
 }
 
-Q3ValueList<uint> ViewManager::breakPoints() const
+QList<uint> ViewManager::breakPoints() const
 {
-    Q3ValueList<uint> l;
+    QList<uint> l;
     int i = 0;
     Q3TextParagraph *p = ( (Editor*)curView )->document()->firstParagraph();
     while ( p ) {
@@ -252,7 +252,8 @@ void ViewManager::showMessage( const QString &msg )
     int col;
     ( (Q3TextEdit*)currentView() )->getCursorPosition( &row, &col );
     posLabel->setText( msg );
-    messageTimer->start( 1000, true );
+	messageTimer->setSingleShot( true );
+	messageTimer->start( 1000 );
 }
 
 void ViewManager::clearStatusBar()

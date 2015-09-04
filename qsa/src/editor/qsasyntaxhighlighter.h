@@ -43,7 +43,7 @@
 
 #include "../ide/conf.h"
 #include "q3richtext_p.h"
-#include <Q3IntDict>
+#include <Q3IntDict.h>
 
 class QSASyntaxHighlighter : public Q3TextPreProcessor
 {

@@ -59,7 +59,7 @@ void QSAEditorBrowser::showHelp( const QString &str )
     qFatal( "QSAEditorBrowser::showHelp( %s )", str.latin1() );
 #if 0
     if ( ( (QSAEditor*)curEditor)->isDebugging() ) {
-	QString s = str.simplifyWhiteSpace();
+	QString s = str.trimmed();
 	static QString legalChars = "abcdefghijklmnopqrstuvwxyzABSCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 	while ( s.length() > 0 ) {
 	    if ( legalChars.find( s[0] ) == -1 )

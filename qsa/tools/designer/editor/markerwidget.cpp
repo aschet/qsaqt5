@@ -16,8 +16,7 @@
 #include "q3richtext_p.h"
 #include "editor.h"
 #include <qpainter.h>
-#include <q3popupmenu.h>
-//Added by qt3to4:
+#include <QtWidgets/QMenu>
 #include <QContextMenuEvent>
 #include <QPixmap>
 #include <QMouseEvent>
@@ -273,9 +272,10 @@ static QPixmap *stepPixmap = 0;
 static QPixmap *stackFrame = 0;
 
 MarkerWidget::MarkerWidget( ViewManager *parent, const char*name )
-    : QWidget(parent, name), viewManager( parent )
+    : QWidget(parent), viewManager( parent )
 {
-    if ( !errorPixmap ) {
+	setObjectName( name );
+	if ( !errorPixmap ) {
 	errorPixmap = new QPixmap( error_xpm );
 	breakpointPixmap = new QPixmap( breakpoint_xpm );
 	stepPixmap = new QPixmap( step_xpm );
@@ -302,7 +302,7 @@ void MarkerWidget::paintEvent( QPaintEvent * )
 	    break;
 	if ( !((p->paragId() + 1) % 10) ) {
 	    painter.save();
-	    painter.setPen( colorGroup().dark() );
+	    painter.setPen( palette().dark().color() );
 	    painter.drawText( 0, p->rect().y() - yOffset, width() - 20, p->rect().height(),
 			      Qt::AlignRight | Qt::AlignTop, QString::number( p->paragId() + 1 ) );
 	    painter.restore();
@@ -325,8 +325,8 @@ void MarkerWidget::paintEvent( QPaintEvent * )
 	    }
 	    switch ( paragData->lineState ) {
 	    case ParagData::FunctionStart:
-		painter.setPen( colorGroup().foreground() );
-		painter.setBrush( colorGroup().base() );
+		painter.setPen( palette().foreground().color() );
+		painter.setBrush( palette().base() );
 		painter.drawLine( width() - 11, p->rect().y() - yOffset,
 				  width() - 11, p->rect().y() + p->rect().height() - yOffset );
 		painter.drawRect( width() - 15, p->rect().y() + ( p->rect().height() - 9 ) / 2 - yOffset, 9, 9 );
@@ -341,12 +341,12 @@ void MarkerWidget::paintEvent( QPaintEvent * )
 				      ( p->rect().height() - 9 ) / 2 - yOffset + 6 );
 		break;
 	    case ParagData::InFunction:
-		painter.setPen( colorGroup().foreground() );
+		painter.setPen( palette().foreground().color() );
 		painter.drawLine( width() - 11, p->rect().y() - yOffset,
 				  width() - 11, p->rect().y() + p->rect().height() - yOffset );
 		break;
 	    case ParagData::FunctionEnd:
-		painter.setPen( colorGroup().foreground() );
+		painter.setPen( palette().foreground().color() );
 		painter.drawLine( width() - 11, p->rect().y() - yOffset,
 				  width() - 11, p->rect().y() + p->rect().height() - yOffset );
 		painter.drawLine( width() - 11, p->rect().y() + p->rect().height() - yOffset,
@@ -410,10 +410,11 @@ void MarkerWidget::mousePressEvent( QMouseEvent *e )
 
 void MarkerWidget::contextMenuEvent( QContextMenuEvent *e )
 {
-    Q3PopupMenu m( 0, "editor_breakpointsmenu" );
+    QMenu m( 0 );
+	m.setObjectName("editor_breakpointsmenu");
 
-    int toggleBreakPoint = 0;
-//    int editBreakpoints = 0;
+    QAction* toggleBreakPoint = 0;
+//    QAction editBreakpoints = 0;
 
     Q3TextParagraph *p = ( (Editor*)viewManager->currentView() )->document()->firstParagraph();
     int yOffset = ( (Editor*)viewManager->currentView() )->contentsY();
@@ -421,23 +422,23 @@ void MarkerWidget::contextMenuEvent( QContextMenuEvent *e )
     while ( p && supports ) {
 	if ( e->y() >= p->rect().y() - yOffset && e->y() <= p->rect().y() + p->rect().height() - yOffset ) {
 	    if ( ( (ParagData*)p->extraData() )->marker == ParagData::Breakpoint )
-		toggleBreakPoint = m.insertItem( tr( "Clear Breakpoint\tF9" ) );
+		toggleBreakPoint = m.addAction( tr( "Clear Breakpoint\tF9" ) );
 	    else
-		toggleBreakPoint = m.insertItem( tr( "Set Breakpoint\tF9" ) );
+		toggleBreakPoint = m.addAction( tr( "Set Breakpoint\tF9" ) );
 // 	    editBreakpoints = m.insertItem( tr( "Edit Breakpoints..." ) );
-	    m.insertSeparator();
+	    m.addSeparator();
 	    break;
 	}
 	p = p->next();
     }
 
-    const int collapseAll = m.insertItem( tr( "Collapse All" ) );
-    const int expandAll = m.insertItem( tr( "Expand All" ) );
-    const int collapseFunctions = m.insertItem( tr( "Collapse all Functions" ) );
-    const int expandFunctions = m.insertItem( tr( "Expand all Functions" ) );
+	QAction* collapseAll = m.addAction(tr("Collapse All"));
+	QAction* expandAll = m.addAction(tr("Expand All"));
+	QAction* collapseFunctions = m.addAction(tr("Collapse all Functions"));
+	QAction* expandFunctions = m.addAction(tr("Expand all Functions"));
 
-    int res = m.exec( e->globalPos() );
-    if ( res == -1)
+	QAction* res = m.exec(e->globalPos());
+    if ( res == 0)
 	return;
 
     if ( res == collapseAll ) {

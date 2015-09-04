@@ -13,17 +13,14 @@
 
 #include "editor.h"
 #include "parenmatcher.h"
-#include <qfile.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <QEvent>
-#include <QKeyEvent>
+#include <QtCore/QFile>
+#include <QtCore/QEvent>
+#include <QtGui/QKeyEvent>
 #include "q3richtext_p.h"
 #include "conf.h"
-#include <qapplication.h>
-#include <q3popupmenu.h>
+#include <QtWidgets/QApplication>
 #include <q3accel.h>
-#include <qclipboard.h>
+#include <QtGui/QClipBoard>
 
 Editor::Editor( const QString &fn, QWidget *parent, const char *name )
     : Q3TextEdit( parent, name ), hasError( false )
@@ -84,9 +81,9 @@ void Editor::load( const QString &fn )
     QFile f( filename );
     if ( !f.open( QIODevice::ReadOnly ) )
 	return;
-    Q3CString txt;
+    QByteArray txt;
     txt.resize( f.size() );
-    f.readBlock( txt.data(), f.size() );
+    f.read( txt.data(), f.size() );
     QString s( QString::fromLatin1( txt ) );
     setText( s );
 }
@@ -100,7 +97,7 @@ void Editor::save( const QString &fn )
 void Editor::configChanged()
 {
     document()->invalidate();
-    viewport()->repaint( false );
+    viewport()->repaint( /*false*/ );
 }
 
 void Editor::setErrorSelection( int line )
@@ -116,7 +113,7 @@ void Editor::setErrorSelection( int line )
     c.gotoLineEnd();
     document()->setSelectionEnd( Error, c );
     hasError = true;
-    viewport()->repaint( false );
+    viewport()->repaint( /*false*/ );
 }
 
 void Editor::setStepSelection( int line )
@@ -131,13 +128,13 @@ void Editor::setStepSelection( int line )
     document()->setSelectionStart( Step, c );
     c.gotoLineEnd();
     document()->setSelectionEnd( Step, c );
-    viewport()->repaint( false );
+    viewport()->repaint( /*false*/ );
 }
 
 void Editor::clearStepSelection()
 {
     document()->removeSelection( Step );
-    viewport()->repaint( false );
+    viewport()->repaint( /*false*/ );
 }
 
 void Editor::doChangeInterval()
@@ -206,12 +203,12 @@ void Editor::uncommentSelection()
     }
 }
 
-Q3PopupMenu *Editor::createPopupMenu( const QPoint &p )
+QMenu *Editor::createPopupMenu( const QPoint &p )
 {
-    Q3PopupMenu *menu = Q3TextEdit::createPopupMenu( p );
-    menu->insertSeparator();
-    menu->insertItem( tr( "C&omment Code\tAlt+C" ), this, SLOT( commentSelection() ) );
-    menu->insertItem( tr( "Unco&mment Code\tAlt+U" ), this, SLOT( uncommentSelection() ) );
+    QMenu *menu = Q3TextEdit::createPopupMenu( p );
+	menu->addSeparator();
+    menu->addAction( tr( "C&omment Code\tAlt+C" ), this, SLOT( commentSelection() ) );
+    menu->addAction( tr( "Unco&mment Code\tAlt+U" ), this, SLOT( uncommentSelection() ) );
     return menu;
 }
 

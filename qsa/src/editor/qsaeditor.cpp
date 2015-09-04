@@ -43,15 +43,13 @@
 #include "qsproject.h"
 // #include "quickdebugger.h"
 #include "quickinterpreter.h"
-//Added by qt3to4:
-#include <Q3ValueList>
-#include <Q3ValueStack>
 #include <cindent.h>
 #include <paragdata.h>
 #include <parenmatcher.h>
-#include <qdatastream.h>
-#include <qfile.h>
-#include <qregexp.h>
+#include <QtCore/QDataStream>
+#include <QtCore/QFile>
+#include <QtCore/QRegExp>
+#include <QtCore/QStack>
 #include <stdlib.h>
 
 QSAEditor::QSAEditor( const QString &fn, QWidget *parent, const char *name )
@@ -125,7 +123,7 @@ Q3TextParagraph *QSAEditor::expandFunction( Q3TextParagraph *p, bool recalc )
 	setCursorPosition( p->paragId(), 0 );
     ( (ParagData*)p->extraData() )->functionOpen = true;
     p = p->next();
-    Q3ValueStack<int> stack;
+    QStack<int> stack;
     while ( p ) {
 	if ( ( (ParagData*)p->extraData() )->lineState == ParagData::FunctionStart ) {
 	    stack.push( true );
@@ -154,7 +152,7 @@ Q3TextParagraph *QSAEditor::collapseFunction( Q3TextParagraph *p, bool recalc )
 	setCursorPosition( p->paragId(), 0 );
     ( (ParagData*)p->extraData() )->functionOpen = false;
     p = p->next();
-    Q3ValueStack<int> stack;
+    QStack<int> stack;
     while ( p ) {
 	if ( ( (ParagData*)p->extraData() )->lineState == ParagData::FunctionStart )
 	    stack.push( true );
@@ -204,8 +202,8 @@ void QSAEditor::collapse( bool all /*else only functions*/ )
     while ( p ) {
 	if ( ( (ParagData*)p->extraData() )->lineState == ParagData::FunctionStart ) {
 	    if ( all
-                 || p->string()->toString().simplifyWhiteSpace().left(QString::fromLatin1("function").length()) == QString::fromLatin1("function")
-                 || p->string()->toString().simplifyWhiteSpace().left(QString::fromLatin1("constructor").length()) == QString::fromLatin1("constructor") ) {
+                 || p->string()->toString().trimmed().left(QString::fromLatin1("function").length()) == QString::fromLatin1("function")
+                 || p->string()->toString().trimmed().left(QString::fromLatin1("constructor").length()) == QString::fromLatin1("constructor") ) {
 		p = collapseFunction( p, false );
 		continue;
 	    }
@@ -221,8 +219,8 @@ void QSAEditor::expand( bool all /*else only functions*/ )
     while ( p ) {
 	if ( ( (ParagData*)p->extraData() )->lineState == ParagData::FunctionStart ) {
 	    if ( all ||
-		 p->string()->toString().simplifyWhiteSpace().left(QString::fromLatin1("function").length() ) == QString::fromLatin1("function") ||
-		 p->string()->toString().simplifyWhiteSpace().left(QString::fromLatin1("constructor").length() ) == QString::fromLatin1("constructor") ) {
+		 p->string()->toString().trimmed().left(QString::fromLatin1("function").length() ) == QString::fromLatin1("function") ||
+		 p->string()->toString().trimmed().left(QString::fromLatin1("constructor").length() ) == QString::fromLatin1("constructor") ) {
 		p = expandFunction( p, false );
 		continue;
 	    }

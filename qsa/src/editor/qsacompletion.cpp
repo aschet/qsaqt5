@@ -53,10 +53,6 @@
 #include <qobject.h>
 #include <qmetaobject.h>
 #include <qregexp.h>
-//Added by qt3to4:
-#include <Q3CString>
-#include <Q3StrList>
-#include <Q3ValueList>
 
 #include "q3richtext_p.h"
 
@@ -149,7 +145,7 @@ static void addLayoutChildren( QObject *o, Q3ValueList<CompletionEntry> &res )
 static QStringList getArguments( const QString &s )
 {
     QString str = s.mid( s.find( QString::fromLatin1("(") ) + 1, s.find( QString::fromLatin1(")") ) - 1 - s.find( QString::fromLatin1("(") ) );
-    str = str.simplifyWhiteSpace();
+    str = str.trimmed();
     QStringList lst = QStringList::split( ',', str );
     QStringList res;
     for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
@@ -157,7 +153,7 @@ static QStringList getArguments( const QString &s )
 	arg = arg.replace( QRegExp( QString::fromLatin1("const") ), QString::fromLatin1("") );
 	arg = arg.replace( QRegExp( QString::fromLatin1("&") ), QString::fromLatin1("") );
 	arg = arg.replace( QRegExp( QString::fromLatin1("*") ), QString::fromLatin1("") );
-	arg = arg.simplifyWhiteSpace();
+	arg = arg.trimmed();
 	res << arg;
     }
     return res;
@@ -583,7 +579,7 @@ QString QSACompletion::functionCode() const
     }
 
     if ( p && pos != -1 && braceCount >= 0 ) {
-	funcName = p->string()->toString().mid( pos + 9 ).simplifyWhiteSpace();
+	funcName = p->string()->toString().mid( pos + 9 ).trimmed();
 	funcName = funcName.left( funcName.find( '(' ) );
     }
 

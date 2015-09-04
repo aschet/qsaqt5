@@ -20,12 +20,10 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtGui/QResizeEvent>
 #include <QtCore/QChildEvent>
-#include <Q3ValueList>
 
 class QChildEvent;
 class MarkerWidget;
 class QVBoxLayout;
-class Q3DockArea;
 class Q3TextParagraph;
 class QLabel;
 class QTimer;
@@ -45,8 +43,8 @@ public:
     void setStackFrame(int line);
     void clearStep();
     void clearStackFrame();
-    void setBreakPoints(const Q3ValueList<uint> &l);
-    Q3ValueList<uint> breakPoints() const;
+    void setBreakPoints(const QList<uint> &l);
+    QList<uint> breakPoints() const;
 
     void emitMarkersChanged();
     MarkerWidget *marker_widget() const { return markerWidget; }
@@ -74,7 +72,6 @@ private:
     QWidget *curView;
     MarkerWidget *markerWidget;
     QVBoxLayout *layout;
-    Q3DockArea *dockArea;
     QLabel *posLabel;
     QString extraText;
     QTimer *messageTimer;

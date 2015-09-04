@@ -42,8 +42,8 @@
 #ifndef QSA_NO_EDITOR
 
 #include "quickobjects.h"
-#include <Q3ValueList>
-#include <QPair>
+#include <QtCore/QList>
+#include <QtCore/QPair>
 
 #include <completion.h>
 
@@ -98,7 +98,7 @@ public:
     QSACompletion(Editor *e);
 
     bool doObjectCompletion(const QString &object);
-    Q3ValueList<QStringList> functionParameters(const QString &func, QChar &, QString &prefix, QString &postfix);
+    QList<QStringList> functionParameters(const QString &func, QChar &, QString &prefix, QString &postfix);
     void setContext(QObject *this_);
 
     void setInterpreter(QSInterpreter *ip) { qsInterp = ip; }
@@ -106,9 +106,9 @@ public:
 private:
     QString functionCode() const;
 
-    Q3ValueList<QPair<QString, QString> > parseAssignments(const QString &code) const;
-    QString resolveValue(const QString &value, const Q3ValueList<QPair<QString, QString> > &assignments) const;
-    QString resolveFullyQualifiedValue(const QString &value, const Q3ValueList<QPair<QString, QString> > &assignments) const;
+    QList<QPair<QString, QString> > parseAssignments(const QString &code) const;
+    QString resolveValue(const QString &value, const QList<QPair<QString, QString> > &assignments) const;
+    QString resolveFullyQualifiedValue(const QString &value, const QList<QPair<QString, QString> > &assignments) const;
 
     QSCompletionObject queryObject(const QString &object);
     QSCompletionObject queryCompletionObject(QSCompletionObject &ctx, const QString &property) const;
@@ -119,16 +119,16 @@ private:
     const QMetaObject *queryQMetaObject(const QVector<QObject *> &objects, const QString &property) const;
     QVector<QObject *> queryQObject(const QVector<QObject *> &objects, const QString &property) const;
 
-    void completeQSObject(QSObject &obj, Q3ValueList<CompletionEntry> &res, bool assumedStatic);
+    void completeQSObject(QSObject &obj, QList<CompletionEntry> &res, bool assumedStatic);
     enum QSMetaObjectCompletionFlags { IncludeSuperClass = 1, IsUnnamed = 2 };
     void completeQMetaObject(const QMetaObject *meta,
 			      const QString &object,
-			      Q3ValueList<CompletionEntry> &res,
+				  QList<CompletionEntry> &res,
 			      int flags,
 			      QSObject &obj);
     void completeQObject(const QVector<QObject *> &objects,
 			  const QString &object,
-			  Q3ValueList<CompletionEntry> &res);
+			  QList<CompletionEntry> &res);
 
     QString cppClassForScript(const QString &className) const;
     const QMetaObject *locateMetaObject(const QString &className) const;

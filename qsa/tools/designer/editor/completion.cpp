@@ -15,19 +15,17 @@
 #include "paragdata.h"
 #include "editor.h"
 #include <q3listbox.h>
-#include <q3vbox.h>
-#include <qmap.h>
-#include <qdesktopwidget.h>
-//Added by qt3to4:
-#include <QEvent>
-#include <QKeyEvent>
-#include <Q3Frame>
+#include <QtCore/QMap>
+#include <QtWidgets/QDesktopWidget>
+#include <QtCore/QEvent>
+#include <QtGui/QKeyEvent>
+#include <QtWidgets/QFrame>
 #include "q3richtext_p.h"
-#include <qapplication.h>
-#include <qregexp.h>
+#include <QtWidgets/QApplication>
+#include <QtCore/QRegExp>
 #include "arghintwidget.h"
-#include <qsizegrip.h>
-#include <qtimer.h>
+#include <QtWidgets/QSizeGrip>
+#include <QtCore/QTimer>
 
 static QColor getColor( const QString &type )
 {
@@ -97,13 +95,13 @@ void CompletionItem::setupParagraph() {
 	QColor sc = selCol ? listBox()->palette().highlightedText().color() : getColor( type );
 	Q3TextFormat *f1 = parag->formatCollection()->format( listBox()->font(), sc );
 	Q3TextFormat *f3 = parag->formatCollection()->format( listBox()->font(), isSelected() ?
-							     listBox()->palette().highlightedText() :
-							     listBox()->palette().text() );
+							     listBox()->palette().highlightedText().color() :
+							     listBox()->palette().text().color() );
 	QFont f( listBox()->font() );
 	f.setBold( true );
 	Q3TextFormat *f2 =
-	    parag->formatCollection()->format( f, isSelected() ? listBox()->palette().highlightedText() :
-					       listBox()->palette().text() );
+	    parag->formatCollection()->format( f, isSelected() ? listBox()->palette().highlightedText().color() :
+					       listBox()->palette().text().color() );
 	parag->setFormat( 1, type.length() + 1, f1 );
 	parag->setFormat( type.length() + 2, prefix.length() + Q3ListBoxItem::text().length(), f2 );
 	if ( !postfix.isEmpty() )
@@ -123,13 +121,15 @@ EditorCompletion::EditorCompletion( Editor *e )
 {
     enabled = true;
     lastDoc = 0;
-    completionPopup = new Q3VBox( e->topLevelWidget(), 0, Qt::Popup );
-    completionPopup->setFrameStyle( Q3Frame::Box | Q3Frame::Plain );
+	completionPopup = new QFrame(e->topLevelWidget(), Qt::Popup);
+	QVBoxLayout* completionPopupLayout = new QVBoxLayout(completionPopup);
+    completionPopup->setFrameStyle( QFrame::Box | QFrame::Plain );
     completionPopup->setLineWidth( 1 );
     functionLabel = new ArgHintWidget( e->topLevelWidget(), "editor_function_lbl" );
     functionLabel->hide();
     completionListBox = new Q3ListBox( completionPopup, "editor_completion_lb" );
-    completionListBox->setFrameStyle( Q3Frame::NoFrame );
+	completionPopupLayout->addWidget(completionListBox);
+    completionListBox->setFrameStyle( QFrame::NoFrame );
     completionListBox->installEventFilter( this );
     completionListBox->setHScrollBarMode( Q3ScrollView::AlwaysOn );
     completionListBox->setVScrollBarMode( Q3ScrollView::AlwaysOn );
@@ -175,7 +175,7 @@ void EditorCompletion::addCompletionEntry( const QString &s, Q3TextDocument *, b
     }
 }
 
-Q3ValueList<CompletionEntry> EditorCompletion::completionList( const QString &s, Q3TextDocument *doc ) const
+QList<CompletionEntry> EditorCompletion::completionList( const QString &s, Q3TextDocument *doc ) const
 {
     if ( doc )
 	( (EditorCompletion*)this )->updateCompletionMap( doc );
@@ -183,7 +183,7 @@ Q3ValueList<CompletionEntry> EditorCompletion::completionList( const QString &s,
     QChar key( s[ 0 ] );
     QMap<QChar, QStringList>::ConstIterator it = completionMap.find( key );
     if ( it == completionMap.end() )
-	return Q3ValueList<CompletionEntry>();
+	return QList<CompletionEntry>();
     QStringList::ConstIterator it2 = (*it).begin();
     QList<CompletionEntry> lst;
     int len = s.length();
@@ -273,7 +273,7 @@ bool EditorCompletion::doCompletion()
 
     searchString = s;
 
-    Q3ValueList<CompletionEntry> lst( completionList( s, doc ) );
+    QList<CompletionEntry> lst( completionList( s, doc ) );
     if ( lst.count() > 1 ) {
 	Q3TextStringChar *chr = cursor->paragraph()->at( cursor->index() );
 	int h = cursor->paragraph()->lineHeightOfChar( cursor->index() );
@@ -282,7 +282,7 @@ bool EditorCompletion::doCompletion()
 	cursor->paragraph()->lineHeightOfChar( cursor->index(), &dummy, &y );
 	y += cursor->paragraph()->rect().y();
 	completionListBox->clear();
-	for ( Q3ValueList<CompletionEntry>::ConstIterator it = lst.begin(); it != lst.end(); ++it )
+	for ( QList<CompletionEntry>::ConstIterator it = lst.begin(); it != lst.end(); ++it )
 	    (void)new CompletionItem( completionListBox, (*it).text, (*it).type, (*it).postfix,
 				      (*it).prefix, (*it).postfix2 );
 	cList = lst;
@@ -313,13 +313,7 @@ bool EditorCompletion::eventFilter( QObject *o, QEvent *e )
 {
     if ( !enabled )
 	return false;
-    if ( e->type() == QEvent::KeyPress &&
-#if (QT_VERSION) < 0x030200
-	 o->inherits("Editor")
-#else
-	 ::qobject_cast<Editor*>(o)
-#endif
-	 ) {
+    if ( e->type() == QEvent::KeyPress && ::qobject_cast<Editor*>(o) ) {
 	curEditor = (Editor*)o;
 	QKeyEvent *ke = (QKeyEvent*)e;
 	if ( ke->key() == Qt::Key_Tab ) {
@@ -356,7 +350,7 @@ bool EditorCompletion::eventFilter( QObject *o, QEvent *e )
 	}
 
 	if ( ke->text().length() && !( ke->modifiers() & Qt::AltModifier ) &&
-	     ( !ke->ascii() || ke->ascii() >= 32 ) ||
+		(ke->text().isEmpty() || (!ke->text().isEmpty() && ke->text()[0] >= 32)) ||
 	     ( ke->text() == QString::fromLatin1("\t") && !( ke->modifiers() & Qt::ControlModifier ) ) ) {
 	    if ( ke->key() == Qt::Key_Tab ) {
 		if ( curEditor->textCursor()->index() == 0 &&
@@ -597,7 +591,7 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
 
     QChar sep;
     QString pre, post;
-    Q3ValueList<QStringList> argl = functionParameters( function, sep, pre, post );
+    QList<QStringList> argl = functionParameters( function, sep, pre, post );
     if ( argl.isEmpty() )
 	return false;
 
@@ -606,7 +600,7 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
     int num = 0;
     if ( !functionLabel->isVisible() )
 	functionLabel->setNumFunctions( argl.count() );
-    for ( Q3ValueList<QStringList>::Iterator vit = argl.begin(); vit != argl.end(); ++vit, ++num ) {
+    for ( QList<QStringList>::Iterator vit = argl.begin(); vit != argl.end(); ++vit, ++num ) {
 	QStringList args = *vit;
 	int argNum = 0;
 	int inParen = 0;
@@ -673,16 +667,16 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
     return true;
 }
 
-Q3ValueList<QStringList> EditorCompletion::functionParameters( const QString &, QChar &, QString &, QString & )
+QList<QStringList> EditorCompletion::functionParameters( const QString &, QChar &, QString &, QString & )
 {
-    return Q3ValueList<QStringList>();
+    return QList<QStringList>();
 }
 
 void EditorCompletion::setContext( QObject * )
 {
 }
 
-void EditorCompletion::showCompletion( const Q3ValueList<CompletionEntry> &lst )
+void EditorCompletion::showCompletion( const QList<CompletionEntry> &lst )
 {
     Q3TextCursor *cursor = curEditor->textCursor();
     Q3TextStringChar *chr = cursor->paragraph()->at( cursor->index() );
@@ -692,7 +686,7 @@ void EditorCompletion::showCompletion( const Q3ValueList<CompletionEntry> &lst )
     cursor->paragraph()->lineHeightOfChar( cursor->index(), &dummy, &y );
     y += cursor->paragraph()->rect().y();
     completionListBox->clear();
-    for ( Q3ValueList<CompletionEntry>::ConstIterator it = lst.begin(); it != lst.end(); ++it )
+    for ( QList<CompletionEntry>::ConstIterator it = lst.begin(); it != lst.end(); ++it )
 	(void)new CompletionItem( completionListBox, (*it).text, (*it).type,
 				  (*it).postfix, (*it).prefix, (*it).postfix2 );
     cList = lst;

@@ -15,9 +15,9 @@
 #define EDITOR_H
 
 #include "q3textedit.h"
-#include <QKeyEvent>
-#include <QEvent>
-#include <Q3PopupMenu>
+#include <QtGui/QKeyEvent>
+#include <QtCore/QEvent>
+#include <QtWidgets/QMenu>
 
 struct Config;
 class ParenMatcher;
@@ -62,7 +62,7 @@ public:
 
     void drawCursor(bool b) { Q3TextEdit::drawCursor(b); }
 
-    Q3PopupMenu *createPopupMenu(const QPoint &p);
+    QMenu *createPopupMenu(const QPoint &p);
     bool eventFilter(QObject *o, QEvent *e);
 
     void setEditable(bool b) { editable = b; }

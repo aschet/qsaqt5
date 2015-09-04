@@ -23,7 +23,7 @@
 
 class Q3TextDocument;
 class Editor;
-class Q3VBox;
+class QFrame;
 class Q3ListBox;
 class ArgHintWidget;
 
@@ -72,11 +72,11 @@ public:
 
 protected:
     virtual bool continueComplete();
-    virtual void showCompletion(const Q3ValueList<CompletionEntry> &lst);
+    virtual void showCompletion(const QList<CompletionEntry> &lst);
     virtual void completeCompletion();
 
 protected:
-    Q3VBox *completionPopup;
+    QFrame *completionPopup;
     Q3ListBox *completionListBox;
     ArgHintWidget *functionLabel;
     int completionOffset;

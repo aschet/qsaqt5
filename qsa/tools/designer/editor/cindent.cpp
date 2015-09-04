@@ -12,7 +12,7 @@
 ****************************************************************************/
 
 #include "cindent.h"
-#include "qregexp.h"
+#include <QtCore/QRegExp>
 
 extern int indentForBottomLine( const QStringList& program, QChar typedIn );
 extern void setTabSize( int s );
@@ -26,7 +26,7 @@ CIndent::CIndent()
 
 static int indentation( const QString &s )
 {
-    if ( s.simplifyWhiteSpace().length() == 0 )
+    if ( s.trimmed().length() == 0 )
 	return 0;
     int i = 0;
     int ind = 0;
@@ -70,7 +70,7 @@ void CIndent::tabify( QString &s )
 		break;
 	    }
 	}
-	i = s.find( '\n', i );
+	i = s.indexOf( '\n', i );
 	if ( i == -1 )
 	    break;
 	++i;

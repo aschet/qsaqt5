@@ -136,9 +136,8 @@ public:
 
 
 #ifndef QSA_NEW_EDITOR
-#   include <Q3TextEdit>
-#   include <Q3PaintDeviceMetrics>
-#   include <Q3SimpleRichText>
+#   include <Q3TextEdit.h>
+#   include <Q3SimpleRichText.h>
 #endif
 
 static QTextEdit *debugoutput = 0;
@@ -322,10 +321,9 @@ void IdeWindow::scriptPrint()
         if (!p.device())
             return;
 
-        Q3PaintDeviceMetrics metrics(p.device());
-        int dpiy = metrics.logicalDpiY();
+        int dpiy = p.device()->logicalDpiY();
         int margin = (int) ((2/2.54)*dpiy); // 2 cm margins
-        QRect body(margin, margin, metrics.width() - 2*margin, metrics.height() - 2*margin);
+		QRect body(margin, margin, p.device()->width() - 2 * margin, p.device()->height() - 2 * margin);
         QFont font(te->QWidget::font());
         font.setPointSize(10); // we define 10pt to be a nice base size for printing
 
@@ -338,8 +336,8 @@ void IdeWindow::scriptPrint()
         QRect view(body);
         int page = 1;
         do {
-            richText.draw(&p, body.left(), body.top(), view, colorGroup());
-            view.moveBy(0, body.height());
+            richText.draw(&p, body.left(), body.top(), view, palette());
+            view.translate(0, body.height());
             p.translate(0 , -body.height());
             p.setFont(font);
             QString renderText = scriptName + QString::fromLatin1(", ") + QString::number(page);

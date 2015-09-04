@@ -223,6 +223,11 @@ public:
         RemoveSelected = 0x0004
     };
 
+	enum AnchorAttribute {
+		AnchorName,
+		AnchorHref
+	};
+
     Q3TextEdit(const QString& text, const QString& context = QString(),
                QWidget* parent=0, const char* name=0);
     Q3TextEdit(QWidget* parent=0, const char* name=0);
@@ -269,7 +274,7 @@ public:
 
     int tabStopWidth() const;
 
-    QString anchorAt(const QPoint& pos, Qt::AnchorAttribute a = Qt::AnchorHref);
+    QString anchorAt(const QPoint& pos, AnchorAttribute a = AnchorHref);
 
     QSize sizeHint() const;
 

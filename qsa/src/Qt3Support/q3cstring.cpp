@@ -110,7 +110,7 @@
 
     Portions of a string can be extracted using left(), right() and
     mid(). Whitespace can be removed using stripWhiteSpace() and
-    simplifyWhiteSpace(). Strings can be converted to uppercase or
+    trimmed(). Strings can be converted to uppercase or
     lowercase with upper() and lower() respectively.
 
     Strings that contain numbers can be converted to numbers with
@@ -183,7 +183,7 @@
 */
 
 /*!
-    \fn Q3CString  Q3CString::simplifyWhiteSpace() const
+    \fn Q3CString  Q3CString::trimmed() const
 
     Use QByteArray::simplified() instead.
 */

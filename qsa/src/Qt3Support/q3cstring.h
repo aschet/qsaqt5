@@ -90,7 +90,7 @@ public:
     Q3CString        upper() const { return QByteArray::toUpper(); }
 
     Q3CString        stripWhiteSpace()        const { return QByteArray::trimmed(); }
-    Q3CString        simplifyWhiteSpace()        const { return QByteArray::simplified(); }
+    Q3CString        trimmed()        const { return QByteArray::simplified(); }
 
     Q3CString    &insert(uint index, const char *c) { QByteArray::insert(index, c); return *this; }
     Q3CString    &insert(uint index, char c) { QByteArray::insert(index, c); return *this; }

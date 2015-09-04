@@ -1229,10 +1229,10 @@ void Q3TextEdit::keyPressEvent(QKeyEvent *e)
     case Qt::Key_End:
         moveCursor(e->modifiers() & Qt::ControlModifier ? MoveEnd : MoveLineEnd, e->modifiers() & Qt::ShiftModifier);
         break;
-    case Qt::Key_Prior:
+    case Qt::Key_PageUp:
         moveCursor(MovePgUp, e->modifiers() & Qt::ShiftModifier);
         break;
-    case Qt::Key_Next:
+    case Qt::Key_PageDown:
         moveCursor(MovePgDown, e->modifiers() & Qt::ShiftModifier);
         break;
     case Qt::Key_Return: case Qt::Key_Enter:
@@ -2075,7 +2075,7 @@ void Q3TextEdit::drawCursor(bool visible)
         int h = cursor->paragraph()->lineHeightOfChar(cursor->index());
         r = QRect(r.x(), r.y() + cursor->y(), r.width(), h);
     }
-    r.moveBy(-contentsX(), -contentsY());
+    r.translate(-contentsX(), -contentsY());
     viewport()->update(r);
 }
 
@@ -4818,14 +4818,14 @@ void Q3TextEdit::scrollToAnchor(const QString& name)
     coordinates); otherwise returns an empty string.
 */
 
-QString Q3TextEdit::anchorAt(const QPoint& pos, Qt::AnchorAttribute attr)
+QString Q3TextEdit::anchorAt(const QPoint& pos, AnchorAttribute attr)
 {
     Q3TextCursor c(doc);
     placeCursor(pos, &c, true);
     switch(attr) {
-        case Qt::AnchorName:
+        case AnchorName:
             return c.paragraph()->at(c.index())->anchorName();
-        case Qt::AnchorHref:
+        case AnchorHref:
             return c.paragraph()->at(c.index())->anchorHref();
     }
     // incase the compiler is really dumb about determining if a function
@@ -6230,7 +6230,7 @@ void Q3TextEdit::optimParseTags(QString * line, int lineNo, int indexOffset)
                     cur = tag->prev;
                     if (!cur) {
                         qWarning("Q3TextEdit::optimParseTags: no left-tag for '<%s>' in line %d.",
-                                  tag->tag.latin1(), tag->line + 1);
+                                  tag->tag.toLatin1().data(), tag->line + 1);
                         return; // something is wrong - give up
                     }
                     while (cur) {
@@ -6253,7 +6253,7 @@ void Q3TextEdit::optimParseTags(QString * line, int lineNo, int indexOffset)
                                 } else if (!cur->leftTag) {
                                     qWarning("Q3TextEdit::optimParseTags: mismatching %s-tag for '<%s>' in line %d.",
                                               qPrintable(QString(cur->tag[0] == QLatin1Char('/') ? QLatin1String("left") : QLatin1String("right"))),
-                                              cur->tag.latin1(), cur->line + 1);
+                                              cur->tag.toLatin1().data(), cur->line + 1);
                                     return; // something is amiss - give up
                                 }
                             }

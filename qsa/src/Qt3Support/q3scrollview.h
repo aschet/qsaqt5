@@ -45,12 +45,6 @@
 #include <q3frame.h>
 #include <QtWidgets/QScrollBar>
 
-
-
-
-
-
-
 class Q3ScrollViewData;
 
 class QSA_EXPORT Q3ScrollView : public Q3Frame
@@ -245,9 +239,5 @@ public:
     void disableSizeHintCaching();
 
 };
-
-
-
-
 
 #endif // Q3SCROLLVIEW_H

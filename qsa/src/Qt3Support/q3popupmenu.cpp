@@ -47,8 +47,7 @@
     \brief The Q3PopupMenu class is a thin compatibility wrapper around QMenu.
     \compat
 
-    Use QMenu in new applications. Note that the menu's actions must
-    be \l {Q3Action}s.
+    Use QMenu in new applications.
 */
 
 /*!

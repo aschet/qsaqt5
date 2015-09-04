@@ -253,8 +253,7 @@ QT_END_INCLUDE_NAMESPACE
     call. This can be changed with setLabel().
 
     You may use most widgets within a toolbar, with QToolButton and
-    QComboBox being the most common. But note that the toolbar's
-    actions must be \l {Q3Action}s.
+    QComboBox being the most common.
 
     If you create a new widget on an already visible Q3ToolBar, this
     widget will automatically become visible without needing a show()

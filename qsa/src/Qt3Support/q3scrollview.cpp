@@ -56,8 +56,6 @@
 # include "qt_mac_p.h"
 #endif
 
-
-
 using namespace Qt;
 
 static const int coord_limit = 4000;

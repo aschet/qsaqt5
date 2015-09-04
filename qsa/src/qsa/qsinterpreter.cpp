@@ -1064,7 +1064,7 @@ void QSInterpreter::runtimeError(const QString &message,
 
     if(errorMode() == Notify) {
 #ifndef QSA_NO_GUI
-		if (qobject_cast<QApplication*>(QCoreApplication::instance()) == nullptr
+		if (qobject_cast<QApplication*>(QCoreApplication::instance()) == Q_NULLPTR
 	    || qsa_is_non_gui_thread())
         {
 #endif

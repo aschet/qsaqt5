@@ -42,7 +42,7 @@
 #ifndef Q3CLEANUPHANDLER_H
 #define Q3CLEANUPHANDLER_H
 
-#include <QtCore/qlist.h>
+#include <QtCore/QList>
 
 QT_BEGIN_HEADER
 

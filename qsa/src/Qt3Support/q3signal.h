@@ -43,7 +43,7 @@
 #define Q3SIGNAL_H
 
 #include <QtCore/qvariant.h>
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 
 QT_BEGIN_HEADER
 

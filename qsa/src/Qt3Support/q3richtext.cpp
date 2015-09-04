@@ -57,7 +57,7 @@
 #include "qmap.h"
 #include "qmime.h"
 #include "q3paintdevicemetrics.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qstringlist.h"
 #include "qstyle.h"
 #include "qstyleoption.h"

@@ -42,11 +42,11 @@
 #ifndef Q3URLOPERATOR_H
 #define Q3URLOPERATOR_H
 
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <Qt3Support/q3url.h>
 #include <Qt3Support/q3ptrlist.h>
 #include <Qt3Support/q3networkprotocol.h>
-#include <QtCore/qstringlist.h> // QString->QStringList conversion
+#include <QtCore/QStringList> // QString->QStringList conversion
 
 QT_BEGIN_HEADER
 

@@ -46,7 +46,7 @@
 #include "qevent.h"
 #include "qlayout.h"
 #include "qapplication.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qmap.h"
 #include "q3mainwindow.h"
 #include "q3toolbar.h"

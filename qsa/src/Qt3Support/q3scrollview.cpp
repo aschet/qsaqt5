@@ -42,7 +42,7 @@
 #include "qwidget.h"
 #ifndef QT_NO_SCROLLVIEW
 #include "qscrollbar.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpixmap.h"
 #include "qcursor.h"
 #include "q3scrollview.h"

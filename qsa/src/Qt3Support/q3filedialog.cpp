@@ -69,7 +69,7 @@
 #include "qmap.h"
 #include "qmessagebox.h"
 #include "qmime.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpointer.h"
 #include "q3popupmenu.h"
 #include "q3progressbar.h"

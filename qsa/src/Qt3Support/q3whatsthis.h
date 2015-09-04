@@ -44,7 +44,7 @@
 
 #include <QtGui/qcursor.h>
 #include <QtGui/qwhatsthis.h>
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_HEADER
 

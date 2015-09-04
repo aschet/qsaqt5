@@ -42,7 +42,7 @@
 #ifndef Q3BUTTON_H
 #define Q3BUTTON_H
 
-#include <QtGui/qabstractbutton.h>
+#include <QtWidgets/QAbstractButton>
 
 QT_BEGIN_HEADER
 

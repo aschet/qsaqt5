@@ -50,7 +50,7 @@
 #include "qapplication.h"
 #include "qevent.h"
 #include "qfontmetrics.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpixmap.h"
 #include "qstringlist.h"
 #include "qstyle.h"

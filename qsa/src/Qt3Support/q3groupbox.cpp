@@ -42,7 +42,7 @@
 #include "q3groupbox.h"
 
 #include "qlayout.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qbitmap.h"
 #include "q3accel.h"
 #include "qradiobutton.h"

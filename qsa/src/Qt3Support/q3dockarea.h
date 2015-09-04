@@ -42,11 +42,11 @@
 #ifndef Q3DOCKAREA_H
 #define Q3DOCKAREA_H
 
-#include <QtGui/qwidget.h>
-#include <QtCore/qlist.h>
-#include <Qt3Support/q3dockwindow.h>
-#include <QtGui/qlayout.h>
-#include <QtCore/qpointer.h>
+#include <QtWidgets/QWidget>
+#include <QtCore/QList>
+#include "q3dockwindow.h"
+#include <QtWidgets/QLayout>
+#include <QtCore/QPointer>
 
 QT_BEGIN_HEADER
 

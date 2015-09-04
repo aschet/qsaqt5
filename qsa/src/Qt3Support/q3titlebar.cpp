@@ -48,7 +48,7 @@
 #include "qdatetime.h"
 #include "qevent.h"
 #include "qimage.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qiodevice.h"
 #include "qpixmap.h"
 #include "qstyle.h"

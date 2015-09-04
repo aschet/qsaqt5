@@ -40,7 +40,7 @@
 ****************************************************************************/
 
 #include "q3button.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 
 QT_BEGIN_NAMESPACE
 
@@ -66,8 +66,9 @@ QT_BEGIN_NAMESPACE
 */
 
 Q3Button::Q3Button( QWidget *parent, const char *name, Qt::WindowFlags f )
-    : QAbstractButton( parent, name, f )
+    : QAbstractButton( parent /*, f*/ )
 {
+	setObjectName( name );
 }
 
 /*!

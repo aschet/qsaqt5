@@ -41,7 +41,7 @@
 
 #include "q3frame.h"
 #include "qevent.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 
 QT_BEGIN_NAMESPACE
 

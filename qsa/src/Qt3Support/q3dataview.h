@@ -42,7 +42,7 @@
 #ifndef Q3DATAVIEW_H
 #define Q3DATAVIEW_H
 
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_HEADER
 

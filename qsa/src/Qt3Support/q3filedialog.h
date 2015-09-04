@@ -42,8 +42,8 @@
 #ifndef Q3FILEDIALOG_H
 #define Q3FILEDIALOG_H
 
-#include <QtCore/qdir.h>
-#include <QtGui/qdialog.h>
+#include <QtCore/QDir>
+#include <QtWidgets/QDialog>
 #include <Qt3Support/q3urloperator.h>
 #include <Qt3Support/q3valuelist.h>
 

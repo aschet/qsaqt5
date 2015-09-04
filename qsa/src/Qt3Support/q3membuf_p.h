@@ -54,7 +54,7 @@
 //
 
 #include "QtCore/qbytearray.h"
-#include "QtCore/qlist.h"
+#include "QtCore/QList"
 
 QT_BEGIN_NAMESPACE
 

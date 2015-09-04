@@ -42,7 +42,7 @@
 #ifndef Q3SQLFORM_H
 #define Q3SQLFORM_H
 
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtCore/qmap.h>
 
 QT_BEGIN_HEADER

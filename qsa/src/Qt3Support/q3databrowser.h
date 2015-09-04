@@ -42,9 +42,9 @@
 #ifndef Q3DATABROWSER_H
 #define Q3DATABROWSER_H
 
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 #include <QtCore/qstring.h>
-#include <QtCore/qstringlist.h>
+#include <QtCore/QStringList>
 #include <QtSql/qsql.h>
 #include <QtSql/qsqlindex.h>
 #include <Qt3Support/q3sqlcursor.h>

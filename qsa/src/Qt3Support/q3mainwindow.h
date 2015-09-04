@@ -42,7 +42,7 @@
 #ifndef Q3MAINWINDOW_H
 #define Q3MAINWINDOW_H
 
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 #include <Qt3Support/q3toolbar.h>
 #include <QtCore/qtextstream.h>
 

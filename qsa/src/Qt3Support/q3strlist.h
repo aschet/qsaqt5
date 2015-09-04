@@ -45,7 +45,7 @@
 #include <QtCore/qstring.h>
 #include <Qt3Support/q3ptrlist.h>
 #include <QtCore/qdatastream.h>
-#include <QtCore/qlist.h>
+#include <QtCore/QList>
 
 QT_BEGIN_HEADER
 

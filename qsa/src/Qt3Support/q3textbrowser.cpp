@@ -47,7 +47,7 @@
 #include "qdesktopwidget.h"
 #include "qapplication.h"
 #include "qlayout.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qstack.h"
 #include "stdio.h"
 #include "qfile.h"

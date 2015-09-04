@@ -42,7 +42,7 @@
 #ifndef Q3ACCEL_H
 #define Q3ACCEL_H
 
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtGui/qkeysequence.h>
 
 QT_BEGIN_HEADER

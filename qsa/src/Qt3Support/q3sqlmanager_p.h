@@ -56,7 +56,7 @@
 #include "QtCore/qvariant.h"
 #include "QtCore/qglobal.h"
 #include "QtCore/qstring.h"
-#include "QtCore/qstringlist.h"
+#include "QtCore/QStringList"
 #include "QtSql/qsql.h"
 #include "QtSql/qsqlerror.h"
 #include "QtSql/qsqlindex.h"

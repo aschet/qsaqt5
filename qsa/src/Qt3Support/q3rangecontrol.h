@@ -43,7 +43,7 @@
 #define Q3RANGECONTROL_H
 
 #include <QtCore/qglobal.h>
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_HEADER
 

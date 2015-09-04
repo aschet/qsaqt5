@@ -41,7 +41,7 @@
 
 
 #include "q3gridview.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 
 QT_BEGIN_NAMESPACE
 

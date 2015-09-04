@@ -42,12 +42,12 @@
 #ifndef Q3DRAGOBJECT_H
 #define Q3DRAGOBJECT_H
 
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtGui/qcolor.h>
 #include <QtGui/qmime.h>
 #include <QtGui/qimage.h>
 #include <Qt3Support/q3strlist.h>
-#include <QtCore/qlist.h>
+#include <QtCore/QList>
 
 QT_BEGIN_HEADER
 

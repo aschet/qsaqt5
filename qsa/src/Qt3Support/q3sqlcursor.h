@@ -45,7 +45,7 @@
 #include <QtCore/qvariant.h>
 #include <QtSql/qsqldatabase.h>
 #include <QtSql/qsqlrecord.h>
-#include <QtCore/qstringlist.h>
+#include <QtCore/QStringList>
 #include <QtSql/qsqlquery.h>
 #include <QtSql/qsqlindex.h>
 

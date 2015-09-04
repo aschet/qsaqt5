@@ -49,7 +49,7 @@
 #include "qevent.h"
 #include "qlayout.h"
 #include "q3mainwindow.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpointer.h"
 #include "qstyle.h"
 #include "qstyleoption.h"

@@ -42,7 +42,7 @@
 #ifndef Q3SERVERSOCKET_H
 #define Q3SERVERSOCKET_H
 
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtNetwork/qhostaddress.h>
 #include <Qt3Support/q3socketdevice.h> // ### remove or keep for users' convenience?
 

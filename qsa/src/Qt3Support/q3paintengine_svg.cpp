@@ -46,7 +46,7 @@
 #include "qlist.h"
 #include "qmap.h"
 #include "q3paintengine_svg_p.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpixmap.h"
 #include "qregexp.h"
 #include "qtextstream.h"

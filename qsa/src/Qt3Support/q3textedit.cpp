@@ -44,7 +44,7 @@
 #ifndef QT_NO_TEXTEDIT
 
 #include <private/q3richtext_p.h>
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpen.h"
 #include "qbrush.h"
 #include "qpixmap.h"

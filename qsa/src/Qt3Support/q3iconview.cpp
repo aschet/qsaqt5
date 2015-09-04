@@ -61,7 +61,7 @@
 #include "qhash.h"
 #include "qimage.h"
 #include "qmime.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpalette.h"
 #include "qpen.h"
 #include "qpixmapcache.h"

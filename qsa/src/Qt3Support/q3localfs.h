@@ -43,7 +43,7 @@
 #define Q3LOCALFS_H
 
 #include <Qt3Support/q3networkprotocol.h>
-#include <QtCore/qdir.h>
+#include <QtCore/QDir>
 
 QT_BEGIN_HEADER
 

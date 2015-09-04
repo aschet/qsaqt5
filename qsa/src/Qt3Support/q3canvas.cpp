@@ -45,7 +45,7 @@
 #include "qdesktopwidget.h"
 #include "qimage.h"
 #include "q3ptrdict.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3polygonscanner.h"
 #include "qtimer.h"
 #include "q3tl.h"

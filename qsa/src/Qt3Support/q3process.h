@@ -42,9 +42,9 @@
 #ifndef Q3PROCESS_H
 #define Q3PROCESS_H
 
-#include <QtCore/qobject.h>
-#include <QtCore/qstringlist.h>
-#include <QtCore/qdir.h>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
+#include <QtCore/QDir>
 
 QT_BEGIN_HEADER
 

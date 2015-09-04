@@ -54,7 +54,7 @@
 #include "q3header.h"
 #include "qicon.h"
 #include "qlineedit.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpixmapcache.h"
 #include "qstack.h"
 #include "qstyle.h"

@@ -47,7 +47,7 @@
 #include "qlabel.h"
 #include "qapplication.h"
 #include "qlist.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3accel.h"
 
 QT_BEGIN_NAMESPACE

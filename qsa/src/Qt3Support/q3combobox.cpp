@@ -41,7 +41,7 @@
 
 #include "q3combobox.h"
 #ifndef QT_NO_COMBOBOX
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qdrawutil.h"
 #include "qpixmap.h"
 #include "qtimer.h"

@@ -48,7 +48,7 @@
 #include "qcursor.h"
 #include "qdatetime.h"
 #include "qlabel.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpushbutton.h"
 #include "qshortcut.h"
 #include "qstyle.h"

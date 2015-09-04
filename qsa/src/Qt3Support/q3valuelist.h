@@ -45,7 +45,7 @@
 #include <QtCore/qalgorithms.h>
 #include <QtCore/qdatastream.h>
 #include <QtCore/qlinkedlist.h>
-#include <QtCore/qlist.h>
+#include <QtCore/QList>
 
 #ifndef QT_NO_STL
 #include <iterator>

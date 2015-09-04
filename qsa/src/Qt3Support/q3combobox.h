@@ -42,7 +42,7 @@
 #ifndef Q3COMBOBOX_H
 #define Q3COMBOBOX_H
 
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_HEADER
 

@@ -43,7 +43,7 @@
 #define Q3HEADER_H
 
 #include <QtGui/qicon.h>
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 #include <QtCore/qstring.h>
 
 QT_BEGIN_HEADER

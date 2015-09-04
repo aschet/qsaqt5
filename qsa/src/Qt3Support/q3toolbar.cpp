@@ -52,7 +52,7 @@
 #include "qframe.h"
 #include "qlayout.h"
 #include "qmap.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3popupmenu.h"
 #include "qstyle.h"
 #include "qstyleoption.h"

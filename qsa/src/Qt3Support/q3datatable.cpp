@@ -49,7 +49,7 @@
 #include "q3sqlpropertymap.h"
 #include "qapplication.h"
 #include "qlayout.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3popupmenu.h"
 #include "q3valuelist.h"
 #include "q3sqlmanager_p.h"

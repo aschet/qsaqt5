@@ -43,7 +43,7 @@
 #include "qlayout.h"
 #include "private/qlayoutengine_p.h"
 #include "qapplication.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 
 QT_BEGIN_NAMESPACE
 

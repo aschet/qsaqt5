@@ -44,7 +44,7 @@
 
 #include <QtGui/qicon.h>
 #include <QtGui/qkeysequence.h>
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtCore/qstring.h>
 
 QT_BEGIN_HEADER

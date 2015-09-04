@@ -42,7 +42,7 @@
 #ifndef Q3EDITORFACTORY_H
 #define Q3EDITORFACTORY_H
 
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtCore/qvariant.h>
 
 QT_BEGIN_HEADER

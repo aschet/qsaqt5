@@ -45,7 +45,7 @@
 
 #include "qabstractspinbox.h"
 #include "qevent.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qrect.h"
 #include "qstyle.h"
 #include "qstyleoption.h"

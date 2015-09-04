@@ -50,7 +50,7 @@
 #include <Qt3Support/q3ptrlist.h>
 #include <Qt3Support/q3shared.h>
 #include <Qt3Support/q3intdict.h>
-#include <QtCore/qstringlist.h>
+#include <QtCore/QStringList>
 
 QT_BEGIN_HEADER
 

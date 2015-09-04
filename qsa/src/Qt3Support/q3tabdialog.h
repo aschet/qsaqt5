@@ -42,7 +42,7 @@
 #ifndef Q3TABDIALOG_H
 #define Q3TABDIALOG_H
 
-#include <QtGui/qdialog.h>
+#include <QtWidgets/QDialog>
 #include <QtGui/qicon.h>
 
 QT_BEGIN_HEADER

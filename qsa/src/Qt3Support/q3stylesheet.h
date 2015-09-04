@@ -43,9 +43,9 @@
 #define Q3STYLESHEET_H
 
 #include <QtCore/qstring.h>
-#include <QtCore/qlist.h>
+#include <QtCore/QList>
 #include <QtCore/qhash.h>
-#include <QtCore/qobject.h>
+#include <QtCore/QObject>
 #include <QtGui/qcolor.h>
 #include <QtGui/qfont.h>
 

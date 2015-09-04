@@ -51,7 +51,7 @@
 #include "qlayout.h"
 #include "qmap.h"
 #include "qmenubar.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3popupmenu.h"
 #include "q3scrollview.h"
 #include "qstatusbar.h"

@@ -46,7 +46,7 @@
 #include "qcursor.h"
 #include "qdrawutil.h"
 #include "qevent.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpixmap.h"
 #include "qstyle.h"
 #include "qstyleoption.h"

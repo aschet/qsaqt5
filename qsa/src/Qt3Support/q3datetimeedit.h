@@ -42,7 +42,7 @@
 #ifndef Q3DATETIMEEDIT_H
 #define Q3DATETIMEEDIT_H
 
-#include <QtGui/qwidget.h>
+#include <QtWidgets/QWidget>
 #include <QtCore/qstring.h>
 #include <QtCore/qdatetime.h>
 

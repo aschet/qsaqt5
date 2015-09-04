@@ -44,7 +44,7 @@
 #ifndef QT_NO_RICHTEXT
 
 #include "qlayout.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3cleanuphandler.h"
 #include <qtextdocument.h>
 

@@ -44,7 +44,7 @@
 #include "qtabbar.h"
 #include "qtabwidget.h"
 #include "qpushbutton.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qpixmap.h"
 #include "qapplication.h"
 #include "q3widgetstack.h"

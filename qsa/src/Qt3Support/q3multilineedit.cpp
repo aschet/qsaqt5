@@ -41,7 +41,7 @@
 #include <qplatformdefs.h>
 #include "q3multilineedit.h"
 #ifndef QT_NO_MULTILINEEDIT
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "qscrollbar.h"
 #include "qcursor.h"
 #include "qclipboard.h"

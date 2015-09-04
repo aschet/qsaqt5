@@ -41,7 +41,7 @@
 
 #include "private/qpicture_p.h"
 #include "qfile.h"
-#include "qpainter.h"
+#include <QtGui/QPainter>
 #include "q3picture.h"
 #include "q3paintengine_svg_p.h"
 

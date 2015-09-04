@@ -42,8 +42,6 @@ macro.Func		= "\\i"
 defines                 = Q_QDOC \
                           QT_.*_SUPPORT \
                           QT_.*_LIB \
-                          QT_COMPAT \
-                          QT3_SUPPORT \
                           Q_WS_.* \
                           Q_OS_.* \
                           Q_BYTE_ORDER \

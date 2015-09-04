@@ -14,12 +14,13 @@
 #ifndef VIEWMANAGER_H
 #define VIEWMANAGER_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
+#include <QtCore/QList>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QVBoxLayout>
+#include <QtGui/QResizeEvent>
+#include <QtCore/QChildEvent>
 #include <Q3ValueList>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QResizeEvent>
-#include <QChildEvent>
 
 class QChildEvent;
 class MarkerWidget;

@@ -14,8 +14,8 @@
 #ifndef PARENMATCHER_H
 #define PARENMATCHER_H
 
-#include <QString>
-#include <Q3ValueList>
+#include <QtCore/QString>
+#include <QtCore/QList>
 
 class Q3TextCursor;
 
@@ -31,7 +31,7 @@ struct Paren
     Q_DUMMY_COMPARISON_OPERATOR(Paren)
 };
 
-typedef Q3ValueList<Paren> ParenList;
+typedef QList<Paren> ParenList;
 
 class ParenMatcher
 {

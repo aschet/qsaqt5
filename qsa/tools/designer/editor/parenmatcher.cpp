@@ -16,7 +16,7 @@
 
 #include "q3textedit.h"
 #include "q3richtext_p.h"
-#include <qapplication.h>
+#include <QtWidgets/QApplication>
 
 ParenMatcher::ParenMatcher()
 {

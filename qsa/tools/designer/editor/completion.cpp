@@ -22,7 +22,6 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <Q3Frame>
-#include <Q3ValueList>
 #include "q3richtext_p.h"
 #include <qapplication.h>
 #include <qregexp.h>
@@ -61,7 +60,7 @@ public:
 	lastState = isSelected();
 	if ( !parag )
 	    setupParagraph();
-	parag->paint( *painter, listBox()->colorGroup() );
+	parag->paint( *painter, listBox()->palette() );
     }
 
     int height( const Q3ListBox * ) const {
@@ -94,17 +93,17 @@ void CompletionItem::setupParagraph() {
 	parag->pseudoDocument()->pFormatter = formatter;
 	parag->insert( 0, " " + type + ( type.isEmpty() ? " " : "\t" ) + prefix +
 		       Q3ListBoxItem::text() + postfix + postfix2 );
-	bool selCol = isSelected() && listBox()->colorGroup().highlightedText() != listBox()->colorGroup().text();
-	QColor sc = selCol ? listBox()->colorGroup().highlightedText() : getColor( type );
+	bool selCol = isSelected() && listBox()->palette().highlightedText() != listBox()->palette().text();
+	QColor sc = selCol ? listBox()->palette().highlightedText().color() : getColor( type );
 	Q3TextFormat *f1 = parag->formatCollection()->format( listBox()->font(), sc );
 	Q3TextFormat *f3 = parag->formatCollection()->format( listBox()->font(), isSelected() ?
-							     listBox()->colorGroup().highlightedText() :
-							     listBox()->colorGroup().text() );
+							     listBox()->palette().highlightedText() :
+							     listBox()->palette().text() );
 	QFont f( listBox()->font() );
 	f.setBold( true );
 	Q3TextFormat *f2 =
-	    parag->formatCollection()->format( f, isSelected() ? listBox()->colorGroup().highlightedText() :
-					       listBox()->colorGroup().text() );
+	    parag->formatCollection()->format( f, isSelected() ? listBox()->palette().highlightedText() :
+					       listBox()->palette().text() );
 	parag->setFormat( 1, type.length() + 1, f1 );
 	parag->setFormat( type.length() + 2, prefix.length() + Q3ListBoxItem::text().length(), f2 );
 	if ( !postfix.isEmpty() )
@@ -124,7 +123,7 @@ EditorCompletion::EditorCompletion( Editor *e )
 {
     enabled = true;
     lastDoc = 0;
-    completionPopup = new Q3VBox( e->topLevelWidget(), 0, Qt::WType_Popup );
+    completionPopup = new Q3VBox( e->topLevelWidget(), 0, Qt::Popup );
     completionPopup->setFrameStyle( Q3Frame::Box | Q3Frame::Plain );
     completionPopup->setLineWidth( 1 );
     functionLabel = new ArgHintWidget( e->topLevelWidget(), "editor_function_lbl" );
@@ -161,11 +160,11 @@ void EditorCompletion::addCompletionEntry( const QString &s, Q3TextDocument *, b
 	    QStringList::Iterator sit;
 	    for ( sit = (*it).begin(); sit != (*it).end(); ) {
 		if ( (*sit).length() > s.length() && (*sit).left( s.length() ) == s ) {
-		    if ( (*sit)[ (int)s.length() ].isLetter() && (*sit)[ (int)s.length() ].upper() != (*sit)[ (int)s.length() ] )
+		    if ( (*sit)[ (int)s.length() ].isLetter() && (*sit)[ (int)s.length() ].toUpper() != (*sit)[ (int)s.length() ] )
 			return;
 		} else if ( s.length() > (*sit).length() && s.left( (*sit).length() ) == *sit ) {
-		    if ( s[ (int)(*sit).length() ].isLetter() && s[ (int)(*sit).length() ].upper() != s[ (int)(*sit).length() ] ) {
-			sit = (*it).remove( sit );
+		    if ( s[ (int)(*sit).length() ].isLetter() && s[ (int)(*sit).length() ].toUpper() != s[ (int)(*sit).length() ] ) {
+			sit = (*it).erase( sit );
                         continue;
                     }
 		}
@@ -186,7 +185,7 @@ Q3ValueList<CompletionEntry> EditorCompletion::completionList( const QString &s,
     if ( it == completionMap.end() )
 	return Q3ValueList<CompletionEntry>();
     QStringList::ConstIterator it2 = (*it).begin();
-    Q3ValueList<CompletionEntry> lst;
+    QList<CompletionEntry> lst;
     int len = s.length();
     for ( ; it2 != (*it).end(); ++it2 ) {
 	CompletionEntry c;
@@ -195,7 +194,7 @@ Q3ValueList<CompletionEntry> EditorCompletion::completionList( const QString &s,
 	c.postfix = "";
 	c.prefix = "";
 	c.postfix2 = "";
-	if ( (int)(*it2).length() > len && (*it2).left( len ) == s && lst.find( c ) == lst.end() )
+	if ( (int)(*it2).length() > len && (*it2).left( len ) == s && lst.indexOf( c ) < 0 )
 	    lst << c;
     }
 
@@ -327,7 +326,7 @@ bool EditorCompletion::eventFilter( QObject *o, QEvent *e )
 	    QString s = curEditor->textCursor()->paragraph()->string()->toString().
 			left( curEditor->textCursor()->index() );
 	    if ( curEditor->document()->hasSelection( Q3TextDocument::Standard ) ||
-		 s.simplifyWhiteSpace().isEmpty() ) {
+		 s.trimmed().isEmpty() ) {
 		if ( curEditor->document()->indent() ) {
 		    curEditor->indent();
 		    int i = 0;
@@ -347,18 +346,18 @@ bool EditorCompletion::eventFilter( QObject *o, QEvent *e )
 	}
 
 	if ( functionLabel->isVisible() ) {
-	    if ( ke->key() == Qt::Key_Up && ( ke->state() & Qt::ControlModifier ) == Qt::ControlModifier ) {
+	    if ( ke->key() == Qt::Key_Up && ( ke->modifiers() & Qt::ControlModifier ) == Qt::ControlModifier ) {
 		functionLabel->gotoPrev();
 		return true;
-	    } else if ( ke->key() == Qt::Key_Down && ( ke->state() & Qt::ControlModifier ) == Qt::ControlModifier ) {
+	    } else if ( ke->key() == Qt::Key_Down && ( ke->modifiers() & Qt::ControlModifier ) == Qt::ControlModifier ) {
 		functionLabel->gotoNext();
 		return true;
 	    }
 	}
 
-	if ( ke->text().length() && !( ke->state() & Qt::AltModifier ) &&
+	if ( ke->text().length() && !( ke->modifiers() & Qt::AltModifier ) &&
 	     ( !ke->ascii() || ke->ascii() >= 32 ) ||
-	     ( ke->text() == QString::fromLatin1("\t") && !( ke->state() & Qt::ControlModifier ) ) ) {
+	     ( ke->text() == QString::fromLatin1("\t") && !( ke->modifiers() & Qt::ControlModifier ) ) ) {
 	    if ( ke->key() == Qt::Key_Tab ) {
 		if ( curEditor->textCursor()->index() == 0 &&
 		     curEditor->textCursor()->paragraph()->isListItem() )
@@ -444,7 +443,7 @@ void EditorCompletion::completeCompletion()
     curEditor->insert( s, (uint) ( Q3TextEdit::RedoIndentation |
 				   Q3TextEdit::CheckNewLines |
 				   Q3TextEdit::RemoveSelected ) );
-    int i = s.find( '(' );
+    int i = s.indexOf( '(' );
     completionPopup->close();
     curEditor->setFocus();
     if ( i != -1 && i < (int)s.length() ) {
@@ -496,7 +495,7 @@ bool EditorCompletion::doObjectCompletion( const QString & )
 
 static void strip( QString &txt )
 {
-    int i = txt.find( QString::fromLatin1("(") );
+    int i = txt.indexOf( QString::fromLatin1("(") );
     if ( i == -1 )
 	return;
     txt = txt.left( i );
@@ -506,7 +505,7 @@ bool EditorCompletion::continueComplete()
 {
     if ( searchString.isEmpty() ) {
 	completionListBox->clear();
-	for ( Q3ValueList<CompletionEntry>::ConstIterator it = cList.begin(); it != cList.end(); ++it )
+	for ( QList<CompletionEntry>::ConstIterator it = cList.begin(); it != cList.end(); ++it )
 	    (void)new CompletionItem( completionListBox, (*it).text, (*it).type,
 				      (*it).postfix, (*it).prefix, (*it).postfix2 );
 	completionListBox->setCurrentItem( 0 );
@@ -525,15 +524,15 @@ bool EditorCompletion::continueComplete()
     if ( txt1 == txt2 && !i->next() )
 	return false;
 
-    Q3ValueList<CompletionEntry> res;
-    for ( Q3ValueList<CompletionEntry>::ConstIterator it = cList.begin(); it != cList.end(); ++it ) {
+    QList<CompletionEntry> res;
+    for ( QList<CompletionEntry>::ConstIterator it = cList.begin(); it != cList.end(); ++it ) {
 	if ( (*it).text.left( searchString.length() ) == searchString )
 	    res << *it;
     }
     if ( res.isEmpty() )
 	return false;
     completionListBox->clear();
-    for ( Q3ValueList<CompletionEntry>::ConstIterator it2 = res.begin(); it2 != res.end(); ++it2 )
+    for ( QList<CompletionEntry>::ConstIterator it2 = res.begin(); it2 != res.end(); ++it2 )
 	(void)new CompletionItem( completionListBox, (*it2).text, (*it2).type,
 				  (*it2).postfix, (*it2).prefix, (*it2).postfix2 );
     completionListBox->setCurrentItem( 0 );
@@ -578,19 +577,19 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
     }
     if ( foundSpace )
 	++j;
-    j = QMAX( j, 0 );
+    j = qMax( j, 0 );
     QString function( cursor->paragraph()->string()->toString().mid( j, i - j + 1 ) );
     QString part = cursor->paragraph()->string()->toString().mid( j, cursor->index() - j + 1 );
-    function = function.simplifyWhiteSpace();
+    function = function.trimmed();
     for (;;) {
         if (function.isEmpty())
             return false;
 	if ( function[ (int)function.length() - 1 ] == '(' ) {
 	    function.remove( function.length() - 1, 1 );
-	    function = function.simplifyWhiteSpace();
+	    function = function.trimmed();
 	} else if ( function[ (int)function.length() - 1 ] == ')' ) {
 	    function.remove( function.length() - 1, 1 );
-	    function = function.simplifyWhiteSpace();
+	    function = function.trimmed();
 	} else {
 	    break;
 	}
@@ -622,9 +621,9 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
 
 	QString func = function;
 	int pnt = -1;
-	pnt = func.findRev( '.' );
+	pnt = func.lastIndexOf( '.' );
 	if ( pnt == -1 )
-	    func.findRev( '>' );
+	    func.lastIndexOf( '>' );
 	if ( pnt != -1 )
 	    func = func.mid( pnt + 1 );
 
@@ -647,13 +646,13 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
 	s.append( post );
 	label += "<p>" + s + "</p>";
 	functionLabel->setFunctionText( num, s );
-	w = QMAX( w, functionLabel->fontMetrics().width( s ) + 10 );
+	w = qMax( w, functionLabel->fontMetrics().width( s ) + 10 );
     }
     w += 16;
     if ( label.isEmpty() )
 	return false;
     if ( functionLabel->isVisible() ) {
-	functionLabel->resize( w + 50, QMAX( functionLabel->fontMetrics().height(), 16 ) );
+	functionLabel->resize( w + 50, qMax( functionLabel->fontMetrics().height(), 16 ) );
     } else {
 	Q3TextStringChar *chr = cursor->paragraph()->at( cursor->index() );
 	int h = cursor->paragraph()->lineHeightOfChar( cursor->index() );
@@ -661,10 +660,10 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
 	int y, dummy;
 	cursor->paragraph()->lineHeightOfChar( cursor->index(), &dummy, &y );
 	y += cursor->paragraph()->rect().y();
-	functionLabel->resize( w + 50, QMAX( functionLabel->fontMetrics().height(), 16 ) );
+	functionLabel->resize( w + 50, qMax( functionLabel->fontMetrics().height(), 16 ) );
 	functionLabel->move( curEditor->mapToGlobal( curEditor->contentsToViewport( QPoint( x, y + h ) ) ) );
 	if ( functionLabel->x() + functionLabel->width() > QApplication::desktop()->width() )
-	    functionLabel->move( QMAX( 0, QApplication::desktop()->width() - functionLabel->width() ),
+	    functionLabel->move( qMax( 0, QApplication::desktop()->width() - functionLabel->width() ),
 				 functionLabel->y() );
 	functionLabel->show();
 	curEditor->setFocus();

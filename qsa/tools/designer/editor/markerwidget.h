@@ -42,7 +42,7 @@ signals:
     void showMessage(const QString &msg);
 
 public slots:
-    void doRepaint() { repaint(false); }
+    void doRepaint() { repaint(); }
 
 protected:
     void paintEvent(QPaintEvent *e);

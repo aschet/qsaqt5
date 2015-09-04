@@ -5,7 +5,7 @@ This venture tries to revive the corpse of QSA or Qt Script for Applications in 
 ## What has been achieved?
 
 * Interpreter, associated utils, samples, the new editor and the workbench have been migrated over to Qt 5
-* Building system has been migrated to CMake
+* Build system has been migrated to CMake
 
 ## What is still left to do?
 

@@ -44,7 +44,6 @@
 
 #include "q3mainwindow.h"
 #include "qapplication.h"
-#include "q3combobox.h"
 #include "qcursor.h"
 #include "qdesktopwidget.h"
 #include "qdrawutil.h"
@@ -622,8 +621,6 @@ void Q3ToolBar::createPopup()
         }
         int j = 2;
         QWidget *w = (QWidget*)obj;
-        if (qobject_cast<Q3ComboBox*>(w))
-            j = 1;
         hide = false;
 
         const int padding = 4; // extra pixels added by the layout hierarchy
@@ -665,37 +662,6 @@ void Q3ToolBar::createPopup()
                     d->extensionPopup->setItemChecked(id, b->isOn());
                 if (!b->isEnabled())
                     d->extensionPopup->setItemEnabled(id, false);
-#ifndef QT_NO_COMBOBOX
-            } else if (qobject_cast<Q3ComboBox*>(w)) {
-                Q3ComboBox *c = (Q3ComboBox*)w;
-                if (c->count() != 0) {
-                    QString s = c->windowTitle();
-                    if (s.isEmpty())
-                        s = c->currentText();
-                    int maxItems = 0;
-                    Q3PopupMenu *cp = new Q3PopupMenu(d->extensionPopup);
-                    cp->setEnabled(c->isEnabled());
-                    d->extensionPopup->insertItem(s, cp);
-                    connect(cp, SIGNAL(activated(int)), c, SLOT(internalActivate(int)));
-                    for (int i = 0; i < c->count(); ++i) {
-                        QString tmp = c->text(i);
-                        cp->insertItem(tmp, i);
-                        if (c->currentText() == tmp)
-                            cp->setItemChecked(i, true);
-                        if (!maxItems) {
-                            if (cp->actions().count() == 10) {
-                                int h = cp->sizeHint().height();
-                                maxItems = QApplication::desktop()->height() * 10 / h;
-                            }
-                        } else if (cp->actions().count() >= maxItems - 1) {
-                            Q3PopupMenu* sp = new Q3PopupMenu(d->extensionPopup);
-                            cp->insertItem(tr("More..."), sp);
-                            cp = sp;
-                            connect(cp, SIGNAL(activated(int)), c, SLOT(internalActivate(int)));
-                        }
-                    }
-                }
-#endif //QT_NO_COMBOBOX
             }
         }
     }

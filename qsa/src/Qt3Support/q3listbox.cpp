@@ -801,10 +801,14 @@ Q3ListBox::Q3ListBox(QWidget *parent, const char *name, Qt::WindowFlags f)
     : Q3ScrollView(parent, name, f | Qt::WStaticContents | Qt::WNoAutoErase)
 {
     d = new Q3ListBoxPrivate(this);
-    d->updateTimer = new QTimer(this, "listbox update timer");
-    d->visibleTimer = new QTimer(this, "listbox visible timer");
-    d->inputTimer = new QTimer(this, "listbox input timer");
-    d->resizeTimer = new QTimer(this, "listbox resize timer");
+    d->updateTimer = new QTimer(this);
+	d->updateTimer->setObjectName("listbox update timer");
+    d->visibleTimer = new QTimer(this);
+	d->visibleTimer->setObjectName("listbox visible timer");
+    d->inputTimer = new QTimer(this);
+	d->inputTimer->setObjectName("listbox input timer");
+    d->resizeTimer = new QTimer(this);
+	d->resizeTimer->setObjectName("listbox resize timer");
     d->clearing = false;
     d->pressedItem = 0;
     d->selectAnchor = 0;
@@ -1671,7 +1675,8 @@ void Q3ListBox::setCurrentItem(Q3ListBoxItem * i)
     if (i)
         updateItem(i);
     // scroll after the items are redrawn
-    d->visibleTimer->start(1, true);
+	d->visibleTimer->setSingleShot(true);
+	d->visibleTimer->start(1);
 
     QString tmp;
     if (i)
@@ -1820,7 +1825,7 @@ void Q3ListBox::mousePressEventEx(QMouseEvent *e)
     }
 
     if (!i && (d->selectionMode != Single || e->button() == Qt::RightButton)
-         && !(e->state() & Qt::ControlButton))
+         && !(e->modifiers() & Qt::ControlModifier))
         clearSelection();
 
     d->select = d->selectionMode == Multi ? (i ? !i->isSelected() : false) : true;
@@ -1842,8 +1847,8 @@ void Q3ListBox::mousePressEventEx(QMouseEvent *e)
         case Extended:
             if (i) {
                 bool shouldBlock = false;
-                if (!(e->state() & Qt::ShiftButton) &&
-                    !(e->state() & Qt::ControlButton)) {
+                if (!(e->modifiers() & Qt::ShiftModifier) &&
+                    !(e->modifiers() & Qt::ControlModifier)) {
                     if (!i->isSelected()) {
                         bool b = signalsBlocked();
                         blockSignals(true);
@@ -1853,7 +1858,7 @@ void Q3ListBox::mousePressEventEx(QMouseEvent *e)
                     setSelected(i, true);
                     d->dragging = true; // always assume dragging
                     shouldBlock = true;
-                } else if (e->state() & Qt::ShiftButton) {
+                } else if (e->modifiers() & Qt::ShiftModifier) {
                     d->pressedSelected = false;
                     Q3ListBoxItem *oldCurrent = item(currentItem());
                     bool down = index(oldCurrent) < index(i);
@@ -1881,7 +1886,7 @@ void Q3ListBox::mousePressEventEx(QMouseEvent *e)
                     }
                     blockSignals(blocked);
                     emit selectionChanged();
-                } else if (e->state() & Qt::ControlButton) {
+                } else if (e->modifiers() & Qt::ControlModifier) {
                     setSelected(i, !i->isSelected());
                     shouldBlock = true;
                     d->pressedSelected = false;
@@ -1918,7 +1923,7 @@ void Q3ListBox::mousePressEventEx(QMouseEvent *e)
                 d->rubber = 0;
                 d->rubber = new QRect(e->x(), e->y(), 0, 0);
 
-                if (d->selectionMode == Extended && !(e->state() & Qt::ControlButton))
+                if (d->selectionMode == Extended && !(e->modifiers() & Qt::ControlModifier))
                     selectAll(false);
                 unselect = false;
             }
@@ -2049,7 +2054,7 @@ void Q3ListBox::mouseMoveEvent(QMouseEvent *e)
         return;
     }
 
-    if (((e->state() & (Qt::RightButton | Qt::LeftButton | Qt::MidButton)) == 0) ||
+    if (((e->modifiers() & (Qt::RightButton | Qt::LeftButton | Qt::MidButton)) == 0) ||
          d->ignoreMoves)
         return;
 
@@ -2058,7 +2063,7 @@ void Q3ListBox::mouseMoveEvent(QMouseEvent *e)
     // it.
     if (!QRect(0, 0, visibleWidth(), visibleHeight()).contains(e->pos()) &&
          ((d->mousePressColumn < 0 && d->mousePressRow < 0)
-          || (e->state() == Qt::NoButton && !d->pressedItem)))
+          || (e->modifiers() == Qt::NoButton && !d->pressedItem)))
         return;
 
     // figure out in what direction to drag-select and perhaps scroll
@@ -2105,12 +2110,12 @@ void Q3ListBox::mouseMoveEvent(QMouseEvent *e)
 
     d->scrollPos = QPoint(dx, dy);
 
-    if ((dx || dy) && !d->scrollTimer && e->state() == Qt::LeftButton && e->button() != Qt::LeftButton) {
+    if ((dx || dy) && !d->scrollTimer && e->modifiers() == Qt::LeftButton && e->button() != Qt::LeftButton) {
         // start autoscrolling if necessary
         d->scrollTimer = new QTimer(this);
         connect(d->scrollTimer, SIGNAL(timeout()),
                  this, SLOT(doAutoScroll()));
-        d->scrollTimer->start(100, false);
+		d->scrollTimer->start(100);
         doAutoScroll();
     } else if (!d->scrollTimer) {
         // or just select the required bits
@@ -2240,7 +2245,7 @@ void Q3ListBox::contentsContextMenuEvent(QContextMenuEvent *e)
 void Q3ListBox::keyPressEvent(QKeyEvent *e)
 {
     if ((e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab)
-         && e->state() & Qt::ControlButton)
+         && e->modifiers() & Qt::ControlModifier)
         e->ignore();
 
     if (count() == 0) {
@@ -2266,9 +2271,9 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                 d->currInputString.clear();
                 if (currentItem() > 0) {
                     setCurrentItem(currentItem() - 1);
-                    handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
+                    handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
                 }
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
@@ -2277,9 +2282,9 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                 d->currInputString.clear();
                 if (currentItem() < (int)count() - 1) {
                     setCurrentItem(currentItem() + 1);
-                    handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
+                    handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
                 }
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
@@ -2288,7 +2293,7 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                 d->currInputString.clear();
                 if (currentColumn() > 0) {
                     setCurrentItem(currentItem() - numRows());
-                    handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
+                    handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
                 } else if (numColumns() > 1 && currentItem() > 0) {
                     int row = currentRow();
                     setCurrentItem(currentRow() - 1 + (numColumns() - 1) * numRows());
@@ -2296,11 +2301,11 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                     if (currentItem() == -1)
                         setCurrentItem(row - 1 + (numColumns() - 2) * numRows());
 
-                    handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
+                    handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
                 } else {
                     QApplication::sendEvent(horizontalScrollBar(), e);
                 }
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
@@ -2322,20 +2327,20 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                             setCurrentItem(i);
                     }
 
-                    handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
+                    handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
                 } else if (numColumns() > 1 && currentRow() < numRows()) {
                     if (currentRow() + 1 < numRows()) {
                         setCurrentItem(currentRow() + 1);
-                        handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
+                        handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
                     }
                 } else {
                     QApplication::sendEvent(horizontalScrollBar(), e);
                 }
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
-        case Qt::Key_Next:
+		case Qt::Key_PageDown:
             {
                 d->currInputString.clear();
                 int i = 0;
@@ -2353,12 +2358,12 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                     i = i > (int)count() - 1 ? (int)count() - 1 : i;
                     setCurrentItem(i);
                 }
-                handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
-        case Qt::Key_Prior:
+		case Qt::Key_PageUp:
             {
                 selectCurrent = true;
                 d->currInputString.clear();
@@ -2377,8 +2382,8 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                     i = i < 0 ? 0 : i;
                     setCurrentItem(i);
                 }
-                handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
@@ -2389,7 +2394,7 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                 toggleCurrentItem();
                 if (selectionMode() == Extended && d->current->isSelected())
                     emit highlighted(currentItem());
-                if (selfCheck && (!(e->state() & Qt::ShiftButton) || !d->selectAnchor))
+                if (selfCheck && (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor))
                     d->selectAnchor = d->current;
             }
             break;
@@ -2406,7 +2411,7 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                         emit selected(tmp);
                     emit returnPressed(item(currentItem()));
                 }
-                if (selfCheck && (!(e->state() & Qt::ShiftButton) || !d->selectAnchor))
+                if (selfCheck && (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor))
                     d->selectAnchor = d->current;
             }
             break;
@@ -2415,8 +2420,8 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                 selectCurrent = true;
                 d->currInputString.clear();
                 setCurrentItem(0);
-                handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
@@ -2426,8 +2431,8 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                 d->currInputString.clear();
                 int i = (int)count() - 1;
                 setCurrentItem(i);
-                handleItemChange(old, e->state() & Qt::ShiftButton, e->state() & Qt::ControlButton);
-                if (!(e->state() & Qt::ShiftButton) || !d->selectAnchor)
+                handleItemChange(old, e->modifiers() & Qt::ShiftModifier, e->modifiers() & Qt::ControlModifier);
+                if (!(e->modifiers() & Qt::ShiftModifier) || !d->selectAnchor)
                     d->selectAnchor = d->current;
             }
             break;
@@ -2467,10 +2472,11 @@ void Q3ListBox::keyPressEvent(QKeyEvent *e)
                         if (changed)
                             emit selectionChanged();
                     }
-                    d->inputTimer->start(400, true);
+					d->inputTimer->setSingleShot(true);
+					d->inputTimer->start(400);
                 } else {
                     d->currInputString.clear();
-                    if (e->state() & Qt::ControlButton) {
+                    if (e->modifiers() & Qt::ControlModifier) {
                         switch (e->key()) {
                             case Qt::Key_A:
                                 selectAll(true);
@@ -2564,7 +2570,8 @@ void Q3ListBox::updateItem(Q3ListBoxItem * i)
     if (!i)
         return;
     i->dirty = true;
-    d->updateTimer->start(0, true);
+	d->updateTimer->setSingleShot(true);
+	d->updateTimer->start(0);
 }
 
 
@@ -2907,7 +2914,8 @@ void Q3ListBox::triggerUpdate(bool doLayout)
 {
     if (doLayout)
         d->layoutDirty = d->mustPaintAll = true;
-    d->updateTimer->start(0, true);
+	d->updateTimer->setSingleShot(true);
+	d->updateTimer->start(0);
 }
 
 
@@ -3850,7 +3858,8 @@ void Q3ListBox::resizeEvent(QResizeEvent *e)
     } else if ((d->columnMode == FitToWidth || d->rowMode == FitToHeight) && !(isVisible())) {
         Q3ScrollView::resizeEvent(e);
     } else if (d->layoutDirty) {
-        d->resizeTimer->start(100, true);
+		d->resizeTimer->setSingleShot(true);
+		d->resizeTimer->start(100);
         resizeContents(contentsWidth() - (e->oldSize().width() - e->size().width()),
                         contentsHeight() - (e->oldSize().height() - e->size().height()));
         Q3ScrollView::resizeEvent(e);

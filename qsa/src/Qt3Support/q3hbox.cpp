@@ -40,8 +40,8 @@
 ****************************************************************************/
 
 #include "q3hbox.h"
-#include "qlayout.h"
-#include "qapplication.h"
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QApplication>
 
 
 
@@ -124,7 +124,7 @@ void Q3HBox::setSpacing(int space)
 QSize Q3HBox::sizeHint() const
 {
     QWidget *mThis = (QWidget*)this;
-    QApplication::sendPostedEvents(mThis, QEvent::ChildInserted);
+    QApplication::sendPostedEvents(mThis, QEvent::ChildAdded);
     return Q3Frame::sizeHint();
 }
 
@@ -136,7 +136,7 @@ QSize Q3HBox::sizeHint() const
 */
 bool Q3HBox::setStretchFactor(QWidget* w, int stretch)
 {
-    QApplication::sendPostedEvents(this, QEvent::ChildInserted);
+	QApplication::sendPostedEvents(this, QEvent::ChildAdded);
     if (QBoxLayout *lay = qobject_cast<QBoxLayout *>(layout()))
         return lay->setStretchFactor(w, stretch);
     return false;

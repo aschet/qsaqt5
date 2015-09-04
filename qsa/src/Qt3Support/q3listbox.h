@@ -365,8 +365,6 @@ private:
     Q3ListBox* lbox;
     friend class Q3ListBox;
     friend class Q3ListBoxPrivate;
-    friend class Q3ComboBox;
-    friend class Q3ComboBoxPopupItem;
 };
 
 

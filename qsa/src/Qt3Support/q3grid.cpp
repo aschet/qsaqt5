@@ -60,8 +60,6 @@
 
     Use setMargin() to add space around the grid itself, and
     setSpacing() to add space between the widgets.
-
-    \sa Q3VBox Q3HBox QGridLayout
 */
 
 /*!

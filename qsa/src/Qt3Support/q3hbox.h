@@ -42,13 +42,7 @@
 #ifndef Q3HBOX_H
 #define Q3HBOX_H
 
-#include <q3frame.h>
-
-
-
-
-
-
+#include "q3frame.h"
 
 class QBoxLayout;
 
@@ -69,9 +63,5 @@ protected:
 private:
     Q_DISABLE_COPY(Q3HBox)
 };
-
-
-
-
 
 #endif // Q3HBOX_H

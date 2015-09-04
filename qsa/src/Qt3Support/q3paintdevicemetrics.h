@@ -42,13 +42,7 @@
 #ifndef Q3PAINTDEVICEMETRICS_H
 #define Q3PAINTDEVICEMETRICS_H
 
-#include <QtGui/qpaintdevice.h>
-
-
-
-
-
-
+#include <QtGui/QPaintDevice>
 
 class QSA_EXPORT Q3PaintDeviceMetrics                        // paint device metrics
 {
@@ -69,9 +63,5 @@ public:
 private:
     const QPaintDevice *pdev;
 };
-
-
-
-
 
 #endif // Q3PAINTDEVICEMETRICS_H

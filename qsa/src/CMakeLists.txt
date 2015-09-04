@@ -22,7 +22,7 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 include_directories(engine kernel qsa)
-add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER -DQSA_DLL)
+add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER)
 
 set(UIS "")
 

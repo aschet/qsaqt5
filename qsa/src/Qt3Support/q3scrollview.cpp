@@ -46,11 +46,9 @@
 #include "qpixmap.h"
 #include "qcursor.h"
 #include "q3scrollview.h"
-#include "q3ptrdict.h"
 #include "qapplication.h"
 #include "qtimer.h"
 #include "qstyle.h"
-#include "q3ptrlist.h"
 #include "qevent.h"
 #ifdef Q_WS_MAC
 # include "qt_mac_p.h"

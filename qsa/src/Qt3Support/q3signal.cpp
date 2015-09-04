@@ -42,7 +42,6 @@
 #include "q3signal.h"
 #include <QtCore/QMetaObject>
 #include <QtCore/QPointer>
-#include "q3cstring.h"
 
 
 /*!
@@ -97,7 +96,7 @@ Q3Signal::~Q3Signal()
 // Returns true if it matches ".+(.*int.*"
 static inline bool intSignature(const char *member)
 {
-    Q3CString s(member);
+    QByteArray s(member);
     int p = s.indexOf('(');
     return p > 0 && p < s.lastIndexOf("int");
 }

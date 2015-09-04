@@ -44,12 +44,6 @@
 
 #include <QtCore/QList>
 
-
-
-
-
-
-
 template<class T>
 class Q3CleanupHandler
 {
@@ -102,9 +96,5 @@ public:
     { object = o; return *object; }
     inline void reset() { object = 0; }
 };
-
-
-
-
 
 #endif //Q3CLEANUPHANDLER_H

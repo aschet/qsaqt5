@@ -63,7 +63,7 @@
 
     \img qhbox-m.png Q3HBox
 
-    \sa QHBoxLayout Q3VBox Q3Grid
+    \sa QHBoxLayout Q3VBox
 */
 
 

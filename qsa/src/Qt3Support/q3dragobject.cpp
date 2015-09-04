@@ -59,8 +59,7 @@
 #include "qregexp.h"
 #include "qdir.h"
 #include "qdrag.h"
-#include "q3strlist.h"
-#include "q3cstring.h"
+#include "QStringList.h"
 
 //#include <qobject_p.h>
 
@@ -1044,7 +1043,7 @@ QByteArray Q3StoredDrag::encodedData(const char* m) const
 
     Note that URIs are always in escaped UTF8 encoding.
 */
-Q3UriDrag::Q3UriDrag(const Q3StrList &uris, QWidget * dragSource, const char * name) :
+Q3UriDrag::Q3UriDrag(const QStringList &uris, QWidget * dragSource, const char * name) :
     Q3StoredDrag("text/uri-list", dragSource)
 {
     setObjectName(QLatin1String(name));
@@ -1108,7 +1107,7 @@ bool Q3UriDrag::canDecode(const QMimeData* e)
 }
 
 /*!
-    \fn bool Q3UriDrag::decode(const QMimeData* source, Q3StrList& list)
+    \fn bool Q3UriDrag::decode(const QMimeData* source, QStringList& list)
 
     Decodes URIs from the MIME \a source, placing the result in the \a list.
     The list is cleared before any items are inserted.
@@ -1116,7 +1115,7 @@ bool Q3UriDrag::canDecode(const QMimeData* e)
     Returns true if the MIME \a source contained a valid list of URIs;
     otherwise returns false.
 */
-bool Q3UriDrag::decode(const QMimeData* e, Q3StrList& l)
+bool Q3UriDrag::decode(const QMimeData* e, QStringList& l)
 {
     QByteArray payload = e->encodedData("text/uri-list");
     if (payload.size()) {
@@ -1130,7 +1129,7 @@ bool Q3UriDrag::decode(const QMimeData* e, Q3StrList& l)
             while ((int)c < payload.size() && data[c] && data[c]!='\r'
                    && data[c] != '\n')
                 c++;
-            Q3CString s(data+f,c-f+1);
+            QByteArray s(data+f,c-f+1);
             if (s[0] != '#') // non-comment?
                 l.append(s);
             // Skip junk
@@ -1409,7 +1408,7 @@ QString Q3UriDrag::uriToLocalFile(const char* uri)
 */
 bool Q3UriDrag::decodeLocalFiles(const QMimeData* e, QStringList& l)
 {
-    Q3StrList u;
+    QStringList u;
     if (!decode(e, u))
         return false;
 
@@ -1434,7 +1433,7 @@ bool Q3UriDrag::decodeLocalFiles(const QMimeData* e, QStringList& l)
 */
 bool Q3UriDrag::decodeToUnicodeUris(const QMimeData* e, QStringList& l)
 {
-    Q3StrList u;
+    QStringList u;
     if (!decode(e, u))
         return false;
 

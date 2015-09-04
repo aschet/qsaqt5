@@ -56,7 +56,6 @@
 #include "qimage.h"
 #include "qmap.h"
 #include "qmimedata.h"
-#include "q3paintdevicemetrics.h"
 #include <QtGui/QPainter>
 #include "qstringlist.h"
 #include "qstyle.h"
@@ -98,20 +97,19 @@ static inline bool is_printer(QPainter *p)
 static inline int scale(int value, QPainter *painter)
 {
     if (is_printer(painter)) {
-        Q3PaintDeviceMetrics metrics(painter->device());
 #if defined(Q_WS_X11)
-        value = value * metrics.logicalDpiY() /
+		value = value * painter->device()->logicalDpiY() /
                 QX11Info::appDpiY(painter->device()->x11Screen());
 #elif defined (Q_WS_WIN)
         HDC hdc = GetDC(0);
         int gdc = GetDeviceCaps(hdc, LOGPIXELSY);
         if (gdc)
-            value = value * metrics.logicalDpiY() / gdc;
+			value = value * painter->device()->logicalDpiY() / gdc;
         ReleaseDC(0, hdc);
 #elif defined (Q_WS_MAC)
-        value = value * metrics.logicalDpiY() / 75; // ##### FIXME
+		value = value * painter->device()->logicalDpiY() / 75; // ##### FIXME
 #elif defined (Q_WS_QWS)
-        value = value * metrics.logicalDpiY() / 75;
+		value = value * painter->device()->logicalDpiY() / 75;
 #endif
     }
     return value;

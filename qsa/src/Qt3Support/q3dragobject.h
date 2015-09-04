@@ -61,7 +61,7 @@ class Q3StoredDragPrivate;
 class Q3ImageDragPrivate;
 class Q3ImageDrag;
 class Q3TextDrag;
-class Q3StrList;
+class QStringList;
 class QImage;
 class QPixmap;
 
@@ -169,7 +169,7 @@ class QSA_EXPORT Q3UriDrag: public Q3StoredDrag {
     Q_OBJECT
 
 public:
-    Q3UriDrag(const Q3StrList &uris, QWidget * dragSource = 0, const char * name = 0);
+    Q3UriDrag(const QStringList &uris, QWidget * dragSource = 0, const char * name = 0);
     Q3UriDrag(QWidget * dragSource = 0, const char * name = 0);
     ~Q3UriDrag();
 
@@ -185,7 +185,7 @@ public:
     static QString uriToUnicodeUri(const char*);
     static QByteArray unicodeUriToUri(const QString&);
     static bool canDecode(const QMimeData* e);
-    static bool decode(const QMimeData* e, Q3StrList& i);
+    static bool decode(const QMimeData* e, QStringList& i);
     static bool decodeToUnicodeUris(const QMimeData* e, QStringList& i);
     static bool decodeLocalFiles(const QMimeData* e, QStringList& i);
 

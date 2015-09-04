@@ -42,18 +42,11 @@
 #ifndef Q3TEXTEDIT_H
 #define Q3TEXTEDIT_H
 
-#include <q3scrollview.h>
-#include <q3stylesheet.h>
-#include <q3mimefactory.h>
+#include "q3scrollview.h"
+#include "q3stylesheet.h"
+#include "q3mimefactory.h"
 #include <QtCore/QMap>
 
-
-
-
-
-
-
-#ifndef QT_NO_TEXTEDIT
 // uncomment below to enable optimization mode - also uncomment the
 // optimDoAutoScroll() private slot since moc ignores #ifdefs..
 #define QT_TEXTEDIT_OPTIMIZATION
@@ -75,7 +68,7 @@ class Q3TextEdit;
 class QTextBrowser;
 class Q3TextString;
 struct QUndoRedoInfoPrivate;
-class Q3PopupMenu;
+class QMenu;
 class Q3TextEditPrivate;
 class Q3SyntaxHighlighter;
 class Q3TextDrag;
@@ -453,8 +446,8 @@ protected:
     Q3TextDocument *document() const;
     Q3TextCursor *textCursor() const;
     void setDocument(Q3TextDocument *doc);
-    virtual Q3PopupMenu *createPopupMenu(const QPoint& pos);
-    virtual Q3PopupMenu *createPopupMenu();
+    virtual QMenu *createPopupMenu(const QPoint& pos);
+    virtual QMenu *createPopupMenu();
     void drawCursor(bool visible);
 
 protected Q_SLOTS:
@@ -607,11 +600,5 @@ inline void Q3TextEdit::setCurrentFont(const QFont &f)
 {
     Q3TextEdit::setFontInternal(f);
 }
-
-#endif // QT_NO_TEXTEDIT
-
-
-
-
 
 #endif // Q3TEXTEDIT_H

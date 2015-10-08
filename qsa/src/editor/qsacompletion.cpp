@@ -145,7 +145,7 @@ static void addLayoutChildren( QObject *o, Q3ValueList<CompletionEntry> &res )
 static QStringList getArguments( const QString &s )
 {
     QString str = s.mid( s.find( QString::fromLatin1("(") ) + 1, s.find( QString::fromLatin1(")") ) - 1 - s.find( QString::fromLatin1("(") ) );
-    str = str.trimmed();
+    str = str.simplified();
     QStringList lst = QStringList::split( ',', str );
     QStringList res;
     for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
@@ -153,7 +153,7 @@ static QStringList getArguments( const QString &s )
 	arg = arg.replace( QRegExp( QString::fromLatin1("const") ), QString::fromLatin1("") );
 	arg = arg.replace( QRegExp( QString::fromLatin1("&") ), QString::fromLatin1("") );
 	arg = arg.replace( QRegExp( QString::fromLatin1("*") ), QString::fromLatin1("") );
-	arg = arg.trimmed();
+	arg = arg.simplified();
 	res << arg;
     }
     return res;
@@ -579,7 +579,7 @@ QString QSACompletion::functionCode() const
     }
 
     if ( p && pos != -1 && braceCount >= 0 ) {
-	funcName = p->string()->toString().mid( pos + 9 ).trimmed();
+	funcName = p->string()->toString().mid( pos + 9 ).simplified();
 	funcName = funcName.left( funcName.find( '(' ) );
     }
 

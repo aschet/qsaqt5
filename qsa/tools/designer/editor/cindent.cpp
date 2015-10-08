@@ -26,7 +26,7 @@ CIndent::CIndent()
 
 static int indentation( const QString &s )
 {
-    if ( s.trimmed().length() == 0 )
+    if ( s.simplified().length() == 0 )
 	return 0;
     int i = 0;
     int ind = 0;

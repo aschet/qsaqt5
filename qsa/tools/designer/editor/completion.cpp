@@ -320,7 +320,7 @@ bool EditorCompletion::eventFilter( QObject *o, QEvent *e )
 	    QString s = curEditor->textCursor()->paragraph()->string()->toString().
 			left( curEditor->textCursor()->index() );
 	    if ( curEditor->document()->hasSelection( Q3TextDocument::Standard ) ||
-		 s.trimmed().isEmpty() ) {
+		 s.simplified().isEmpty() ) {
 		if ( curEditor->document()->indent() ) {
 		    curEditor->indent();
 		    int i = 0;
@@ -574,16 +574,16 @@ bool EditorCompletion::doArgumentHint( bool useIndex )
     j = qMax( j, 0 );
     QString function( cursor->paragraph()->string()->toString().mid( j, i - j + 1 ) );
     QString part = cursor->paragraph()->string()->toString().mid( j, cursor->index() - j + 1 );
-    function = function.trimmed();
+    function = function.simplified();
     for (;;) {
         if (function.isEmpty())
             return false;
 	if ( function[ (int)function.length() - 1 ] == '(' ) {
 	    function.remove( function.length() - 1, 1 );
-	    function = function.trimmed();
+	    function = function.simplified();
 	} else if ( function[ (int)function.length() - 1 ] == ')' ) {
 	    function.remove( function.length() - 1, 1 );
-	    function = function.trimmed();
+	    function = function.simplified();
 	} else {
 	    break;
 	}

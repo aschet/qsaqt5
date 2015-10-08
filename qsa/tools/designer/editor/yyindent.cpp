@@ -956,7 +956,7 @@ static int indentForStandaloneLine()
 	      Never trust lines containing only '{' or '}', as some
 	      people (Richard M. Stallman) format them weirdly.
 	    */
-	    if ( yyLine->trimmed().length() > 1 )
+	    if ( yyLine->simplified().length() > 1 )
 		return indentOfLine( *yyLine ) - *yyBraceDepth * ppIndentSize;
 	}
 

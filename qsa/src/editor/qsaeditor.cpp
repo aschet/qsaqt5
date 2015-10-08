@@ -202,8 +202,8 @@ void QSAEditor::collapse( bool all /*else only functions*/ )
     while ( p ) {
 	if ( ( (ParagData*)p->extraData() )->lineState == ParagData::FunctionStart ) {
 	    if ( all
-                 || p->string()->toString().trimmed().left(QString::fromLatin1("function").length()) == QString::fromLatin1("function")
-                 || p->string()->toString().trimmed().left(QString::fromLatin1("constructor").length()) == QString::fromLatin1("constructor") ) {
+                 || p->string()->toString().simplified().left(QString::fromLatin1("function").length()) == QString::fromLatin1("function")
+                 || p->string()->toString().simplified().left(QString::fromLatin1("constructor").length()) == QString::fromLatin1("constructor") ) {
 		p = collapseFunction( p, false );
 		continue;
 	    }
@@ -219,8 +219,8 @@ void QSAEditor::expand( bool all /*else only functions*/ )
     while ( p ) {
 	if ( ( (ParagData*)p->extraData() )->lineState == ParagData::FunctionStart ) {
 	    if ( all ||
-		 p->string()->toString().trimmed().left(QString::fromLatin1("function").length() ) == QString::fromLatin1("function") ||
-		 p->string()->toString().trimmed().left(QString::fromLatin1("constructor").length() ) == QString::fromLatin1("constructor") ) {
+		 p->string()->toString().simplified().left(QString::fromLatin1("function").length() ) == QString::fromLatin1("function") ||
+		 p->string()->toString().simplified().left(QString::fromLatin1("constructor").length() ) == QString::fromLatin1("constructor") ) {
 		p = expandFunction( p, false );
 		continue;
 	    }

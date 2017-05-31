@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.8.12.2)
 
 project(src)
 
-if (WIN32)
-set(CMAKE_DEBUG_POSTFIX "d")
-endif (WIN32)
+if (MSVC)
+	set(CMAKE_DEBUG_POSTFIX "d")
+endif()
 
 option(QSA_NO_DLL "Does not compile as shared library." OFF)
 option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)
@@ -284,7 +284,9 @@ qt5_wrap_ui(HEADERS_UIS ${UIS})
 qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
 add_library(qsa ${LIB_MODE} ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
-set_target_properties(qsa PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+if (MSVC)
+	set_target_properties(qsa PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+endif()
 target_link_libraries(qsa ${QT_LIBS})
 
 install(FILES ${HEADERS_DIST} DESTINATION include)

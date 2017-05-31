@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 2.8.12.2)
 
 project(src)
 
+if (WIN32)
+set(CMAKE_DEBUG_POSTFIX "d")
+endif (WIN32)
+
 option(QSA_NO_DLL "Does not compile as shared library." OFF)
 option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)
 option(QSA_NEW_EDITOR "Does compile QTextEdit instead of Q3TextEdit based editor into QSA." ON)
@@ -88,6 +92,17 @@ set(HEADERS engine/qsclass.h
 	qsa/qsinputdialogfactory.h
 )
 
+set(HEADERS_DIST qsa/qsaglobal.h
+	qsa/qsconfig.h
+	qsa/qsinputdialogfactory.h
+	qsa/qsinterpreter.h
+	qsa/qsobjectfactory.h
+	qsa/qsproject.h
+	qsa/qsscript.h
+	qsa/qsutilfactory.h
+	qsa/qswrapperfactory.h
+)
+
 set(SOURCES engine/qsclass.cpp
 	engine/qsmember.cpp
 	engine/qstypes.cpp
@@ -144,6 +159,9 @@ set(HEADERS_MOC ${HEADERS_MOC}
 )
 set(HEADERS ${HEADERS}
 	ide/conf.h
+)
+set(HEADERS_DIST ${HEADERS_DIST}
+	qsa/qseditor.h
 )
 set(SOURCES ${SOURCES}
 	qsa/qseditor.cpp
@@ -218,6 +236,10 @@ endif(${QSA_NEW_EDITOR})
 
 if(NOT ${QSA_NO_IDE})
 
+set(HEADERS_DIST ${HEADERS_DIST}
+	ide/qsworkbench.h
+)
+
 find_package(Qt5PrintSupport REQUIRED)
 include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
 add_definitions(${Qt5PrintSupport_DEFINITIONS})
@@ -262,4 +284,12 @@ qt5_wrap_ui(HEADERS_UIS ${UIS})
 qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
 add_library(qsa ${LIB_MODE} ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
+set_target_properties(qsa PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 target_link_libraries(qsa ${QT_LIBS})
+
+install(FILES ${HEADERS_DIST} DESTINATION include)
+
+install(TARGETS qsa
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib)

@@ -1252,7 +1252,7 @@ void QSInterpreter::addTransientSignalHandler(QObject *sender,
 {
     QuickInterpreter *ip = interpreter();
     QString func = QString::fromLatin1(qtscriptFunction);
-    func.left(func.indexOf('('));
+    func = func.left(func.indexOf('('));
     QSObject senderObj = ip->wrap(sender);
 
     QSObject obj = ip->object(func);
@@ -1283,7 +1283,7 @@ void QSInterpreter::removeTransientSignalHandler(QObject *sender, const char *si
 {
     QuickInterpreter *ip = interpreter();
     QString func = QString::fromLatin1(qtscriptFunction);
-    func.left(func.indexOf('('));
+    func = func.left(func.indexOf('('));
     QSObject senderObj = ip->wrap(sender);
 
     QSObject obj = ip->object(func);

@@ -682,7 +682,7 @@ void QSProject::addSignalHandler( QObject *sender,
 				  const char *qtscriptFunction )
 {
     QString func( QString::fromLatin1(qtscriptFunction) );
-    func.left( func.indexOf( '(' ) );
+    func = func.left( func.indexOf( '(' ) );
     QSSignalHandler sigh;
     sigh.sender = sender;
     sigh.receiver = receiver;

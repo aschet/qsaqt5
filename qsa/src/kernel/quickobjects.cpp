@@ -1638,6 +1638,9 @@ static QSObject qsa_pod_value(QSEnv *env, QMetaType::Type type, void *value)
 
 static QSObject qsa_script_variant(QuickInterpreter *ip, QVariant::Type type, void *value)
 {
+    if (type == QVariant::Invalid)
+        return QSObject();
+
     QVariant var(type, value);
 
     if (var.isValid()) {
@@ -1660,7 +1663,7 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
         return ret_val;
 
     // The case for void functions.
-    if (ti.id == QMetaType::Void && ti.name.isEmpty())
+    if (ti.id == QMetaType::Void && ti.name.isEmpty() || ti.name == "void")
         return env->createUndefined();
 
     QuickInterpreter *ip = QuickInterpreter::fromEnv(env);
@@ -1765,6 +1768,9 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
 
 static void *qsa_default_value(QSASlotCaching *caching, const QSATypeInfo &ti, const QMetaObject *mo)
 {
+    if (ti.name == "void")
+        return 0;
+
     const QVariant *v = caching->variants(QVariant::Type(ti.id));
     void *const_data = (void *) v->constData();
 

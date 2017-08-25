@@ -1130,7 +1130,9 @@ bool QSWritableClass::member( const QSObject *o, const QString &n,
 			      QSMember *m ) const
 {
     //    qDebug( "QSWritableClass::member() class = %s, name = %s", name().latin1(), n.latin1() );
-    Q_ASSERT( /* o &&*/ !n.isEmpty() );
+    if (n.isEmpty())
+        return false;
+
     Q_ASSERT( m );
 
     if( !o || !o->isDefined() ) {

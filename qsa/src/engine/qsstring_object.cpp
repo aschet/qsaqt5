@@ -110,7 +110,7 @@ void QSStringClass::ref( QSObject *o ) const
 void QSStringClass::deref( QSObject *o ) const
 {
     if (!o->val.str->ref.deref()) {
-		qFreeAligned(o->val.str);
+        delete o->val.str;
     }
 }
 

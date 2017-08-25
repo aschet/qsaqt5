@@ -45,12 +45,12 @@
 
 using namespace QS;
 
-QSFakeQString::Data *qsa_qstring_to_data(const QString &str)
+QStringData *qsa_qstring_to_data(const QString &str)
 {
     return ((QSFakeQString*) &str)->d;
 }
 
-QString qsa_qstring_from_data(QSFakeQString::Data *data)
+QString qsa_qstring_from_data(QStringData *data)
 {
     QSFakeQString fs = { data };
     QString str((const QString &) fs);

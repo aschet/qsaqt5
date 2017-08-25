@@ -74,22 +74,11 @@ enum ValueType {
 
 struct QSFakeQString {
 public:
-    struct Data {
-        QBasicAtomicInt ref;
-        int alloc, size;
-        ushort *data;
-        ushort clean : 1;
-        ushort simpletext : 1;
-        ushort righttoleft : 1;
-        ushort asciiCache : 1;
-        ushort reserved : 12;
-        ushort array[1];
-    };
-    Data *d;
+    QStringData *d;
 };
 
-QSFakeQString::Data *qsa_qstring_to_data(const QString &str);
-QString qsa_qstring_from_data(QSFakeQString::Data *data);
+QStringData *qsa_qstring_to_data(const QString &str);
+QString qsa_qstring_from_data(QStringData *data);
 
 
 // Reggie: This is a really ugly hack to get QSA link on windows
@@ -110,7 +99,7 @@ union Value {
     int i;
     double d;
     bool b;
-    QSFakeQString::Data *str;
+    QStringData *str;
     QSShared *sh;
     QSClass *cl;
     void *other;

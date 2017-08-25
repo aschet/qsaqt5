@@ -1319,6 +1319,9 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
     QuickInterpreter *interpreter = QuickInterpreter::fromEnv(env);
     QSASlotCaching *caching = interpreter->slotCaching();
     caching->lock();
+    // TODO: bug in caching will result in lookup failures, thus an existing slot of an object
+    // can't be called, reseting the cache is a workaround
+    caching->signature_cache.clear();
 
     void *stored_data[32];
     QList<QSATypeInfo> stored_types;

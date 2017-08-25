@@ -13,3 +13,5 @@ set(SOURCES scribblescripter.cpp
 add_executable(scribblescripter ${SOURCES} ${SOURCES_MOC} ${HEADERS_MOC})
 target_link_libraries(scribblescripter Qt5::Widgets qsa)
 
+file(COPY scribble.qs DESTINATION .)
+file(COPY scribblescript.qsa DESTINATION .)

@@ -23,3 +23,9 @@ set(SOURCES addscriptdialog.cpp
 
 add_executable(spreadsheet ${SOURCES_QRC} ${SOURCES} ${SOURCES_MOC} ${HEADERS_UIS} ${HEADERS_MOC})
 target_link_libraries(spreadsheet Qt5::Widgets qsa)
+
+file(COPY euro.qs DESTINATION .)
+file(COPY images DESTINATION .)
+file(COPY math.qs DESTINATION .)
+file(COPY spreadsheet.qsa DESTINATION .)
+

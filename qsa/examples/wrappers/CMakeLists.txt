@@ -8,3 +8,6 @@ set(SOURCES wrappers.cpp)
 
 add_executable(wrappers ${SOURCES} ${SOURCES_MOC} ${HEADERS_MOC})
 target_link_libraries(wrappers Qt5::Widgets qsa)
+
+file(COPY click.qs DESTINATION .)
+file(COPY test.qs DESTINATION .)

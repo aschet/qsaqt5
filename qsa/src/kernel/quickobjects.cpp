@@ -321,7 +321,7 @@ bool QSWrapperClass::member(const QSObject *objPtr, const QString &p,
 
                 for (int method_index = first_method; method_index <= last_method; ++method_index) {
                     QMetaMethod method = mo->method(method_index);
-                    const char *signature = method.methodSignature();
+                    QByteArray signature = method.methodSignature();
                     if (method.methodType() != QMetaMethod::Signal
                         && strncmp(signature, member_name, member_name_length) == 0
                         && signature[member_name_length] == '(') {
@@ -1319,9 +1319,6 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
     QuickInterpreter *interpreter = QuickInterpreter::fromEnv(env);
     QSASlotCaching *caching = interpreter->slotCaching();
     caching->lock();
-    // TODO: bug in caching will result in lookup failures, thus an existing slot of an object
-    // can't be called, reseting the cache is a workaround
-    caching->signature_cache.clear();
 
     void *stored_data[32];
     QList<QSATypeInfo> stored_types;

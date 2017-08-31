@@ -123,10 +123,15 @@ struct QSATypeInfo {
 };
 
 struct QSAMethodSignature {
-    QSAMethodSignature(const char *s, const char *r)
-        : signature(s), return_type(r) { while (*++signature != '('); }
-    const char *signature;              // (paramType1, paramType2, ...)
-    const char *return_type;            // returnType
+    QSAMethodSignature(const QByteArray& s, const QByteArray& r)
+        : return_type(r)
+    {
+        const char* signatureStart = s.data();
+        while (*++signatureStart != '(');
+        signature = signatureStart;
+    }
+    QByteArray signature;              // (paramType1, paramType2, ...)
+    QByteArray return_type;            // returnType
 };
 
 uint qHash(const QSAMethodSignature &method);

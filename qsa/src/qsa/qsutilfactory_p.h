@@ -327,6 +327,18 @@ private:
     QEventLoop *m_eventLoop;
 };
 
+// workaround for nameclash due to existing preprocessor definitions in Microsoft UCRT
+
+#ifdef stdout
+#define stdout_lastdef stdout
+#undef stdout
+#endif
+
+#ifdef stderr
+#define stderr_lastdef stderr
+#undef stderr
+#endif
+
 class QSProcessStatic : public QObject
 {
     Q_OBJECT
@@ -355,6 +367,13 @@ private:
     QSUtilFactory *factory;
 };
 
+#ifdef stdout_lastdef
+#define stdout stdout_lastdef
+#endif
+
+#ifdef stderr_lastdef
+#define stderr stderr_lastdef
+#endif
 
 class QSProcess : public QObject
 {

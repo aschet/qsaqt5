@@ -60,7 +60,7 @@ public:
 
     void setCode(const QString &code);
     void addCode(const QString &code);
-    bool addFunction(const QString &funcName, const QString &funcBody = QString::null);
+    bool addFunction(const QString &funcName, const QString &funcBody = QString());
     QSProject *project() const;
 
 protected slots:

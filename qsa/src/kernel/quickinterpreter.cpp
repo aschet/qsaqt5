@@ -643,7 +643,7 @@ QString QuickInterpreter::nameOfSourceId(int id) const
 {
     QMap<int,QString>::ConstIterator it = sourceIdNames.find(id);
     if (it == sourceIdNames.end())
-	return QString::null;
+    return QString();
     return *it;
 }
 

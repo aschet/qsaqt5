@@ -128,7 +128,7 @@ QuickInterpreter *get_quick_interpreter(QSInterpreter *ip)
 
   Returns the name of the script in which the function is located if
   the script name was specified when the function was evaluated;
-  otherwise returns QString::null.
+  otherwise returns QString().
 */
 
 
@@ -717,7 +717,7 @@ void QSInterpreter::clear()
 */
 QStringList QSInterpreter::functions(FunctionFlags flags) const
 {
-    return functions(QString::null, flags);
+    return functions(QString(), flags);
 }
 
 
@@ -806,7 +806,7 @@ QStringList QSInterpreter::classes(ClassFlags flags) const
     if(flags == AllClasses) {
 	lst = d->interpreter->classes();
     } else {
-	QSObject obj = d->interpreter->object(QString::null);
+	QSObject obj = d->interpreter->object(QString());
 	lst = d->interpreter->classesOf(obj);
     }
     stopInterpreter();
@@ -899,7 +899,7 @@ QStringList QSInterpreter::variables(QObject *context) const
 */
 QStringList QSInterpreter::variables() const
 {
-    return variables(QString::null);
+    return variables(QString());
 }
 
 /*!
@@ -1180,13 +1180,13 @@ void QSInterpreter::removeWrapperFactory(QSWrapperFactory *factory)
 
 /*!
   Returns the error message that was last reported if there was an
-  error; otherwise returns QString::null
+  error; otherwise returns QString()
 */
 QString QSInterpreter::errorMessage() const
 {
     return hadError()
 	? d->interpreter->errorMessages().first()
-	: QString::null ;
+	: QString() ;
 }
 
 

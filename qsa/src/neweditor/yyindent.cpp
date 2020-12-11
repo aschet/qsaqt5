@@ -336,7 +336,7 @@ static bool readLine()
 
     do {
 	if ( yyLinizerState->iter == yyProgram->begin() ) {
-	    yyLinizerState->line = QString::null;
+	    yyLinizerState->line = QString();
 	    return false;
 	}
 
@@ -360,7 +360,7 @@ static bool readLine()
 
 	    k = yyLinizerState->line.indexOf( slashAster );
 	    if ( k == -1 ) {
-		yyLinizerState->line = QString::null;
+		yyLinizerState->line = QString();
 	    } else {
 		yyLinizerState->line.truncate( k );
 		yyLinizerState->inCComment = false;
@@ -385,7 +385,7 @@ static bool readLine()
 	while ( k < (int) yyLinizerState->line.length() ) {
 	    QChar ch = yyLinizerState->line[k];
 	    if ( ch == QChar('#') ) {
-		yyLinizerState->line = QString::null;
+		yyLinizerState->line = QString();
 	    } else if ( !ch.isSpace() ) {
 		break;
 	    }
@@ -1122,7 +1122,7 @@ static QString fileContents( const QString& fileName )
     if ( !f.open(QIODevice::ReadOnly) ) {
 	qWarning( "yyindent error: Cannot open file '%s' for reading: %s",
 		  fileName.latin1(), strerror(errno) );
-	return QString::null;
+	return QString();
     }
 
     QTextStream t( &f );

@@ -52,7 +52,7 @@ public:
     QSObject construct(const QSList &args) const;
     QSObject cast(const QSList &args) const;
 
-    QSObject construct(ErrorType e, const QString &m = QString::null,
+    QSObject construct(ErrorType e, const QString &m = QString(),
 			int ln = - 1) const;
 
     static ErrorType errorType(const QSObject *objPtr);

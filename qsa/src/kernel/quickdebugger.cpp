@@ -72,7 +72,7 @@ bool QuickDebugger::watch( const QString &var,
     simple.replace( QRegExp( QString::fromLatin1("\\]") ), QString::fromLatin1("") );
     QString info = varInfo(simple);
     if ( info.isNull() ) {
-	value = type = QString::null;
+    value = type = QString();
 	return false;
     }
     int eq = info.indexOf( '=' );

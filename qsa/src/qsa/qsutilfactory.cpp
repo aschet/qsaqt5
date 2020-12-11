@@ -239,7 +239,7 @@ QString QSFile::read()
 {
     if (!file->isOpen()) {
 	interpreter->throwError(QString::fromLatin1("File '") + file->fileName() + QString::fromLatin1("' is not open"));
-	return QString::null;
+	return QString();
     }
     return QString::fromLocal8Bit(file->readAll());
 }
@@ -466,7 +466,7 @@ int QSProcessStatic::execute(const QStringList &command, const QString &stdinBuf
     if (commands.size() == 1 && commands[0].contains(' ')) {
         commands = commands[0].split(QString::fromLatin1(" "));
     }
-    out = err = QString::null;
+    out = err = QString();
     QSBlockingProcess pl;
     QString program = commands.takeFirst();
     pl.start(program, commands);
@@ -487,7 +487,7 @@ int QSProcessStatic::execute(const QStringList &command, const QString &stdinBuf
 
 int QSProcessStatic::executeNoSplit(const QStringList &command, const QString &stdinBuffer)
 {
-    out = err = QString::null;
+    out = err = QString();
     QSBlockingProcess pl;
     QStringList commands = command;
     QString program = commands.takeFirst();

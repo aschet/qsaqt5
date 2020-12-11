@@ -124,28 +124,28 @@ public:
     }
 
 public slots:
-    QVariant getText(const QString &label = QString::null,
-		     const QString &text = QString::null,
-		     const QString &title = QString::null,
+    QVariant getText(const QString &label = QString(),
+		     const QString &text = QString(),
+		     const QString &title = QString(),
 		     QWidget *parent = 0);
-    QVariant getNumber(const QString &label = QString::null,
+    QVariant getNumber(const QString &label = QString(),
 		       double value = 0,
 		       int decimals = 0,
 		       double minValue = -2147483647,
 		       double maxValue = 2147483647,
-		       const QString &title = QString::null,
+		       const QString &title = QString(),
 		       QWidget *parent = 0);
     QVariant getItem(const QString &label,
 		     const QStringList &itemList,
-		     const QString &currentItem = QString::null,
+		     const QString &currentItem = QString(),
 		     bool editable = false,
-		     const QString &title = QString::null,
+		     const QString &title = QString(),
 		     QWidget *parent = 0);
     QVariant getItem(const QStringList &itemList,
-		      const QString &currentItem = QString::null,
+		      const QString &currentItem = QString(),
 		      bool editable = false,
 		      QWidget *parent = 0) {
-	return getItem(QString::null, itemList, currentItem, editable, QString::null, parent);
+	return getItem(QString(), itemList, currentItem, editable, QString(), parent);
     }
 };
 
@@ -162,18 +162,18 @@ public:
     }
 
 public slots:
-    QVariant getOpenFileName(const QString &filter = QString::null,
-			      const QString &title = QString::null,
+    QVariant getOpenFileName(const QString &filter = QString(),
+			      const QString &title = QString(),
 			      QWidget *parent = 0);
-    QVariant getSaveFileName(const QString &filter = QString::null,
-			      const QString &title = QString::null,
+    QVariant getSaveFileName(const QString &filter = QString(),
+			      const QString &title = QString(),
 			      QWidget *parent = 0);
-    QVariant getExistingDirectory(const QString &dir = QString::null,
-				   const QString &title = QString::null,
+    QVariant getExistingDirectory(const QString &dir = QString(),
+				   const QString &title = QString(),
 				   QWidget *parent = 0);
-    QStringList getOpenFileNames(const QString &dir = QString::null,
-				  const QString &filter = QString::null,
-				  const QString &title = QString::null,
+    QStringList getOpenFileNames(const QString &dir = QString(),
+				  const QString &filter = QString(),
+				  const QString &title = QString(),
 				  QWidget *parent = 0);
 private:
     QString cap;
@@ -199,7 +199,7 @@ public slots:
 		     ButtonType button0 = Ok,
 		     ButtonType button1 = NoButton,
 		     ButtonType button2 = NoButton,
-		     const QString &title = QString::null,
+		     const QString &title = QString(),
 		     QWidget *parent = 0);
 // QMessageBox::question is not part of Qt 3.1
 /*
@@ -212,7 +212,7 @@ public slots:
 		 ButtonType button0 = Retry,
 		 ButtonType button1 = Abort,
 		 ButtonType button2 = NoButton,
-		 const QString &title = QString::null,
+		 const QString &title = QString(),
 		 QWidget *parent = 0);
 
     int critical(const QString &text,
@@ -547,7 +547,7 @@ class QSDialog : public QSWidget
     Q_PROPERTY(QString cancelButtonText READ cancelButtonText WRITE setCancelButtonText)
     QSDialogPrivate *d;
 public:
-    QSDialog(const QString &caption = QString::null, QWidget *parent=0);
+    QSDialog(const QString &caption = QString(), QWidget *parent=0);
     ~QSDialog();
 
     void setTitle(const QString &title);

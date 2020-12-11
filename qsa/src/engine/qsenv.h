@@ -135,7 +135,7 @@ public:
 
     const QList<QSClass *> &classes() const { return classList; }
 
-    QSObject throwError(ErrorType e, const QString &m = QString::null,
+    QSObject throwError(ErrorType e, const QString &m = QString(),
 			 int l = -1);
     QSObject throwError(const QString &msg);
 

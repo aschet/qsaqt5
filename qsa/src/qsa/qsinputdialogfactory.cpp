@@ -134,7 +134,7 @@ QVariant QSInput::getItem(const QString &label,
 QVariant QSFileDialog::getOpenFileName(const QString &filter, const QString &title,
 					QWidget *parent)
 {
-    QString str = QFileDialog::getOpenFileName(parent ? parent : qApp->activeWindow(), title, QString::null, filter,
+    QString str = QFileDialog::getOpenFileName(parent ? parent : qApp->activeWindow(), title, QString(), filter,
 						                       0);
     return str.isNull() ? QVariant() : QVariant(str);
 }
@@ -142,7 +142,7 @@ QVariant QSFileDialog::getOpenFileName(const QString &filter, const QString &tit
 QVariant QSFileDialog::getSaveFileName(const QString &filter, const QString &title,
 					QWidget *parent)
 {
-    QString str = QFileDialog::getSaveFileName(parent ? parent : qApp->activeWindow(), title, QString::null, filter,
+    QString str = QFileDialog::getSaveFileName(parent ? parent : qApp->activeWindow(), title, QString(), filter,
                                                0);
     return str.isNull() ? QVariant() : QVariant(str);
 }

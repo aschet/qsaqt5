@@ -107,10 +107,10 @@ QMap<QString, ConfigStyle> Config::readStyles()
 	QString::fromLatin1("Preprocessor"),
 	QString::fromLatin1("Label"),
 	QString::fromLatin1("Standard"),
-	QString::null
+    QString()
     };
 
-    for ( int i = 0; elements[ i ] != QString::null; ++i ) {
+    for ( int i = 0; elements[ i ] != QString(); ++i ) {
 	QSettings settings("Trolltech", "QSA");
         settings.beginGroup(path);
         settings.beginGroup(elements[i]);
@@ -163,13 +163,13 @@ void Config::saveStyles(const QMap<QString, ConfigStyle> &styles)
 	QString::fromLatin1("Preprocessor"),
 	QString::fromLatin1("Label"),
 	QString::fromLatin1("Standard"),
-	QString::null
+    QString()
     };
 
     QSettings settings("Trolltech", "QSA");
     settings.beginGroup(path);
 
-    for ( int i = 0; elements[ i ] != QString::null; ++i ) {
+    for ( int i = 0; elements[ i ] != QString(); ++i ) {
         settings.beginGroup(elements[i]);
 	settings.setValue("family", styles[ elements[ i ] ].font.family() );
 	settings.setValue("size", styles[ elements[ i ] ].font.pointSize() );

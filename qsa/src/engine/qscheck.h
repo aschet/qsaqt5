@@ -112,7 +112,7 @@ public:
     void enterBlock(QSBlockScopeClass *cl);
     void leaveBlock();
 
-    void enterLoop(const QString &label = QString::null);
+    void enterLoop(const QString &label = QString());
     void leaveLoop();
 
     void enterSwitch();

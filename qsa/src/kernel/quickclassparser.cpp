@@ -292,7 +292,7 @@ void QuickClassParser::parseFunction( int functionLength )
 	func.access = "public";
     else
 	func.access = lastAccess;
-    lastAccess = QString::null;
+    lastAccess = QString();
     currClass->functions << func;
 }
 
@@ -343,7 +343,7 @@ void QuickClassParser::parseClassStart()
 		currClass->access = "public";
 	    else
 		currClass->access = lastAccess;
-	    lastAccess = QString::null;
+        lastAccess = QString();
 	    return;
 	} else if ( state == Name && formCode[ pos ] == ':' ) {
 	    state = Inherits;

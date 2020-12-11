@@ -57,8 +57,8 @@ class QSWrapperFactory;
 class QSA_EXPORT QSStackFrame
 {
 public:
-    QSStackFrame(const QString &fun = QString::null,
-		  const QString &file = QString::null,
+    QSStackFrame(const QString &fun = QString(),
+		  const QString &file = QString(),
 		  int line = 0,
 		  QObject *con = 0) :
 	fname(file), func(fun), ln(line), cont(con)
@@ -106,7 +106,7 @@ public:
     static QSInterpreter *defaultInterpreter();
 
     QVariant evaluate(const QString &code, QObject *context = 0,
-                      const QString &scriptName = QString::null);
+                      const QString &scriptName = QString());
     QVariant call(const QString &function, const QVariantList &arguments = QVariantList(),
                   QObject *context = 0);
     QObject *currentContext() const;

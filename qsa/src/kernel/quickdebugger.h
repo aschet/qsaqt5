@@ -49,7 +49,7 @@
 
 struct QuickDebuggerStackFrame
 {
-    QuickDebuggerStackFrame(const QString &fn = QString::null,
+    QuickDebuggerStackFrame(const QString &fn = QString(),
         int ln = -1, int sid = -1) : function(fn), line(ln), sourceId(sid) {}
         QString function;
         int line;

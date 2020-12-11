@@ -147,8 +147,8 @@ protected:
      * Invoked on each function call. Use together with @ref returnEvent
      * if you want to keep track of the call stack.
      */
-    virtual void callEvent(const QString &fn = QString::null,
-			    const QString &s = QString::null);
+    virtual void callEvent(const QString &fn = QString(),
+                const QString &s = QString());
     /**
      * Invoked on each function exit.
      */

@@ -257,8 +257,8 @@ public:
     };
 
 public slots:
-    QString filePath(const QString &file=QString::null) const;
-    QString absFilePath(const QString &file=QString::null) const;
+    QString filePath(const QString &file=QString()) const;
+    QString absFilePath(const QString &file=QString()) const;
     void cd(const QString &dirName) const;
     void cdUp() const;
 
@@ -266,11 +266,11 @@ public slots:
 			  int filterSpec=-1,
 			  int sortSpec=-1) const;
 
-    void mkdir(const QString &dirName = QString::null) const;
-    void rmdir(const QString &dirName = QString::null) const;
+    void mkdir(const QString &dirName = QString()) const;
+    void rmdir(const QString &dirName = QString()) const;
 
-    void mkdirs(const QString &dirName = QString::null) const;
-    void rmdirs(const QString &dirName = QString::null) const;
+    void mkdirs(const QString &dirName = QString()) const;
+    void rmdirs(const QString &dirName = QString()) const;
 
     void remove(const QString &fileName) const;
     void rename(const QString &oldName, const QString &newName);
@@ -355,9 +355,9 @@ public:
     QString readStderr() const { return err; }
 
 public slots:
-    int execute(const QStringList &command, const QString &stdinBuffer=QString::null);
-    int executeNoSplit(const QStringList &command, const QString &stdinBuffer = QString::null);
-    int execute(const QString &command, const QString &stdinBuffer=QString::null)
+    int execute(const QStringList &command, const QString &stdinBuffer=QString());
+    int executeNoSplit(const QStringList &command, const QString &stdinBuffer = QString());
+    int execute(const QString &command, const QString &stdinBuffer=QString())
     {
 	return execute(QStringList(command), stdinBuffer);
     }

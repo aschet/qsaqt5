@@ -300,7 +300,7 @@ void QSCheckData::enterPackage( const QString &name )
 void QSCheckData::leavePackage()
 {
     Q_ASSERT( inPackage() );
-    currpack = QString::null;
+    currpack = QString();
 }
 
 

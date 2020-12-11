@@ -293,7 +293,7 @@ bool QSProject::loadFromData( QByteArray *projectData )
 /*!
   Saves the scripts project to the file \a projectFile
 
-  The default for \a projectFile is QString::null, in which
+  The default for \a projectFile is QString(), in which
   case the filename used during load will be used.
 
   \sa load()

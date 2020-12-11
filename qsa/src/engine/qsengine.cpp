@@ -187,7 +187,7 @@ static QSObject debugFunction( QSEnv *env )
 
 static QSObject printFunction( QSEnv *env )
 {
-    // qDebug( QString::null ) crashes so make sure the string is not null.
+    // qDebug( QString() ) crashes so make sure the string is not null.
     qDebug("%s", env->arg( 0 ).toString().toLocal8Bit().constData() );
     return env->createUndefined();
 }

@@ -56,7 +56,7 @@ public:
     QSWrapperFactory();
     virtual ~QSWrapperFactory();
     virtual QObject *create( const QString &className, void *ptr ) = 0;
-    void registerWrapper(const QString &className, const QString &cppClassName = QString::null );
+    void registerWrapper(const QString &className, const QString &cppClassName = QString() );
     void throwError( const QString &message );
     QMap<QString,QString> wrapperDescriptors() const;
 

@@ -100,7 +100,7 @@ void QSEnv::init()
     thVal = createUndefined();
 
     execMode = Normal;
-    setCurrentLabel( QString::null );
+    setCurrentLabel( QString() );
 }
 
 #if QS_DEBUG_MEM == 1
@@ -222,7 +222,7 @@ void QSEnv::pushScopeBlock()
 {
     QSObject obj;
     pushScope( obj );
-    labels.push_front( QString::null );
+    labels.push_front( QString() );
 }
 
 void QSEnv::pushScope( const QSObject &s )
@@ -438,10 +438,10 @@ void QSEnv::setExecutionMode( ExecutionMode mode )
 	    break;
 	case Continue:
 	case Break:
-	    setCurrentLabel( QString::null );
+        setCurrentLabel( QString() );
 	    break;
 	case Throw:
-	    exMsg = QString::null;
+        exMsg = QString();
 #ifdef QSDEBUGGER
 	    if( eng->debugger() )
 		eng->debugger()->storeExceptionStack();

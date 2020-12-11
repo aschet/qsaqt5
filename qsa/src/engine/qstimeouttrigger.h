@@ -40,7 +40,7 @@
 #define QSTIMEOUTTRIGGER_H
 
 #include <QtCore/QObject>
-#include <QtCore/QDateTime>
+#include <QtCore/QElapsedTimer>
 
 class QSTimeoutTrigger : public QObject
 {
@@ -63,7 +63,7 @@ signals:
     void timeout(int runningTime);
 
 private:
-    QTime time;
+    QElapsedTimer time;
     int lastTimeout;
     int ival;
 };

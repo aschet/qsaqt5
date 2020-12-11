@@ -498,7 +498,7 @@ void QSASyntaxHighlighter::highlightBlock(const QString &text)
                                     setFormat(i - 1, 1, emptyFormat);
                                 makeLastStandard = false;
                                 setFormat(i, 1, preProcessorFormat);
-                                buffer = QString::null;
+                                buffer = QString();
                                 break;
         }
 

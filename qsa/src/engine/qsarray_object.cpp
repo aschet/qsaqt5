@@ -243,7 +243,7 @@ QString QSArrayClass::joinInternal( const QSObject &obj, const QString &sep )
                                QString::fromLatin1("Internal recursion level maxed out in: "
                                                    "QSArrayClass::joinInternal"), -1 );
 	--joinInternalRecursionDepth;
-	return QString::null;
+    return QString();
     }
 #endif
     uint len = length( &obj );

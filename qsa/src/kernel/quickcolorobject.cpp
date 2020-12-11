@@ -279,14 +279,14 @@ QSObject QSColorClass::light( QSEnv *env )
 {
     QSColorClass *cl = ((QuickInterpreter *)env->engine())->colorClass();
     QSObject that = env->thisValue();
-    return cl->construct(color(&that)->light());
+    return cl->construct(color(&that)->lighter());
 }
 
 QSObject QSColorClass::dark( QSEnv *env )
 {
     QSColorClass *cl = ((QuickInterpreter *)env->engine())->colorClass();
     QSObject that = env->thisValue();
-    return cl->construct(color(&that)->dark());
+    return cl->construct(color(&that)->darker());
 }
 
 QSPaletteClass::QSPaletteClass(QSClass *b)

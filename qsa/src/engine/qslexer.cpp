@@ -108,7 +108,7 @@ QSLexer::~QSLexer()
 */
 void QSLexer::setCode( const QString &c, int id, int lineno )
 {
-    errmsg = QString::null;
+    errmsg = QString();
     yylineno = -lineno;
     sid = id;
     restrKeyword = false;

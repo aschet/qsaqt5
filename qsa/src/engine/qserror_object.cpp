@@ -77,7 +77,7 @@ public:
 QSObject QSErrorClass::construct( const QSList &args ) const
 {
     QString m = !args.isEmpty() && args[0].isDefined() ?
-		args[0].toString() : QString::null;
+        args[0].toString() : QString();
 
     return construct( GeneralError, m );
 }

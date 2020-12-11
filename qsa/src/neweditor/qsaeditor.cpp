@@ -312,7 +312,7 @@ static QString resolveValue(const QString &value, const QVector<QPair<QString, Q
     for (int i = 0; i < assignments.count(); ++i)
         if (assignments.at(i).first == value)
             return assignments.at(i).second;
-    return QString::null;
+    return QString();
 }
 
 static QString qsa_strip_down(const QString &str, char start, char stop)
@@ -349,7 +349,7 @@ static QString resolveFullyQualifiedValue(const QString &value,
 	        valuePart += QString::fromLatin1(".");
 	    valuePart += (*vit).left( (*vit).indexOf( '(' ) );
 	    QString replacedValue;
-	    while ( ( replacedValue = resolveValue( valuePart, assignments ) ) != QString::null )
+        while ( ( replacedValue = resolveValue( valuePart, assignments ) ) != QString() )
 	        valuePart = replacedValue;
     }
 
@@ -404,15 +404,15 @@ static QVector<QPair<QString, QString> > parseAssignments(const QString &code)
 	        state = Comment;
 	        ignoreEnd[0] = '*';
 	        ignoreEnd[1] = '/';
-	        leftHandBuffer = QString::null;
-	        rightHandBuffer = QString::null;
+            leftHandBuffer = QString();
+            rightHandBuffer = QString();
 	        continue;
 	    } else if ( c == '/' && last == '/' ) {
 	        state = Comment;
 	        ignoreEnd[0] = '\n';
 	        ignoreEnd[1] = QChar::Null;
-	        leftHandBuffer = QString::null;
-	        rightHandBuffer = QString::null;
+            leftHandBuffer = QString();
+            rightHandBuffer = QString();
 	        continue;
 	    } else if ( c == '\"' ) {
 	        lastState = state;
@@ -440,16 +440,16 @@ static QVector<QPair<QString, QString> > parseAssignments(const QString &code)
         if ( last.isSpace() ) {
     	    if ( i > 1 && code[ (int)(i-2) ] != '.' && c != '=' && c != ';' && c != '{' && c != '}' && c != '(' && c != ')' ) {
 		        if ( state == LeftHandSide )
-		            leftHandBuffer = QString::null;
+                    leftHandBuffer = QString();
 		        else if ( state == RightHandSight )
-		            rightHandBuffer = QString::null;
+                    rightHandBuffer = QString();
 	        }
         }
 
 
 	    if ( c == ';' || c == '{' || c == '}' ) {
 	        if ( state == LeftHandSide ) {
-    		    leftHandBuffer = QString::null;
+                leftHandBuffer = QString();
 	        } else if ( state == RightHandSight ) {
 		        rightHandBuffer = rightHandBuffer.replace( QRegExp( QString::fromLatin1("\\s") ), QString::fromLatin1("") );
 		        leftHandBuffer = leftHandBuffer.replace( QRegExp( QString::fromLatin1("\\s") ), QString::fromLatin1("") );
@@ -457,8 +457,8 @@ static QVector<QPair<QString, QString> > parseAssignments(const QString &code)
 		        p.first = leftHandBuffer;
 		        p.second = rightHandBuffer;
 		        assignments.prepend( p );
-		        leftHandBuffer = QString::null;
-		        rightHandBuffer = QString::null;
+                leftHandBuffer = QString();
+                rightHandBuffer = QString();
 		        state = LeftHandSide;
 		        continue;
 	        }
@@ -466,14 +466,14 @@ static QVector<QPair<QString, QString> > parseAssignments(const QString &code)
 
 	    if ( c == '=' ) {
 	        if ( last == '!' || last == '=' ) {
-		        leftHandBuffer = QString::null;
-		        rightHandBuffer = QString::null;
+                leftHandBuffer = QString();
+                rightHandBuffer = QString();
 		        state = LeftHandSide;
 		        continue;
 	        }
 	        if ( state == RightHandSight ) {
-		        leftHandBuffer = QString::null;
-		        rightHandBuffer = QString::null;
+                leftHandBuffer = QString();
+                rightHandBuffer = QString();
 		        state = LeftHandSide;
 	        } else if ( state == LeftHandSide ) {
 		        state = RightHandSight;
@@ -495,7 +495,7 @@ static QVector<QPair<QString, QString> > parseAssignments(const QString &code)
 	        valuePart += *vit;
 	        QString replacedValue;
 	        int counter = 0;
-	        while ( ( replacedValue = resolveValue( valuePart, assignments ) ) != QString::null ) {
+            while ( ( replacedValue = resolveValue( valuePart, assignments ) ) != QString() ) {
 		        if( ++counter > 1000 ) // Avoid recursion...
 		            return QVector<QPair<QString,QString> >();
     		    valuePart = replacedValue;
@@ -1096,13 +1096,13 @@ QString QSAEditor::cppClassForScript( const QString &className ) const
 						  ? qsInterp
 						  : QSInterpreter::defaultInterpreter() );
     if( !ip )
-	return QString::null;
+    return QString();
 
     QMap<QString,QString> names = ip->dispatchObjectFactory()->instanceDescriptors();
     QMap<QString,QString>::ConstIterator cppName = names.find( className );
     if( cppName != names.end() )
 	return *cppName;
-    return QString::null;
+    return QString();
 }
 
 const QMetaObject *QSAEditor::locateMetaObject( const QString &name ) const

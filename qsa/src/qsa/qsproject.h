@@ -86,8 +86,8 @@ public:
     QObject *object(const QString &name) const;
     QObjectList objects() const;
 
-    QSScript *createScript(QObject *context, const QString &code = QString::null);
-    QSScript *createScript(const QString &name, const QString &code = QString::null);
+    QSScript *createScript(QObject *context, const QString &code = QString());
+    QSScript *createScript(const QString &name, const QString &code = QString());
 
     void addSignalHandler(QObject *sender, const char *signal,
 			   QObject *receiver, const char *qtscriptFunction);
@@ -110,7 +110,7 @@ public:
 
 public slots:
     bool load(const QString &fileName);
-    bool save(const QString &fileName = QString::null);
+    bool save(const QString &fileName = QString());
 
     bool loadFromData(QByteArray *data);
     bool saveToData(QByteArray *data);

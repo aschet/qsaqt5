@@ -159,12 +159,12 @@ QVariant QuickInterpreter::convertToArgument(const QSObject &o)
 	if (shared->objects.isEmpty())
             return QVariant();
         QVariant v(QMetaType::QObjectStar, static_cast<QObject *>(0));
-        qVariantSetValue<QObject *>(v, shared->objects[0]);
+        v.setValue<QObject *>(shared->objects[0]);
         return v;
     } else if(cl == ptrClass) {
 	Q_ASSERT(ptrClass->pointer(&o));
         QVariant v(QMetaType::VoidStar, static_cast<void *>(0));
-        qVariantSetValue<void *>(v, ptrClass->pointer(&o));
+        v.setValue<void *>(ptrClass->pointer(&o));
         return v;
     } else {
 	return QVariant(o.toVariant(QVariant::Invalid));

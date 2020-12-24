@@ -1036,7 +1036,7 @@ double QSVariantClass::toNumber(const QSObject *obj) const
 #endif
     case QVariant::Date:
         // QDate -> UTC conversion
-        return -1000.0 * QDateTime(var->toDate()).secsTo(QDateTime(QDate(1970, 1, 1)));
+        return -1000.0 * QDateTime(var->toDate().startOfDay()).secsTo(QDate(1970, 1, 1).startOfDay());
     default:
         //qWarning("QuickScriptVariant::toNumber: unhandled QVariant type.");
         return NaN;

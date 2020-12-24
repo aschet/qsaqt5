@@ -139,7 +139,7 @@ public:
     QString absFileName() const { return QFileInfo(*file).absoluteFilePath(); }
     QString baseName() const { return QFileInfo(*file).baseName(); }
     QString extension() const { return QFileInfo(*file).completeSuffix(); }
-    QString symLink() const { QFileInfo f(*file); return f.isSymLink() ? f.readLink() : QString(); }
+    QString symLink() const { QFileInfo f(*file); return f.isSymLink() ? f.symLinkTarget() : QString(); }
 
     bool exists() const { return file->exists(); }
     bool isReadable() const { return QFileInfo(*file).isReadable(); }
@@ -148,7 +148,7 @@ public:
     bool isHidden() const { return QFileInfo(*file).isHidden(); }
     bool eof() const { return file->atEnd(); }
 
-    QDateTime created() const { return QFileInfo(*file).created(); }
+    QDateTime created() const { return QFileInfo(*file).birthTime(); }
     QDateTime lastModified() const { return QFileInfo(*file).lastModified(); }
     QDateTime lastRead() const { return QFileInfo(*file).lastRead(); }
 

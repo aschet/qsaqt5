@@ -220,7 +220,7 @@ void QSAEditorInterface::setError(int line)
     QSAEditor::clearMarkerFormat(blk, ErrorMarkerPropertyId);
 
     QTextLayout *layout = blk.layout();
-    QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
+    QVector<QTextLayout::FormatRange> formats = layout->formats();
 
     QTextLayout::FormatRange r;
     r.start = 0;
@@ -228,7 +228,7 @@ void QSAEditorInterface::setError(int line)
     r.format = d->errorMarkerFormat;
     formats.append(r);
 
-    layout->setAdditionalFormats(formats);
+    layout->setFormats(formats);
 
     cursor.movePosition(QTextCursor::StartOfBlock);
     d->editor->setTextCursor(cursor);

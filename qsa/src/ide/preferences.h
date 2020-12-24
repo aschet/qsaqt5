@@ -10,7 +10,7 @@ class PreferencesBase : public QWidget, public Ui::PreferencesBase
     Q_OBJECT
 
 public:
-	PreferencesBase(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    PreferencesBase(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~PreferencesBase();
 
 public slots:

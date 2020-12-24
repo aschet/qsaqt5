@@ -1364,7 +1364,7 @@ QString QSInterpreter::stackTraceString() const
    for(int i=0; i<trace.size(); ++i) {
        const QSStackFrame &frame = trace.at(i);
        if(frame.context()) {
-	        ctx_ba = str.sprintf("%s [%s]",
+            ctx_ba = str.asprintf("%s [%s]",
 			                     frame.context()->objectName().toLatin1().constData(),
 			                     frame.context()->metaObject()->className()).toLatin1();
             ctx = ctx_ba.constData();
@@ -1373,7 +1373,7 @@ QString QSInterpreter::stackTraceString() const
        } else {
            ctx = "<unknown>";
        }
-       lst << QString().sprintf("  %s(%s:%d) %s",
+       lst << QString().asprintf("  %s(%s:%d) %s",
 				 frame.function().toLatin1().constData(),
 				 frame.scriptName().isNull()
 				   ? "<unknown>"

@@ -1720,7 +1720,7 @@ void QSInstanceData::invalidate()
 QString operator+( const QString &a, const QSMember &b )
 {
     QString s;
-    s.sprintf( "QSMember(%s.%s, %s, %x)",
+    s.asprintf( "QSMember(%s.%s, %s, %x)",
 	       b.owner() ? b.owner()->identifier().toLatin1().constData() : "(no owner)",
 	       b.name().toLatin1().constData(),
 	       b.typeName().toLatin1().constData(),

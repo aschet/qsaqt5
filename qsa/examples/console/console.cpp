@@ -68,8 +68,6 @@ void debugMessageOutput(QtMsgType type, const QMessageLogContext &context, const
         fprintf(stderr, "%s", msg.toLatin1().constData());
         abort();
     }
-
-    qApp->flush();
 }
 
 Console::Console(QWidget *parent)

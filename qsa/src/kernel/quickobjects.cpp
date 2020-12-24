@@ -508,7 +508,7 @@ QString QSWrapperClass::toString(const QSObject *obj) const
 QVariant QSWrapperClass::toVariant(const QSObject *obj, QVariant::Type) const
 {
     const QVector<QObject *> *objects = objectVector(obj);
-    return qVariantFromValue(objects->at(0));
+    return QVariant::fromValue(objects->at(0));
 }
 
 /*!
@@ -981,7 +981,7 @@ QSObject QSVariantClass::toPrimitive(const QSObject *obj,
     case QVariant::DateTime:
         return env()->dateClass()->construct(var->toDateTime());
     case QVariant::Date:
-        return env()->dateClass()->construct(QDateTime(var->toDate()));
+        return env()->dateClass()->construct(QDateTime(var->toDateTime()));
     case QVariant::Time:
         return env()->dateClass()->construct(QDateTime(QDate::currentDate(), var->toTime()));
     case QVariant::StringList:

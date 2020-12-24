@@ -197,8 +197,8 @@ void ScriptView::updateScripts()
 	    }
 	}
 
-    view->setItemExpanded(globals, true);
-    view->setItemExpanded(classes, true);
+    globals->setExpanded(true);
+    classes->setExpanded(true);
     }
 }
 

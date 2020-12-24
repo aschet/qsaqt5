@@ -146,7 +146,7 @@ void QuickDebugger::callEvent( const QString &fn, const QString & )
 	return;
     }
     tmpCStack.push( true );
-    QuickDebuggerStackFrame sf(QString().sprintf("%s", fn.toLatin1().constData()));
+    QuickDebuggerStackFrame sf(QString().asprintf("%s", fn.toLatin1().constData()));
 
     cStack.prepend( sf );
     emit stackChanged( cStack.count() );

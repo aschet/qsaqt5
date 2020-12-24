@@ -263,13 +263,13 @@ void ParenMatcher::matchFromSender()
                 d->parenthesisMatchingFormat = mismatchFormat;
 
             QTextLayout *layout = block.layout();
-            QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
+            QVector<QTextLayout::FormatRange> formats = layout->formats();
             QTextLayout::FormatRange r;
             r.start = d->parenthesisMatchStart;
             r.length = d->parenthesisMatchEnd;
             r.format = d->parenthesisMatchingFormat;
             formats.append(r);
-            layout->setAdditionalFormats(formats);
+            layout->setFormats(formats);
 
             block = block.next();
         }

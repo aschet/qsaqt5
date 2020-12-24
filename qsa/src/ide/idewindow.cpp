@@ -160,7 +160,6 @@ void debugMessageOutput(QtMsgType type, const QMessageLogContext &context, const
         fprintf(stderr, msg.toLatin1().constData());
         abort();
     }
-    QCoreApplication::flush();
 }
 
 static QIcon createIconSet(const QString &name)
@@ -959,7 +958,7 @@ void IdeWindow::currentTabChanged(int idx)
         return;
     QSEditor *editor = (QSEditor*)w;
     QList<QTreeWidgetItem *> items =
-        projectContainer->scriptsListView->findItems(editor->script()->name(), 0);
+        projectContainer->scriptsListView->findItems(editor->script()->name(), Qt::MatchFlags());
 
     ScriptListItem *item = 0;
     if (items.count() > 0)
@@ -1091,8 +1090,8 @@ void IdeWindow::projectChanged()
     }
     enableProjectActions(scripts.count());
 
-    projectContainer->scriptsListView->sortByColumn(0);
-    projectContainer->scriptsListView->sortByColumn(0);
+    projectContainer->scriptsListView->sortByColumn(0, Qt::AscendingOrder);
+    projectContainer->scriptsListView->sortByColumn(0, Qt::AscendingOrder);
 }
 
 void IdeWindow::evaluateProject()

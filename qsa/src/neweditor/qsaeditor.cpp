@@ -80,7 +80,7 @@ QSAEditor::~QSAEditor()
 void QSAEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
 {
     QTextLayout *layout = block.layout();
-    QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
+    QVector<QTextLayout::FormatRange> formats = layout->formats();
     bool formatsChanged = false;
     for (int i = 0; i < formats.count(); ++i)
         if (formats.at(i).format.hasProperty(markerId)) {
@@ -94,7 +94,7 @@ void QSAEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
         }
 
     if (formatsChanged)
-        layout->setAdditionalFormats(formats);
+        layout->setFormats(formats);
 }
 
 void QSAEditor::readSettings()

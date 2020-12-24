@@ -216,7 +216,7 @@ class ScriptView : public QDockWidget
     Q_OBJECT
 public:
     ScriptView( QSInterpreter *ip, bool floating = false,
-        QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0 )
+        QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = Qt::WindowFlags() )
         : QDockWidget( parent, f )
     {
         setObjectName(QLatin1String(name));
@@ -412,7 +412,7 @@ public slots:
     { p.drawRect( x, y, w, h ); }
 
     void drawRoundRect( int x, int y, int w, int h, int xRnd = 25, int yRnd = 25)
-    { p.drawRoundRect( x, y, w, h, xRnd, yRnd ); }
+    { p.drawRoundedRect( x, y, w, h, xRnd, yRnd, Qt::RelativeSize ); }
 
     void drawEllipse( int x, int y, int w, int h )
     { p.drawEllipse( x, y, w, h ); }

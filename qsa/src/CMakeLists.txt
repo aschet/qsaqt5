@@ -1,9 +1,10 @@
-cmake_minimum_required(VERSION 2.8.12.2)
+cmake_minimum_required(VERSION 3.16.0)
 
 project(src)
 
 if (MSVC)
-	set(CMAKE_DEBUG_POSTFIX "d")
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+    set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
 option(QSA_NO_DLL "Does not compile as shared library." OFF)
@@ -12,18 +13,25 @@ option(QSA_NEW_EDITOR "Does compile QTextEdit instead of Q3TextEdit based editor
 option(QSA_NO_IDE "Does not compile QSA Workbench into QSA." OFF)
 
 if(${QSA_NO_DLL})
-set(LIB_MODE STATIC)
+    set(LIB_MODE STATIC)
 else()
-set(LIB_MODE SHARED)
-add_definitions(-DQSA_DLL)
-endif(${QSA_NO_DLL})
+    set(LIB_MODE SHARED)
+   add_definitions(-DQSA_DLL)
+endif()
 
 configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_SOURCE_DIR}/qsa/qsconfig.h")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt5Widgets REQUIRED)
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-add_definitions(${Qt5Widgets_DEFINITIONS})
+
+if(USE_QT6)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
+else()
+    find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 include_directories(engine kernel qsa)
 add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER)
@@ -150,7 +158,7 @@ set(SOURCES engine/qsclass.cpp
 	qsa/qsinputdialogfactory.cpp
 )
 
-set (QT_LIBS Qt5::Widgets)
+set (QT_LIBS Qt${QT_VERSION_MAJOR}::Widgets)
 
 if(NOT ${QSA_NO_EDITOR})
 
@@ -232,7 +240,7 @@ set(SOURCES ${SOURCES}
 	../tools/designer/editor/yyindent.cpp
 )
 
-endif(${QSA_NEW_EDITOR})
+endif()
 
 if(NOT ${QSA_NO_IDE})
 
@@ -240,11 +248,10 @@ set(HEADERS_DIST ${HEADERS_DIST}
 	ide/qsworkbench.h
 )
 
-find_package(Qt5PrintSupport REQUIRED)
-include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
-add_definitions(${Qt5PrintSupport_DEFINITIONS})
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS PrintSupport REQUIRED)
+
 set(QT_LIBS ${QT_LIBS}
-	Qt5::PrintSupport
+	Qt${QT_VERSION_MAJOR}::PrintSupport
 )
 
 include_directories(ide)
@@ -275,13 +282,19 @@ set(SOURCES ${SOURCES}
 	ide/idewindow.cpp	
 )
 
-endif(NOT ${QSA_NO_IDE})
+endif()
 
-endif(NOT ${QSA_NO_EDITOR})
+endif()
 
-qt5_add_resources(SOURCES_QRC ${QRCS})
-qt5_wrap_ui(HEADERS_UIS ${UIS})
-qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
+if(USE_QT6)
+    qt6_add_resources(SOURCES_QRC ${QRCS})
+    qt6_wrap_ui(HEADERS_UIS ${UIS})
+    qt6_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
+else()
+    qt5_add_resources(SOURCES_QRC ${QRCS})
+    qt5_wrap_ui(HEADERS_UIS ${UIS})
+    qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
+endif()
 
 add_library(qsa ${LIB_MODE} ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
 if (MSVC)

@@ -123,7 +123,7 @@ static const QSASyntaxHighlighter::Keyword *findKeyword(const QString &word)
 {
     const QSASyntaxHighlighter::Keyword *start = &QSASyntaxHighlighter::keywords[0];
     const QSASyntaxHighlighter::Keyword *end = &QSASyntaxHighlighter::keywords[MAX_KEYWORD - 1];
-    const QSASyntaxHighlighter::Keyword *kw = qBinaryFind(start, end, word);
+    const QSASyntaxHighlighter::Keyword *kw = std::lower_bound(start, end, word);
     return kw;
 }
 

@@ -72,13 +72,19 @@ enum ValueType {
     TypeOther
 };
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+typedef QStringData QSAStringData;
+#else
+typedef QStringPrivate QSAStringData;
+#endif
+
 struct QSFakeQString {
 public:
-    QStringData *d;
+    QSAStringData *d;
 };
 
-QStringData *qsa_qstring_to_data(const QString &str);
-QString qsa_qstring_from_data(QStringData *data);
+QSAStringData *qsa_qstring_to_data(const QString &str);
+QString qsa_qstring_from_data(QSAStringData *data);
 
 
 // Reggie: This is a really ugly hack to get QSA link on windows
@@ -99,7 +105,7 @@ union Value {
     int i;
     double d;
     bool b;
-    QStringData *str;
+    QSAStringData *str;
     QSShared *sh;
     QSClass *cl;
     void *other;
@@ -339,7 +345,11 @@ inline QString QSObject::sVal() const {
 inline void QSObject::setVal(const QString &v)
 {
     val.str = qsa_qstring_to_data(v);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     val.str->ref.ref();
+#else
+    val.str->ref();
+#endif
 }
 
 inline void QSObject::setVal(QSShared *s)

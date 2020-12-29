@@ -260,7 +260,7 @@ int QSLexer::lex()
 	case InHexEscape:
 	    if ( isHexDigit( current ) && isHexDigit( next1 ) ) {
 		state = InString;
-		record16( convertHex( current, next1 ) );
+        record16( static_cast<ushort> ( convertHex( current, next1 ) ) );
 		shift( 1 );
 	    } else if ( current == stringType ) {
 		record16( 'x' );

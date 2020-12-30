@@ -58,7 +58,7 @@
 #include "qserror_object.h"
 
 #include <QtCore/QMutex>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 
 #include <stdio.h>
 #include <string.h>
@@ -146,14 +146,14 @@ static QSObject qsEval( QSEnv *env )
 }
 
 
-static QRegExp qs_regexp_for_radix(int radix)
+static QRegularExpression qs_regexp_for_radix(int radix)
 {
     if (radix <= 10) {
-        return QRegExp(QString(QString::fromLatin1("\\w*(-?[0-%1]+)")).arg(radix-1));
+        return QRegularExpression(QString(QString::fromLatin1("\\w*(-?[0-%1]+)")).arg(radix-1));
     } else if (radix == 16) {
-        return QRegExp(QString(QString::fromLatin1("\\w*(-?[0-9a-fA-Fx]+)")));
+        return QRegularExpression(QString(QString::fromLatin1("\\w*(-?[0-9a-fA-Fx]+)")));
     } else {
-        return QRegExp(QString(QString::fromLatin1("\\w*(-?[0-9a-%1A-%2]+)")).arg('a'+(radix-9)).arg('A'+(radix-9)));
+        return QRegularExpression(QString(QString::fromLatin1("\\w*(-?[0-9a-%1A-%2]+)")).arg('a'+(radix-9)).arg('A'+(radix-9)));
     }
 }
 
@@ -177,11 +177,11 @@ static QSObject qsParseInt( QSEnv *env )
 	    return env->createNumber(NaN);
     }
 
-    QRegExp re = qs_regexp_for_radix(radix);
+    QRegularExpression re = qs_regexp_for_radix(radix);
     Q_ASSERT(re.isValid());
-    int pos = str.indexOf(re);
-    if (pos >= 0) {
-        str = re.cap(1);
+    QRegularExpressionMatch match = re.match(str);
+    if (match.hasMatch()) {
+        str = match.captured(1);
         bool ok = false;
         int val = str.toInt(&ok, radix);
         if (ok)
@@ -194,11 +194,12 @@ static QSObject qsParseInt( QSEnv *env )
 // parseFloat()
 static QSObject qsParseFloat( QSEnv *env )
 {
-    QRegExp re(QString::fromLatin1("[+-]?(\\d*)(\\.(\\d*))?([Ee]([+-]?\\d+))?"));
+    QRegularExpression re(QString::fromLatin1("[+-]?(\\d*)(\\.(\\d*))?([Ee]([+-]?\\d+))?"));
     Q_ASSERT(re.isValid());
     QString str = env->arg( 0 ).toString().trimmed();
-    if (str.indexOf(re) >= 0) {
-        str = re.cap(0);
+    QRegularExpressionMatch match = re.match(str);
+    if (match.hasMatch()) {
+        str = match.captured(0);
         bool ok = false;
         double value = str.toDouble(&ok);
         if (ok)

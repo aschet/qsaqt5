@@ -56,10 +56,6 @@
 #include <QtCore/QMutex>
 extern bool qsa_is_non_gui_thread();
 
-#ifdef QSA_EXPIRES
-static void qsa_eval_check();
-#endif
-
 class QSInterpreterPrivate
 {
 public:
@@ -423,10 +419,6 @@ Q_GLOBAL_STATIC(QMutex, qsa_interpreter_mutex);
 */
 void QSInterpreter::init()
 {
-#ifdef QSA_EXPIRES
-    qsa_eval_check();
-#endif
-
     QMutexLocker locker(qsa_interpreter_mutex());
 
     running = false;
@@ -1383,44 +1375,3 @@ QString QSInterpreter::stackTraceString() const
    }
    return lst.join(QLatin1String("\n"));
 }
-
-
-#ifdef QSA_EXPIRES
-#include <qsettings.h>
-#include <qregexp.h>
-void qsa_eval_check()
-{
-    QSettings settings("Trolltech", QString("QSA-%1").arg(QSA_VERSION_STRING));
-    QString key = "expdt";
-
-    bool showWarning = false;
-    QString str = qvariant_cast<QString>(settings.value(key));
-    if (!str.isEmpty()) {
-	QRegExp exp("(\\w\\w\\w\\w)(\\w\\w)(\\w\\w)");
-	Q_ASSERT(exp.isValid());
-	if (exp.indexIn(str)>=0) {
-	    int a = exp.cap(1).toInt(0,16);
-	    int b = exp.cap(2).toInt(0,16);
-	    int c = exp.cap(3).toInt(0,16);
-	    showWarning = (QDate::currentDate() > QDate(a, b, c));
-	} else {
-	    showWarning = true;
-	}
-    } else {
-	QDate date = QDate::currentDate().addMonths(1);
-	QString str = QString().sprintf("%.4x%.2x%.2x", date.year(), date.month(), date.day());
-	settings.setValue(key, str);
-    }
-
-    if (showWarning) {
-	QMessageBox::warning(0,
-			     QObject::tr("End of Evaluation Period"),
-			     QObject::tr("The evaluation period of QSA has expired.\n\n"
-					 "Please check http://www.trolltech.com/products/qsa"
-					 "for updates\n"
-					 "or contact sales@trolltech.com for further information"),
-			      QMessageBox::Ok,
-			      Qt::NoButton);
-    }
-}
-#endif

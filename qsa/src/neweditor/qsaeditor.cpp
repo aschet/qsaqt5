@@ -451,8 +451,8 @@ static QVector<QPair<QString, QString> > parseAssignments(const QString &code)
 	        if ( state == LeftHandSide ) {
                 leftHandBuffer = QString();
 	        } else if ( state == RightHandSight ) {
-		        rightHandBuffer = rightHandBuffer.replace( QRegExp( QString::fromLatin1("\\s") ), QString::fromLatin1("") );
-		        leftHandBuffer = leftHandBuffer.replace( QRegExp( QString::fromLatin1("\\s") ), QString::fromLatin1("") );
+                rightHandBuffer = rightHandBuffer.replace( QRegularExpression( QString::fromLatin1("\\s") ), QString::fromLatin1("") );
+                leftHandBuffer = leftHandBuffer.replace( QRegularExpression( QString::fromLatin1("\\s") ), QString::fromLatin1("") );
 		        QPair<QString, QString> p;
 		        p.first = leftHandBuffer;
 		        p.second = rightHandBuffer;

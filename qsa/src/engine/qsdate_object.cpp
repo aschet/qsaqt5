@@ -44,7 +44,7 @@
 
 #include "qsoperations.h"
 #include <QtCore/QDateTime>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 
 #include <time.h>
 
@@ -187,14 +187,13 @@ QVariant QSDateClass::toVariant( const QSObject *obj, QVariant::Type t ) const
 QSObject QSDateClass::parse( QSEnv *env )
 {
     if ( env->arg( 0 ).isA( env->stringClass() ) ) {
-        QRegExp re(QString::fromLatin1("(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)(T(\\d\\d):(\\d\\d):(\\d\\d))?"));
+        QRegularExpression re(QString::fromLatin1("(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)(T(\\d\\d):(\\d\\d):(\\d\\d))?"));
         Q_ASSERT(re.isValid());
         QString str = env->arg(0).toString();
         if (str.indexOf(re) < 0) {
             return env->throwError(QString::fromLatin1("Date.parse expect date on format:"
                                                        " YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS"));
         }
-        // TODO: QSAQt5 - check if correct replacement used
 		if (re.captureCount() >= 5)
             str += QString::fromLatin1("T00:00:00");
 	QDateTime dt = QDateTime::fromString(str, Qt::ISODate);

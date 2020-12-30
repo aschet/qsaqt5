@@ -38,7 +38,7 @@
 
 #include "quickdebugger.h"
 
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QList>
 
 QuickDebugger::QuickDebugger( QSEngine *e )
@@ -68,8 +68,8 @@ bool QuickDebugger::watch( const QString &var,
 				 QString &type, QString &value )
 {
     QString simple = var;
-    simple.replace( QRegExp( QString::fromLatin1("\\[") ), QString::fromLatin1(".") );
-    simple.replace( QRegExp( QString::fromLatin1("\\]") ), QString::fromLatin1("") );
+    simple.replace( QRegularExpression( QString::fromLatin1("\\[") ), QString::fromLatin1(".") );
+    simple.replace( QRegularExpression( QString::fromLatin1("\\]") ), QString::fromLatin1("") );
     QString info = varInfo(simple);
     if ( info.isNull() ) {
     value = type = QString();
@@ -92,8 +92,8 @@ bool QuickDebugger::watch( const QString &var,
 bool QuickDebugger::setVariable( const QString &var, const QString &val )
 {
     QString simple = var;
-    simple.replace( QRegExp( QString::fromLatin1("\\[") ), QString::fromLatin1(".") );
-    simple.replace( QRegExp( QString::fromLatin1("\\]") ), QString::fromLatin1("") );
+    simple.replace( QRegularExpression( QString::fromLatin1("\\[") ), QString::fromLatin1(".") );
+    simple.replace( QRegularExpression( QString::fromLatin1("\\]") ), QString::fromLatin1("") );
     QString v = val.toLower();
     QSObject value;
     bool ok;

@@ -42,20 +42,44 @@
 #include "qstypes.h"
 #include "qsinternal.h"
 #include "qsarray_object.h"
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
+
+void QSRegMatch::setIgnoreCase(bool on)
+{
+    if (on)
+        reg.setPatternOptions(reg.patternOptions() | QRegularExpression::CaseInsensitiveOption);
+    else
+        reg.setPatternOptions(reg.patternOptions() ^ QRegularExpression::CaseInsensitiveOption);
+}
+
+int QSRegMatch::indexOf(const QString &str, int from)
+{
+    return str.indexOf(reg, from, &match);
+}
+
+int QSRegMatch::lastIndexOf(const QString &str, int from)
+{
+    return str.lastIndexOf(reg, from, &match);
+}
+
+bool QSRegMatch::exactMatch(const QString &str)
+{
+    match = reg.match(str);
+    return match.hasMatch() && match.capturedStart() == 0;
+}
 
 class QSRegExpShared : public QSWritable
 {
 public:
     QSRegExpShared( const QString &pat, bool ic, bool glob )
-        : reg( pat, ic ? Qt::CaseInsensitive : Qt::CaseSensitive ),
-	  source(pat),
+        :source(pat),
 	  global(glob),
 	  ignoreCase(ic)
     {
+        regMatch.setIgnoreCase(ic);
     }
 
-    QRegExp reg;
+    QSRegMatch regMatch;
     QString source;
     bool global;
     bool ignoreCase;
@@ -98,10 +122,10 @@ QSRegExpClass::QSRegExpClass( QSClass *b )
  * type RegExp.
  */
 
-QRegExp *QSRegExpClass::regExp( const QSObject *obj )
+QSRegMatch* QSRegExpClass::regExp( const QSObject *obj )
 {
     Q_ASSERT( obj->typeName() == QString::fromLatin1("RegExp") );
-    return &((QSRegExpShared*)obj->shVal())->reg;
+    return &((QSRegExpShared*)obj->shVal())->regMatch;
 }
 
 /*!
@@ -109,11 +133,11 @@ QRegExp *QSRegExpClass::regExp( const QSObject *obj )
   \overload
 */
 
-QRegExp* QSRegExpClass::regExp( QSEnv *e )
+QSRegMatch* QSRegExpClass::regExp( QSEnv *e )
 {
     QSObject t = e->thisValue();
     Q_ASSERT( t.isA( e->regexpClass() ) );
-    return &((QSRegExpShared*)t.shVal())->reg;
+    return &((QSRegExpShared*)t.shVal())->regMatch;
 }
 
 /*! \reimp */
@@ -145,14 +169,14 @@ QSObject QSRegExpClass::fetchValue( const QSObject *objPtr,
     if ( mem.type() != QSMember::Custom )
 	return QSWritableClass::fetchValue( objPtr, mem );
 
-    QRegExp *re = regExp( objPtr );
+    QSRegMatch *re = regExp( objPtr );
     switch ( mem.index() ) {
     case REMT_Intermediate:
-	return createBoolean( re->isValid() );
+    return createBoolean( re->match.isValid() );
     case REMT_Empty:
-	return createBoolean( re->isEmpty() );
+    return createBoolean( re->match.hasMatch() );
     case REMT_MLength:
-	return createNumber( re->matchedLength() );
+    return createNumber( re->match.capturedLength() );
     case REMT_Source:
 	return createString( source(objPtr) );
     case REMT_Global:
@@ -161,7 +185,7 @@ QSObject QSRegExpClass::fetchValue( const QSObject *objPtr,
 	return createBoolean( isIgnoreCase(objPtr) );
     case REMT_CTexts: {
  	QSArray array( env() );
- 	QStringList ct = re->capturedTexts();
+    QStringList ct = re->match.capturedTexts();
  	QStringList::ConstIterator it = ct.begin();
  	int i = 0;
  	for ( ; it != ct.end(); ++it, ++i )
@@ -195,7 +219,7 @@ void QSRegExpClass::write(QSObject *objPtr, const QSMember &mem,
 	{
 	    bool ic = val.toBoolean();
 	    ((QSRegExpShared*)objPtr->shVal())->ignoreCase = ic;
-        ((QSRegExpShared*)objPtr->shVal())->reg.setCaseSensitivity(ic ? Qt::CaseInsensitive : Qt::CaseSensitive);
+        ((QSRegExpShared*)objPtr->shVal())->regMatch.setIgnoreCase(ic);
 	}
 	break;
     default:
@@ -229,13 +253,13 @@ QSObject QSRegExpClass::getStatic( const QString &p ) const
 
 QString QSRegExpClass::toString( const QSObject *obj ) const
 {
-    return QString::fromLatin1("/") + regExp( obj )->pattern() + QString::fromLatin1("/");
+    return QString::fromLatin1("/") + regExp( obj )->reg.pattern() + QString::fromLatin1("/");
 }
 
 QSObject QSRegExpClass::exec( QSEnv *env )
 {
     QSObject obj = env->thisValue();
-    QRegExp *re = regExp( &obj );
+    QSRegMatch *re = regExp( &obj );
     QString s = env->arg( 0 ).toString();
     uint length = s.length();
     int i = obj.get( QString::fromLatin1("lastIndex") ).toInt32();
@@ -246,16 +270,16 @@ QSObject QSRegExpClass::exec( QSEnv *env )
 	obj.put( QString::fromLatin1("lastIndex"), 0 );
 	return env->createNull();
     }
-    i = s.indexOf(*re, i);
-    obj.env()->regexpClass()->lastCaptures = re->capturedTexts();
+    i = re->indexOf(s, i);
+    obj.env()->regexpClass()->lastCaptures = re->match.capturedTexts();
     // ### complete
-    return env->createString( re->cap(0) );
+    return env->createString( re->match.captured(0) );
 }
 
 QSObject QSRegExpClass::test( QSEnv *env )
 {
     QSObject obj = env->thisValue();
-    QRegExp *re = regExp( &obj );
+    QSRegMatch *re = regExp( &obj );
     QString s = env->arg( 0 ).toString();
     uint length = s.length();
     int i = obj.get( QString::fromLatin1("lastIndex") ).toInt32();
@@ -266,8 +290,8 @@ QSObject QSRegExpClass::test( QSEnv *env )
 	obj.put( QString::fromLatin1("lastIndex"), 0 );
 	return env->createBoolean( false );
     }
-    i = s.indexOf(*re, i);
-    obj.env()->regexpClass()->lastCaptures = re->capturedTexts();
+    i = re->indexOf(s, i);
+    obj.env()->regexpClass()->lastCaptures = re->match.capturedTexts();
     return env->createBoolean( i >= 0 );
 }
 
@@ -286,13 +310,13 @@ QSObject QSRegExpClass::toStringScript( QSEnv *env )
 QSObject QSRegExpClass::search( QSEnv *env )
 {
     int start = env->numArgs() >= 2 ? env->arg( 1 ).toInteger() : 0;
-    return env->createNumber( env->arg(0).toString().indexOf(*regExp( env ), start ) );
+    return env->createNumber( regExp( env )->indexOf( env->arg(0).toString(), start ) );
 }
 
 QSObject QSRegExpClass::searchRev( QSEnv *env )
 {
     int start = env->numArgs() >= 2 ? env->arg( 1 ).toInteger() : -1;
-    return env->createNumber(env->arg( 0 ).toString().lastIndexOf(*regExp(env), start ) );
+    return env->createNumber( regExp( env )->lastIndexOf( env->arg(0).toString(), start ) );
 }
 
 QSObject QSRegExpClass::exactMatch( QSEnv *env )
@@ -302,13 +326,13 @@ QSObject QSRegExpClass::exactMatch( QSEnv *env )
 
 QSObject QSRegExpClass::pos( QSEnv *env )
 {
-    return env->createNumber( regExp( env )->pos( env->numArgs() >= 1 ?
+    return env->createNumber( regExp( env )->match.capturedStart( env->numArgs() >= 1 ?
 					 env->arg( 0 ).toInteger() : 0 ) );
 }
 
 QSObject QSRegExpClass::cap( QSEnv *env )
 {
-    return env->createString( regExp( env )->cap( env->numArgs() >= 1 ?
+    return env->createString( regExp( env )->match.captured( env->numArgs() >= 1 ?
 					 env->arg( 0 ).toInteger() : 0 ) );
 }
 

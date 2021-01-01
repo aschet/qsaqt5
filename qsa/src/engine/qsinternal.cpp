@@ -56,7 +56,7 @@
 #include "qstypes.h"
 
 #include <QtCore/QMutex>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 
 #include <stdio.h>
 #include <assert.h>

@@ -41,6 +41,22 @@
 
 #include "qsclass.h"
 #include <QtCore/QStringList>
+#include <QtCore/QRegularExpression>
+
+class QSRegMatch
+{
+public:
+    void setIgnoreCase(bool on);
+
+    int indexOf(const QString& str, int from = 0);
+
+    int lastIndexOf(const QString& str, int from = -1);
+
+    bool exactMatch(const QString& str);
+
+    QRegularExpression reg;
+    QRegularExpressionMatch match;
+};
 
 class QSRegExpClass : public QSWritableClass 
 {
@@ -59,7 +75,7 @@ public:
     QSObject construct(const QSList &args) const;
     QSObject cast(const QSList &args) const;
 
-    static QRegExp *regExp(const QSObject *obj);
+    static QSRegMatch *regExp(const QSObject *obj);
 
     // ECMA API
     static QSObject exec(QSEnv *env);
@@ -79,7 +95,7 @@ public:
     static bool isIgnoreCase(const QSObject *re);
 
 private:
-    static QRegExp* regExp(QSEnv *e);
+    static QSRegMatch* regExp(QSEnv *e);
 };
 
 #endif

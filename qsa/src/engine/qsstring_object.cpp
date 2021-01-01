@@ -238,8 +238,8 @@ QSObject QSStringClass::indexOf( QSEnv *env )
     QString s = env->thisValue().sVal();
     QSObject arg0 = env->arg(0);
     if ( arg0.objectType() == env->regexpClass() ) {
-	QRegExp *reg = QSRegExpClass::regExp(&arg0);
-	return env->createNumber( s.indexOf(*reg) );
+    QSRegMatch *reg = QSRegExpClass::regExp(&arg0);
+    return env->createNumber( reg->indexOf(s) );
     } else if ( arg0.objectType() == env->stringClass() ) {
 	QString s2 = arg0.toString();
 	int pos = env->numArgs() >= 2 ? env->arg( 1 ).toInteger() : 0;
@@ -263,9 +263,9 @@ QSObject QSStringClass::match( QSEnv *env )
     QString s = env->thisValue().sVal();
     QSObject arg0 = env->arg(0);
     if ( arg0.objectType() == env->regexpClass() ) {
-	QRegExp *reg = QSRegExpClass::regExp(&arg0);
+    QSRegMatch *reg = QSRegExpClass::regExp(&arg0);
 
-	int spos = s.indexOf(*reg);
+    int spos = reg->indexOf(s);
 	if (spos == -1) // No match
 	    return env->createUndefined();
 
@@ -273,17 +273,17 @@ QSObject QSStringClass::match( QSEnv *env )
 	    QSArray lst(env);
 	    int index = 0;
 	    while (spos>=0) {
-		lst.put(QString::number(index++), env->createString(reg->cap()));
-		spos = s.indexOf(*reg, spos+1);
+        lst.put(QString::number(index++), env->createString(reg->match.captured()));
+        spos = reg->indexOf(s, spos+1);
 	    }
 	    if (index == 1)  // only one element, return it
 		return lst.get(QString::number(0));
 	    return lst;
 	} else {
-	    return env->createString(reg->cap());
+        return env->createString(reg->match.captured());
 	}
-	env->regexpClass()->lastCaptures = reg->capturedTexts();
-	QString mstr = reg->cap();
+    env->regexpClass()->lastCaptures = reg->match.capturedTexts();
+    QString mstr = reg->match.captured();
 	if ( mstr.isNull() )
 	// ### return an array, with the matches
 	return env->createString( mstr );
@@ -297,14 +297,14 @@ QSObject QSStringClass::replace( QSEnv *env )
     int pos, len;
     QSObject arg0 = env->arg(0);
     if ( arg0.objectType() == env->regexpClass() ) {
-	QRegExp *reg = QSRegExpClass::regExp(&arg0);
+    QSRegMatch *reg = QSRegExpClass::regExp(&arg0);
 	bool global = QSRegExpClass::isGlobal(&arg0);
 	if (global) {
-	    QString result = s.replace(*reg, env->arg( 1 ).toString());
+        QString result = s.replace(reg->reg, env->arg( 1 ).toString());
 	    return env->createString( result );
 	}
-	pos = s.indexOf(*reg);
-	len = reg->matchedLength();
+    pos = reg->indexOf(s);
+    len = reg->match.capturedLength();
     } else {
 	QString s2 = arg0.toString();
 	pos = s.indexOf( s2 );
@@ -324,8 +324,8 @@ QSObject QSStringClass::split( QSEnv *env )
     double d = env->numArgs() >= 2 ? env->arg( 1 ).toInteger() : -1; // optional max
     QSObject arg0 = env->arg(0);
     if ( arg0.objectType() == env->regexpClass()) {
-	QRegExp *reg = QSRegExpClass::regExp(&arg0);
-	if ( s.isEmpty() && s.indexOf(*reg, 0) >= 0) {
+    QSRegMatch *reg = QSRegExpClass::regExp(&arg0);
+    if ( s.isEmpty() && reg->indexOf(s, 0) >= 0) {
 	    // empty string matched by regexp -> empty array
 	    result.put( QString::fromLatin1("length"), env->createNumber( 0 ) );
 	    return result;
@@ -333,10 +333,10 @@ QSObject QSStringClass::split( QSEnv *env )
 	int pos = 0;
 	for ( ;; ) {
 	    /* TODO: back references */
-	    int mpos = s.indexOf(*reg, pos);
+        int mpos = reg->indexOf(s, pos);
 	    if ( mpos < 0 )
 		break;
-	    QString mstr = reg->cap( 0 );
+        QString mstr = reg->match.captured( 0 );
 	    pos = mpos + ( mstr.isEmpty() ? 1 : mstr.length() );
 	    if ( mpos != p0 || !mstr.isEmpty() ) {
 		result.put( QString::number( i ),
@@ -430,8 +430,8 @@ QSObject QSStringClass::find( QSEnv *env )
     int idx = env->numArgs() >= 2 ? env->arg( 1 ).toInteger() : 0;
     QSObject arg0 = env->arg(0);
     if ( arg0.objectType() == env->regexpClass() ) {
-	QRegExp *re = QSRegExpClass::regExp(&arg0);
-	return env->createNumber( s.indexOf( *re, idx ) );
+    QSRegMatch *re = QSRegExpClass::regExp(&arg0);
+    return env->createNumber( re->indexOf( s, idx ) );
     } else {
 	bool cs = env->numArgs() >= 3 ? env->arg( 2 ).toBoolean() : true;
     Qt::CaseSensitivity qcs = cs ? Qt::CaseSensitive : Qt::CaseInsensitive;
@@ -446,8 +446,8 @@ QSObject QSStringClass::findRev( QSEnv *env )
 
     QSObject arg0 = env->arg(0);
     if ( arg0.objectType() == env->regexpClass() ) {
-	    QRegExp *re = QSRegExpClass::regExp(&arg0);
-	    return env->createNumber(s.lastIndexOf(*re, idx));
+        QSRegMatch *re = QSRegExpClass::regExp(&arg0);
+        return env->createNumber(re->lastIndexOf(s, idx));
     } else {
 	    bool cs = env->numArgs() >= 3 ? env->arg( 2 ).toBoolean() : true;
         Qt::CaseSensitivity qcs = cs ? Qt::CaseSensitive : Qt::CaseInsensitive;

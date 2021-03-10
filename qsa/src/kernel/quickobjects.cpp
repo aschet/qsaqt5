@@ -1017,6 +1017,15 @@ bool QSVariantClass::toBoolean(const QSObject *obj) const
     }
 }
 
+static QDateTime build(const QDate& date)
+{
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+	return QDateTime(date);
+#else
+	return QDateTime(date.startOfDay());
+#endif
+}
+
 double QSVariantClass::toNumber(const QSObject *obj) const
 {
     QVariant *var = variant(obj);
@@ -1036,7 +1045,7 @@ double QSVariantClass::toNumber(const QSObject *obj) const
 #endif
     case QVariant::Date:
         // QDate -> UTC conversion
-        return -1000.0 * QDateTime(var->toDate().startOfDay()).secsTo(QDate(1970, 1, 1).startOfDay());
+        return -1000.0 * build(var->toDate()).secsTo(build(QDate(1970, 1, 1)));
     default:
         //qWarning("QuickScriptVariant::toNumber: unhandled QVariant type.");
         return NaN;

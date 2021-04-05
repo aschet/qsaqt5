@@ -472,7 +472,7 @@ void QSWrapperClass::write(QSObject *objPtr, const QSMember &mem,
                 env()->throwError(QString("Property %1 is not writable").arg(mem.name()));
             if (!meta_property.isScriptable())
                 env()->throwError(QString("Property %1 is not scriptable").arg(mem.name()));
-            QVariant v = val.toVariant(meta_property.type());
+            QVariant v = val.toVariant(static_cast<QMetaType::Type>(meta_property.type()));
             if (!meta_property.write(q_object, v)) {
                 env()->throwError(QString("Failed to write property '%1'")
                                          .arg(mem.name()));
@@ -505,7 +505,7 @@ QString QSWrapperClass::toString(const QSObject *obj) const
         + QLatin1String("]");
 }
 
-QVariant QSWrapperClass::toVariant(const QSObject *obj, QVariant::Type) const
+QVariant QSWrapperClass::toVariant(const QSObject *obj, QMetaType::Type) const
 {
     const QVector<QObject *> *objects = objectVector(obj);
     return QVariant::fromValue(objects->at(0));
@@ -629,7 +629,7 @@ QSObject QSObjectConstructor::construct(const QSList &args) const
         QVector<QObject *> result;
         QList<QVariant> vargs;
         for (int i = 0; i < args.size(); i++)
-            vargs.append(args[i].toVariant(QVariant::Invalid));
+            vargs.append(args[i].toVariant(QMetaType::UnknownType));
         bool success = interpreter()->construct(cname, vargs, &result);
         if (success && result.size() >= 1)
             success = interpreter()->queryDispatchObjects(result[0], &result);
@@ -737,7 +737,7 @@ bool QSPointerClass::toBoolean(const QSObject *o) const
     return pointer(o) != 0;
 }
 
-QVariant QSPointerClass::toVariant(const QSObject *obj, QVariant::Type) const
+QVariant QSPointerClass::toVariant(const QSObject *obj, QMetaType::Type) const
 {
     // ### ugly
     QString s = QString(QLatin1String("Pointer:%1:Pointer")).arg((ulong)pointer(obj));
@@ -765,26 +765,27 @@ QString QSPointerClass::pointerType(const QSObject *obj) const
 QSVariantShared::QSVariantShared(const QVariant &v)
     : variant(v)
 {
+    QMetaType::Type t = static_cast<QMetaType::Type>(v.type());
     native = (
-              v.type() == QVariant::Bool ||
-              v.type() == QVariant::ByteArray ||
-              v.type() == QVariant::Color ||
-              v.type() == QVariant::Date ||
-              v.type() == QVariant::DateTime ||
-              v.type() == QVariant::Double ||
-              v.type() == QVariant::Font ||
-              v.type() == QVariant::List ||
-              v.type() == QVariant::Map ||
-              v.type() == QVariant::Palette ||
-              v.type() == QVariant::Pixmap ||
-              v.type() == QVariant::Point ||
-              v.type() == QVariant::Rect ||
-              v.type() == QVariant::Size ||
-              v.type() == QVariant::String ||
-              v.type() == QVariant::StringList ||
-              v.type() == QVariant::Time ||
-              v.type() == QVariant::UInt ||
-              v.type() == QVariant::Int
+              t == QMetaType::Bool ||
+              t == QMetaType::QByteArray ||
+              t == QMetaType::QColor ||
+              t == QMetaType::QDate ||
+              t == QMetaType::QDateTime ||
+              t == QMetaType::Double ||
+              t == QMetaType::QFont ||
+              t == QMetaType::QVariantList ||
+              t == QMetaType::QVariantMap ||
+              t == QMetaType::QPalette ||
+              t == QMetaType::QPixmap ||
+              t == QMetaType::QPoint ||
+              t == QMetaType::QRect ||
+              t == QMetaType::QSize ||
+              t == QMetaType::QString ||
+              t == QMetaType::QStringList ||
+              t == QMetaType::QTime ||
+              t == QMetaType::UInt ||
+              t == QMetaType::Int
              );
 }
 
@@ -818,7 +819,7 @@ QSObject QSVariantClass::construct(const QVariant &v) const
     return QSObject(this, new QSVariantShared(v));
 }
 
-QVariant QSVariantClass::toVariant(const QSObject *obj, QVariant::Type) const
+QVariant QSVariantClass::toVariant(const QSObject *obj, QMetaType::Type) const
 {
     return shared(obj)->variant;
 }
@@ -866,22 +867,22 @@ void QSVariantShared::createObject(QuickInterpreter *ip)
     // ##### complete for other types
     const QVariant& var = variant;
     QSEnv *env = ip->env();
-    switch (var.type()) {
-    case QVariant::ByteArray:
+    switch (static_cast<QMetaType::Type>(var.type())) {
+    case QMetaType::QByteArray:
         iobj = ip->byteArrayClass()->construct(var.toByteArray());
         break;
 #ifndef QSA_NO_GUI
-    case QVariant::Pixmap:
+    case QMetaType::QPixmap:
 		iobj = ip->pixmapClass()->construct(var.value<QPixmap>());
         break;
-    case QVariant::Color:
+    case QMetaType::QColor:
 		iobj = ip->colorClass()->construct(var.value<QColor>());
         break;
-    case QVariant::Font:
+    case QMetaType::QFont:
 		iobj = ip->fontClass()->construct(var.value<QFont>());
         break;
 #endif
-    case QVariant::Date: {
+    case QMetaType::QDate: {
         QSList l;
         l.append(env->createNumber(var.toDate().year()));
         l.append(env->createNumber(var.toDate().month() + 1));
@@ -889,7 +890,7 @@ void QSVariantShared::createObject(QuickInterpreter *ip)
         iobj = ip->env()->dateClass()->construct(l);
         break;
     }
-    case QVariant::Time: {
+    case QMetaType::QTime: {
         QSList l;
         l.append(env->createNumber(QDate::currentDate().year()));
         l.append(env->createNumber(QDate::currentDate().month() + 1));
@@ -901,7 +902,7 @@ void QSVariantShared::createObject(QuickInterpreter *ip)
         iobj = ip->env()->dateClass()->construct(l);
         break;
     }
-    case QVariant::DateTime: {
+    case QMetaType::QDateTime: {
         QSList l;
         l.append(env->createNumber(var.toDateTime().date().year()));
         l.append(env->createNumber(var.toDateTime().date().month() + 1));
@@ -913,20 +914,20 @@ void QSVariantShared::createObject(QuickInterpreter *ip)
         iobj = ip->env()->dateClass()->construct(l);
         break;
     }
-    case QVariant::Point:
+    case QMetaType::QPoint:
         iobj = ip->pointClass()->construct(var.toPoint());
         break;
-    case QVariant::Size:
+    case QMetaType::QSize:
         iobj = ip->sizeClass()->construct(var.toSize());
         break;
-    case QVariant::Rect:
+    case QMetaType::QRect:
         iobj = ip->rectClass()->construct(var.toRect());
         break;
-    case QVariant::StringList: {
+    case QMetaType::QStringList: {
         iobj = stringlist_to_qsarray(var.toStringList(), env);
         break;
     }
-    case QVariant::List: {
+    case QMetaType::QVariantList: {
         QList<QVariant> lst = var.toList();
         QSArray array(env);
         int i = 0;
@@ -937,7 +938,7 @@ void QSVariantShared::createObject(QuickInterpreter *ip)
         iobj = array;
         break;
     }
-    case QVariant::Map: {
+    case QMetaType::QVariantMap: {
         QMap<QString, QVariant> map = var.toMap();
         QSObject obj;
         if (qsa_converts_map_to_object)
@@ -952,7 +953,7 @@ void QSVariantShared::createObject(QuickInterpreter *ip)
         iobj = obj;
         break;
     }
-    case QVariant::String:
+    case QMetaType::QString:
         iobj = env->createString(var.toString());
         break;
     default:
@@ -967,37 +968,37 @@ QSObject QSVariantClass::toPrimitive(const QSObject *obj,
     QSObject res;
     QVariant *var = variant(obj);
     QSVariantShared *sh = shared(obj);
-    switch (var->type()) {
-    case QVariant::Bool:
+    switch (static_cast<QMetaType::Type>(var->type())) {
+    case QMetaType::Bool:
         return createBoolean(var->toBool());
-    case QVariant::Int:
+    case QMetaType::Int:
         return createNumber(var->toInt());
-    case QVariant::UInt:
+    case QMetaType::UInt:
         return createNumber(var->toUInt());
-    case QVariant::Double:
+    case QMetaType::Double:
         return createNumber(var->toDouble());
-    case QVariant::String:
+    case QMetaType::QString:
         return createString(var->toString());
-    case QVariant::DateTime:
+    case QMetaType::QDateTime:
         return env()->dateClass()->construct(var->toDateTime());
-    case QVariant::Date:
+    case QMetaType::QDate:
         return env()->dateClass()->construct(QDateTime(var->toDateTime()));
-    case QVariant::Time:
+    case QMetaType::QTime:
         return env()->dateClass()->construct(QDateTime(QDate::currentDate(), var->toTime()));
-    case QVariant::StringList:
-    case QVariant::List:
-    case QVariant::Map:
-    case QVariant::Rect:
-    case QVariant::Size:
-    case QVariant::Point:
-    case QVariant::Color:
-    case QVariant::Font:
-    case QVariant::ByteArray:
-    case QVariant::Pixmap:
+    case QMetaType::QStringList:
+    case QMetaType::QVariantList:
+    case QMetaType::QVariantMap:
+    case QMetaType::QRect:
+    case QMetaType::QSize:
+    case QMetaType::QPoint:
+    case QMetaType::QColor:
+    case QMetaType::QFont:
+    case QMetaType::QByteArray:
+    case QMetaType::QPixmap:
         sh->createObject(interpreter());
         return sh->iobj;
 #ifndef QSA_NO_GUI
-    case QVariant::Palette:
+    case QMetaType::QPalette:
 		return interpreter()->paletteClass()->construct(var->value<QPalette>());
 #endif
     default:
@@ -1009,8 +1010,8 @@ QSObject QSVariantClass::toPrimitive(const QSObject *obj,
 bool QSVariantClass::toBoolean(const QSObject *obj) const
 {
     QVariant *var = variant(obj);
-    switch (var->type()) {
-    case QVariant::String:
+    switch (static_cast<QMetaType::Type>(var->type())) {
+    case QMetaType::QString:
         return !var->toString().isEmpty();
     default:
         return var->toBool();
@@ -1029,21 +1030,21 @@ static QDateTime build(const QDate& date)
 double QSVariantClass::toNumber(const QSObject *obj) const
 {
     QVariant *var = variant(obj);
-    switch (var->type()) {
-    case QVariant::Int:
-    case QVariant::Bool:
+    switch (static_cast<QMetaType::Type>(var->type())) {
+    case QMetaType::Int:
+    case QMetaType::Bool:
         return double(var->toInt());
-    case QVariant::UInt:
+    case QMetaType::UInt:
         return double(var->toUInt());
-    case QVariant::Double:
+    case QMetaType::Double:
         return double(var->toDouble());
-    case QVariant::String:
+    case QMetaType::QString:
         return QString(var->toString()).toDouble();
 #ifndef QSA_NO_GUI
-    case QVariant::Color:
+    case QMetaType::QColor:
         return double(var->value<QColor>().rgb());
 #endif
-    case QVariant::Date:
+    case QMetaType::QDate:
         // QDate -> UTC conversion
         return -1000.0 * build(var->toDate()).secsTo(build(QDate(1970, 1, 1)));
     default:
@@ -1056,44 +1057,44 @@ QString QSVariantClass::toString(const QSObject *obj) const
 {
     QVariant *var = variant(obj);
     QString str;
-    switch (var->type()) {
-    case QVariant::Bool:
+    switch (static_cast<QMetaType::Type>(var->type())) {
+    case QMetaType::Bool:
         return var->toBool() ? QLatin1String("true") : QLatin1String("false");
-    case QVariant::Int:
-    case QVariant::UInt:
-    case QVariant::Double:
+    case QMetaType::Int:
+    case QMetaType::UInt:
+    case QMetaType::Double:
         return QSString::from(var->toDouble());
-    case QVariant::ByteArray:
-    case QVariant::String:
+    case QMetaType::QByteArray:
+    case QMetaType::QString:
         return var->toString();
 #ifndef QSA_NO_GUI
-    case QVariant::Color:
+    case QMetaType::QColor:
 		return var->value<QColor>().name();
-    case QVariant::Font:
+    case QMetaType::QFont:
 		return var->value<QFont>().toString();
 #endif
-    case QVariant::Point: {
+    case QMetaType::QPoint: {
         QPoint point = var->toPoint();
         return QString::fromLatin1("(%1, %2)").arg(point.x()).arg(point.y());
     }
-    case QVariant::Rect: {
+    case QMetaType::QRect: {
         QRect rect = var->toRect();
         return QString::fromLatin1("(%1, %2, %3, %4)").arg(rect.x()).arg(rect.y()).
             arg(rect.width()).arg(rect.height());
     }
-    case QVariant::Size: {
+    case QMetaType::QSize: {
         QSize size = var->toSize();
         return QString::fromLatin1("(%1, %2)").arg(size.width()).arg(size.height());
     }
-    case QVariant::Date:
+    case QMetaType::QDate:
         return var->toDate().toString();
-    case QVariant::Time:
+    case QMetaType::QTime:
         return var->toTime().toString();
-    case QVariant::DateTime:
+    case QMetaType::QDateTime:
         return var->toDateTime().toString();
-    case QVariant::StringList:
+    case QMetaType::QStringList:
         return var->toStringList().join(QLatin1String(","));
-    case QVariant::List: {
+    case QMetaType::QVariantList: {
         QList<QVariant> lst = var->toList();
         QString str;
         bool first = true;
@@ -1106,7 +1107,7 @@ QString QSVariantClass::toString(const QSObject *obj) const
         }
         return str;
     }
-    case QVariant::Map: {
+    case QMetaType::QVariantMap: {
         QMap<QString, QVariant> map = var->toMap();
         QString str;
         bool first = true;
@@ -1153,7 +1154,7 @@ void QSVariantClass::write(QSObject *objPtr, const QSMember &mem,
     QSVariantShared *sh = shared(objPtr);
     Q_ASSERT(sh->iobj.isValid());
     sh->iobj.objectType()->write(&sh->iobj, mem, val);
-    sh->variant = sh->iobj.toVariant(QVariant::Invalid);
+    sh->variant = sh->iobj.toVariant(QMetaType::UnknownType);
 }
 
 QSObject QSVariantClass::invoke(QSObject * objPtr, const QSMember &mem) const
@@ -1367,9 +1368,9 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
                 if (t.id == QMetaType::Void)
                     t.id = QVariant::nameToType(t.name);
                 if (t.id == QMetaType::Void) {
-                    if (strcmp(t.name, "QMap<QString,QVariant>") == 0) t.id = QVariant::Map;
-                    else if (strcmp(t.name, "QList<QVariant>") == 0) t.id = QVariant::List;
-                    else if (strcmp(t.name, "qreal") == 0) t.id = QVariant::Double;
+                    if (strcmp(t.name, "QMap<QString,QVariant>") == 0) t.id = QMetaType::QVariantMap;
+                    else if (strcmp(t.name, "QList<QVariant>") == 0) t.id = QMetaType::QVariantList;
+                    else if (strcmp(t.name, "qreal") == 0) t.id = QMetaType::Double;
                 }
                 types << t;
             }
@@ -1440,20 +1441,20 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
                 break;
 
                 // Custom variant types
-            case QVariant::Map:
+            case QMetaType::QVariantMap:
                 {
-                    const QVariant *v = caching->variants(arg.toVariant(QVariant::Map));
+                    const QVariant *v = caching->variants(arg.toVariant(QMetaType::QVariantMap));
                     data[pos] = const_cast<void *>(v->constData());
                     match = arg.objectType() == env->arrayClass()
-                            && v->type() == QVariant::Map;
+                            && static_cast<QMetaType::Type>(v->type()) == QMetaType::QVariantMap;
                 }
                 break;
-            case QVariant::List:
+            case QMetaType::QVariantList:
                 {
-                    const QVariant *v = caching->variants(arg.toVariant(QVariant::List));
+                    const QVariant *v = caching->variants(arg.toVariant(QMetaType::QVariantList));
                     data[pos] = const_cast<void *>(v->constData());
                     match = arg.objectType() == env->arrayClass()
-                            && v->type() == QVariant::List;
+                            && static_cast<QMetaType::Type>(v->type()) == QMetaType::QVariantList;
 
                 }
                 break;
@@ -1485,13 +1486,13 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
                     QByteArray ti_name = qsa_strip_stars(ti.name, star_count);
                     int ti_id = QVariant::nameToType(ti_name);
 
-                    const QVariant *v = caching->variants(arg.toVariant(QVariant::Type(ti_id)));
+                    const QVariant *v = caching->variants(arg.toVariant(QMetaType::Type(ti_id)));
 
                     if (v->isValid() && (int)v->type() == ti_id) {
                         data[pos] = const_cast<void *>(v->constData());
 
                     } else if (strcmp(ti_name, "QVariant") == 0) {
-                        const QVariant *v = caching->variants(arg.toVariant(QVariant::Invalid));
+                        const QVariant *v = caching->variants(arg.toVariant(QMetaType::UnknownType));
                         data[pos] = (void *)v;
 
                     } else if (strcmp(ti_name, "QList<int>") == 0) {
@@ -1645,9 +1646,9 @@ static QSObject qsa_pod_value(QSEnv *env, QMetaType::Type type, void *value)
     };
 }
 
-static QSObject qsa_script_variant(QuickInterpreter *ip, QVariant::Type type, void *value)
+static QSObject qsa_script_variant(QuickInterpreter *ip, QMetaType::Type type, void *value)
 {
-    if (type == QVariant::Invalid)
+    if (type == QMetaType::UnknownType)
         return QSObject();
 
     QVariant var(type, value);
@@ -1676,9 +1677,9 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
         return env->createUndefined();
 
     QuickInterpreter *ip = QuickInterpreter::fromEnv(env);
-    ret_val = qsa_script_variant(ip, QVariant::Type(ti.id), value);
+    ret_val = qsa_script_variant(ip, QMetaType::Type(ti.id), value);
 
-    if (ti.id < int(QVariant::UserType) && ret_val.isValid()) {
+    if (ti.id < int(QMetaType::User) && ret_val.isValid()) {
         return ret_val;
 
     } else if (ti.name == "QVariant") {
@@ -1687,7 +1688,7 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
         QVariant *var = ((QVariant *) value);
         if (var->isNull())
             return env->createUndefined();
-        return qsa_script_variant(ip, var->type(), (void *) var->constData());
+        return qsa_script_variant(ip, static_cast<QMetaType::Type>(var->type()), (void *) var->constData());
 
     } else if (ti.name == "QList<int>") {
         QList<int> *l = (QList<int> *) value;
@@ -1721,16 +1722,16 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
                 // Strip away stars to see if it matches a
                 // variant type and then treat it as such
                 QByteArray stripped = qsa_strip_stars(ti.name, star_count);
-                QVariant::Type var_type = QVariant::nameToType(stripped);
+                QMetaType::Type var_type = static_cast<QMetaType::Type>(QVariant::nameToType(stripped));
 
-                if (var_type != QVariant::Invalid && var_type < QVariant::UserType) {
+                if (var_type != QMetaType::UnknownType && var_type < QMetaType::User) {
                     while (star_count--) value = *(void **) value;
                     return qsa_script_variant(ip, var_type, value);
                 } else if (stripped == "QVariant") {
                     while (star_count--) value = *(void **) value;
                     QVariant *var = ((QVariant *) value);
-                    return qsa_script_variant(ip, var->type(), (void *) var->constData());
-                } else if (var_type == QVariant::UserType) {
+                    return qsa_script_variant(ip, static_cast<QMetaType::Type>(var->type()), (void *) var->constData());
+                } else if (var_type == QMetaType::User) {
                     // Handle pointers to PODs not automatically handled by QVariant. Should we do
                     // char* as a special case to get strings?
                     int meta_type = QMetaType::type(stripped);
@@ -1783,7 +1784,7 @@ static void *qsa_default_value(QSASlotCaching *caching, const QSATypeInfo &ti, c
     const QVariant *v = caching->variants(QVariant::Type(ti.id));
     void *const_data = (void *) v->constData();
 
-    if (v->type() == QVariant::Invalid) {
+    if (static_cast<QMetaType::Type>(v->type()) == QMetaType::UnknownType) {
         if (ti.name == "QVariant") {
             return caching->variants(QVariant());
         } else if (ti.name == "QList<int>")

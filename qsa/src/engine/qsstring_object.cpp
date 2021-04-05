@@ -149,7 +149,7 @@ QSObject QSStringClass::toPrimitive( const QSObject *obj,
     return *obj;
 }
 
-QVariant QSStringClass::toVariant( const QSObject *obj, QVariant::Type ) const
+QVariant QSStringClass::toVariant( const QSObject *obj, QMetaType::Type ) const
 {
     return obj->sVal();
 }

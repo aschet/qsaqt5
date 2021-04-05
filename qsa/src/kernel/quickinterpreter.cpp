@@ -167,7 +167,7 @@ QVariant QuickInterpreter::convertToArgument(const QSObject &o)
         v.setValue<void *>(ptrClass->pointer(&o));
         return v;
     } else {
-	return QVariant(o.toVariant(QVariant::Invalid));
+    return QVariant(o.toVariant(QMetaType::UnknownType));
     }
 }
 
@@ -509,7 +509,7 @@ QVariant QuickInterpreter::call(QObject *ctx, const QString &func, const QVarian
 	    break;
 	case QMetaType::VoidStar:
 	    qWarning("QuickInterpreter::call: don't know what to do with a "
-		      "QVariant::VoidPointer here...");
+              "QMetaType::VoidPointer here...");
  	    break;
 	default:
             {
@@ -528,13 +528,13 @@ QVariant QuickInterpreter::call(QObject *ctx, const QString &func, const QVarian
 void QuickInterpreter::setVariable(QObject *context, const QString &func, const QVariant &value)
 {
     QSObject val;
-    switch(value.type()) {
+    switch(static_cast<QMetaType::Type>(value.type())) {
     case QMetaType::QObjectStar:
 	val = wrap(qvariant_cast<QObject *>(value));
 	break;
     case QMetaType::VoidStar:
 	qWarning("QuickInterpreter::setVariable: don't know what to do with "
-		  "QVariant::VoidPointer here...");
+          "QMetaType::VoidPointer here...");
 	return;
     default:
         {

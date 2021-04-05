@@ -85,7 +85,7 @@ QSObject QSNumberClass::toPrimitive( const QSObject *obj,
     return *obj;
 }
 
-QVariant QSNumberClass::toVariant( const QSObject *obj, QVariant::Type ) const
+QVariant QSNumberClass::toVariant( const QSObject *obj, QMetaType::Type ) const
 {
     return obj->dVal();
 }

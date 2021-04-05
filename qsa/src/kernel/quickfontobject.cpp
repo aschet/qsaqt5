@@ -157,7 +157,7 @@ QString QSFontClass::toString( const QSObject *obj ) const
     return font( obj )->toString();
 }
 
-QVariant QSFontClass::toVariant( const QSObject *obj, QVariant::Type ) const
+QVariant QSFontClass::toVariant( const QSObject *obj, QMetaType::Type ) const
 {
     return *font( obj );
 }

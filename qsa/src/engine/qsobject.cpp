@@ -327,10 +327,10 @@ double QSObject::toNumber() const
 /*! Return this object's value converted to a QVariant. If this is not
   possible, or the object is invalid, an invalid QVariant will be returned.
   In case several conversion are possible \a t can be used to indicate the
-  preferred type. Specifying QVariant::Invalid is good enough for most cases.
+  preferred type. Specifying QMetaType::UnknownType is good enough for most cases.
 */
 
-QVariant QSObject::toVariant( QVariant::Type t ) const
+QVariant QSObject::toVariant( QMetaType::Type t ) const
 {
     return isValid() ? objectType()->toVariant( this, t ) : QVariant();
 }

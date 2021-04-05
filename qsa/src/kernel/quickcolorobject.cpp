@@ -203,10 +203,10 @@ double QSColorClass::toNumber( const QSObject *obj ) const
     return (uint)color(obj)->rgba();
 }
 
-QVariant QSColorClass::toVariant( const QSObject *obj, QVariant::Type type ) const
+QVariant QSColorClass::toVariant( const QSObject *obj, QMetaType::Type type ) const
 {
     switch (type) {
-    case QVariant::Int: return QVariant((int)color(obj)->rgba());
+    case QMetaType::Int: return QVariant((int)color(obj)->rgba());
     default: break;
     }
     return *color( obj );
@@ -394,11 +394,11 @@ QPalette *QSPaletteClass::palette(const QSObject *obj)
 };
 
 
-QVariant QSPaletteClass::toVariant( const QSObject *obj, QVariant::Type type ) const
+QVariant QSPaletteClass::toVariant( const QSObject *obj, QMetaType::Type type ) const
 {
     switch (type) {
-    case QVariant::Invalid:
-    case QVariant::Palette:
+    case QMetaType::UnknownType:
+    case QMetaType::QPalette:
         return QVariant(*palette(obj));
     default:
         break;
@@ -477,7 +477,7 @@ QSColorGroup *QSColorGroupClass::colorGroup(const QSObject *obj)
     return &(((ColorGroupShared *) obj->shVal())->colorGroup);
 }
 
-QVariant QSColorGroupClass::toVariant( const QSObject *, QVariant::Type) const
+QVariant QSColorGroupClass::toVariant( const QSObject *, QMetaType::Type) const
 {
     return QVariant();
 }

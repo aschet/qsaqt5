@@ -56,7 +56,7 @@ public:
     double toNumber(const QSObject *) const;
 
     QString toString(const QSObject *) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(const QSList &args) const;
     QSObject construct(const QColor &c) const;
@@ -82,7 +82,7 @@ public:
     QSObject construct(const QSList &args) const;
     QSObject construct(const QPalette &p) const;
 
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     static QPalette *palette(const QSObject *obj);
 };
@@ -128,7 +128,7 @@ public:
     QSObject construct(const QSList &args) const;
     QSObject construct(const QSColorGroup &colorGroup) const;
 
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     static QSColorGroup *colorGroup(const QSObject *obj);
 };

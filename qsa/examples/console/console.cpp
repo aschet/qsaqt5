@@ -136,7 +136,7 @@ bool Console::eventFilter( QObject *o, QEvent *e )
                     }
                     QVariant value = interpreter->evaluate(code);
                     QString tn;
-                    switch(value.type()) {
+                    switch(static_cast<QMetaType::Type>(value.type())) {
                         case QMetaType::QObjectStar:
                             tn = QString("%1 [%2]").arg((qvariant_cast<QObject *>(value))->objectName())
                                                    .arg((qvariant_cast<QObject *>(value))->metaObject()->className());
@@ -144,12 +144,12 @@ bool Console::eventFilter( QObject *o, QEvent *e )
                         case QMetaType::VoidStar:
                             tn = QString("0x%1 [void*]").arg((ulong) qvariant_cast<void *>(value), 16);
                             break;
-                        case QVariant::Invalid:
+                        case QMetaType::UnknownType:
                             break;
                         default:
                             if (!value.toString().isEmpty())
                                 tn = value.toString() + " ["
-                                    + (value.type() == QVariant::Double ? "Number" :value.typeName())
+                                    + (static_cast<QMetaType::Type>(value.type()) == QMetaType::Double ? "Number" :value.typeName())
                                     + "]";
                             break;
                     }

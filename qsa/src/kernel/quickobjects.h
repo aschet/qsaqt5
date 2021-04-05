@@ -142,7 +142,7 @@ public:
 
     bool toBoolean(const QSObject *) const;
     QString toString(const QSObject *) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
     QSEqualsResult isEqual(const QSObject &a, const QSObject &b) const;
 
     QSObject wrap(const QVector<QObject *> &objs);
@@ -170,7 +170,7 @@ public:
     double toNumber(const QSObject *) const;
     bool toBoolean(const QSObject *) const;
     QString toString(const QSObject *) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject wrapPointer(const char *name, void *p);
     QSObject wrapPointer(QuickPtrDispatchObject *ptr);
@@ -255,7 +255,7 @@ public:
     QString toString(const QSObject *) const;
     QSObject toPrimitive(const QSObject *obj,
 			  const QSClass *preferred) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(const QVariant &v) const;
     QSObject construct(const QSList &args) const;

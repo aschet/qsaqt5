@@ -145,7 +145,7 @@ QString QSArrayClass::toString( const QSObject *obj ) const
     return joinInternal( *obj, QString::fromLatin1(",") );
 }
 
-QVariant QSArrayClass::toVariant( const QSObject *obj, QVariant::Type t ) const
+QVariant QSArrayClass::toVariant( const QSObject *obj, QMetaType::Type t ) const
 {
     QSObject v = *obj;
     int len = length( obj );
@@ -153,30 +153,30 @@ QVariant QSArrayClass::toVariant( const QSObject *obj, QVariant::Type t ) const
 
     if (!propMap) {
         switch (t) {
-        case QVariant::StringList:
-        case QVariant::Map:
-        case QVariant::String:
-        case QVariant::List:
+        case QMetaType::QStringList:
+        case QMetaType::QVariantMap:
+        case QMetaType::QString:
+        case QMetaType::QVariantList:
             return QVariant(t, (void *) 0);
         default:
             return QVariant();
         }
     }
 
-    if ( t == QVariant::StringList ) {
+    if ( t == QMetaType::QStringList ) {
 	QStringList l;
 	for ( int i = 0; i < len; ++i )
 	    l << v.get( QString::number( i ) ).toString();
 	QVariant var = l;
 	return var;
-    } else if ( t == QVariant::Map ) {
+    } else if ( t == QMetaType::QVariantMap ) {
 	QVariantMap m;
 	for ( QSPropertyMap::ConstIterator it = propMap->begin();
 	      it != propMap->end(); ++it )
-	    m.insert( it.key(), (*it).object.toVariant( QVariant::Invalid ) );
+        m.insert( it.key(), (*it).object.toVariant( QMetaType::UnknownType ) );
 	QVariant var = m;
 	return var;
-    } else if ( t == QVariant::String ) {
+    } else if ( t == QMetaType::QString ) {
 	QStringList l;
 	for ( int i = 0; i < len; ++i )
 	    l << v.get( QString::number( i ) ).toString();
@@ -191,10 +191,10 @@ QVariant QSArrayClass::toVariant( const QSObject *obj, QVariant::Type t ) const
                 if (conversion_ok) {
                     // Pad to the right index
                     while (l.size() <= index) l << QVariant();
-                    l[index] = (*it).object.toVariant(QVariant::Invalid);
+                    l[index] = (*it).object.toVariant(QMetaType::UnknownType);
                 }
             }
-            m[it.key()] = (*it).object.toVariant(QVariant::Invalid);
+            m[it.key()] = (*it).object.toVariant(QMetaType::UnknownType);
         }
         QVariant var;
         if (conversion_ok)

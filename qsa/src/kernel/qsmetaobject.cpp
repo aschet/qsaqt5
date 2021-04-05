@@ -116,9 +116,9 @@ static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *ty
             QByteArray param = QByteArray(buf.constData() + begin, pos-begin);
             QMetaType::Type t = (QMetaType::Type) QMetaType::type(param.constData());
             if (t == 0) {
-                QVariant::Type vt = QVariant::nameToType(param.constData());
-                if (vt != QVariant::Invalid)
-                    t = (QMetaType::Type) vt;
+                QMetaType::Type vt = static_cast<QMetaType::Type>(QVariant::nameToType(param.constData()));
+                if (vt != QMetaType::UnknownType)
+                    t = vt;
             }
             *types += t;
             *typeNames += param;

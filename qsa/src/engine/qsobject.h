@@ -210,7 +210,7 @@ public:
      * @return Conversion to Number type.
      */
     double toNumber() const; // ECMA 9.3
-    QVariant toVariant(QVariant::Type t) const;
+    QVariant toVariant(QMetaType::Type t) const;
     /**
      * @return Conversion to double. 0.0 if conversion failed.
      */

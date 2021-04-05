@@ -48,7 +48,7 @@ public:
 
     QString toString(const QSObject *) const;
     QSObject toPrimitive(const QSObject *obj, const QSClass *cl) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(const QSList &args) const;
     QSObject cast(const QSList &args) const;

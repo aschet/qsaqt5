@@ -303,7 +303,7 @@ QSObject QSClass::toPrimitive( const QSObject *obj,
   for an equivalent type exists.
  */
 
-QVariant QSClass::toVariant( const QSObject * /*obj*/, QVariant::Type ) const
+QVariant QSClass::toVariant( const QSObject * /*obj*/, QMetaType::Type ) const
 {
     // ### how about respecting the prefered type ?
     return QVariant();
@@ -1606,7 +1606,7 @@ void QSSystemClass::setenv( QSEnv *env )
 }
 
 
-QVariant QSDynamicClass::toVariant(const QSObject *obj, QVariant::Type t) const
+QVariant QSDynamicClass::toVariant(const QSObject *obj, QMetaType::Type t) const
 {
     QSPropertyMap *propMap = properties(obj);
     if (!propMap)
@@ -1614,7 +1614,7 @@ QVariant QSDynamicClass::toVariant(const QSObject *obj, QVariant::Type t) const
 
     QVariantMap m;
     for (QSPropertyMap::ConstIterator it = propMap->begin(); it != propMap->end(); ++it)
-        m.insert(it.key(), (*it).object.toVariant(QVariant::Invalid));
+        m.insert(it.key(), (*it).object.toVariant(QMetaType::UnknownType));
     return m;
 }
 

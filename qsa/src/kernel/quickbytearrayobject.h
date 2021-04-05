@@ -51,7 +51,7 @@ public:
 				 const QSMember &mem) const;
 
     QString toString(const QSObject *) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(const QSList &args) const;
     QSObject construct(const QByteArray &ba) const;

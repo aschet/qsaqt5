@@ -107,9 +107,9 @@ QString QSPointClass::toString( const QSObject *obj ) const
     return QString::fromLatin1( "(%1, %2)" ).arg( p->x() ).arg( p->y() );
 }
 
-QVariant QSPointClass::toVariant( const QSObject *obj, QVariant::Type type) const
+QVariant QSPointClass::toVariant( const QSObject *obj, QMetaType::Type type) const
 {
-    if (type == QVariant::PointF)
+    if (type == QMetaType::QPointF)
         return QPointF(*point(obj));
     else
         return *point(obj);
@@ -227,10 +227,10 @@ QString QSSizeClass::toString( const QSObject *obj ) const
     return QString::fromLatin1( "(%1, %2)" ).arg( s->width() ).arg( s->height() );
 }
 
-QVariant QSSizeClass::toVariant( const QSObject *obj, QVariant::Type type) const
+QVariant QSSizeClass::toVariant( const QSObject *obj, QMetaType::Type type) const
 {
 
-    if (type == QVariant::SizeF)
+    if (type == QMetaType::QSizeF)
         return QSizeF(*size(obj));
     else
         return *size(obj);
@@ -376,9 +376,9 @@ QString QSRectClass::toString( const QSObject *obj ) const
 	.arg( r->width() ).arg( r->height() );
 }
 
-QVariant QSRectClass::toVariant( const QSObject *obj, QVariant::Type type) const
+QVariant QSRectClass::toVariant( const QSObject *obj, QMetaType::Type type) const
 {
-    if (type == QVariant::RectF)
+    if (type == QMetaType::QRectF)
         return QRectF(*rect(obj));
     else
         return *rect(obj);

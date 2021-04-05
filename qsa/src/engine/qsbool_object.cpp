@@ -80,7 +80,7 @@ QSObject QSBooleanClass::toPrimitive( const QSObject *obj,
     return *obj;
 }
 
-QVariant QSBooleanClass::toVariant( const QSObject *obj, QVariant::Type ) const
+QVariant QSBooleanClass::toVariant( const QSObject *obj, QMetaType::Type ) const
 {
     return QVariant( obj->bVal() );
 }

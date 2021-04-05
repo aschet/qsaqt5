@@ -131,7 +131,7 @@ QObject *QSUtilFactory::create( const QString &name,
 	    return 0;
 	}
 	QVariant fn = args[0];
-	if (fn.type() != QVariant::String) {
+    if (static_cast<QMetaType::Type>(fn.type()) != QMetaType::QString) {
 	    interpreter()->throwError(QString::fromLatin1("Cannot construct File, "
                                                           "Filename must be of type string"));
 	    return 0;
@@ -143,7 +143,7 @@ QObject *QSUtilFactory::create( const QString &name,
     else if (name == QString::fromLatin1("Dir")) {
 	if (argCount >= 1) {
 	    QVariant fn = args[0];
-	    if (fn.type() != QVariant::String) {
+        if (static_cast<QMetaType::Type>(fn.type()) != QMetaType::QString) {
 		interpreter()->throwError(QString::fromLatin1("Cannot construct Dir object, "
                                                               "Filename must be of type string"));
 		return 0;
@@ -158,7 +158,7 @@ QObject *QSUtilFactory::create( const QString &name,
 	if (argCount>=1) {
 	    QStringList commands;
 	    for (int i=0; i<argCount; ++i) {
-		if (args[i].type() == QVariant::StringList)
+        if (static_cast<QMetaType::Type>(args[i].type()) == QMetaType::QStringList)
 		    commands += args[i].toStringList();
 		else
 		    commands += args[i].toString();

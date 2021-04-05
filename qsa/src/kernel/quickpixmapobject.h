@@ -54,7 +54,7 @@ public:
     virtual QSObject fetchValue(const QSObject *obj,
 				 const QSMember &mem) const;
 
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
     QString debugString(const QSObject *obj) const;
 
     QSObject construct(const QSList &args) const;

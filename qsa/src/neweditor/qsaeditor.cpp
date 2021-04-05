@@ -695,22 +695,22 @@ QSObject QSAEditor::vTypeToQSType( const QString &type ) const
 	    return qstype;
     }
 
-    QVariant::Type t = QVariant::nameToType( type.toLatin1().constData() );
+    QMetaType::Type t = static_cast<QMetaType::Type>( QVariant::nameToType( type.toLatin1().constData() ) );
     switch ( t ) {
-    case QVariant::Time:
-    case QVariant::DateTime:
+    case QMetaType::QTime:
+    case QMetaType::QDateTime:
 	    return env()->globalObject().get( QString::fromLatin1("Date") );
-    case QVariant::StringList:
-    case QVariant::List:
-    case QVariant::Map:
+    case QMetaType::QStringList:
+    case QMetaType::QVariantList:
+    case QMetaType::QVariantMap:
 	    return env()->globalObject().get( QString::fromLatin1("Array") );
-    case QVariant::ByteArray:
+    case QMetaType::QByteArray:
 	    return env()->globalObject().get( QString::fromLatin1("String") );
-    case QVariant::Int:
-    case QVariant::UInt:
-    case QVariant::Double:
+    case QMetaType::Int:
+    case QMetaType::UInt:
+    case QMetaType::Double:
 	    return env()->globalObject().get( QString::fromLatin1("Number") );
-    case QVariant::Bool:
+    case QMetaType::Bool:
 	    return env()->globalObject().get( QString::fromLatin1("Boolean") );
     default:
 	    break;

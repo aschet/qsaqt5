@@ -111,7 +111,7 @@ QSObject QSPixmapClass::fetchValue( const QSObject *obj,
     }
 }
 
-QVariant QSPixmapClass::toVariant( const QSObject *obj, QVariant::Type ) const
+QVariant QSPixmapClass::toVariant( const QSObject *obj, QMetaType::Type ) const
 {
     return *pixmap( obj );
 }
@@ -126,10 +126,10 @@ QSObject QSPixmapClass::construct( const QSList &args ) const
 	    QPixmap pm( v.toString() );
 	    return construct( pm );
         } else {
-            QVariant var = v.toVariant(QVariant::ByteArray);
-            if (var.type() == QVariant::ByteArray) {
+            QVariant var = v.toVariant(QMetaType::QByteArray);
+            if (static_cast<QMetaType::Type>(var.type()) == QMetaType::QByteArray) {
                 QPixmap pm;
-                pm.loadFromData( v.toVariant(QVariant::ByteArray).toByteArray() );
+                pm.loadFromData( v.toVariant(QMetaType::QByteArray).toByteArray() );
                 return construct( pm );
             }
         }

@@ -170,12 +170,12 @@ QString QSDateClass::toString( const QSObject *o ) const
     return get_date( o ).toString( Qt::ISODate );
 }
 
-QVariant QSDateClass::toVariant( const QSObject *obj, QVariant::Type t ) const
+QVariant QSDateClass::toVariant( const QSObject *obj, QMetaType::Type t ) const
 {
     switch( t ) {
-    case QVariant::Time:
+    case QMetaType::QTime:
 	return get_date( obj ).time();
-    case QVariant::Date:
+    case QMetaType::QDate:
 	return get_date( obj ).date();
     default:
 	return get_date( obj );

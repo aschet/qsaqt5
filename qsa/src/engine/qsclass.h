@@ -90,7 +90,7 @@ public:
     virtual QString toString(const QSObject *obj) const;
     virtual QSObject toPrimitive(const QSObject *obj,
 				  const QSClass *preferred=0) const;
-    virtual QVariant toVariant(const QSObject *obj, QVariant::Type pref) const;
+    virtual QVariant toVariant(const QSObject *obj, QMetaType::Type pref) const;
 
     bool hasProperty(const QSObject *obj, const QString &prop) const;
     QSObject get(const QSObject *obj, const QString &prop) const;
@@ -234,7 +234,7 @@ public:
     QString toString(const QSObject *) const;
     QSObject toPrimitive(const QSObject *obj,
 			  const QSClass *preferred=0) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(bool b) const;
     QSObject construct(const QSList &args) const;
@@ -259,7 +259,7 @@ public:
     QString toString(const QSObject *) const;
     QSObject toPrimitive(const QSObject *obj,
 			  const QSClass *preferred=0) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(const QSList &args) const;
     virtual QSObject cast(const QSList &args) const;
@@ -290,7 +290,7 @@ public:
     QString toString(const QSObject *) const;
     QSObject toPrimitive(const QSObject *obj,
 			  const QSClass *preferred=0) const;
-    QVariant toVariant(const QSObject *obj, QVariant::Type) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type) const;
 
     QSObject construct(const QSList &args) const;
     virtual QSObject cast(const QSList &args) const;
@@ -480,7 +480,7 @@ public:
     QSDynamicClass(QSClass *b) : QSWritableClass(b) { }
     QString name() const { return QString::fromLatin1("Object"); }
 
-    QVariant toVariant(const QSObject *obj, QVariant::Type t) const;
+    QVariant toVariant(const QSObject *obj, QMetaType::Type t) const;
 };
 
 class QSTypeClass : public QSSharedClass {

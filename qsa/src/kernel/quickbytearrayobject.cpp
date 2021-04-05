@@ -95,7 +95,7 @@ QString QSByteArrayClass::toString( const QSObject *obj ) const
     return s;
 }
 
-QVariant QSByteArrayClass::toVariant( const QSObject *obj, QVariant::Type ) const
+QVariant QSByteArrayClass::toVariant( const QSObject *obj, QMetaType::Type ) const
 {
     return *byteArray( obj );
 }

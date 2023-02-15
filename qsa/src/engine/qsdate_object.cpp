@@ -124,7 +124,7 @@ QSObject QSDateClass::construct( const QSList &args ) const
 	    shared->dt = QDateTime::fromString( arg.toString() );
 	} else {
             qint64 msecs = qint64(arg.toNumber());
-	    shared->dt.setTime_t(time_t(msecs/1000));
+	    shared->dt.setSecsSinceEpoch(time_t(msecs/1000));
 
             QTime time = shared->dt.time().addMSecs(int(msecs % 1000));
 	    shared->dt.setTime(time);
@@ -162,7 +162,7 @@ bool QSDateClass::toBoolean( const QSObject *obj ) const
 double QSDateClass::toNumber( const QSObject *obj ) const
 {
     QDateTime dt = get_date( obj );
-    return dt.toTime_t() * 1000.0 + dt.time().msec();
+    return dt.toSecsSinceEpoch() * 1000.0 + dt.time().msec();
 }
 
 QString QSDateClass::toString( const QSObject *o ) const
@@ -197,7 +197,7 @@ QSObject QSDateClass::parse( QSEnv *env )
 		if (re.captureCount() >= 5)
             str += QString::fromLatin1("T00:00:00");
 	QDateTime dt = QDateTime::fromString(str, Qt::ISODate);
-	return env->createNumber( dt.toTime_t() * 1000.0 );
+	return env->createNumber( dt.toSecsSinceEpoch() * 1000.0 );
     }
     return env->createUndefined();
 }
@@ -219,7 +219,7 @@ QSObject QSDateClass::utc( QSEnv *env )
 	QDateTime dt;
 	dt.setDate( QDate( year, month, day ) );
 	dt.setTime( QTime( hour, min, sec, milli ) );
-	return env->createNumber( dt.toTime_t() );
+	return env->createNumber( dt.toSecsSinceEpoch() );
     }
     return env->createUndefined();
 }
@@ -246,14 +246,14 @@ QSObject QSDateClass::toGMTString( QSEnv *env )
 
 QSObject QSDateClass::valueOf( QSEnv *env )
 {
-    return env->createNumber( get_date_env().toTime_t() );
+    return env->createNumber( get_date_env().toSecsSinceEpoch() );
 }
 
 QSObject QSDateClass::getTime( QSEnv *env )
 {
     QSObject obj = env->thisValue();
     QDateTime dt = get_date( &obj );
-    return env->createNumber( dt.toTime_t() * 1000.0 + dt.time().msec() );
+    return env->createNumber( dt.toSecsSinceEpoch() * 1000.0 + dt.time().msec() );
 }
 
 QSObject QSDateClass::getYear( QSEnv *env )
@@ -301,7 +301,7 @@ QSObject QSDateClass::setTime( QSEnv *env )
     QDateTime &dt = get_date_env();
 
     qint64 msecs = qint64(env->arg( 0 ).toNumber());
-    dt.setTime_t( (time_t) (msecs / 1000) );
+    dt.setSecsSinceEpoch( (time_t) (msecs / 1000) );
 
     QTime time = dt.time().addMSecs(int(msecs % 1000));
     dt.setTime(time);

@@ -108,7 +108,7 @@ void PreferencesBase::updatePreview()
     editPreview->setFont( currentStyle.font );
     QPalette pal = editPreview->palette();
     pal.setColor( QPalette::Active, QPalette::Text, currentStyle.color );
-    pal.setColor( QPalette::Active, QPalette::Foreground, currentStyle.color );
+    pal.setColor( QPalette::Active, QPalette::WindowText, currentStyle.color );
     editPreview->setPalette( pal );
 }
 

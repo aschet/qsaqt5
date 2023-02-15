@@ -87,6 +87,6 @@ void AddScriptDialog::addScript()
 	}
     }
 
-    emit newScript( func, editName->text(), *labelPixmap->pixmap() );
+    emit newScript( func, editName->text(), labelPixmap->pixmap() );
     accept();
 }

@@ -71,7 +71,7 @@ void QSColorGroup::copyToPalette(QPalette *pal, QPalette::ColorGroup group) cons
     Q_ASSERT(pal != 0);
 
     pal->setColorGroup(group,
-                       palette.brush(QPalette::Foreground),
+                       palette.brush(QPalette::WindowText),
                        palette.brush(QPalette::Button),
                        palette.brush(QPalette::Light),
                        palette.brush(QPalette::Dark),
@@ -79,7 +79,7 @@ void QSColorGroup::copyToPalette(QPalette *pal, QPalette::ColorGroup group) cons
                        palette.brush(QPalette::Text),
                        palette.brush(QPalette::BrightText),
                        palette.brush(QPalette::Base),
-                       palette.brush(QPalette::Background));
+                       palette.brush(QPalette::Window));
 }
 
 QSColorClass::QSColorClass( QSClass *b )
@@ -409,7 +409,7 @@ QVariant QSPaletteClass::toVariant( const QSObject *obj, QMetaType::Type type ) 
 QSColorGroupClass::QSColorGroupClass(QSClass *b)
     : QSSharedClass(b)
 {
-    addMember(QString::fromLatin1("foreground"), QSMember(QSMember::Custom, QPalette::Foreground, AttributeNone));
+    addMember(QString::fromLatin1("foreground"), QSMember(QSMember::Custom, QPalette::WindowText, AttributeNone));
     addMember(QString::fromLatin1("button"), QSMember(QSMember::Custom, QPalette::Button, AttributeNone));
     addMember(QString::fromLatin1("light"), QSMember(QSMember::Custom, QPalette::Light, AttributeNone));
     addMember(QString::fromLatin1("midlight"), QSMember(QSMember::Custom, QPalette::Midlight, AttributeNone));
@@ -419,7 +419,7 @@ QSColorGroupClass::QSColorGroupClass(QSClass *b)
     addMember(QString::fromLatin1("brightText"), QSMember(QSMember::Custom, QPalette::BrightText, AttributeNone));
     addMember(QString::fromLatin1("buttonText"), QSMember(QSMember::Custom, QPalette::ButtonText, AttributeNone));
     addMember(QString::fromLatin1("base"), QSMember(QSMember::Custom, QPalette::Base, AttributeNone));
-    addMember(QString::fromLatin1("background"), QSMember(QSMember::Custom, QPalette::Background, AttributeNone));
+    addMember(QString::fromLatin1("background"), QSMember(QSMember::Custom, QPalette::Window, AttributeNone));
     addMember(QString::fromLatin1("shadow"), QSMember(QSMember::Custom, QPalette::Shadow, AttributeNone));
     addMember(QString::fromLatin1("highlight"), QSMember(QSMember::Custom, QPalette::Highlight, AttributeNone));
     addMember(QString::fromLatin1("highlightedText"), QSMember(QSMember::Custom, QPalette::HighlightedText,

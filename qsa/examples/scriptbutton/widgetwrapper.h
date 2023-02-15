@@ -72,7 +72,7 @@ public:
     int noButton() const { return Qt::NoButton; }
     int leftButton() const { return Qt::LeftButton; }
     int rightButton() const { return Qt::RightButton; }
-    int midButton() const { return Qt::MidButton; }
+    int midButton() const { return Qt::MiddleButton; }
     int shiftButton() const { return Qt::ShiftModifier; }
     int controlButton() const { return Qt::ControlModifier; }
     int altButton() const { return Qt::AltModifier; }

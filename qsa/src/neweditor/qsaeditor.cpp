@@ -1188,7 +1188,7 @@ void QSAEditor::doObjectCompletion()
 
         QVBoxLayout *layout = new QVBoxLayout;
         layout->addWidget(box);
-        layout->setMargin(0);
+        layout->setContentsMargins(0, 0, 0, 0);
         f->setLayout(layout);
 
         f->move(mapToGlobal(cursorRect().bottomLeft()));

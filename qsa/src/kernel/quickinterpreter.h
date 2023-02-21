@@ -324,7 +324,6 @@ public:
     const QSClass *classOf(const QSObject &obj) const;
 
     int uniqueId() const { return id; }
-    int userDataId() const { return usrDataId; }
 
     void setVariable(QObject *context, const QString &name, const QVariant &value);
     QVariant variable(QObject *context, const QString &name);
@@ -392,7 +391,6 @@ private:
     QuickDispatchObjectFactory *factory;
 
     int id;
-    int usrDataId;
 
     QSASlotCaching m_slotCaching;
     QSMetaObject *m_dynamic_slots;

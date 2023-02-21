@@ -47,6 +47,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QMetaObject>
 #include <QtCore/QList>
+#include <QtCore/QSharedPointer>
 
 #include <qsclass.h>
 #include <qstypes.h>
@@ -73,6 +74,22 @@ public slots:
     void objectDestroyed(QObject *);
 };
 
+class QSUserData
+{
+public:
+    QSUserData(QSWrapperShared* d) : dat(d) { }
+    ~QSUserData();
+    QSWrapperShared* data() const { return dat; }
+    void setData(QSWrapperShared* d) { dat = d; }
+    void invalidate() { /* dat->deref(); */ dat = 0; }
+private:
+    QSWrapperShared* dat;
+};
+
+typedef QSharedPointer<QSUserData> QSUserDataPointer;
+
+Q_DECLARE_METATYPE(QSUserDataPointer)
+
 class QSWrapperShared : public QSInstanceData
 {
     friend class QSWrapperClass;
@@ -82,7 +99,7 @@ public:
     QSWrapperShared(const QSWrapperClass *cl);
     ~QSWrapperShared();
 
-    void setUserData(QSUserData *d) { udata = d; }
+    void setUserData(QSUserDataPointer d) { udata = d; }
 
     const QVector<QObject *> *interfaceObjects() const { return &objects; }
     QVector<QObject *> objects; // interfaces
@@ -102,23 +119,10 @@ public:
 private:
 //     EventId findEventId(const QString &event);
     const QSWrapperClass *cls;
-    QSUserData *udata;
+    QSUserDataPointer udata;
     ObjectType objTyp;
     QSWrapperSharedWatcher watcher;
 };
-
-class QSUserData : public QObjectUserData
-{
-public:
-    QSUserData(QSWrapperShared *d) : dat(d) { }
-    ~QSUserData();
-    QSWrapperShared* data() const { return dat; }
-    void setData(QSWrapperShared *d) { dat = d; }
-    void invalidate() { /* dat->deref(); */ dat = 0; }
-private:
-    QSWrapperShared *dat;
-};
-
 
 class QSWrapperClass : public QSWritableClass,
    					   public QuickEnvClass

@@ -89,7 +89,6 @@ QuickInterpreter::QuickInterpreter(bool deb)
     shuttingDown = false;
     id = static_id++;
     wrapperShared = new QSWrapperSharedList;
-    usrDataId = QObject::registerUserData();
 
     debugger = deb ? new QuickDebugger(this) : 0;
     init();
@@ -184,11 +183,13 @@ QSObject QuickInterpreter::wrap(QObject *o)
 	return QSObject();
     }
 
-    QSUserData *udata = (QSUserData*) o->userData(userDataId());
+    const char* propertyName = "QSUserData";
+    QSUserDataPointer udata = o->property(propertyName).value<QSUserDataPointer>();
+
     // set user data in QObject if it's not there, yet
     if(!udata) {
-	udata = new QSUserData(0);
-	o->setUserData(userDataId(), udata);
+	    udata.reset(new QSUserData(0));
+	    o->setProperty(propertyName, QVariant::fromValue(udata));
     }
     QSWrapperShared *shared = udata->data();
     const QSWrapperClass *cl;

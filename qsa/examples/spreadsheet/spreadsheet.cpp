@@ -64,6 +64,8 @@ SpreadSheet::SpreadSheet(QWidget *parent)
 : QMainWindow(parent)
 {
     setupUi(this);
+    connect(sheet1, &QTableWidget::currentItemChanged, this, &SpreadSheet::currentCellChanged);
+    connect(sheet1, &QTableWidget::itemChanged, this, &SpreadSheet::currentValueChanged);
     init();
 }
 

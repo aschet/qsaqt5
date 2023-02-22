@@ -444,38 +444,5 @@
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>sheet1</sender>
-   <signal>currentItemChanged(QTableWidgetItem *,QTableWidgetItem *)</signal>
-   <receiver>SpreadSheet</receiver>
-   <slot>currentCellChanged(QTableWidgetItem *,QTableWidgetItem *)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sheet1</sender>
-   <signal>itemChanged(QTableWidgetItem *)</signal>
-   <receiver>SpreadSheet</receiver>
-   <slot>currentValueChanged(QTableWidgetItem *)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

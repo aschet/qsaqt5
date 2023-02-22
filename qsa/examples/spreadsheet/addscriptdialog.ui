@@ -173,54 +173,5 @@
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>PushButton2</sender>
-   <signal>clicked()</signal>
-   <receiver>AddScriptDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ToolButton1</sender>
-   <signal>clicked()</signal>
-   <receiver>AddScriptDialog</receiver>
-   <slot>choosePixmap()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>PushButton1</sender>
-   <signal>clicked()</signal>
-   <receiver>AddScriptDialog</receiver>
-   <slot>addScript()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

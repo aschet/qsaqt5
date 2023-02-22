@@ -50,6 +50,9 @@ AddScriptDialog::AddScriptDialog(QWidget *parent)
 : QDialog(parent)
 {
     setupUi(this);
+    connect(PushButton2, &QPushButton::clicked, this, &AddScriptDialog::reject);
+    connect(ToolButton1, &QToolButton::clicked, this, &AddScriptDialog::choosePixmap);
+    connect(PushButton1, &QPushButton::clicked, this, &AddScriptDialog::addScript);
     init();
 }
 

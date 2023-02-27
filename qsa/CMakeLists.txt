@@ -9,6 +9,7 @@ if(USE_QT6)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
 else()
+    add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
     find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
 endif()
 

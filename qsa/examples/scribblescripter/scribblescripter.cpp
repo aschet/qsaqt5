@@ -55,7 +55,7 @@
 #include <QtWidgets/QSpinBox>
 #include <QtCore/QString>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QAction>
+#include <QAction>
 #include <QtCore/QVariant>
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QPixmap>

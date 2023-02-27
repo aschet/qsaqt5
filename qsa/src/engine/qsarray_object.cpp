@@ -157,7 +157,11 @@ QVariant QSArrayClass::toVariant( const QSObject *obj, QMetaType::Type t ) const
         case QMetaType::QVariantMap:
         case QMetaType::QString:
         case QMetaType::QVariantList:
-            return QVariant(t, (void *) 0);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            return QVariant(t, nullptr);
+#else
+            return QVariant(QMetaType(t), nullptr);
+#endif
         default:
             return QVariant();
         }

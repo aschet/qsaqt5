@@ -46,7 +46,7 @@
 LineNumberWidget::LineNumberWidget(QSAEditor *_editor, QWidget *parent)
     : QWidget(parent), editor(_editor)
 {
-    setFixedWidth(fontMetrics().horizontalAdvance(QLatin1String("0000") + 20));
+    setFixedWidth(fontMetrics().horizontalAdvance(QLatin1String("0000")) + 20);
     connect(editor->document()->documentLayout(), SIGNAL(update(const QRectF &)),
             this, SLOT(update()));
     connect(editor->verticalScrollBar(), SIGNAL(valueChanged(int)),

@@ -38,8 +38,7 @@
 
 #include "scribblescripter.h"
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
-
+#include <QtGui/QScreen>
 #include <qsinterpreter.h>
 
 
@@ -54,8 +53,10 @@ int main( int argc, char **argv )
 
     scribble->resize( 700, 500 );
     scribble->setWindowTitle("QSA Example - ScribbleScripter");
-    if ( QApplication::desktop()->width() > 750
-	 && QApplication::desktop()->height() > 566 )
+    QSize screenSize = scribble->screen()->size();
+
+    if ( screenSize.width() > 750
+	 && screenSize.height() > 566 )
 	    scribble->show();
     else
 	    scribble->showMaximized();

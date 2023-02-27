@@ -77,7 +77,7 @@ public:
     int controlButton() const { return Qt::ControlModifier; }
     int altButton() const { return Qt::AltModifier; }
     int metaButton() const { return Qt::MetaModifier; }
-    const QMetaObject *metaObject() const { return &QObject::staticQtMetaObject; }
+    const QMetaObject *metaObject() const { return &QObject::staticMetaObject; }
 };
 
 class QtNamespaceProvider : public QSObjectFactory

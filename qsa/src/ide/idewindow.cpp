@@ -70,7 +70,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QAction>
+#include <QAction>
 #include <QtWidgets/QToolBar>
 #include <QtCore/QSettings>
 

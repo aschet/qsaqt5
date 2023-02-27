@@ -1247,12 +1247,12 @@ static inline char qsa_first_char(const QSObject &object) {
 
 static inline QChar qsa_first_qchar(const QSObject &object) {
     if (object.isUndefined())
-        return 0;
+        return QChar(0);
     if (object.objectType() == object.objectType()->env()->numberClass()) {
         return (QChar) (ushort) object.toNumber();
     }
     QString str = object.toString();
-    return str.isEmpty() ? 0 : str.at(0);
+    return str.isEmpty() ? QChar(0) : str.at(0);
 }
 
 // Changes: "ClassName*" -> "ClassName"
@@ -1651,7 +1651,11 @@ static QSObject qsa_script_variant(QuickInterpreter *ip, QMetaType::Type type, v
     if (type == QMetaType::UnknownType)
         return QSObject();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QVariant var(type, value);
+#else
+    QVariant var(QMetaType(type), value);
+#endif
 
     if (var.isValid()) {
         QuickScriptVariant variant(ip, var);

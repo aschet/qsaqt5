@@ -157,12 +157,20 @@ QVariant QuickInterpreter::convertToArgument(const QSObject &o)
 	QSWrapperShared *shared = (QSWrapperShared*) o.shVal();
 	if (shared->objects.isEmpty())
             return QVariant();
-        QVariant v(QMetaType::QObjectStar, static_cast<QObject *>(0));
-        v.setValue<QObject *>(shared->objects[0]);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QVariant v(QMetaType::QObjectStar, nullptr);
+#else
+        QVariant v(QMetaType(QMetaType::QObjectStar), nullptr);
+#endif
+        v.setValue<void*>(shared->objects[0]);
         return v;
     } else if(cl == ptrClass) {
 	Q_ASSERT(ptrClass->pointer(&o));
-        QVariant v(QMetaType::VoidStar, static_cast<void *>(0));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QVariant v(QMetaType::VoidStar, nullptr);
+#else
+        QVariant v(QMetaType(QMetaType::VoidStar), nullptr);
+#endif
         v.setValue<void *>(ptrClass->pointer(&o));
         return v;
     } else {

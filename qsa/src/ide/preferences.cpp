@@ -48,6 +48,13 @@ void PreferencesBase::init()
     comboFamily->addItems(fdb.families());
     listElements->setCurrentItem( listElements->item(0) );
     currentElement = "";
+    connect(spinSize, &QSpinBox::valueChanged, this, &PreferencesBase::sizeChanged);
+    connect(checkBold, &QCheckBox::toggled, this, &PreferencesBase::boldChanged);
+    connect(checkItalic, &QCheckBox::toggled, this, &PreferencesBase::italicChanged);
+    connect(checkUnderline, &QCheckBox::toggled, this, &PreferencesBase::underlineChanged);
+    connect(buttonColor, &QToolButton::clicked, this, &PreferencesBase::colorClicked);
+    connect(comboFamily, &QComboBox::textActivated, this, &PreferencesBase::familyChanged);
+    connect(listElements, &QListWidget::currentTextChanged, this, &PreferencesBase::elementChanged);
 }
 
 void PreferencesBase::destroy()

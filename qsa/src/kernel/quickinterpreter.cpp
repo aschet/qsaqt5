@@ -1214,7 +1214,7 @@ static void qsa_setup_meta_objects()
     INSERT_QOBJECT(QComboBox);
     INSERT_QOBJECT(QCoreApplication);
     INSERT_QOBJECT(QDateEdit);
-    INSERT_QOBJECT(QDesktopWidget);
+    INSERT_QOBJECT(QScreen);
     INSERT_QOBJECT(QDial);
     INSERT_QOBJECT(QDialog);
     INSERT_QOBJECT(QDockWidget);

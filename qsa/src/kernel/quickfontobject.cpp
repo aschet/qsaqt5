@@ -130,7 +130,7 @@ void QSFontClass::write( QSObject *obj, const QSMember &mem,
 	    fon->setPixelSize( v.toInteger() );
 	    break;
 	case FMT_Weight:
-	    fon->setWeight( v.toInteger() );
+	    fon->setWeight( static_cast<QFont::Weight>(v.toInteger()) );
 	    break;
 	case FMT_Bold:
 	    fon->setBold( v.toBoolean() );

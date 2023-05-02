@@ -12,14 +12,10 @@ set(SOURCES data.cpp
 	modules.cpp
 )
 
-if(USE_QT6)
-    qt6_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-else()
-    qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-endif()
+qt_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
 add_executable(filter ${SOURCES} ${SOURCES_MOC} ${HEADERS} ${HEADERS_MOC})
-target_link_libraries(filter Qt${QT_VERSION_MAJOR}::Widgets qsa)
+target_link_libraries(filter Qt::Widgets qsa)
 
 file(COPY bump.png DESTINATION .)
 file(COPY filter.qsa DESTINATION .)

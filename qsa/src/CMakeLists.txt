@@ -23,15 +23,10 @@ configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_SOURCE_DIR}/qsa/qsconfig.h")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if(USE_QT6)
-    set(CMAKE_CXX_STANDARD 17)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    find_package(QT NAMES Qt6 COMPONENTS Widgets REQUIRED)
-else()
-    find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Widgets)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 5.15 REQUIRED COMPONENTS Widgets)
 endif()
-
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 include_directories(engine kernel qsa)
 add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER)
@@ -158,7 +153,7 @@ set(SOURCES engine/qsclass.cpp
 	qsa/qsinputdialogfactory.cpp
 )
 
-set (QT_LIBS Qt${QT_VERSION_MAJOR}::Widgets)
+set (QT_LIBS Qt::Widgets)
 
 if(NOT ${QSA_NO_EDITOR})
 
@@ -248,10 +243,13 @@ set(HEADERS_DIST ${HEADERS_DIST}
 	ide/qsworkbench.h
 )
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS PrintSupport REQUIRED)
+find_package(Qt6 COMPONENTS PrintSupport)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 5.15 REQUIRED COMPONENTS PrintSupport)
+endif()
 
 set(QT_LIBS ${QT_LIBS}
-	Qt${QT_VERSION_MAJOR}::PrintSupport
+	Qt::PrintSupport
 )
 
 include_directories(ide)
@@ -286,15 +284,9 @@ endif()
 
 endif()
 
-if(USE_QT6)
-    qt6_add_resources(SOURCES_QRC ${QRCS})
-    qt6_wrap_ui(HEADERS_UIS ${UIS})
-    qt6_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-else()
-    qt5_add_resources(SOURCES_QRC ${QRCS})
-    qt5_wrap_ui(HEADERS_UIS ${UIS})
-    qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-endif()
+qt_add_resources(SOURCES_QRC ${QRCS})
+qt_wrap_ui(HEADERS_UIS ${UIS})
+qt_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
 add_library(qsa ${LIB_MODE} ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
 if (MSVC)

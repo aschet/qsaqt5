@@ -9,12 +9,7 @@ set(SOURCES scriptbutton.cpp
 	main.cpp
 )
 
-if(USE_QT6)
-    qt6_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-else()
-    qt5_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-endif()
+qt_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
 
 add_executable(scriptbutton ${SOURCES} ${SOURCES_MOC} ${HEADERS_MOC})
-target_link_libraries(scriptbutton Qt${QT_VERSION_MAJOR}::Widgets qsa)
-
+target_link_libraries(scriptbutton Qt::Widgets qsa)

@@ -75,7 +75,13 @@
   string literals are removed beforehand.
 */
 
-#include <QtCore/QRegExp>
+#include <QtGlobal>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+	#include <QtCore/QRegExp>
+#else
+	#include <QtCore5Compat/QRegExp>
+#endif
 #include <QtCore/QStringList>
 
 /* qmake ignore Q_OBJECT */
@@ -209,7 +215,7 @@ static QString trimmedCodeLine( const QString& t )
       continuation lines.
     */
     k = 0;
-    while ( (k = trimmed.indexOf(*literal, k)) != -1 ) {
+    while ( (k = literal->indexIn(trimmed, k)) != -1 ) {
 	for ( int i = 0; i < literal->matchedLength(); i++ )
 	    eraseChar( trimmed, k + i, 'X' );
 	k += literal->matchedLength();
@@ -220,7 +226,7 @@ static QString trimmedCodeLine( const QString& t )
       handled elsewhere.
     */
     k = 0;
-    while ( (k = trimmed.indexOf(*inlineCComment, k)) != -1 ) {
+    while ( (k = inlineCComment->indexIn(trimmed, k)) != -1 ) {
 	for ( int i = 0; i < inlineCComment->matchedLength(); i++ )
 	    eraseChar( trimmed, k + i, ' ' );
 	k += inlineCComment->matchedLength();
@@ -233,7 +239,7 @@ static QString trimmedCodeLine( const QString& t )
 	  foo1: bar1;
 	      bar2;
     */
-    while ( trimmed.lastIndexOf(':') != -1 && trimmed.indexOf(*label) != -1 ) {
+    while ( trimmed.lastIndexOf(':') != -1 && label->indexIn(trimmed) != -1 ) {
 	QString cap1 = label->cap( 1 );
 	int pos1 = label->pos( 1 );
 	int stop = cap1.length();
@@ -421,7 +427,7 @@ static bool readLine()
 	if ( yyLinizerState->pendingRightBrace )
 	    yyLinizerState->braceDepth++;
 	yyLinizerState->pendingRightBrace =
-		( yyLinizerState->line.indexOf(*braceX) == 0 );
+		( braceX->indexIn(yyLinizerState->line) == 0 );
 	if ( yyLinizerState->pendingRightBrace )
 	    yyLinizerState->braceDepth--;
     } while ( yyLinizerState->line.isEmpty() );
@@ -559,7 +565,7 @@ static bool matchBracelessControlStatement()
 	    case '(':
 		delimDepth--;
 		if ( delimDepth == 0 ) {
-		    if ( yyLine->contains(*iflikeKeyword) ) {
+		    if ( iflikeKeyword->indexIn(*yyLine) != -1 ) {
 			/*
 			  We have
 

@@ -41,16 +41,21 @@
 #include "qstypes.h"
 #include "qsclass.h"
 #include "qsenv.h"
-#include <QtCore/QRegExp>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #include <QtCore/QRegExp>
+#else
+    #include <QtCore5Compat/QRegExp>
+#endif
+
 
 using namespace QS;
 
-QStringData *qsa_qstring_to_data(const QString &str)
+QSAStringData *qsa_qstring_to_data(const QString &str)
 {
     return ((QSFakeQString*) &str)->d;
 }
 
-QString qsa_qstring_from_data(QStringData *data)
+QString qsa_qstring_from_data(QSAStringData *data)
 {
     QSFakeQString fs = { data };
     QString str((const QString &) fs);
@@ -104,14 +109,24 @@ void QSStringClass::init()
 
 void QSStringClass::ref( QSObject *o ) const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     o->val.str->ref.ref();
+#else
+    o->val.str->ref();
+#endif
 }
 
 void QSStringClass::deref( QSObject *o ) const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!o->val.str->ref.deref()) {
         delete o->val.str;
     }
+#else
+    if (!o->val.str->deref()) {
+        delete o->val.str;
+    }
+#endif
 }
 
 QSObject QSStringClass::fetchValue( const QSObject *objPtr,

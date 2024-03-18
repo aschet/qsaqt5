@@ -46,6 +46,7 @@
 class QSMetaObject: public QObject
 {
     // Q_OBJECT
+public:
     virtual const QMetaObject *metaObject();
     virtual void *qt_metacast(const char *classname);
     virtual int qt_metacall(QMetaObject::Call c, int id, void **arguments);

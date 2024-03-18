@@ -39,9 +39,11 @@
 
 #include <QtCore/QVariant>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+
 struct qt_meta_stringdata_QSMetaObject_t {
-	QByteArrayData data[1];
-	char stringdata0[13];
+    QByteArrayData data[1];
+    char stringdata0[13];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,36 +51,95 @@ struct qt_meta_stringdata_QSMetaObject_t {
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_QSMetaObject_t qt_meta_stringdata_QSMetaObject = {
-	{
-		QT_MOC_LITERAL(0, 0, 12) // "QSMetaObject"
+    {
+QT_MOC_LITERAL(0, 0, 12) // "QSMetaObject"
 
-	},
-	"QSMetaObject"
+    },
+    "QSMetaObject"
 };
 #undef QT_MOC_LITERAL
 
 static const uint qt_meta_data_QSMetaObject[] = {
 
-	// content:
-	7,       // revision
-	0,       // classname
-	0, 0, // classinfo
-	0, 0, // methods
-	0, 0, // properties
-	0, 0, // enums/sets
-	0, 0, // constructors
-	0,       // flags
-	0,       // signalCount
+    // content:
+          8,       // revision
+          0,       // classname
+          0,    0, // classinfo
+          0,    0, // methods
+          0,    0, // properties
+          0,    0, // enums/sets
+          0,    0, // constructors
+          0,       // flags
+          0,       // signalCount
 
-	0        // eod
+          0        // eod
 };
 
-// TODO: QSAQt5 - is meta object correctly constructed, MOC code was inserted here by hand
-const QMetaObject QSMetaObject::staticMetaObject = {
-	{ &QObject::staticMetaObject, qt_meta_stringdata_QSMetaObject.data,
-	qt_meta_data_QSMetaObject, Q_NULLPTR, Q_NULLPTR, Q_NULLPTR }
+QT_INIT_METAOBJECT const QMetaObject QSMetaObject::staticMetaObject = { {
+    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
+    qt_meta_stringdata_QSMetaObject.data,
+    qt_meta_data_QSMetaObject,
+    nullptr,
+    nullptr,
+    nullptr
+} };
+
+#else
+
+namespace {
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t {};
+static constexpr auto qt_meta_stringdata_CLASSQSMetaObjectENDCLASS = QtMocHelpers::stringData(
+    "QSMetaObject"
+);
+#else  // !QT_MOC_HAS_STRING_DATA
+struct qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t {
+    uint offsetsAndSizes[2];
+    char stringdata0[13];
+};
+#define QT_MOC_LITERAL(ofs, len) \
+    uint(sizeof(qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t::offsetsAndSizes) + ofs), len 
+Q_CONSTINIT static const qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t qt_meta_stringdata_CLASSQSMetaObjectENDCLASS = {
+    {
+        QT_MOC_LITERAL(0, 12)   // "QSMetaObject"
+    },
+    "QSMetaObject"
+};
+#undef QT_MOC_LITERAL
+#endif // !QT_MOC_HAS_STRING_DATA
+} // unnamed namespace
+
+Q_CONSTINIT static const uint qt_meta_data_CLASSQSMetaObjectENDCLASS[] = {
+
+ // content:
+      12,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       0,    0, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+       0        // eod
 };
 
+Q_CONSTINIT const QMetaObject QSMetaObject::staticMetaObject = { {
+    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
+    qt_meta_stringdata_CLASSQSMetaObjectENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSQSMetaObjectENDCLASS,
+    nullptr,
+    nullptr,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t,
+        // Q_OBJECT / Q_GADGET
+        QtPrivate::TypeAndForceComplete<QSMetaObject, std::true_type>
+    >,
+    nullptr
+} };
+
+#endif
 
 QSMetaObject::QSMetaObject(QObject *parent) : QObject(parent)
 { }
@@ -159,10 +220,14 @@ int QSMetaObject::qt_metacall(QMetaObject::Call c, int id, void **arguments)
 
 void *QSMetaObject::qt_metacast(const char *_clname)
 {
-	if (!_clname) return Q_NULLPTR;
-	if (!strcmp(_clname, qt_meta_stringdata_QSMetaObject.stringdata0))
-		return static_cast<void*>(const_cast< QSMetaObject*>(this));
-	return QObject::qt_metacast(_clname);
+    if (!_clname) return nullptr;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (!strcmp(_clname, qt_meta_stringdata_QSMetaObject.stringdata0))
+#else
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSQSMetaObjectENDCLASS.stringdata0))
+#endif
+        return static_cast<void*>(this);
+    return QObject::qt_metacast(_clname);
 }
 
 bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, const char *method)

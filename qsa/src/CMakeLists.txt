@@ -23,7 +23,7 @@ configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_SOURCE_DIR}/qsa/qsconfig.h")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt6 COMPONENTS Widgets)
+find_package(Qt6 COMPONENTS Widgets Core5Compat)
 if (NOT Qt6_FOUND)
     find_package(Qt5 5.15 REQUIRED COMPONENTS Widgets)
 endif()
@@ -154,6 +154,12 @@ set(SOURCES engine/qsclass.cpp
 )
 
 set (QT_LIBS Qt::Widgets)
+if (Qt6_FOUND)
+set(QT_LIBS ${QT_LIBS}
+	Qt::Core5Compat
+)
+endif()
+
 
 if(NOT ${QSA_NO_EDITOR})
 

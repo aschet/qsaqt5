@@ -261,6 +261,9 @@ void SpreadSheet::evaluateCell( QTableWidgetItem *item, const QString &f, const 
     int row = sheet1->row(item);
     int col = sheet1->column(item);
 
+    if (formula.isEmpty())
+        return;
+
     if ( formula[0] != '=' )
 	    return;
     QString cn = cellName( row, col );

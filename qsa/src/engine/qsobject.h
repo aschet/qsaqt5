@@ -72,21 +72,6 @@ enum ValueType {
     TypeOther
 };
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-typedef QStringData QSAStringData;
-#else
-typedef QStringPrivate QSAStringData;
-#endif
-
-struct QSFakeQString {
-public:
-    QSAStringData *d;
-};
-
-QSAStringData *qsa_qstring_to_data(const QString &str);
-QString qsa_qstring_from_data(QSAStringData *data);
-
-
 // Reggie: This is a really ugly hack to get QSA link on windows
 double NaN();
 double Inf();
@@ -101,14 +86,16 @@ typedef QMap<QString, QSProperty> QSPropertyMap;
 class PropList;
 class QSMember;
 
-union Value {
-    int i;
-    double d;
-    bool b;
-    QSAStringData *str;
-    QSShared *sh;
-    QSClass *cl;
-    void *other;
+struct Value {
+    union {
+        int i;
+        double d;
+        bool b;
+        QSShared* sh;
+        QSClass* cl;
+        void* other;
+    };
+    QString str;
 };
 
 /**
@@ -339,17 +326,12 @@ private:
 }; // end of QSObject
 
 inline QString QSObject::sVal() const {
-    return qsa_qstring_from_data(val.str);
+    return val.str;
 }
 
 inline void QSObject::setVal(const QString &v)
 {
-    val.str = qsa_qstring_to_data(v);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    val.str->ref.ref();
-#else
-    val.str->ref();
-#endif
+    val.str = v;
 }
 
 inline void QSObject::setVal(QSShared *s)

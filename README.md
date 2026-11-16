@@ -1,11 +1,11 @@
-# Qt Script for Applications (QSA) for Qt 5
+# Qt Script for Applications (QSA) for Qt 5 and Qt 6
 
-This venture tries to revive the corpse of QSA or Qt Script for Applications in a way so that is compiles against the Qt 5.x series. QSA is a scripting framework initially created for Qt 3 that not only containes an ECMAScript interpreter but also an IDE. Unfortunately QSA was shelfed and the superseding projects did not offer the same level of features again.
+This venture tries to revive the corpse of QSA or Qt Script for Applications in a way so that is compiles against the Qt 5.15 and Qt 6.x series. QSA is a scripting framework initially created for Qt 3 that not only containes an ECMAScript interpreter but also an IDE. Unfortunately QSA was shelfed and the superseding projects did not offer the same level of features again.
 
 ## What has been achieved?
 
-* Interpreter, associated utils, samples, the new editor and the workbench have been migrated over to Qt 5
-* Build system has been migrated to CMake
+* Interpreter, associated utils, samples, the new editor and the workbench have been migrated over to Qt 5 and Qt 6
+* Build system has been migrated to CMake, Qt 6 is preferred if both versions can be found (Qt 6 additionally needs the Core5Compat module)
 
 ## What is still left to do?
 

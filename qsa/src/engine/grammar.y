@@ -564,7 +564,7 @@ ImportStatement:
 ;
 
 PackageName:
-      IDENT                        { $$ = $1; delete $1; }
+      IDENT                        { $$ = $1; }
     | PackageName '.' IDENT        { *$$ += QString::fromLatin1(".") + *$3; delete $3; }
 ;
 

@@ -43,14 +43,20 @@
 #include <QtCore/QObject>
 #include <QtCore/QHash>
 
-class QSMetaObject: public QObject
+// Provides a moc generated meta object without members, so that the
+// meta object data layout always matches the Qt version in use.
+class QSMetaObjectBase : public QObject
 {
-    // Q_OBJECT
+    Q_OBJECT
 public:
-    virtual const QMetaObject *metaObject();
-    virtual void *qt_metacast(const char *classname);
-    virtual int qt_metacall(QMetaObject::Call c, int id, void **arguments);
-    static const QMetaObject staticMetaObject;
+    explicit QSMetaObjectBase(QObject *parent = nullptr) : QObject(parent) { }
+};
+
+class QSMetaObject: public QSMetaObjectBase
+{
+public:
+    void *qt_metacast(const char *classname) override;
+    int qt_metacall(QMetaObject::Call c, int id, void **arguments) override;
 
 public:
     QSMetaObject(QObject *parent = 0);
@@ -63,6 +69,8 @@ public:
 //     virtual bool dynamicConnect(const QObject *sender, const char *signal, const char *method);
     virtual bool dynamicDisconnect(const QObject *sender, const char *signal, int slot_id);
 private:
+    static int slotOffset();
+
     QVector<QSSlot> m_slots;
     QHash<QByteArray, int> m_slotnames;
 };

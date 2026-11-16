@@ -134,7 +134,7 @@ struct QSAMethodSignature {
     QByteArray return_type;            // returnType
 };
 
-uint qHash(const QSAMethodSignature &method);
+size_t qHash(const QSAMethodSignature &method, size_t seed = 0);
 
 bool operator == (const QSAMethodSignature &a, const QSAMethodSignature &b);
 

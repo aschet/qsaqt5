@@ -37,118 +37,18 @@
 ****************************************************************************/
 #include "qsmetaobject.h"
 
+#include "qsaqtcompat.h"
+
 #include <QtCore/QVariant>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-
-struct qt_meta_stringdata_QSMetaObject_t {
-    QByteArrayData data[1];
-    char stringdata0[13];
-};
-#define QT_MOC_LITERAL(idx, ofs, len) \
-    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_QSMetaObject_t, stringdata0) + ofs \
-        - idx * sizeof(QByteArrayData)) \
-    )
-static const qt_meta_stringdata_QSMetaObject_t qt_meta_stringdata_QSMetaObject = {
-    {
-QT_MOC_LITERAL(0, 0, 12) // "QSMetaObject"
-
-    },
-    "QSMetaObject"
-};
-#undef QT_MOC_LITERAL
-
-static const uint qt_meta_data_QSMetaObject[] = {
-
-    // content:
-          8,       // revision
-          0,       // classname
-          0,    0, // classinfo
-          0,    0, // methods
-          0,    0, // properties
-          0,    0, // enums/sets
-          0,    0, // constructors
-          0,       // flags
-          0,       // signalCount
-
-          0        // eod
-};
-
-QT_INIT_METAOBJECT const QMetaObject QSMetaObject::staticMetaObject = { {
-    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_QSMetaObject.data,
-    qt_meta_data_QSMetaObject,
-    nullptr,
-    nullptr,
-    nullptr
-} };
-
-#else
-
-namespace {
-
-#ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t {};
-static constexpr auto qt_meta_stringdata_CLASSQSMetaObjectENDCLASS = QtMocHelpers::stringData(
-    "QSMetaObject"
-);
-#else  // !QT_MOC_HAS_STRING_DATA
-struct qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t {
-    uint offsetsAndSizes[2];
-    char stringdata0[13];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t qt_meta_stringdata_CLASSQSMetaObjectENDCLASS = {
-    {
-        QT_MOC_LITERAL(0, 12)   // "QSMetaObject"
-    },
-    "QSMetaObject"
-};
-#undef QT_MOC_LITERAL
-#endif // !QT_MOC_HAS_STRING_DATA
-} // unnamed namespace
-
-Q_CONSTINIT static const uint qt_meta_data_CLASSQSMetaObjectENDCLASS[] = {
-
- // content:
-      12,       // revision
-       0,       // classname
-       0,    0, // classinfo
-       0,    0, // methods
-       0,    0, // properties
-       0,    0, // enums/sets
-       0,    0, // constructors
-       0,       // flags
-       0,       // signalCount
-
-       0        // eod
-};
-
-Q_CONSTINIT const QMetaObject QSMetaObject::staticMetaObject = { {
-    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSQSMetaObjectENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSQSMetaObjectENDCLASS,
-    nullptr,
-    nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSQSMetaObjectENDCLASS_t,
-        // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<QSMetaObject, std::true_type>
-    >,
-    nullptr
-} };
-
-#endif
-
-QSMetaObject::QSMetaObject(QObject *parent) : QObject(parent)
+QSMetaObject::QSMetaObject(QObject *parent) : QSMetaObjectBase(parent)
 { }
 
 QSMetaObject::~QSMetaObject()
 { }
 
-const QMetaObject *QSMetaObject::metaObject()
-{ return &staticMetaObject; }
+int QSMetaObject::slotOffset()
+{ return QSMetaObjectBase::staticMetaObject.methodCount(); }
 
 static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *types, QVector<QByteArray> *typeNames)
 {
@@ -165,7 +65,7 @@ static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *ty
     QByteArray retType("void");
     if (namePos > 0)
         retType = QByteArray(buf.constData(), namePos - 1);
-    *types += QMetaType::Type(QMetaType::type(retType.constData()));
+    *types += QMetaType::Type(QSAQtCompat::typeIdForName(retType.constData()));
     *typeNames += retType;
 
     begin = ++pos;
@@ -175,9 +75,9 @@ static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *ty
     while (pos < buf.size() && buf[pos]) {
         if ((buf[pos] == ',' || buf[pos] == ')') && pos-begin>0) {
             QByteArray param = QByteArray(buf.constData() + begin, pos-begin);
-            QMetaType::Type t = (QMetaType::Type) QMetaType::type(param.constData());
-            if (t == 0) {
-                QMetaType::Type vt = static_cast<QMetaType::Type>(QVariant::nameToType(param.constData()));
+            QMetaType::Type t = (QMetaType::Type) QSAQtCompat::typeIdForName(param.constData());
+            if (t == QMetaType::UnknownType) {
+                QMetaType::Type vt = static_cast<QMetaType::Type>(QSAQtCompat::variantTypeForName(param.constData()));
                 if (vt != QMetaType::UnknownType)
                     t = vt;
             }
@@ -193,46 +93,44 @@ static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *ty
 int QSMetaObject::registerSlot(QObject *obj, const char *signature, PtrCallbackForSlot callback)
 {
     int newId = m_slots.size();
-    QByteArray buf = staticMetaObject.normalizedSignature(signature);
+    QByteArray buf = QMetaObject::normalizedSignature(signature);
 
     QVector<QMetaType::Type> types;
     QVector<QByteArray> typeNames;
     parseQtSignature(buf, &types, &typeNames);
 
     m_slots += QSSlot(types, typeNames, newId, callback, obj);
-    m_slotnames[buf] = newId + staticMetaObject.methodOffset();
+    m_slotnames[buf] = newId;
 
     return newId;
 }
 
 int QSMetaObject::qt_metacall(QMetaObject::Call c, int id, void **arguments)
 {
-    if (c != QMetaObject::InvokeMetaMethod)
-        QObject::qt_metacall(c, id, arguments);
+    id = QSMetaObjectBase::qt_metacall(c, id, arguments);
+    if (id < 0)
+        return id;
 
-    id -= staticMetaObject.methodOffset();
-    Q_ASSERT(id >= 0 && id < m_slots.size());
+    if (c == QMetaObject::InvokeMetaMethod || c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (c == QMetaObject::InvokeMetaMethod && id < m_slots.size())
+            m_slots.at(id).call(arguments);
+        id -= m_slots.size();
+    }
 
-    m_slots.at(id).call(arguments);
-
-    return 0;
+    return id;
 }
 
 void *QSMetaObject::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (!strcmp(_clname, qt_meta_stringdata_QSMetaObject.stringdata0))
-#else
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSQSMetaObjectENDCLASS.stringdata0))
-#endif
+    if (!strcmp(_clname, "QSMetaObject"))
         return static_cast<void*>(this);
-    return QObject::qt_metacast(_clname);
+    return QSMetaObjectBase::qt_metacast(_clname);
 }
 
 bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, const char *method)
 {
-    QByteArray buf = staticMetaObject.normalizedSignature(method);
+    QByteArray buf = QMetaObject::normalizedSignature(method);
 
     if (!QMetaObject::checkConnectArgs(signal, method))
         return false;
@@ -266,7 +164,7 @@ bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, int
             return false;
     }
 
-    QMetaObject::connect(sender, signal_index, this, slot_id + staticMetaObject.methodOffset(),
+    QMetaObject::connect(sender, signal_index, this, slot_id + slotOffset(),
                          Qt::AutoConnection, 0);
 
     return true;
@@ -294,7 +192,7 @@ bool QSMetaObject::dynamicDisconnect(const QObject *sender, const char *signal, 
             return false;
     }
 
-    QMetaObject::disconnect(sender, signal_index, this, slot_id + staticMetaObject.methodOffset());
+    QMetaObject::disconnect(sender, signal_index, this, slot_id + slotOffset());
 
     return true;
 }

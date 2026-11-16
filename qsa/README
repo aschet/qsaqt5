@@ -5,9 +5,9 @@ Thank you for choosing QSA!
 
 The INSTALL file contains information on how to install QSA.
 
-========================================
-This version of QSA is strictly for Qt 5
-========================================
+==========================================================
+This version of QSA is for Qt 5.15 and Qt 6 (Core5Compat)
+==========================================================
 
 QSA Documentation
 -----------------

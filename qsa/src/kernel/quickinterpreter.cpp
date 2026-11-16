@@ -157,22 +157,10 @@ QVariant QuickInterpreter::convertToArgument(const QSObject &o)
 	QSWrapperShared *shared = (QSWrapperShared*) o.shVal();
 	if (shared->objects.isEmpty())
             return QVariant();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QVariant v(QMetaType::QObjectStar, nullptr);
-#else
-        QVariant v(QMetaType(QMetaType::QObjectStar), nullptr);
-#endif
-        v.setValue<void*>(shared->objects[0]);
-        return v;
+        return QVariant::fromValue(shared->objects[0]);
     } else if(cl == ptrClass) {
 	Q_ASSERT(ptrClass->pointer(&o));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QVariant v(QMetaType::VoidStar, nullptr);
-#else
-        QVariant v(QMetaType(QMetaType::VoidStar), nullptr);
-#endif
-        v.setValue<void *>(ptrClass->pointer(&o));
-        return v;
+        return QVariant::fromValue(ptrClass->pointer(&o));
     } else {
     return QVariant(o.toVariant(QMetaType::UnknownType));
     }
@@ -980,8 +968,8 @@ bool QuickInterpreter::removeConnection(QObject *object,
 }
 
 
-uint qHash(const QSAMethodSignature &method) {
-    return qHash(method.return_type) ^ qHash(method.signature);
+size_t qHash(const QSAMethodSignature &method, size_t seed) {
+    return qHash(method.return_type, seed) ^ qHash(method.signature, seed);
 }
 
 bool operator == (const QSAMethodSignature &a, const QSAMethodSignature &b)

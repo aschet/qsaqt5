@@ -42,6 +42,7 @@ set(HEADERS_MOC
 	kernel/quickdispatchobject.h
 	kernel/quickobjects.h
 	kernel/quickinterpreter.h
+	kernel/qsmetaobject.h
 	qsa/qsinterpreter.h
 	qsa/qsscript.h
 	qsa/qsproject.h
@@ -82,8 +83,8 @@ set(HEADERS engine/qsclass.h
 	kernel/quickclassparser.h
 	kernel/quickbytearrayobject.h
 	kernel/quickcoordobjects.h
-	kernel/qsmetaobject.h
 	kernel/qsslot.h
+	kernel/qsaqtcompat.h
 	kernel/quickpixmapobject.h
 	kernel/quickcolorobject.h
 	kernel/quickfontobject.h
@@ -202,6 +203,10 @@ set(SOURCES ${SOURCES}
 )
 
 else()
+
+if (Qt6_FOUND)
+    message(FATAL_ERROR "The Q3TextEdit based editor requires Qt 5, enable QSA_NEW_EDITOR when building against Qt 6.")
+endif()
 
 include_directories(editor ../tools/designer/editor Qt3Support)
 set(UIS ${UIS}

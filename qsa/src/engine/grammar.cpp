@@ -1972,7 +1972,7 @@ case 177:
     break;}
 case 178:
 #line 582 "grammar.y"
-{ yyval.ustr = yyvsp[0].ustr; delete yyvsp[0].ustr; ;
+{ yyval.ustr = yyvsp[0].ustr; ;
     break;}
 case 179:
 #line 583 "grammar.y"

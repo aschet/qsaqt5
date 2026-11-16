@@ -46,6 +46,7 @@
 #include <qsdate_object.h>
 #include "quickinterpreter.h"
 #include "quickdispatchobject.h"
+#include "qsaqtcompat.h"
 
 #ifndef QSA_NO_GUI
 #include <QtGui/QPixmap>
@@ -472,7 +473,10 @@ void QSWrapperClass::write(QSObject *objPtr, const QSMember &mem,
                 env()->throwError(QString("Property %1 is not writable").arg(mem.name()));
             if (!meta_property.isScriptable())
                 env()->throwError(QString("Property %1 is not scriptable").arg(mem.name()));
-            QVariant v = val.toVariant(static_cast<QMetaType::Type>(meta_property.type()));
+            QVariant v = val.toVariant(static_cast<QMetaType::Type>(QSAQtCompat::propertyType(meta_property)));
+            // numbers are converted to double, but enum properties only accept int
+            if (meta_property.isEnumType() && QSAQtCompat::variantType(v) == QMetaType::Double)
+                v = QVariant(int(v.toDouble()));
             if (!meta_property.write(q_object, v)) {
                 env()->throwError(QString("Failed to write property '%1'")
                                          .arg(mem.name()));
@@ -1364,10 +1368,10 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
                 t.name = type_names.at(i);
                 if (t.name.startsWith("const "))
                     t.name = t.name.mid(6);
-                t.id = QMetaType::type(t.name);
-                if (t.id == QMetaType::Void)
-                    t.id = QVariant::nameToType(t.name);
-                if (t.id == QMetaType::Void) {
+                t.id = QSAQtCompat::typeIdForName(t.name);
+                if (t.id == QMetaType::UnknownType)
+                    t.id = QSAQtCompat::variantTypeForName(t.name);
+                if (t.id == QMetaType::UnknownType) {
                     if (strcmp(t.name, "QMap<QString,QVariant>") == 0) t.id = QMetaType::QVariantMap;
                     else if (strcmp(t.name, "QList<QVariant>") == 0) t.id = QMetaType::QVariantList;
                     else if (strcmp(t.name, "qreal") == 0) t.id = QMetaType::Double;
@@ -1484,11 +1488,11 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
 
                     int star_count = ti.name.count('*');
                     QByteArray ti_name = qsa_strip_stars(ti.name, star_count);
-                    int ti_id = QVariant::nameToType(ti_name);
+                    int ti_id = QSAQtCompat::variantTypeForName(ti_name);
 
                     const QVariant *v = caching->variants(arg.toVariant(QMetaType::Type(ti_id)));
 
-                    if (v->isValid() && (int)v->type() == ti_id) {
+                    if (v->isValid() && QSAQtCompat::variantType(*v) == ti_id) {
                         data[pos] = const_cast<void *>(v->constData());
 
                     } else if (strcmp(ti_name, "QVariant") == 0) {
@@ -1651,11 +1655,7 @@ static QSObject qsa_script_variant(QuickInterpreter *ip, QMetaType::Type type, v
     if (type == QMetaType::UnknownType)
         return QSObject();
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QVariant var(type, value);
-#else
-    QVariant var(QMetaType(type), value);
-#endif
+    QVariant var = QSAQtCompat::variantFromData(type, value);
 
     if (var.isValid()) {
         QuickScriptVariant variant(ip, var);
@@ -1681,18 +1681,19 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
         return env->createUndefined();
 
     QuickInterpreter *ip = QuickInterpreter::fromEnv(env);
+
+    // A QVariant has to be unwrapped first, otherwise it would be wrapped into another variant
+    if (ti.name == "QVariant") {
+        QVariant *var = ((QVariant *) value);
+        if (var->isNull())
+            return env->createUndefined();
+        return qsa_script_variant(ip, static_cast<QMetaType::Type>(QSAQtCompat::variantType(*var)), (void *) var->constData());
+    }
+
     ret_val = qsa_script_variant(ip, QMetaType::Type(ti.id), value);
 
     if (ti.id < int(QMetaType::User) && ret_val.isValid()) {
         return ret_val;
-
-    } else if (ti.name == "QVariant") {
-        // We could have casted directly, but we choose to use
-        // the common code path
-        QVariant *var = ((QVariant *) value);
-        if (var->isNull())
-            return env->createUndefined();
-        return qsa_script_variant(ip, static_cast<QMetaType::Type>(var->type()), (void *) var->constData());
 
     } else if (ti.name == "QList<int>") {
         QList<int> *l = (QList<int> *) value;
@@ -1726,7 +1727,7 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
                 // Strip away stars to see if it matches a
                 // variant type and then treat it as such
                 QByteArray stripped = qsa_strip_stars(ti.name, star_count);
-                QMetaType::Type var_type = static_cast<QMetaType::Type>(QVariant::nameToType(stripped));
+                QMetaType::Type var_type = static_cast<QMetaType::Type>(QSAQtCompat::variantTypeForName(stripped));
 
                 if (var_type != QMetaType::UnknownType && var_type < QMetaType::User) {
                     while (star_count--) value = *(void **) value;
@@ -1734,11 +1735,11 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
                 } else if (stripped == "QVariant") {
                     while (star_count--) value = *(void **) value;
                     QVariant *var = ((QVariant *) value);
-                    return qsa_script_variant(ip, static_cast<QMetaType::Type>(var->type()), (void *) var->constData());
-                } else if (var_type == QMetaType::User) {
+                    return qsa_script_variant(ip, static_cast<QMetaType::Type>(QSAQtCompat::variantType(*var)), (void *) var->constData());
+                } else if (var_type >= QMetaType::User) {
                     // Handle pointers to PODs not automatically handled by QVariant. Should we do
                     // char* as a special case to get strings?
-                    int meta_type = QMetaType::type(stripped);
+                    int meta_type = QSAQtCompat::typeIdForName(stripped);
 
                     while (star_count--) value = *(void **) value;
 
@@ -1785,10 +1786,10 @@ static void *qsa_default_value(QSASlotCaching *caching, const QSATypeInfo &ti, c
     if (ti.name == "void")
         return 0;
 
-    const QVariant *v = caching->variants(QVariant::Type(ti.id));
+    const QVariant *v = caching->variants(QSAQtCompat::defaultVariant(ti.id));
     void *const_data = (void *) v->constData();
 
-    if (static_cast<QMetaType::Type>(v->type()) == QMetaType::UnknownType) {
+    if (!v->isValid()) {
         if (ti.name == "QVariant") {
             return caching->variants(QVariant());
         } else if (ti.name == "QList<int>")

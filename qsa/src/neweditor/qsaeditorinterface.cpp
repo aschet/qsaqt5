@@ -44,6 +44,7 @@
 #include <QtCore/QDebug>
 #include <QtWidgets/QHBoxLayout>
 #include <QtGui/QTextCursor>
+#include <QtGui/QTextDocument>
 #include <QtGui/QTextLayout>
 
 class QSAEditorInterfacePrivate
@@ -161,17 +162,51 @@ void QSAEditorInterface::selectAll()
     d->editor->selectAll();
 }
 
+static QTextDocument::FindFlags qsa_find_flags(bool cs, bool wo, bool forward)
+{
+    QTextDocument::FindFlags flags;
+    if (cs)
+        flags |= QTextDocument::FindCaseSensitively;
+    if (wo)
+        flags |= QTextDocument::FindWholeWords;
+    if (!forward)
+        flags |= QTextDocument::FindBackward;
+    return flags;
+}
+
 bool QSAEditorInterface::find(const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor)
 {
-    if (!d->editor) return false;
-    return false;
+    if (!d->editor || expr.isEmpty()) return false;
+    if (!startAtCursor) {
+        QTextCursor cursor = d->editor->textCursor();
+        cursor.movePosition(forward ? QTextCursor::Start : QTextCursor::End);
+        d->editor->setTextCursor(cursor);
+    }
+    return d->editor->find(expr, qsa_find_flags(cs, wo, forward));
 }
 
 bool QSAEditorInterface::replace(const QString &find, const QString &replace, bool cs, bool wo,
         bool forward, bool startAtCursor, bool replaceAll)
 {
-    if (!d->editor) return false;
-    return false;
+    if (!d->editor || find.isEmpty()) return false;
+    if (!startAtCursor) {
+        QTextCursor cursor = d->editor->textCursor();
+        cursor.movePosition(forward ? QTextCursor::Start : QTextCursor::End);
+        d->editor->setTextCursor(cursor);
+    }
+
+    const QTextDocument::FindFlags flags = qsa_find_flags(cs, wo, forward);
+    bool replaced = false;
+    QTextCursor edit = d->editor->textCursor();
+    edit.beginEditBlock();
+    while (d->editor->find(find, flags)) {
+        d->editor->textCursor().insertText(replace);
+        replaced = true;
+        if (!replaceAll)
+            break;
+    }
+    edit.endEditBlock();
+    return replaced;
 }
 
 void QSAEditorInterface::gotoLine(int line)

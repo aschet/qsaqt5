@@ -123,11 +123,11 @@ void setIndentSize( int size )
     ppContinuationIndentSize = 2 * size;
 }
 
-static QRegularExpression *literal = 0;
-static QRegularExpression *label = 0;
-static QRegularExpression *inlineCComment = 0;
-static QRegularExpression *braceX = 0;
-static QRegularExpression *iflikeKeyword = 0;
+static const QRegularExpression *literal = 0;
+static const QRegularExpression *label = 0;
+static const QRegularExpression *inlineCComment = 0;
+static const QRegularExpression *braceX = 0;
+static const QRegularExpression *iflikeKeyword = 0;
 
 /*
   Returns the first non-space character in the string t, or
@@ -1001,13 +1001,19 @@ static int indentForStandaloneLine()
 */
 static void initializeIndenter()
 {
-    // lazy quantifiers, the matches have to be as short as possible
-    literal = new QRegularExpression( QString::fromLatin1("([\"'])(?:\\\\.|[^\\\\])*?\\1") );
-    label = new QRegularExpression(
+    // The patterns are compiled once, doing that for every call is expensive.
+    // Lazy quantifiers, the matches have to be as short as possible.
+    static const QRegularExpression literalRe( QString::fromLatin1("([\"'])(?:\\\\.|[^\\\\])*?\\1") );
+    static const QRegularExpression labelRe(
 	QString::fromLatin1("^\\s*((?:case\\b([^:]|::)+|[a-zA-Z_0-9]+)(?:\\s+slots)?:)(?!:)") );
-    inlineCComment = new QRegularExpression( QString::fromLatin1("/\\*.*?\\*/") );
-    braceX = new QRegularExpression( QString::fromLatin1("^\\s*\\}\\s*(?:else|catch)\\b") );
-    iflikeKeyword = new QRegularExpression( QString::fromLatin1("\\b(?:catch|do|for|if|while)\\b") );
+    static const QRegularExpression inlineCCommentRe( QString::fromLatin1("/\\*.*?\\*/") );
+    static const QRegularExpression braceXRe( QString::fromLatin1("^\\s*\\}\\s*(?:else|catch)\\b") );
+    static const QRegularExpression iflikeKeywordRe( QString::fromLatin1("\\b(?:catch|do|for|if|while)\\b") );
+    literal = &literalRe;
+    label = &labelRe;
+    inlineCComment = &inlineCCommentRe;
+    braceX = &braceXRe;
+    iflikeKeyword = &iflikeKeywordRe;
 
     yyLinizerState = new LinizerState;
 }
@@ -1017,11 +1023,6 @@ static void initializeIndenter()
 */
 static void terminateIndenter()
 {
-    delete literal;
-    delete label;
-    delete inlineCComment;
-    delete braceX;
-    delete iflikeKeyword;
     delete yyLinizerState;
 }
 

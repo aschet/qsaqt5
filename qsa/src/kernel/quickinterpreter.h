@@ -150,6 +150,8 @@ struct QSASlotCaching
     QSATypeBuffer<uint> uints;
     QSATypeBuffer<long> longs;
     QSATypeBuffer<ulong> ulongs;
+    QSATypeBuffer<qlonglong> longlongs;
+    QSATypeBuffer<qulonglong> ulonglongs;
 
     QSATypeBuffer<float> floats;
     QSATypeBuffer<double> doubles;
@@ -178,6 +180,8 @@ struct QSASlotCaching
             uints.reset();
             longs.reset();
             ulongs.reset();
+            longlongs.reset();
+            ulonglongs.reset();
 
             floats.reset();
             doubles.reset();

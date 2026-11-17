@@ -1410,6 +1410,8 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
             case QMetaType::UInt: QSA2QT_NAN_CHECK(uints, uint, arg.toNumber(), numberClass);
             case QMetaType::Long: QSA2QT_NAN_CHECK(longs, long, arg.toNumber(), numberClass);
             case QMetaType::ULong: QSA2QT_NAN_CHECK(ulongs, ulong, arg.toNumber(), numberClass);
+            case QMetaType::LongLong: QSA2QT_NAN_CHECK(longlongs, qlonglong, arg.toNumber(), numberClass);
+            case QMetaType::ULongLong: QSA2QT_NAN_CHECK(ulonglongs, qulonglong, arg.toNumber(), numberClass);
 
                 // Float types
             case QMetaType::Float: QSA2QT(floats, float, arg.toNumber(), numberClass);
@@ -1490,10 +1492,37 @@ QSObject qsa_execute_slot(QSEnv *env, QObject *qobject, const QList<int> &slot_i
                     QByteArray ti_name = qsa_strip_stars(ti.name, star_count);
                     int ti_id = QSAQtCompat::variantTypeForName(ti_name);
 
+                    // script numbers are doubles, so integer pointers need a typed copy
+                    void *number_data = 0;
+                    if (arg.objectType() == env->numberClass() && !qsaIsNan(arg.toNumber())) {
+                        const double n = arg.toNumber();
+                        switch (ti_id) {
+                        case QMetaType::Short: number_data = caching->shorts((short) n); break;
+                        case QMetaType::UShort: number_data = caching->ushorts((ushort) n); break;
+                        case QMetaType::Int: number_data = caching->ints((int) n); break;
+                        case QMetaType::UInt: number_data = caching->uints((uint) n); break;
+                        case QMetaType::Long: number_data = caching->longs((long) n); break;
+                        case QMetaType::ULong: number_data = caching->ulongs((ulong) n); break;
+                        case QMetaType::LongLong: number_data = caching->longlongs((qlonglong) n); break;
+                        case QMetaType::ULongLong: number_data = caching->ulonglongs((qulonglong) n); break;
+                        case QMetaType::Float: number_data = caching->floats((float) n); break;
+                        default: break;
+                        }
+                    }
+
                     const QVariant *v = caching->variants(arg.toVariant(QMetaType::Type(ti_id)));
 
-                    if (v->isValid() && QSAQtCompat::variantType(*v) == ti_id) {
+                    if (number_data) {
+                        data[pos] = number_data;
+                        exact_match = false;
+
+                    } else if (v->isValid() && QSAQtCompat::variantType(*v) == ti_id) {
                         data[pos] = const_cast<void *>(v->constData());
+
+                    } else if (ti_id == QMetaType::QByteArray && !star_count
+                               && arg.objectType() == env->stringClass()) {
+                        data[pos] = caching->bytearrays(arg.toString().toLocal8Bit());
+                        exact_match = false;
 
                     } else if (strcmp(ti_name, "QVariant") == 0) {
                         const QVariant *v = caching->variants(arg.toVariant(QMetaType::UnknownType));
@@ -1646,6 +1675,8 @@ static QSObject qsa_pod_value(QSEnv *env, QMetaType::Type type, void *value)
     case QMetaType::UChar: return env->createString(QByteArray(1, ((uchar *)value)[0]));
     case QMetaType::Long: return env->createNumber(*((long *) value));
     case QMetaType::ULong: return env->createNumber(*((ulong *) value));
+    case QMetaType::LongLong: return env->createNumber(double(*((qlonglong *) value)));
+    case QMetaType::ULongLong: return env->createNumber(double(*((qulonglong *) value)));
     default: return QSObject();
     };
 }
@@ -1689,6 +1720,10 @@ QSObject convert_qt2qsa(QSEnv *env, void *value, const QSATypeInfo &ti, QObject 
             return env->createUndefined();
         return qsa_script_variant(ip, static_cast<QMetaType::Type>(QSAQtCompat::variantType(*var)), (void *) var->constData());
     }
+
+    // QObject pointers are wrapped, not stored in a variant
+    if (ti.id == QMetaType::QObjectStar || ti.name == "QObject*")
+        return ip->wrap(*((QObject **) value));
 
     ret_val = qsa_script_variant(ip, QMetaType::Type(ti.id), value);
 

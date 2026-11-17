@@ -1602,8 +1602,25 @@ QSObject QSTryNode::execute( QSEnv *env )
     if( env->isExceptionMode() && _catch )
 	ret = _catch->execute( env );
 
-    if( _final )
-	ret = _final->execute( env );
+    if( _final ) {
+	// the finally block has to run whatever way the try/catch block was left
+	QSEnv::ExecutionMode mode = env->executionMode();
+	QString label = env->currentLabel();
+	QSObject exception;
+	if( mode == QSEnv::Throw )
+	    exception = env->exception();
+	env->setExecutionMode( QSEnv::Normal );
+	QSObject finalRet = _final->execute( env );
+	if( !env->isNormalMode() ) {
+	    // the finally block was left abruptly and overrides the pending completion
+	    ret = finalRet;
+	} else if( mode == QSEnv::Throw ) {
+	    env->setException( exception );
+	} else if( mode != QSEnv::Normal ) {
+	    env->setExecutionMode( mode );
+	    env->setCurrentLabel( label );
+	}
+    }
 
     return ret;
 }

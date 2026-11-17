@@ -175,11 +175,11 @@ QSObject QSRegExpClass::fetchValue( const QSObject *objPtr,
     QSRegMatch *re = regExp( objPtr );
     switch ( mem.index() ) {
     case REMT_Intermediate:
-    return createBoolean( re->match.isValid() );
+    return createBoolean( re->reg.isValid() );
     case REMT_Empty:
-    return createBoolean( re->match.hasMatch() );
+    return createBoolean( re->reg.pattern().isEmpty() );
     case REMT_MLength:
-    return createNumber( re->match.capturedLength() );
+    return createNumber( re->match.hasMatch() ? re->match.capturedLength() : -1 );
     case REMT_Source:
 	return createString( source(objPtr) );
     case REMT_Global:

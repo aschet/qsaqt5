@@ -794,11 +794,18 @@ void QSFuncExprNode::check( QSCheckData *c )
     fscope->setEnclosingClass( cl );
     body->setScopeDefinition( fscope );
     fscope->setFunctionBodyNode(body);
+    int tmpVarBlockCount = c->varBlockCount();
+    c->setVarBlockCount( 0 );
     c->enterFunction( fscope );
     if( param )
 	param->check( c );
     body->check( c );
     c->leaveFunction();
+
+    // block scoped variables (e.g. in catch) live in the function's instance data
+    if( c->varBlockCount()>fscope->numVariables() )
+	fscope->setNumVariables( c->varBlockCount() );
+    c->setVarBlockCount( tmpVarBlockCount );
 
     // Calculate the number of arguments
     int count = 0;

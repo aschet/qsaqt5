@@ -45,7 +45,7 @@
 #include "qsnodes.h"
 #include "qslookup.h"
 #include "qsinternal.h"
-#include "grammar.h"
+#include <grammar.h>
 #include "qslexer.lut.h"
 
 #include <QtCore/QLocale>
@@ -60,7 +60,7 @@
 
 
 #ifdef QSDEBUGGER
-extern YYLTYPE yylloc;	// global bison variable holding token info
+// qsyylloc, the global bison variable holding token info, is declared in grammar.h
 #endif
 
 QSLexer *QSLexer::lx = 0;
@@ -440,8 +440,8 @@ int QSLexer::lex()
     restrKeyword = false;
     delimited = false;
 #ifdef QSDEBUGGER
-     yylloc.first_line = yylineno; // ???
-     yylloc.last_line = yylineno;
+     qsyylloc.first_line = yylineno; // ???
+     qsyylloc.last_line = yylineno;
 #endif
 
     switch ( state ) {

@@ -18,6 +18,10 @@ target_link_libraries(myapp PRIVATE qsa::qsa)
 
 QSA has to be used with the same Qt major version it was built with.
 
+### Changing the grammar
+
+The parser is generated from `qsa/src/engine/grammar.y` and the generated `grammar.cpp` and `grammar.h` are checked in, so Bison is not needed to build QSA. If Bison 3.0 or newer is found (`win_bison` of WinFlexBison on Windows) the parser is generated during the build instead, this can be switched off with `-DQSA_GENERATE_GRAMMAR=OFF`. After changing the grammar build the target `qsa_update_grammar` and commit the regenerated files.
+
 ## What is still left to do?
 
 * Migrate the Q3TextEdit based editor to Qt 5 by integrating a bare minimum set of classes from the Qt 4.6 Qt 3 support layer

@@ -24,10 +24,8 @@
 #define YYDEBUG 0
 #define YYMAXDEPTH 0
 #ifdef QSDEBUGGER
-#define YYERROR_VERBOSE
 #define DBG(l, s, e) { l->setLoc(s.first_line, e.last_line); } // location
 #else
-#undef YYLSP_NEEDED
 #define DBG(l, s, e)
 #endif
 
@@ -36,6 +34,18 @@ static int yyerror (const char *);
 static bool automatic();
 
 %}
+
+%define api.prefix {qsyy}
+%define parse.error verbose
+%locations
+
+/* Symbols that are discarded while the parser recovers from an error are not
+   part of a program node yet, they have to be released here. A parse tree node
+   is owned by its creator until its parent takes it over. */
+%destructor { if ($$ && $$->deref()) delete $$; }
+  <node> <stat> <param> <body> <func> <clss> <src> <srcs> <slist> <args>
+  <alist> <cblk> <clist> <ccl> <elm> <eli> <type> <tvar> <vbin> <blist> <attrs>
+%destructor { delete $$; } <ustr>
 
 %union {
   int                 ival;
@@ -692,7 +702,11 @@ TypeExpression:
 
 int yyerror ( const char *errstr )  /* Called by yyparse on error */
 {
-  QSLexer::lexer()->setErrorMessage( errstr );
+  QString message = QString::fromLatin1( errstr );
+  // keep the message format of the old parser generator, qs_format_error() relies on it
+  if ( message.startsWith( QString::fromLatin1("syntax error") ) )
+    message.replace( 0, 12, QString::fromLatin1("parse error") );
+  QSLexer::lexer()->setErrorMessage( message );
   return 1;
 }
 

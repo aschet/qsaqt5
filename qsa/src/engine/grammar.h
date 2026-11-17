@@ -1,41 +1,145 @@
-/****************************************************************************
-**
-** Copyright (C) 1992-2008 Trolltech AS. All rights reserved.
-**
-** This file is part of the QSA of the Qt Toolkit.
-**
-** For QSA Commercial License Holders (non-open source):
-** 
-** Licensees holding a valid Qt Script for Applications (QSA) License Agreement
-** may use this file in accordance with the rights, responsibilities and
-** obligations contained therein.  Please consult your licensing agreement or
-** contact sales@trolltech.com if any conditions of the Licensing Agreement are
-** not clear to you.
-** 
-** Further information about QSA licensing is available at:
-** http://www.trolltech.com/products/qsa/licensing.html or by contacting
-** info@trolltech.com.
-** 
-** 
-** For Open Source Edition:  
-** 
-** This file may be used under the terms of the GNU General Public License
-** version 2 as published by the Free Software Foundation and appearing in the
-** file LICENSE.GPL included in the packaging of this file.  Please review the
-** following information to ensure GNU General Public Licensing requirements
-** will be met:  http://www.trolltech.com/products/qt/opensource.html 
-** 
-** If you are unsure which license is appropriate for your use, please review
-** the following information:
-** http://www.trolltech.com/products/qsa/licensing.html or contact the 
-** sales department at sales@trolltech.com.
+/* A Bison parser, made by GNU Bison 3.8.2.  */
 
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-****************************************************************************/
-typedef union {
+/* Bison interface for Yacc-like parsers in C
+
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
+   Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
+
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
+
+#ifndef YY_QSYY_GRAMMAR_H_INCLUDED
+# define YY_QSYY_GRAMMAR_H_INCLUDED
+/* Debug traces.  */
+#ifndef QSYYDEBUG
+# if defined YYDEBUG
+#if YYDEBUG
+#   define QSYYDEBUG 1
+#  else
+#   define QSYYDEBUG 0
+#  endif
+# else /* ! defined YYDEBUG */
+#  define QSYYDEBUG 0
+# endif /* ! defined YYDEBUG */
+#endif  /* ! defined QSYYDEBUG */
+#if QSYYDEBUG
+extern int qsyydebug;
+#endif
+
+/* Token kinds.  */
+#ifndef QSYYTOKENTYPE
+# define QSYYTOKENTYPE
+  enum qsyytokentype
+  {
+    QSYYEMPTY = -2,
+    QSYYEOF = 0,                   /* "end of file"  */
+    QSYYerror = 256,               /* error  */
+    QSYYUNDEF = 257,               /* "invalid token"  */
+    NULLTOKEN = 258,               /* NULLTOKEN  */
+    TRUETOKEN = 259,               /* TRUETOKEN  */
+    FALSETOKEN = 260,              /* FALSETOKEN  */
+    STRING = 261,                  /* STRING  */
+    NUMBER = 262,                  /* NUMBER  */
+    BREAK = 263,                   /* BREAK  */
+    CASE = 264,                    /* CASE  */
+    DEFAULT = 265,                 /* DEFAULT  */
+    FOR = 266,                     /* FOR  */
+    NEW = 267,                     /* NEW  */
+    VAR = 268,                     /* VAR  */
+    CONTINUE = 269,                /* CONTINUE  */
+    FUNCTION = 270,                /* FUNCTION  */
+    RETURN = 271,                  /* RETURN  */
+    QS_VOID = 272,                 /* QS_VOID  */
+    QS_DELETE = 273,               /* QS_DELETE  */
+    IF = 274,                      /* IF  */
+    THIS = 275,                    /* THIS  */
+    DO = 276,                      /* DO  */
+    WHILE = 277,                   /* WHILE  */
+    ELSE = 278,                    /* ELSE  */
+    QS_IN = 279,                   /* QS_IN  */
+    INSTANCEOF = 280,              /* INSTANCEOF  */
+    TYPEOF = 281,                  /* TYPEOF  */
+    IS = 282,                      /* IS  */
+    SWITCH = 283,                  /* SWITCH  */
+    WITH = 284,                    /* WITH  */
+    RESERVED = 285,                /* RESERVED  */
+    THROW = 286,                   /* THROW  */
+    TRY = 287,                     /* TRY  */
+    CATCH = 288,                   /* CATCH  */
+    FINALLY = 289,                 /* FINALLY  */
+    CLASS = 290,                   /* CLASS  */
+    CONSTRUCTOR = 291,             /* CONSTRUCTOR  */
+    EXTENDS = 292,                 /* EXTENDS  */
+    ABSTRACT = 293,                /* ABSTRACT  */
+    FINAL = 294,                   /* FINAL  */
+    PRIVATE = 295,                 /* PRIVATE  */
+    PUBLIC = 296,                  /* PUBLIC  */
+    STATIC = 297,                  /* STATIC  */
+    QS_CONST = 298,                /* QS_CONST  */
+    PACKAGE = 299,                 /* PACKAGE  */
+    IMPORT = 300,                  /* IMPORT  */
+    EQEQ = 301,                    /* EQEQ  */
+    NE = 302,                      /* NE  */
+    STREQ = 303,                   /* STREQ  */
+    STRNEQ = 304,                  /* STRNEQ  */
+    LE = 305,                      /* LE  */
+    GE = 306,                      /* GE  */
+    OR = 307,                      /* OR  */
+    AND = 308,                     /* AND  */
+    PLUSPLUS = 309,                /* PLUSPLUS  */
+    MINUSMINUS = 310,              /* MINUSMINUS  */
+    LSHIFT = 311,                  /* LSHIFT  */
+    RSHIFT = 312,                  /* RSHIFT  */
+    URSHIFT = 313,                 /* URSHIFT  */
+    PLUSEQUAL = 314,               /* PLUSEQUAL  */
+    MINUSEQUAL = 315,              /* MINUSEQUAL  */
+    MULTEQUAL = 316,               /* MULTEQUAL  */
+    DIVEQUAL = 317,                /* DIVEQUAL  */
+    LSHIFTEQUAL = 318,             /* LSHIFTEQUAL  */
+    RSHIFTEQUAL = 319,             /* RSHIFTEQUAL  */
+    URSHIFTEQUAL = 320,            /* URSHIFTEQUAL  */
+    ANDEQUAL = 321,                /* ANDEQUAL  */
+    MODEQUAL = 322,                /* MODEQUAL  */
+    XOREQUAL = 323,                /* XOREQUAL  */
+    OREQUAL = 324,                 /* OREQUAL  */
+    IDENT = 325                    /* IDENT  */
+  };
+  typedef enum qsyytokentype qsyytoken_kind_t;
+#endif
+
+/* Value type.  */
+#if ! defined QSYYSTYPE && ! defined QSYYSTYPE_IS_DECLARED
+union QSYYSTYPE
+{
+#line 50 "grammar.y"
+
   int                 ival;
   double              dval;
   QString             *ustr;
@@ -64,92 +168,34 @@ typedef union {
   QSAttributeNode       *attrs;
   QSAttribute            attr;
   Operator            op;
-} YYSTYPE;
 
-#ifndef YYLTYPE
-typedef
-  struct yyltype
-    {
-      int timestamp;
-      int first_line;
-      int first_column;
-      int last_line;
-      int last_column;
-      char *text;
-   }
-  yyltype;
+#line 173 "grammar.h"
 
-#define YYLTYPE yyltype
+};
+typedef union QSYYSTYPE QSYYSTYPE;
+# define QSYYSTYPE_IS_TRIVIAL 1
+# define QSYYSTYPE_IS_DECLARED 1
 #endif
 
-#define	NULLTOKEN	257
-#define	TRUETOKEN	258
-#define	FALSETOKEN	259
-#define	STRING	260
-#define	NUMBER	261
-#define	BREAK	262
-#define	CASE	263
-#define	DEFAULT	264
-#define	FOR	265
-#define	NEW	266
-#define	VAR	267
-#define	CONTINUE	268
-#define	FUNCTION	269
-#define	RETURN	270
-#define	QS_VOID	271
-#define	QS_DELETE	272
-#define	IF	273
-#define	THIS	274
-#define	DO	275
-#define	WHILE	276
-#define	ELSE	277
-#define	QS_IN	278
-#define	INSTANCEOF	279
-#define	TYPEOF	280
-#define	IS	281
-#define	SWITCH	282
-#define	WITH	283
-#define	RESERVED	284
-#define	THROW	285
-#define	TRY	286
-#define	CATCH	287
-#define	FINALLY	288
-#define	CLASS	289
-#define	CONSTRUCTOR	290
-#define	EXTENDS	291
-#define	ABSTRACT	292
-#define	FINAL	293
-#define	PRIVATE	294
-#define	PUBLIC	295
-#define	STATIC	296
-#define	QS_CONST	297
-#define	PACKAGE	298
-#define	IMPORT	299
-#define	EQEQ	300
-#define	NE	301
-#define	STREQ	302
-#define	STRNEQ	303
-#define	LE	304
-#define	GE	305
-#define	OR	306
-#define	AND	307
-#define	PLUSPLUS	308
-#define	MINUSMINUS	309
-#define	LSHIFT	310
-#define	RSHIFT	311
-#define	URSHIFT	312
-#define	PLUSEQUAL	313
-#define	MINUSEQUAL	314
-#define	MULTEQUAL	315
-#define	DIVEQUAL	316
-#define	LSHIFTEQUAL	317
-#define	RSHIFTEQUAL	318
-#define	URSHIFTEQUAL	319
-#define	ANDEQUAL	320
-#define	MODEQUAL	321
-#define	XOREQUAL	322
-#define	OREQUAL	323
-#define	IDENT	324
+/* Location type.  */
+#if ! defined QSYYLTYPE && ! defined QSYYLTYPE_IS_DECLARED
+typedef struct QSYYLTYPE QSYYLTYPE;
+struct QSYYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define QSYYLTYPE_IS_DECLARED 1
+# define QSYYLTYPE_IS_TRIVIAL 1
+#endif
 
 
-extern YYSTYPE qsyylval;
+extern QSYYSTYPE qsyylval;
+extern QSYYLTYPE qsyylloc;
+
+int qsyyparse (void);
+
+
+#endif /* !YY_QSYY_GRAMMAR_H_INCLUDED  */

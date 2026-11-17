@@ -1,0 +1,3 @@
+# win_bison writes CRLF, the generated parser is kept with LF line endings
+qsa/src/engine/grammar.cpp text eol=lf
+qsa/src/engine/grammar.h text eol=lf

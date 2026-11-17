@@ -286,7 +286,8 @@ if(QSA_GRAMMAR_GENERATED)
 		COMMAND ${BISON_EXECUTABLE} -Wno-conflicts-sr -Wno-conflicts-rr -Wno-other
 			-o grammar.cpp --defines=grammar.h grammar.y
 		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/engine"
-		COMMENT "Updating the checked in parser")
+		COMMENT "Updating the checked in parser"
+		VERBATIM)
 endif()
 foreach(dir IN LISTS QSA_PUBLIC_INCLUDE_DIRS)
 	target_include_directories(qsa PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${dir}>")

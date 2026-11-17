@@ -1,0 +1,14 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# QSA is built against exactly one Qt major version, consumers have to use the same one
+if(@QSA_QT_MAJOR@ EQUAL 6)
+    find_dependency(Qt6 COMPONENTS @QSA_PACKAGE_QT_COMPONENTS@)
+else()
+    find_dependency(Qt5 5.15 COMPONENTS @QSA_PACKAGE_QT_COMPONENTS@)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/qsaTargets.cmake")
+
+check_required_components(qsa)

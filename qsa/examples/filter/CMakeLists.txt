@@ -1,21 +1,15 @@
 project(filter)
 
-set(HEADERS_MOC modules.h)
-
-set(HEADERS data.h
-	modulefactory.h
-)
-
-set(SOURCES data.cpp
+add_executable(filter
+	data.cpp
+	data.h
 	main.cpp
 	modulefactory.cpp
+	modulefactory.h
 	modules.cpp
+	modules.h
 )
-
-qt_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-
-add_executable(filter ${SOURCES} ${SOURCES_MOC} ${HEADERS} ${HEADERS_MOC})
-target_link_libraries(filter Qt::Widgets qsa)
+target_link_libraries(filter PRIVATE qsa)
 
 file(COPY bump.png DESTINATION .)
 file(COPY filter.qsa DESTINATION .)

@@ -41,7 +41,9 @@
 
 #include "qsaglobal.h"
 #include <qsscript.h>
+#ifndef QSA_NO_EDITOR
 #include <qseditor.h>
+#endif
 
 #include <QtCore/QObject>
 #include <QtCore/QDateTime>

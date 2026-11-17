@@ -1,56 +1,9 @@
-cmake_minimum_required(VERSION 3.16.0)
+include(GNUInstallDirs)
 
-project(src)
+configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_BINARY_DIR}/qsa/qsconfig.h")
 
-if (MSVC)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
-    set(CMAKE_DEBUG_POSTFIX "d")
-endif()
-
-option(QSA_NO_DLL "Does not compile as shared library." OFF)
-option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)
-option(QSA_NEW_EDITOR "Does compile QTextEdit instead of Q3TextEdit based editor into QSA." ON)
-option(QSA_NO_IDE "Does not compile QSA Workbench into QSA." OFF)
-
-if(${QSA_NO_DLL})
-    set(LIB_MODE STATIC)
-else()
-    set(LIB_MODE SHARED)
-   add_definitions(-DQSA_DLL)
-endif()
-
-configure_file(qsa/qsconfig.h.in "${CMAKE_CURRENT_SOURCE_DIR}/qsa/qsconfig.h")
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-find_package(Qt6 COMPONENTS Widgets Core5Compat)
-if (NOT Qt6_FOUND)
-    find_package(Qt5 5.15 REQUIRED COMPONENTS Widgets)
-endif()
-
-include_directories(engine kernel qsa)
-add_definitions(-DHAVE_CONFIG_H -DQSDEBUGGER)
-
-set(UIS "")
-
-set(QRCS "")
-
-set(HEADERS_MOC
-	engine/qsengine.h
-	engine/qstimeouttrigger.h
-	kernel/quickdebugger.h
-	kernel/quickdispatchobject.h
-	kernel/quickobjects.h
-	kernel/quickinterpreter.h
-	kernel/qsmetaobject.h
-	qsa/qsinterpreter.h
-	qsa/qsscript.h
-	qsa/qsproject.h
-	qsa/qsutilfactory_p.h
-	qsa/qsinputdialogfactory_p.h
-)
-
-set(HEADERS engine/qsclass.h
+set(QSA_HEADERS
+	engine/qsclass.h
 	engine/qsglobal.h
 	engine/qsmember.h
 	engine/qstypes.h
@@ -79,25 +32,37 @@ set(HEADERS engine/qsclass.h
 	engine/qsobjectlist.h
 	engine/qsclasslist.h
 	engine/qsnumeric.h
+	engine/qsengine.h
+	engine/qstimeouttrigger.h
 	kernel/quickenv.h
 	kernel/quickclassparser.h
 	kernel/quickbytearrayobject.h
 	kernel/quickcoordobjects.h
+	kernel/qsmetaobject.h
 	kernel/qsslot.h
 	kernel/qsaqtcompat.h
+	kernel/quickdebugger.h
+	kernel/quickdispatchobject.h
+	kernel/quickobjects.h
+	kernel/quickinterpreter.h
 	kernel/quickpixmapobject.h
 	kernel/quickcolorobject.h
 	kernel/quickfontobject.h
 	qsa/qsaglobal.h
-	qsa/qsconfig.h
 	qsa/qsobjectfactory.h
 	qsa/qswrapperfactory.h
 	qsa/qsutilfactory.h
+	qsa/qsutilfactory_p.h
 	qsa/qsinputdialogfactory.h
+	qsa/qsinputdialogfactory_p.h
+	qsa/qsinterpreter.h
+	qsa/qsscript.h
+	qsa/qsproject.h
 )
 
-set(HEADERS_DIST qsa/qsaglobal.h
-	qsa/qsconfig.h
+# public headers that get installed, qsconfig.h is added below because it is generated
+set(QSA_HEADERS_DIST
+	qsa/qsaglobal.h
 	qsa/qsinputdialogfactory.h
 	qsa/qsinterpreter.h
 	qsa/qsobjectfactory.h
@@ -107,7 +72,8 @@ set(HEADERS_DIST qsa/qsaglobal.h
 	qsa/qswrapperfactory.h
 )
 
-set(SOURCES engine/qsclass.cpp
+set(QSA_SOURCES
+	engine/qsclass.cpp
 	engine/qsmember.cpp
 	engine/qstypes.cpp
 	engine/qsenv.cpp
@@ -116,7 +82,7 @@ set(SOURCES engine/qsclass.cpp
 	engine/qsnodes.cpp
 	engine/qsoperations.cpp
 	engine/qscheck.cpp
-	engine/qsengine.cpp 
+	engine/qsengine.cpp
 	engine/qsobject.cpp
 	engine/qsfunction.cpp
 	engine/qslookup.cpp
@@ -154,45 +120,40 @@ set(SOURCES engine/qsclass.cpp
 	qsa/qsinputdialogfactory.cpp
 )
 
-set (QT_LIBS Qt::Widgets)
-if (Qt6_FOUND)
-set(QT_LIBS ${QT_LIBS}
-	Qt::Core5Compat
-)
+set(QSA_PRIVATE_INCLUDE_DIRS engine kernel)
+set(QSA_PUBLIC_INCLUDE_DIRS qsa)
+set(QSA_QT_LIBS Qt::Widgets)
+if(Qt6_FOUND)
+	list(APPEND QSA_QT_LIBS Qt::Core5Compat)
 endif()
 
+if(NOT QSA_NO_EDITOR)
 
-if(NOT ${QSA_NO_EDITOR})
-
-set(HEADERS_MOC ${HEADERS_MOC}
+list(APPEND QSA_HEADERS
 	qsa/qseditor.h
-)
-set(HEADERS ${HEADERS}
 	ide/conf.h
 )
-set(HEADERS_DIST ${HEADERS_DIST}
+list(APPEND QSA_HEADERS_DIST
 	qsa/qseditor.h
 )
-set(SOURCES ${SOURCES}
+list(APPEND QSA_SOURCES
 	qsa/qseditor.cpp
 	ide/conf.cpp
 )
 
-if(${QSA_NEW_EDITOR})
+if(QSA_NEW_EDITOR)
 
-include_directories(neweditor)
-set(HEADERS_MOC ${HEADERS_MOC}
-	neweditor/completionbox.h	
+list(APPEND QSA_PRIVATE_INCLUDE_DIRS neweditor)
+list(APPEND QSA_HEADERS
+	neweditor/completionbox.h
 	neweditor/linenumberwidget.h
 	neweditor/parenmatcher.h
 	neweditor/qsaeditor.h
 	neweditor/qsaeditorinterface.h
-)
-set(HEADERS ${HEADERS}
 	neweditor/blockdata.h
 	neweditor/qsasyntaxhighlighter.h
 )
-set(SOURCES ${SOURCES}
+list(APPEND QSA_SOURCES
 	neweditor/completionbox.cpp
 	neweditor/linenumberwidget.cpp
 	neweditor/parenmatcher.cpp
@@ -204,16 +165,12 @@ set(SOURCES ${SOURCES}
 
 else()
 
-if (Qt6_FOUND)
-    message(FATAL_ERROR "The Q3TextEdit based editor requires Qt 5, enable QSA_NEW_EDITOR when building against Qt 6.")
+if(Qt6_FOUND)
+	message(FATAL_ERROR "The Q3TextEdit based editor requires Qt 5, enable QSA_NEW_EDITOR when building against Qt 6.")
 endif()
 
-include_directories(editor ../tools/designer/editor Qt3Support)
-set(UIS ${UIS}
-#	../tools/designer/editor/preferences.ui
-#	../tools/designer/editor/preferences.ui.h
-)
-set(HEADERS_MOC ${HEADERS_MOC}
+list(APPEND QSA_PRIVATE_INCLUDE_DIRS editor ../tools/designer/editor Qt3Support)
+list(APPEND QSA_HEADERS
 	editor/qsabrowser.h
 	editor/qsacompletion.h
 	editor/qsaeditor.h
@@ -224,13 +181,11 @@ set(HEADERS_MOC ${HEADERS_MOC}
 	../tools/designer/editor/editor.h
 	../tools/designer/editor/markerwidget.h
 	../tools/designer/editor/viewmanager.h
-)
-set(HEADERS ${HEADERS}
 	../tools/designer/editor/cindent.h
 	../tools/designer/editor/paragdata.h
 	../tools/designer/editor/parenmatcher.h
 )
-set(SOURCES ${SOURCES}
+list(APPEND QSA_SOURCES
 	editor/qsabrowser.cpp
 	editor/qsacompletion.cpp
 	editor/qsaeditor.cpp
@@ -248,24 +203,23 @@ set(SOURCES ${SOURCES}
 
 endif()
 
-if(NOT ${QSA_NO_IDE})
+if(NOT QSA_NO_IDE)
 
-set(HEADERS_DIST ${HEADERS_DIST}
+list(APPEND QSA_QT_LIBS Qt::PrintSupport)
+list(APPEND QSA_PUBLIC_INCLUDE_DIRS ide)
+list(APPEND QSA_HEADERS_DIST
 	ide/qsworkbench.h
 )
-
-find_package(Qt6 COMPONENTS PrintSupport)
-if (NOT Qt6_FOUND)
-    find_package(Qt5 5.15 REQUIRED COMPONENTS PrintSupport)
-endif()
-
-set(QT_LIBS ${QT_LIBS}
-	Qt::PrintSupport
+list(APPEND QSA_HEADERS
+	ide/idewindow.h
+	ide/preferences.h
+	ide/qsworkbench.h
 )
-
-include_directories(ide)
-set(UIS ${UIS}
-	ide/findtext.ui 
+list(APPEND QSA_SOURCES
+	ide/idewindow.cpp
+	ide/preferences.cpp
+	ide/qsworkbench.cpp
+	ide/findtext.ui
 	ide/gotoline.ui
 	ide/idewindow.ui
 	ide/outputcontainer.ui
@@ -274,40 +228,86 @@ set(UIS ${UIS}
 	ide/projectcontainer.ui
 	ide/replacetext.ui
 	ide/variablescontainer.ui
-)
-set(QRCS ${QRCS}
 	ide/ide.qrc
 )
-set(HEADERS_MOC ${HEADERS_MOC}
-	ide/idewindow.h
-	ide/preferences.h
-	ide/qsworkbench.h	
+
+endif()
+
+endif()
+
+if(QSA_NO_DLL)
+	set(QSA_LIB_MODE STATIC)
+else()
+	set(QSA_LIB_MODE SHARED)
+endif()
+
+add_library(qsa ${QSA_LIB_MODE} ${QSA_SOURCES} ${QSA_HEADERS})
+add_library(qsa::qsa ALIAS qsa)
+
+# the file only contains Q_OBJECT inside a documentation sample
+set_source_files_properties(qsa/qswrapperfactory.cpp PROPERTIES SKIP_AUTOMOC ON)
+
+list(TRANSFORM QSA_PRIVATE_INCLUDE_DIRS PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+target_include_directories(qsa
+	PRIVATE
+		${QSA_PRIVATE_INCLUDE_DIRS}
+	PUBLIC
+		"$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/qsa>"
+		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
-set(SOURCES ${SOURCES}
-	ide/idewindow.cpp
-	ide/preferences.cpp
-	ide/qsworkbench.cpp
-	ide/idewindow.cpp
-	ide/idewindow.cpp	
-)
+foreach(dir IN LISTS QSA_PUBLIC_INCLUDE_DIRS)
+	target_include_directories(qsa PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${dir}>")
+endforeach()
 
+target_compile_definitions(qsa PRIVATE HAVE_CONFIG_H QSDEBUGGER)
+if(NOT QSA_NO_DLL)
+	# exports the symbols, consumers must not define it
+	target_compile_definitions(qsa PRIVATE QSA_DLL)
+endif()
+if(Qt5_FOUND)
+	target_compile_definitions(qsa PUBLIC QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
+endif()
+if(MSVC)
+	target_compile_definitions(qsa PRIVATE _CRT_SECURE_NO_WARNINGS _SCL_SECURE_NO_WARNINGS)
+	set_target_properties(qsa PROPERTIES DEBUG_POSTFIX d)
 endif()
 
+target_link_libraries(qsa PUBLIC ${QSA_QT_LIBS})
+
+install(FILES ${QSA_HEADERS_DIST} "${CMAKE_CURRENT_BINARY_DIR}/qsa/qsconfig.h"
+	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+install(TARGETS qsa EXPORT qsaTargets
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+# CMake package, replaces the qmake feature file (CONFIG += qsa). Installing into the
+# prefix of Qt makes find_package(qsa) work without any further setup.
+include(CMakePackageConfigHelpers)
+
+if(Qt6_FOUND)
+	set(QSA_QT_MAJOR 6)
+	set(QSA_PACKAGE_QT_COMPONENTS ${QSA_QT_COMPONENTS} Core5Compat)
+else()
+	set(QSA_QT_MAJOR 5)
+	set(QSA_PACKAGE_QT_COMPONENTS ${QSA_QT_COMPONENTS})
 endif()
+string(REPLACE ";" " " QSA_PACKAGE_QT_COMPONENTS "${QSA_PACKAGE_QT_COMPONENTS}")
 
-qt_add_resources(SOURCES_QRC ${QRCS})
-qt_wrap_ui(HEADERS_UIS ${UIS})
-qt_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
+set(QSA_CMAKE_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/qsa)
 
-add_library(qsa ${LIB_MODE} ${SOURCES} ${SOURCES_MOC} ${SOURCES_QRC} ${HEADERS} ${HEADERS_MOC} ${HEADERS_UIS})
-if (MSVC)
-	set_target_properties(qsa PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-endif()
-target_link_libraries(qsa ${QT_LIBS})
+configure_package_config_file(qsaConfig.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/qsaConfig.cmake"
+	INSTALL_DESTINATION ${QSA_CMAKE_INSTALL_DIR})
+write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/qsaConfigVersion.cmake"
+	VERSION ${PROJECT_VERSION}
+	COMPATIBILITY SameMajorVersion)
 
-install(FILES ${HEADERS_DIST} DESTINATION include)
-
-install(TARGETS qsa
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib)
+install(EXPORT qsaTargets
+	NAMESPACE qsa::
+	DESTINATION ${QSA_CMAKE_INSTALL_DIR})
+install(FILES
+	"${CMAKE_CURRENT_BINARY_DIR}/qsaConfig.cmake"
+	"${CMAKE_CURRENT_BINARY_DIR}/qsaConfigVersion.cmake"
+	DESTINATION ${QSA_CMAKE_INSTALL_DIR})

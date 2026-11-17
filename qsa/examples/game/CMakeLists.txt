@@ -1,20 +1,14 @@
 project(game)
 
-set(UIS gamewindow.ui)
-
-set(HEADERS_MOC gamewindow.h
-	playfield.h)
-
-set(SOURCES gamewindow.cpp
+add_executable(game
+	gamewindow.cpp
+	gamewindow.h
+	gamewindow.ui
 	main.cpp
 	playfield.cpp
+	playfield.h
 )
-
- qt_wrap_ui(HEADERS_UIS ${UIS})
- qt_wrap_cpp(SOURCES_MOC ${HEADERS_MOC})
-
-add_executable(game ${SOURCES} ${SOURCES_MOC} ${HEADERS_UIS} ${HEADERS_MOC})
-target_link_libraries(game Qt::Widgets qsa)
+target_link_libraries(game PRIVATE qsa)
 
 file(COPY background.png DESTINATION .)
 file(COPY ball.png DESTINATION .)

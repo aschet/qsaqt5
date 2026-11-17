@@ -77,11 +77,7 @@
 
 #include <QtGlobal>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	#include <QtCore/QRegExp>
-#else
-	#include <QtCore5Compat/QRegExp>
-#endif
+#include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 
 /* qmake ignore Q_OBJECT */
@@ -127,11 +123,11 @@ void setIndentSize( int size )
     ppContinuationIndentSize = 2 * size;
 }
 
-static QRegExp *literal = 0;
-static QRegExp *label = 0;
-static QRegExp *inlineCComment = 0;
-static QRegExp *braceX = 0;
-static QRegExp *iflikeKeyword = 0;
+static QRegularExpression *literal = 0;
+static QRegularExpression *label = 0;
+static QRegularExpression *inlineCComment = 0;
+static QRegularExpression *braceX = 0;
+static QRegularExpression *iflikeKeyword = 0;
 
 /*
   Returns the first non-space character in the string t, or
@@ -215,10 +211,11 @@ static QString trimmedCodeLine( const QString& t )
       continuation lines.
     */
     k = 0;
-    while ( (k = literal->indexIn(trimmed, k)) != -1 ) {
-	for ( int i = 0; i < literal->matchedLength(); i++ )
+    for ( QRegularExpressionMatch m; (m = literal->match(trimmed, k)).hasMatch(); ) {
+	k = m.capturedStart();
+	for ( int i = 0; i < m.capturedLength(); i++ )
 	    eraseChar( trimmed, k + i, 'X' );
-	k += literal->matchedLength();
+	k += m.capturedLength();
     }
 
     /*
@@ -226,10 +223,11 @@ static QString trimmedCodeLine( const QString& t )
       handled elsewhere.
     */
     k = 0;
-    while ( (k = inlineCComment->indexIn(trimmed, k)) != -1 ) {
-	for ( int i = 0; i < inlineCComment->matchedLength(); i++ )
+    for ( QRegularExpressionMatch m; (m = inlineCComment->match(trimmed, k)).hasMatch(); ) {
+	k = m.capturedStart();
+	for ( int i = 0; i < m.capturedLength(); i++ )
 	    eraseChar( trimmed, k + i, ' ' );
-	k += inlineCComment->matchedLength();
+	k += m.capturedLength();
     }
 
     /*
@@ -239,9 +237,10 @@ static QString trimmedCodeLine( const QString& t )
 	  foo1: bar1;
 	      bar2;
     */
-    while ( trimmed.lastIndexOf(':') != -1 && label->indexIn(trimmed) != -1 ) {
-	QString cap1 = label->cap( 1 );
-	int pos1 = label->pos( 1 );
+    for ( QRegularExpressionMatch m;
+	  trimmed.lastIndexOf(':') != -1 && (m = label->match(trimmed)).hasMatch(); ) {
+	QString cap1 = m.captured( 1 );
+	int pos1 = m.capturedStart( 1 );
 	int stop = cap1.length();
 
 	if ( pos1 + stop < (int) trimmed.length() && ppIndentSize < stop )
@@ -427,7 +426,7 @@ static bool readLine()
 	if ( yyLinizerState->pendingRightBrace )
 	    yyLinizerState->braceDepth++;
 	yyLinizerState->pendingRightBrace =
-		( braceX->indexIn(yyLinizerState->line) == 0 );
+		( braceX->match(yyLinizerState->line).capturedStart() == 0 );
 	if ( yyLinizerState->pendingRightBrace )
 	    yyLinizerState->braceDepth--;
     } while ( yyLinizerState->line.isEmpty() );
@@ -565,7 +564,7 @@ static bool matchBracelessControlStatement()
 	    case '(':
 		delimDepth--;
 		if ( delimDepth == 0 ) {
-		    if ( iflikeKeyword->indexIn(*yyLine) != -1 ) {
+		    if ( iflikeKeyword->match(*yyLine).hasMatch() ) {
 			/*
 			  We have
 
@@ -1002,14 +1001,13 @@ static int indentForStandaloneLine()
 */
 static void initializeIndenter()
 {
-    literal = new QRegExp( QString::fromLatin1("([\"'])(?:\\\\.|[^\\\\])*\\1") );
-    literal->setMinimal( true );
-    label = new QRegExp(
+    // lazy quantifiers, the matches have to be as short as possible
+    literal = new QRegularExpression( QString::fromLatin1("([\"'])(?:\\\\.|[^\\\\])*?\\1") );
+    label = new QRegularExpression(
 	QString::fromLatin1("^\\s*((?:case\\b([^:]|::)+|[a-zA-Z_0-9]+)(?:\\s+slots)?:)(?!:)") );
-    inlineCComment = new QRegExp( QString::fromLatin1("/\\*.*\\*/") );
-    inlineCComment->setMinimal( true );
-    braceX = new QRegExp( QString::fromLatin1("^\\s*\\}\\s*(?:else|catch)\\b") );
-    iflikeKeyword = new QRegExp( QString::fromLatin1("\\b(?:catch|do|for|if|while)\\b") );
+    inlineCComment = new QRegularExpression( QString::fromLatin1("/\\*.*?\\*/") );
+    braceX = new QRegularExpression( QString::fromLatin1("^\\s*\\}\\s*(?:else|catch)\\b") );
+    iflikeKeyword = new QRegularExpression( QString::fromLatin1("\\b(?:catch|do|for|if|while)\\b") );
 
     yyLinizerState = new LinizerState;
 }
@@ -1081,12 +1079,12 @@ int indentForBottomLine( const QStringList& program, QChar typedIn )
 	    */
 	    indent -= ppIndentSize;
 	} else if ( okay(typedIn, ':') ) {
-	    QRegExp caseLabel(QString::fromLatin1(
+	    QRegularExpression caseLabel(QRegularExpression::anchoredPattern(QString::fromLatin1(
 		"\\s*(?:case\\b(?:[^:]|::)+"
 		"|(?:public|protected|private|signals|default)(?:\\s+slots)?\\s*"
-		")?:.*") );
+		")?:.*")) );
 
-	    if ( caseLabel.exactMatch(bottomLine) ) {
+	    if ( caseLabel.match(bottomLine).hasMatch() ) {
 		/*
 		  Move a case label (or the ':' in front of a
 		  constructor initialization list) one level to the

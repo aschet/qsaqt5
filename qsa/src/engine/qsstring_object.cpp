@@ -41,11 +41,6 @@
 #include "qstypes.h"
 #include "qsclass.h"
 #include "qsenv.h"
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    #include <QtCore/QRegExp>
-#else
-    #include <QtCore5Compat/QRegExp>
-#endif
 
 
 using namespace QS;

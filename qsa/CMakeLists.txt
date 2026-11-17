@@ -17,7 +17,7 @@ if(NOT QSA_NO_EDITOR AND NOT QSA_NO_IDE)
 endif()
 
 # Qt 6 is preferred, Qt 5.15 is the oldest supported version
-find_package(Qt6 QUIET COMPONENTS ${QSA_QT_COMPONENTS} Core5Compat)
+find_package(Qt6 QUIET COMPONENTS ${QSA_QT_COMPONENTS})
 if(NOT Qt6_FOUND)
     find_package(Qt5 5.15 REQUIRED COMPONENTS ${QSA_QT_COMPONENTS})
 endif()

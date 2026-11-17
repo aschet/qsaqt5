@@ -1655,9 +1655,13 @@ QSFunctionBodyNode::~QSFunctionBodyNode()
     // Will be set to 0 by QSClass::clear during cleanup to avoid cleanup recursion.
     // This is ok since during cleanup everything will be deleted anyway.
     if (scopeDef) {
-	scopeDef->env()->unregisterClass(scopeDef);
-	scopeDef->clear();
-	delete scopeDef;
+	// clear() resets scopeDef through the back reference, so the class has to be
+	// kept in a local variable, otherwise it would never be deleted
+	QSFunctionScopeClass *def = scopeDef;
+	scopeDef = 0;
+	def->env()->unregisterClass(def);
+	def->clear();
+	delete def;
     }
 }
 
@@ -1898,7 +1902,7 @@ QSNODE_REF_IMPL_1(QSBlockNode, statlist)
 QSNODE_REF_IMPL_1(QSCatchNode, block)
 QSNODE_REF_IMPL_1(QSDeleteNode, expr)
 QSNODE_REF_IMPL_1(QSElisionNode, elision)
-QSNODE_REF_IMPL_1(QSEmitNode, expr)
+QSNODE_REF_IMPL_2(QSEmitNode, expr, args)
 QSNODE_REF_IMPL_1(QSExprStatementNode, expr)
 QSNODE_REF_IMPL_1(QSFinallyNode, block)
 QSNODE_REF_IMPL_1(QSFunctionBodyNode, source)
@@ -1928,7 +1932,7 @@ QSNODE_REF_IMPL_2(QSCaseClauseNode, expr, list)
 QSNODE_REF_IMPL_2(QSClauseListNode, cl, nx)
 QSNODE_REF_IMPL_2(QSCommaNode, expr1, expr2)
 QSNODE_REF_IMPL_2(QSDoWhileNode, statement, expr)
-QSNODE_REF_IMPL_2(QSElementNode, list, elision)
+QSNODE_REF_IMPL_3(QSElementNode, list, elision, node)
 QSNODE_REF_IMPL_2(QSEqualNode, expr1, expr2)
 QSNODE_REF_IMPL_2(QSFuncExprNode, param, body)
 QSNODE_REF_IMPL_2(QSFunctionCallNode, expr, args)

@@ -73,7 +73,7 @@ class QSRectClass;
 class QSByteArrayClass;
 class QSApplicationClass;
 class QSWrapperShared;
-class QSMetaObject;
+class QSDynamicSlots;
 
 typedef QList<QSWrapperShared *> QSWrapperSharedList;
 
@@ -397,7 +397,7 @@ private:
     int id;
 
     QSASlotCaching m_slotCaching;
-    QSMetaObject *m_dynamic_slots;
+    QSDynamicSlots *m_dynamic_slots;
     QHash<int, QSAConnection> m_script_connections;
     QHash<int, QSObject> m_timers;
 

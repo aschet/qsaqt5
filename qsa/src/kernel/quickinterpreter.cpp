@@ -210,7 +210,7 @@ QSObject QuickInterpreter::wrap(QObject *o)
 
 void QuickInterpreter::init()
 {
-    m_dynamic_slots = new QSMetaObject(this);
+    m_dynamic_slots = new QSDynamicSlots(this);
 
     qsa_setup_meta_objects();
     debuggerEngine()->clear();

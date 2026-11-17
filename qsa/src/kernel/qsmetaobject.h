@@ -45,22 +45,22 @@
 
 // Provides a moc generated meta object without members, so that the
 // meta object data layout always matches the Qt version in use.
-class QSMetaObjectBase : public QObject
+class QSMetaObject : public QObject
 {
     Q_OBJECT
 public:
-    explicit QSMetaObjectBase(QObject *parent = nullptr) : QObject(parent) { }
+    explicit QSMetaObject(QObject *parent = nullptr) : QObject(parent) { }
 };
 
-class QSMetaObject: public QSMetaObjectBase
+// Slots registered at runtime are numbered after the moc generated methods of QSMetaObject.
+class QSDynamicSlots: public QSMetaObject
 {
 public:
-    void *qt_metacast(const char *classname) override;
     int qt_metacall(QMetaObject::Call c, int id, void **arguments) override;
 
 public:
-    QSMetaObject(QObject *parent = 0);
-    virtual ~QSMetaObject();
+    QSDynamicSlots(QObject *parent = 0);
+    virtual ~QSDynamicSlots();
 
     virtual int registerSlot(QObject *obj, const char *signature, PtrCallbackForSlot callback);
     virtual bool dynamicConnect(const QObject *sender, const char *signal, const char *method);

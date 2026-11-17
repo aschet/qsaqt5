@@ -41,14 +41,14 @@
 
 #include <QtCore/QVariant>
 
-QSMetaObject::QSMetaObject(QObject *parent) : QSMetaObjectBase(parent)
+QSDynamicSlots::QSDynamicSlots(QObject *parent) : QSMetaObject(parent)
 { }
 
-QSMetaObject::~QSMetaObject()
+QSDynamicSlots::~QSDynamicSlots()
 { }
 
-int QSMetaObject::slotOffset()
-{ return QSMetaObjectBase::staticMetaObject.methodCount(); }
+int QSDynamicSlots::slotOffset()
+{ return QSMetaObject::staticMetaObject.methodCount(); }
 
 static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *types, QVector<QByteArray> *typeNames)
 {
@@ -90,7 +90,7 @@ static void parseQtSignature(const QByteArray &buf, QVector<QMetaType::Type> *ty
     }
 }
 
-int QSMetaObject::registerSlot(QObject *obj, const char *signature, PtrCallbackForSlot callback)
+int QSDynamicSlots::registerSlot(QObject *obj, const char *signature, PtrCallbackForSlot callback)
 {
     int newId = m_slots.size();
     QByteArray buf = QMetaObject::normalizedSignature(signature);
@@ -105,9 +105,9 @@ int QSMetaObject::registerSlot(QObject *obj, const char *signature, PtrCallbackF
     return newId;
 }
 
-int QSMetaObject::qt_metacall(QMetaObject::Call c, int id, void **arguments)
+int QSDynamicSlots::qt_metacall(QMetaObject::Call c, int id, void **arguments)
 {
-    id = QSMetaObjectBase::qt_metacall(c, id, arguments);
+    id = QSMetaObject::qt_metacall(c, id, arguments);
     if (id < 0)
         return id;
 
@@ -120,15 +120,7 @@ int QSMetaObject::qt_metacall(QMetaObject::Call c, int id, void **arguments)
     return id;
 }
 
-void *QSMetaObject::qt_metacast(const char *_clname)
-{
-    if (!_clname) return nullptr;
-    if (!strcmp(_clname, "QSMetaObject"))
-        return static_cast<void*>(this);
-    return QSMetaObjectBase::qt_metacast(_clname);
-}
-
-bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, const char *method)
+bool QSDynamicSlots::dynamicConnect(const QObject *sender, const char *signal, const char *method)
 {
     QByteArray buf = QMetaObject::normalizedSignature(method);
 
@@ -144,7 +136,7 @@ bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, con
     return dynamicConnect(sender, signal, method_index);
 }
 
-bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, int slot_id)
+bool QSDynamicSlots::dynamicConnect(const QObject *sender, const char *signal, int slot_id)
 {
 // ### sanity check would be nice here...
 //     if (!QMetaObject::checkConnectArgs(signal, method))
@@ -172,7 +164,7 @@ bool QSMetaObject::dynamicConnect(const QObject *sender, const char *signal, int
 
 
 
-bool QSMetaObject::dynamicDisconnect(const QObject *sender, const char *signal, int slot_id)
+bool QSDynamicSlots::dynamicDisconnect(const QObject *sender, const char *signal, int slot_id)
 {
 // ### sanity check would be nice here...
 //     if (!QMetaObject::checkConnectArgs(signal, method))

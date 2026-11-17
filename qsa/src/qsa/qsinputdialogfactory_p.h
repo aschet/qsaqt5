@@ -312,7 +312,7 @@ public:
     double maximum() const
     { return validator->top(); }
     void setMaximum(double maximum)
-    { validator->setBottom(maximum); }
+    { validator->setTop(maximum); }
 private:
     QDoubleValidator *validator;
 };

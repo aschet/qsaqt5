@@ -87,6 +87,8 @@ class PropList;
 class QSMember;
 
 struct Value {
+    // setVal(int/double/bool) only write a part of the union, shVal() is later checked against null
+    Value() : other(nullptr) { }
     union {
         int i;
         double d;

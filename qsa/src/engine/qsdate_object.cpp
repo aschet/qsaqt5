@@ -190,11 +190,13 @@ QSObject QSDateClass::parse( QSEnv *env )
         QRegularExpression re(QString::fromLatin1("(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)(T(\\d\\d):(\\d\\d):(\\d\\d))?"));
         Q_ASSERT(re.isValid());
         QString str = env->arg(0).toString();
-        if (str.indexOf(re) < 0) {
+        QRegularExpressionMatch match = re.match(str);
+        if (!match.hasMatch()) {
             return env->throwError(QString::fromLatin1("Date.parse expect date on format:"
                                                        " YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS"));
         }
-		if (re.captureCount() >= 5)
+        // add the time only if the string has none (the group of the time is number 4)
+        if (match.capturedStart(4) < 0)
             str += QString::fromLatin1("T00:00:00");
 	QDateTime dt = QDateTime::fromString(str, Qt::ISODate);
 	return env->createNumber( dt.toSecsSinceEpoch() * 1000.0 );

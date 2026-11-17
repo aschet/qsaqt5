@@ -49,7 +49,7 @@ void QSRegMatch::setIgnoreCase(bool on)
     if (on)
         reg.setPatternOptions(reg.patternOptions() | QRegularExpression::CaseInsensitiveOption);
     else
-        reg.setPatternOptions(reg.patternOptions() ^ QRegularExpression::CaseInsensitiveOption);
+        reg.setPatternOptions(reg.patternOptions() & ~QRegularExpression::PatternOptions(QRegularExpression::CaseInsensitiveOption));
 }
 
 int QSRegMatch::indexOf(const QString &str, int from)
@@ -64,8 +64,10 @@ int QSRegMatch::lastIndexOf(const QString &str, int from)
 
 bool QSRegMatch::exactMatch(const QString &str)
 {
-    match = reg.match(str);
-    return match.hasMatch() && match.capturedStart() == 0;
+    // the whole string has to match, not only its beginning
+    QRegularExpression exact(QRegularExpression::anchoredPattern(reg.pattern()), reg.patternOptions());
+    match = exact.match(str);
+    return match.hasMatch();
 }
 
 class QSRegExpShared : public QSWritable
@@ -76,6 +78,7 @@ public:
 	  global(glob),
 	  ignoreCase(ic)
     {
+        regMatch.reg.setPattern(pat);
         regMatch.setIgnoreCase(ic);
     }
 
@@ -211,6 +214,7 @@ void QSRegExpClass::write(QSObject *objPtr, const QSMember &mem,
     switch (mem.index()) {
     case REMT_Source:
 	((QSRegExpShared*)objPtr->shVal())->source = val.toString();
+	((QSRegExpShared*)objPtr->shVal())->regMatch.reg.setPattern(val.toString());
 	break;
     case REMT_Global:
 	((QSRegExpShared*)objPtr->shVal())->global = val.toBoolean();

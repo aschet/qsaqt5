@@ -148,12 +148,14 @@ static QSObject qsEval( QSEnv *env )
 
 static QRegularExpression qs_regexp_for_radix(int radix)
 {
+    // the digits are taken from the beginning of the string, \s* skips leading whitespace
     if (radix <= 10) {
-        return QRegularExpression(QString(QString::fromLatin1("\\w*(-?[0-%1]+)")).arg(radix-1));
+        return QRegularExpression(QString(QString::fromLatin1("^\\s*(-?[0-%1]+)")).arg(radix-1));
     } else if (radix == 16) {
-        return QRegularExpression(QString(QString::fromLatin1("\\w*(-?[0-9a-fA-Fx]+)")));
+        return QRegularExpression(QString(QString::fromLatin1("^\\s*(-?[0-9a-fA-Fx]+)")));
     } else {
-        return QRegularExpression(QString(QString::fromLatin1("\\w*(-?[0-9a-%1A-%2]+)")).arg('a'+(radix-9)).arg('A'+(radix-9)));
+        // letters a.. continue the digits after 9, so radix 11 ends with 'a'
+        return QRegularExpression(QString(QString::fromLatin1("^\\s*(-?[0-9a-%1A-%2]+)")).arg(QChar('a'+(radix-11))).arg(QChar('A'+(radix-11))));
     }
 }
 

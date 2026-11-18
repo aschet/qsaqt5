@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(qsa VERSION 1.2.3 LANGUAGES CXX)
+project(qsa VERSION 1.3.0 LANGUAGES CXX)
 
 option(QSA_NO_DLL "Does not compile as shared library." OFF)
 option(QSA_NO_EDITOR "Does not compile QSA Workbench or QSA editor into QSA." OFF)

@@ -9,7 +9,7 @@ This venture tries to revive the corpse of QSA or Qt Script for Applications in 
 
 ## Building and using QSA
 
-Configure and build with CMake 3.16 or newer, point `CMAKE_PREFIX_PATH` to the Qt installation to use. Installing QSA into the Qt installation (`CMAKE_INSTALL_PREFIX`) or any directory on `CMAKE_PREFIX_PATH` makes it available to other projects, this replaces the former `CONFIG += qsa` of qmake:
+Configure and build with CMake 3.21 or newer, point `CMAKE_PREFIX_PATH` to the Qt installation to use. Installing QSA into the Qt installation (`CMAKE_INSTALL_PREFIX`) or any directory on `CMAKE_PREFIX_PATH` makes it available to other projects, this replaces the former `CONFIG += qsa` of qmake:
 
 ```cmake
 find_package(qsa REQUIRED)

@@ -308,6 +308,14 @@ endif()
 
 target_link_libraries(qsa PUBLIC ${QSA_QT_LIBS})
 
+if(WIN32 AND NOT QSA_NO_DLL)
+	# the version and the product name of the library, as qmake adds them for a shared library
+	configure_file(qsa/version.rc.in "${CMAKE_CURRENT_BINARY_DIR}/version.rc.in" @ONLY)
+	file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/version_$<CONFIG>.rc"
+		INPUT "${CMAKE_CURRENT_BINARY_DIR}/version.rc.in")
+	target_sources(qsa PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/version_$<CONFIG>.rc")
+endif()
+
 install(FILES ${QSA_HEADERS_DIST} "${CMAKE_CURRENT_BINARY_DIR}/qsa/qsconfig.h"
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 

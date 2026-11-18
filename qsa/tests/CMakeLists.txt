@@ -13,6 +13,10 @@ function(qsa_add_test name)
     target_link_libraries(${name} PRIVATE qsa Qt::Test)
     add_test(NAME ${name} COMMAND ${name})
     set_tests_properties(${name} PROPERTIES ENVIRONMENT QT_QPA_PLATFORM=offscreen)
+    if(WIN32 AND Qt5_FOUND)
+        # the offscreen platform of Qt 5 finds no fonts on Windows, widgets that use text crash without them
+        set_property(TEST ${name} APPEND PROPERTY ENVIRONMENT "QT_QPA_FONTDIR=$ENV{WINDIR}/Fonts")
+    endif()
     if(WIN32 AND NOT QSA_NO_DLL)
         # a qsa.dll that is found through PATH must not shadow the one that is tested
         add_custom_command(TARGET ${name} POST_BUILD

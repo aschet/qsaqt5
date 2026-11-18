@@ -451,7 +451,6 @@ void tst_Ui::messageBoxes()
 #ifndef QSA_NO_IDE
 void tst_Ui::workbench()
 {
-    // a single workbench is created in this process, a second one crashes in the preferences page with Qt 5
     QSProject project;
     project.interpreter()->setErrorMode(QSInterpreter::Nothing);
     QSScript *first = project.createScript("first.qs", "function one() { return 1; }");
@@ -511,9 +510,7 @@ void tst_Ui::workbench()
     closeTab->trigger();
     QCOMPARE(tabs->count(), 1);
 
-    // the interpreter reports an error of the script to the workbench, which shows it in its output. The
-    // offscreen platform has no fonts and the rich text layout of Qt 5 cannot cope with that
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // the interpreter reports an error of the script to the workbench, which shows it in its output
     project.interpreter()->evaluate("undefinedFunction();");
     QVERIFY(project.interpreter()->hadError());
     bool shown = false;
@@ -521,7 +518,6 @@ void tst_Ui::workbench()
         if (edit->toPlainText().contains("Error:"))
             shown = true;
     QVERIFY(shown);
-#endif
 
     workbench.close();
     QVERIFY(!window->isVisible());

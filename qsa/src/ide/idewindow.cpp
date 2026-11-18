@@ -621,88 +621,88 @@ void IdeWindow::initMenuAndToolBar()
     helpMenu = menubar->addMenu(tr("&Help"));
 
     fileNewAction = new QAction(tr("&New Script"), this);
-        connect(fileNewAction, SIGNAL(triggered(bool)), this, SLOT(scriptNew()));
+        connect(fileNewAction, &QAction::triggered, this, &IdeWindow::scriptNew);
         fileNewAction->setShortcut(QKeySequence(tr("Ctrl+N")));
         fileNewAction->setIcon(createIconSet("scriptnew.png"));
         fileMenu->addAction(fileNewAction);
 
     fileImportAction = new QAction(tr("&Import Script"), this);
-        connect(fileImportAction, SIGNAL(triggered(bool)), this, SLOT(scriptImport()));
+        connect(fileImportAction, &QAction::triggered, this, &IdeWindow::scriptImport);
         fileImportAction->setShortcut(QKeySequence(tr("Ctrl+I")));
         fileImportAction->setIcon(createIconSet("fileopen.png"));
         fileMenu->addAction(fileImportAction);
     fileExportAction = new QAction(tr("&Export Script"), this);
-        connect(fileExportAction, SIGNAL(triggered(bool)), this, SLOT(scriptExport()));
+        connect(fileExportAction, &QAction::triggered, this, &IdeWindow::scriptExport);
         fileExportAction->setShortcut(QKeySequence(tr("Ctrl+E")));
         fileExportAction->setEnabled(false);
         fileExportAction->setIcon(createIconSet("filesave.png"));
         fileMenu->addAction(fileExportAction);
         fileMenu->addSeparator();
     fileRenameAction = new QAction(tr("&Rename Script"), this);
-        connect(fileRenameAction, SIGNAL(triggered(bool)), this, SLOT(scriptRename()));
+        connect(fileRenameAction, &QAction::triggered, this, &IdeWindow::scriptRename);
         fileRenameAction->setShortcut(QKeySequence(tr("Ctrl+R")));
         fileMenu->addAction(fileRenameAction);
     fileRemoveAction = new QAction(tr("&Remove Script"), this);
-        connect(fileRemoveAction, SIGNAL(triggered(bool)), this, SLOT(removeScript()));
+        connect(fileRemoveAction, &QAction::triggered, this, qOverload<>(&IdeWindow::removeScript));
         fileRemoveAction->setShortcut(QKeySequence(tr("Ctrl+D")));
         fileRemoveAction->setEnabled(false);
         fileRemoveAction->setIcon(createIconSet("editdelete.png"));
         fileMenu->addAction(fileRemoveAction);
     fileCloseAction = new QAction(tr("Close &Tab"), this);
-        connect(fileCloseAction, SIGNAL(triggered(bool)), this, SLOT(removePage()));
+        connect(fileCloseAction, &QAction::triggered, this, qOverload<>(&IdeWindow::removePage));
         fileCloseAction->setShortcut(QKeySequence(tr("Ctrl+F4")));
         fileCloseAction->setEnabled(false);
         fileMenu->addAction(fileCloseAction);
         fileMenu->addSeparator();
     filePrintAction = new QAction(tr("&Print Script"), this);
-        connect(filePrintAction, SIGNAL(triggered(bool)), this, SLOT(scriptPrint()));
+        connect(filePrintAction, &QAction::triggered, this, &IdeWindow::scriptPrint);
         filePrintAction->setShortcut(QKeySequence(tr("Ctrl+P")));
         fileMenu->addAction(filePrintAction);
         fileMenu->addSeparator();
     fileExitAction = new QAction(tr("E&xit"), this);
-        connect(fileExitAction, SIGNAL(triggered(bool)), this, SLOT(scriptExit()));
-        connect(fileExitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
+        connect(fileExitAction, &QAction::triggered, this, &IdeWindow::scriptExit);
+        connect(fileExitAction, &QAction::triggered, this, &QWidget::close);
         fileMenu->addAction(fileExitAction);
 
     editUndoAction = new QAction(tr("&Undo"), this);
-        connect(editUndoAction, SIGNAL(triggered(bool)), this, SLOT(editUndo()));
+        connect(editUndoAction, &QAction::triggered, this, &IdeWindow::editUndo);
         editUndoAction->setShortcut(QKeySequence(tr("Ctrl+Z")));
         editUndoAction->setEnabled(false);
         editUndoAction->setIcon(createIconSet("undo.png"));
         editMenu->addAction(editUndoAction);
     editRedoAction = new QAction(tr("&Redo"), this);
-        connect(editRedoAction, SIGNAL(triggered(bool)), this, SLOT(editRedo()));
+        connect(editRedoAction, &QAction::triggered, this, &IdeWindow::editRedo);
         editRedoAction->setShortcut(QKeySequence(tr("Ctrl+Y")));
         editRedoAction->setEnabled(false);
         editRedoAction->setIcon(createIconSet("redo.png"));
         editMenu->addAction(editRedoAction);
         editMenu->addSeparator();
     editCutAction = new QAction(tr("&Cut"), this);
-        connect(editCutAction, SIGNAL(triggered(bool)), this, SLOT(editCut()));
+        connect(editCutAction, &QAction::triggered, this, &IdeWindow::editCut);
         editCutAction->setShortcut(QKeySequence(tr("Ctrl+X")));
         editCutAction->setEnabled(false);
         editCutAction->setIcon(createIconSet("editcut.png"));
         editMenu->addAction(editCutAction);
     editCopyAction = new QAction(tr("C&opy"), this);
-        connect(editCopyAction, SIGNAL(triggered(bool)), this, SLOT(editCopy()));
+        connect(editCopyAction, &QAction::triggered, this, &IdeWindow::editCopy);
         editCopyAction->setShortcut(QKeySequence(tr("Ctrl+C")));
         editCopyAction->setEnabled(false);
         editCopyAction->setIcon(createIconSet("editcopy.png"));
         editMenu->addAction(editCopyAction);
     editPasteAction = new QAction(tr("&Paste"), this);
-        connect(editPasteAction, SIGNAL(triggered(bool)), this, SLOT(editPaste()));
+        connect(editPasteAction, &QAction::triggered, this, &IdeWindow::editPaste);
         editPasteAction->setShortcut(QKeySequence(tr("Ctrl+V")));
         editPasteAction->setEnabled(false);
         editPasteAction->setIcon(createIconSet("editpaste.png"));
         editMenu->addAction(editPasteAction);
     editSelectAllAction = new QAction(tr("Select &All"), this);
-        connect(editSelectAllAction, SIGNAL(triggered(bool)), this, SLOT(editSelectAll()));
+        connect(editSelectAllAction, &QAction::triggered, this, &IdeWindow::editSelectAll);
         editSelectAllAction->setShortcut(QKeySequence(tr("Ctrl+A")));
         editSelectAllAction->setEnabled(false);
         editMenu->addAction(editSelectAllAction);
         editMenu->addSeparator();
     editPreferencesAction = new QAction(tr("Preferences..."), this);
-        connect(editPreferencesAction, SIGNAL(triggered(bool)), this, SLOT(editPreferences()));
+        connect(editPreferencesAction, &QAction::triggered, this, &IdeWindow::editPreferences);
         editMenu->addAction(editPreferencesAction);
 
     editFindAction = new QAction(tr("&Find"), this);
@@ -711,12 +711,12 @@ void IdeWindow::initMenuAndToolBar()
         editFindAction->setIcon(createIconSet("searchfind.png"));
         searchMenu->addAction(editFindAction);
     editFindAgainAction = new QAction(tr("Find &Next"), this);
-        connect(editFindAgainAction, SIGNAL(triggered(bool)), this, SLOT(editFindNext()));
+        connect(editFindAgainAction, &QAction::triggered, this, &IdeWindow::editFindNext);
         editFindAgainAction->setShortcut(QKeySequence(tr("F3")));
         editFindAgainAction->setEnabled(false);
         searchMenu->addAction(editFindAgainAction);
     editFindAgainBWAction = new QAction(tr("Find &Previous"), this);
-        connect(editFindAgainBWAction, SIGNAL(triggered(bool)), this, SLOT(editFindPrev()));
+        connect(editFindAgainBWAction, &QAction::triggered, this, &IdeWindow::editFindPrev);
         editFindAgainBWAction->setShortcut(QKeySequence(tr("Shift+F3")));
         editFindAgainBWAction->setEnabled(false);
         searchMenu->addAction(editFindAgainBWAction);
@@ -731,39 +731,39 @@ void IdeWindow::initMenuAndToolBar()
         searchMenu->addAction(editGotoLineAction);
 
     projectCallAction = new QAction(tr("&Call Function"), this);
-        connect(projectCallAction, SIGNAL(triggered(bool)), this, SLOT(projectCall()));
+        connect(projectCallAction, &QAction::triggered, this, &IdeWindow::projectCall);
         projectCallAction->setShortcut(QKeySequence(tr("F5")));
         projectCallAction->setEnabled(false);
         projectCallAction->setIcon(createIconSet("play.png"));
         projectMenu->addAction(projectCallAction);
     projectRunAction = new QAction(tr("Call &Previous"), this);
-        connect(projectRunAction, SIGNAL(triggered(bool)), this, SLOT(projectRun()));
+        connect(projectRunAction, &QAction::triggered, this, &IdeWindow::projectRun);
         projectRunAction->setShortcut(QKeySequence(tr("F6")));
         projectRunAction->setEnabled(false);
         projectRunAction->setIcon(createIconSet("playprev.png"));
         projectMenu->addAction(projectRunAction);
     projectStopAction = new QAction(tr("&Kill Interpreter"), this);
-        connect(projectStopAction, SIGNAL(triggered(bool)), this, SLOT(projectStop()));
+        connect(projectStopAction, &QAction::triggered, this, &IdeWindow::projectStop);
         projectStopAction->setShortcut(QKeySequence(tr("F8")));
         projectStopAction->setEnabled(false);
         projectStopAction->setIcon(createIconSet("stop.png"));
         projectMenu->addAction(projectStopAction);
         projectMenu->addSeparator();
     projectEvaluateAction = new QAction(tr("&Evaluate Project"), this);
-        connect(projectEvaluateAction, SIGNAL(triggered(bool)), this, SLOT(evaluateProject()));
+        connect(projectEvaluateAction, &QAction::triggered, this, &IdeWindow::evaluateProject);
         projectEvaluateAction->setShortcut(QKeySequence(tr("F7")));
         projectEvaluateAction->setEnabled(false);
         projectMenu->addAction(projectEvaluateAction);
 
     helpAboutAction = new QAction(tr("&About"), this);
-        connect(helpAboutAction, SIGNAL(triggered(bool)), this, SLOT(helpAbout()));
+        connect(helpAboutAction, &QAction::triggered, this, &IdeWindow::helpAbout);
         helpAboutAction->setIcon(createIconSet("qsa.png"));
         helpMenu->addAction(helpAboutAction);
     helpContentsAction = new QAction(tr("&Contents..."), this);
         helpContentsAction->setIcon(createIconSet("help.png"));
-        connect(helpContentsAction, SIGNAL(triggered(bool)), this, SLOT(helpContents()));
+        connect(helpContentsAction, &QAction::triggered, this, &IdeWindow::helpContents);
     helpIndexAction = new QAction(tr("&Index..."), this);
-        connect(helpIndexAction, SIGNAL(triggered(bool)), this, SLOT(helpIndex()));
+        connect(helpIndexAction, &QAction::triggered, this, &IdeWindow::helpIndex);
 
     fileToolBar = new QToolBar(tr("File"));
     fileToolBar->setObjectName("toolbar_file");
@@ -801,14 +801,13 @@ void IdeWindow::init()
     closeTabButton->setAutoRaise(true);
     closeTabButton->setFixedSize(s, s);
     closeTabButton->setIcon(QIcon(style()->standardPixmap(QStyle::SP_TitleBarCloseButton)));
-    QObject::connect(closeTabButton, SIGNAL(clicked()), this, SLOT(removePage()));
+    QObject::connect(closeTabButton, &QToolButton::clicked, this, qOverload<>(&IdeWindow::removePage));
     closeTabButton->setToolTip(tr("Close tab"));
     tabWidget->setCornerWidget(closeTabButton, Qt::TopRightCorner);
 
     tabWidget->removeTab(0);
 
-    QObject::connect(tabWidget, SIGNAL(currentChanged(int)),
-		             this, SLOT(currentTabChanged(int)));
+    QObject::connect(tabWidget, &QTabWidget::currentChanged, this, &IdeWindow::currentTabChanged);
 
     projectContainerDock = new QDockWidget(this);
     projectContainerDock->setObjectName("dock_project");
@@ -839,28 +838,27 @@ void IdeWindow::init()
     outputContainerDock->setWindowTitle(tr("Output"));
     outputContainerDock->show();
 
-    QObject::connect(projectContainer->scriptsListView,
-		             SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)),
-		             this, SLOT(scriptItemDoubleClicked(QTreeWidgetItem *)));
+    QObject::connect(projectContainer->scriptsListView, &QTreeWidget::itemDoubleClicked,
+		             this, &IdeWindow::scriptItemDoubleClicked);
 
     findText = new QSFindText(this);
-    QObject::connect(editFindAction, SIGNAL(triggered(bool)), findText, SLOT(show()));
-    QObject::connect(findText->pushFind, SIGNAL(clicked()), this, SLOT(editFind()));
+    QObject::connect(editFindAction, &QAction::triggered, findText, &QWidget::show);
+    QObject::connect(findText->pushFind, &QPushButton::clicked, this, &IdeWindow::editFind);
 
     replaceText = new QSReplaceText(this);
-    QObject::connect(editReplaceAction, SIGNAL(triggered(bool)), replaceText, SLOT(show()));
-    QObject::connect(replaceText->pushReplace, SIGNAL(clicked()), this, SLOT(editReplace()));
-    QObject::connect(replaceText->pushReplaceAll, SIGNAL(clicked()), this, SLOT(editReplaceAll()));
+    QObject::connect(editReplaceAction, &QAction::triggered, replaceText, &QWidget::show);
+    QObject::connect(replaceText->pushReplace, &QPushButton::clicked, this, qOverload<>(&IdeWindow::editReplace));
+    QObject::connect(replaceText->pushReplaceAll, &QPushButton::clicked, this, &IdeWindow::editReplaceAll);
     gotoLine = new QSGotoLine(this);
-    QObject::connect(editGotoLineAction, SIGNAL(triggered(bool)), gotoLine, SLOT(show()));
-    QObject::connect(gotoLine->pushGoto, SIGNAL(clicked()), this, SLOT(editGotoLine()));
+    QObject::connect(editGotoLineAction, &QAction::triggered, gotoLine, &QWidget::show);
+    QObject::connect(gotoLine->pushGoto, &QPushButton::clicked, this, &IdeWindow::editGotoLine);
 
     preferencesContainer = new QSPreferencesContainer(this);
     QBoxLayout *preferencesLayout = new QBoxLayout(QBoxLayout::Down, preferencesContainer->frame);
     qsaEditorSyntax = new PreferencesBase(preferencesContainer->frame);
     preferencesLayout->addWidget(qsaEditorSyntax);
-    QObject::connect(preferencesContainer->pushOk, SIGNAL(clicked()),
-                     this, SLOT(savePreferences()));
+    QObject::connect(preferencesContainer->pushOk, &QPushButton::clicked,
+                     this, &IdeWindow::savePreferences);
 
 
     windowMenu->addActions(createPopupMenu()->actions());
@@ -1050,18 +1048,17 @@ void IdeWindow::setProject(QSProject *p)
 {
     Q_ASSERT(p != 0);
     project = p;
-    QObject::connect(project, SIGNAL(editorTextChanged()),
-        this, SLOT(textChanged()));
+    QObject::connect(project, &QSProject::editorTextChanged, this, &IdeWindow::textChanged);
     projectChanged();
     QList<QSScript *> scripts = project->scripts();
     if (tabWidget->count() == 0 && scripts.count())
         addPage(scripts.first());
-    connect(project->interpreter(), SIGNAL(error(const QString &, const QString &, int)),
-        this, SLOT(projectError(const QString &, const QString &, int)));
-    connect(project, SIGNAL(projectChanged()), this, SLOT(projectChanged()));
+    connect(project->interpreter(), qOverload<const QString &, const QString &, int>(&QSInterpreter::error),
+        this, &IdeWindow::projectError);
+    connect(project, &QSProject::projectChanged, this, &IdeWindow::projectChanged);
     errorMode = project->interpreter()->errorMode();
     project->interpreter()->setTimeoutInterval(250);
-    connect(project->interpreter(), SIGNAL(timeout(int)), this, SLOT(interpreterTimeout(int)));
+    connect(project->interpreter(), &QSInterpreter::timeout, this, &IdeWindow::interpreterTimeout);
 
 #ifdef QS_VARIABLE_WATCH
     connect(project, SIGNAL(projectEvaluated()),

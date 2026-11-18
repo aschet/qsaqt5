@@ -516,11 +516,11 @@ QSProcess::QSProcess(QSUtilFactory *f, const QStringList &args)
     process = new QProcess(this);
     setArguments(args);
 
-    connect(process, SIGNAL(readyReadStandardOutput()), this, SIGNAL(readyReadStdout()));
-    connect(process, SIGNAL(readyReadStandardError()), this, SIGNAL(readyReadStderr()));
-    connect(process, SIGNAL(finished(int)), this, SIGNAL(processExited()));
-    connect(process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SIGNAL(processExited()));
-    connect(process, SIGNAL(bytesWritten(qint64)), this, SLOT(wroteBytes(qint64)));
+    connect(process, &QProcess::readyReadStandardOutput, this, &QSProcess::readyReadStdout);
+    connect(process, &QProcess::readyReadStandardError, this, &QSProcess::readyReadStderr);
+    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &QSProcess::processExited);
+    connect(process, &QProcess::errorOccurred, this, &QSProcess::processExited);
+    connect(process, &QProcess::bytesWritten, this, &QSProcess::wroteBytes);
 
     m_bytes_to_write = 0;
 }

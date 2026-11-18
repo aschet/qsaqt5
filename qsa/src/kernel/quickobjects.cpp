@@ -547,8 +547,8 @@ QSObject QSWrapperClass::wrap(const QVector<QObject *> &objs)
     QSWrapperShared *sh = new QSWrapperShared(this);
     sh->objects = objs;
     if (objs.size()) {
-        QObject::connect(objs[0], SIGNAL(destroyed(QObject*)),
-                         &sh->watcher, SLOT(objectDestroyed(QObject*)));
+        QObject::connect(objs[0], &QObject::destroyed,
+                         &sh->watcher, &QSWrapperSharedWatcher::objectDestroyed);
     }
     return QSObject(this, sh);
 }

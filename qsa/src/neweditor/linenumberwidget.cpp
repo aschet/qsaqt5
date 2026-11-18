@@ -47,10 +47,10 @@ LineNumberWidget::LineNumberWidget(QSAEditor *_editor, QWidget *parent)
     : QWidget(parent), editor(_editor)
 {
     setFixedWidth(fontMetrics().horizontalAdvance(QLatin1String("0000")) + 20);
-    connect(editor->document()->documentLayout(), SIGNAL(update(const QRectF &)),
-            this, SLOT(update()));
-    connect(editor->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(update()));
+    connect(editor->document()->documentLayout(), &QAbstractTextDocumentLayout::update,
+            this, qOverload<>(&QWidget::update));
+    connect(editor->verticalScrollBar(), &QScrollBar::valueChanged,
+            this, qOverload<>(&QWidget::update));
 }
 
 void LineNumberWidget::paintEvent(QPaintEvent *)

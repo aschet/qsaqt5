@@ -352,7 +352,7 @@ void QuickInterpreter::addTopLevelObject(QObject *o)
         QObject *obj = toplevel->at(i);
 	kids.append(obj->objectName());
     }
-    connect(o, SIGNAL(destroyed(QObject *)), this, SLOT(topLevelDestroyed(QObject *)));
+    connect(o, &QObject::destroyed, this, &QuickInterpreter::topLevelDestroyed);
 
     QSObject global = env()->globalObject();
     const_cast<QSClass *>(global.objectType())->deleteMember(o->objectName());
@@ -371,8 +371,7 @@ void QuickInterpreter::setTopLevelObjects(QObjectList *l)
     if(toplevel)
         for (int i=0; i<toplevel->size(); ++i) {
             QObject *o = toplevel->at(i);
-	    disconnect(o, SIGNAL(destroyed(QObject*)),
-			this, SLOT(topLevelDestroyed(QObject*)));
+	    disconnect(o, &QObject::destroyed, this, &QuickInterpreter::topLevelDestroyed);
         }
     delete toplevel;
     toplevel = new QObjectList;
@@ -390,8 +389,7 @@ void QuickInterpreter::setTopLevelObjects(QObjectList *l)
 	    continue;
 	}
 	kids.append(o->objectName());
-	connect(o, SIGNAL(destroyed(QObject *)),
-		 this, SLOT(topLevelDestroyed(QObject *)));
+	connect(o, &QObject::destroyed, this, &QuickInterpreter::topLevelDestroyed);
 	global.put(o->objectName(), wrap(o));
 	staticGlobals << o->objectName();
 	toplevel->append(o);

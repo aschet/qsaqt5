@@ -166,10 +166,8 @@ void QSEditor::init()
     setFocusPolicy( Qt::WheelFocus );
     setFocusProxy( editor );
     setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-    connect( d->editor, SIGNAL( textChanged() ),
-	     this, SIGNAL( textChanged() ) );
-    connect( this, SIGNAL( textChanged() ),
-	     this, SLOT( modifyEditor() ) );
+    connect( d->editor, &QSAEditor::textChanged, this, &QSEditor::textChanged );
+    connect( this, &QSEditor::textChanged, this, &QSEditor::modifyEditor );
     editor->setGeometry( 0, 0, width(), height() );
     editor->show();
 
@@ -615,8 +613,8 @@ bool QSEditor::setScript( QSScript *script )
     }
 
     if( d->source )
-	disconnect( d->source, SIGNAL( codeChanged() ),
-		    this, SLOT( scriptChanged() ) );
+	disconnect( d->source, &QSScript::codeChanged,
+		    this, &QSEditor::scriptChanged );
 
     script->project()->registerEditor( this );
 
@@ -630,10 +628,8 @@ bool QSEditor::setScript( QSScript *script )
     setText( script->code() );
     d->editor->setInterpreter( script->project()->interpreter() );
 
-    connect( script, SIGNAL( codeChanged() ),
-	     this, SLOT( scriptChanged() ) );
-    connect( script, SIGNAL( destroyed() ),
-	     this, SLOT( scriptDestroyed() ) );
+    connect( script, &QSScript::codeChanged, this, &QSEditor::scriptChanged );
+    connect( script, &QObject::destroyed, this, &QSEditor::scriptDestroyed );
 
     d->modified = false;
 

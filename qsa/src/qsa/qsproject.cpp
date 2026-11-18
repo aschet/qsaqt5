@@ -222,8 +222,7 @@ QSProject::QSProject( QObject *parent, const char *name )
     }
     d = new QSProjectPrivate;
     d->interpreter = new QSInterpreter( this );
-    connect( this, SIGNAL( projectChanged() ),
-        this, SLOT( invalidateProject() ) );
+    connect( this, &QSProject::projectChanged, this, &QSProject::invalidateProject );
 }
 
 
@@ -597,8 +596,7 @@ void QSProject::addObject( QObject *object )
         return;
     }
 
-    connect( object, SIGNAL( destroyed() ),
-        this, SLOT( objectDestroyed() ) );
+    connect( object, &QObject::destroyed, this, &QSProject::objectDestroyed );
     d->objects.append( object );
     QSScript *s = script(object->objectName());
     if( s )
@@ -635,8 +633,7 @@ void QSProject::removeObject( const QObject *object )
 	    else
 	        ++it;
     }
-    disconnect( object, SIGNAL( destroyed() ),
-		this, SLOT( objectDestroyed() ) );
+    disconnect( object, &QObject::destroyed, this, &QSProject::objectDestroyed );
     d->objects.removeAll(const_cast<QObject *>(object));
     QSScript *s = script(object->objectName());
     if( s )
@@ -723,9 +720,9 @@ void QSProject::addSignalHandler( QObject *sender,
     }
 
     d->signalHandlers << sigh;
-    connect( sender, SIGNAL( destroyed() ), this, SLOT( objectDestroyed() ) );
+    connect( sender, &QObject::destroyed, this, &QSProject::objectDestroyed );
     if (receiver)
-	connect( receiver, SIGNAL( destroyed() ), this, SLOT( objectDestroyed() ) );
+	connect( receiver, &QObject::destroyed, this, &QSProject::objectDestroyed );
     emit projectChanged();
 }
 
@@ -1171,12 +1168,11 @@ QSScript *QSProject::createScriptInternal( const QString &name,
     d->scripts.append( s );
     if( context && d->objects.indexOf( context ) ) {
         d->objects.append( context );
-        connect( context, SIGNAL( destroyed() ),
-            this, SLOT( objectDestroyed() ) );
+        connect( context, &QObject::destroyed, this, &QSProject::objectDestroyed );
     }
-    connect( s, SIGNAL( codeChanged() ), this, SIGNAL( projectChanged() ) );
-    connect( s, SIGNAL( codeChanged() ), this, SLOT( scriptChanged() ) );
-    connect( s, SIGNAL( destroyed() ), this, SLOT( objectDestroyed() ) );
+    connect( s, &QSScript::codeChanged, this, &QSProject::projectChanged );
+    connect( s, &QSScript::codeChanged, this, &QSProject::scriptChanged );
+    connect( s, &QObject::destroyed, this, &QSProject::objectDestroyed );
     emit projectChanged();
     return s;
 }
@@ -1192,10 +1188,8 @@ void QSProject::registerEditor( QSEditor *editor )
     if(d->editors.indexOf(editor) >= 0)
 	    return ;
     d->editors.append( editor );
-    connect( editor, SIGNAL( destroyed() ),
-	     this, SLOT( objectDestroyed() ) );
-    connect( editor, SIGNAL( textChanged() ),
-	     this, SIGNAL( editorTextChanged() ) );
+    connect( editor, &QObject::destroyed, this, &QSProject::objectDestroyed );
+    connect( editor, &QSEditor::textChanged, this, &QSProject::editorTextChanged );
 }
 #endif
 
@@ -1211,10 +1205,8 @@ void QSProject::unregisterEditor( QSEditor *editor )
     if ((idx = d->editors.indexOf(editor)) < 0)
 	    return ;
     d->editors.removeAt(idx);
-    disconnect( editor, SIGNAL( destroyed() ),
-		this, SLOT( objectDestroyed() ) );
-    disconnect( editor, SIGNAL( textChanged() ),
-		this, SIGNAL( editorTextChanged() ) );
+    disconnect( editor, &QObject::destroyed, this, &QSProject::objectDestroyed );
+    disconnect( editor, &QSEditor::textChanged, this, &QSProject::editorTextChanged );
 }
 #endif
 

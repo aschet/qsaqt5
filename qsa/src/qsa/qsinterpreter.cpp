@@ -423,10 +423,10 @@ void QSInterpreter::init()
 
     running = false;
     d->interpreter = new QuickInterpreter(true);
-    connect(d->interpreter, SIGNAL(runtimeError()),
-	     this, SLOT(runtimeError()));
-    connect(d->interpreter, SIGNAL(parseError()),
-	     this, SLOT(parseError()));
+    connect(d->interpreter, &QuickInterpreter::runtimeError,
+	     this, qOverload<>(&QSInterpreter::runtimeError));
+    connect(d->interpreter, &QuickInterpreter::parseError,
+	     this, &QSInterpreter::parseError);
 }
 
 /*! Destructor
@@ -1297,7 +1297,7 @@ void QSInterpreter::setTimeoutInterval(int msecs)
 	interpreter()->setTimeoutTriggerEnabled(true);
 	QSTimeoutTrigger *trigger = interpreter()->timeoutTrigger();
 	trigger->setInterval(msecs);
-	connect(trigger, SIGNAL(timeout(int)), this, SIGNAL(timeout(int)));
+	connect(trigger, &QSTimeoutTrigger::timeout, this, &QSInterpreter::timeout);
     }
 }
 

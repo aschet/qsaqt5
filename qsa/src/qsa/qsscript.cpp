@@ -107,8 +107,7 @@ QSScript::QSScript( QSProject *project,
 
     if( context ) {
 	d->context = context;
-	connect( context, SIGNAL( destroyed() ),
-		 this, SLOT( objectDestroyed() ) );
+	connect( context, &QObject::destroyed, this, &QSScript::objectDestroyed );
     }
 }
 
@@ -158,8 +157,7 @@ QObject *QSScript::context() const
 void QSScript::setContext( QObject *context )
 {
     Q_ASSERT( !d->context );
-    connect( context, SIGNAL( destroyed() ),
-	     this, SLOT( objectDestroyed() ) );
+    connect( context, &QObject::destroyed, this, &QSScript::objectDestroyed );
     d->context = context;
 }
 

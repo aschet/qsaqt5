@@ -66,7 +66,7 @@ QSAEditor::QSAEditor(QWidget *parent)
     QSyntaxHighlighter *hl = new QSASyntaxHighlighter(this);
     hl->setDocument(document());
     matcher = new ParenMatcher;
-    connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
+    connect(this, &QTextEdit::cursorPositionChanged, matcher, &ParenMatcher::matchFromSender);
     // #### add completion entries from highlighter
 
     readSettings();

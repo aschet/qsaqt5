@@ -315,9 +315,9 @@ QSDialogPrivate::QSDialogPrivate(QWidget *parent)
 
     okButton = new QPushButton(QMessageBox::tr("OK"), this);
     okButton->setDefault(true);
-    QObject::connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
+    QObject::connect(okButton, &QPushButton::clicked, this, &QDialog::accept);
     cancelButton = new QPushButton(QMessageBox::tr("Cancel"), this);
-    QObject::connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+    QObject::connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
 
     buttonRow = new QHBoxLayout;
     vbox->addLayout(buttonRow);

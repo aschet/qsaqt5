@@ -562,7 +562,12 @@ QSObject QSNewExprNode::evaluate( QSEnv *env )
 
     QSObject res;
     if( !type->isAbstract() ) {
-	res = type->construct( *argList );
+	try {
+	    res = type->construct( *argList );
+	} catch ( ... ) {
+	    delete argList;
+	    throw;
+	}
     } else {
 	res = env->createUndefined();
 	env->throwError( TypeError,
@@ -634,7 +639,20 @@ QSObject QSFunctionCallNode::rhs( QSEnv *env ) const
     steppingInto( true, env );
 #endif
 
-    QSObject result = base.invoke( mem, *argList );
+    QSObject result;
+    try {
+	result = base.invoke( mem, *argList );
+    } catch ( ... ) {
+	// a C++ exception passes through the script, nothing else owns the arguments
+#if QS_MAX_STACK > 0
+	env->decrStackDepth();
+#endif
+#ifdef QSDEBUGGER
+	steppingInto( false, env );
+#endif
+	delete argList;
+	throw;
+    }
 #ifdef QSDEBUGGER
     updateErrorline();
     steppingInto( false, env );

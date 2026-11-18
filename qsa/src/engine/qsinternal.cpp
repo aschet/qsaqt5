@@ -327,7 +327,19 @@ bool QSEngineImp::evaluate( const QString &code, const QSObject *thisV,
     assert(progNode);
 
     QS_MUTEX_UNLOCK;
-    QSObject res = progNode->execute( env() );
+    QSObject res;
+    try {
+	res = progNode->execute( env() );
+    } catch ( ... ) {
+	// a C++ exception passes through the script, the program is not used any more
+	QS_MUTEX_LOCK;
+	recursion--;
+	if (progNode->deref()) {
+	    delete progNode;
+	}
+	QS_MUTEX_UNLOCK;
+	throw;
+    }
     QS_MUTEX_LOCK;
 
     recursion--;

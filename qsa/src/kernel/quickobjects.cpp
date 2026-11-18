@@ -394,6 +394,9 @@ QSObject QSWrapperClass::fetchValue(const QSObject *o,
             if (!property.isScriptable())
                 return env()->throwError(QString("Property %1 is not scriptable").arg(mem.name()));
             QVariant variant = property.read(object);
+            // Qt 6 hands out enumerations as variants of the enumeration type, scripts expect numbers
+            if ((property.isEnumType() || property.isFlagType()) && variant.userType() != QMetaType::Int)
+                variant = QVariant(variant.toInt());
             QuickScriptVariant script_variant(interpreter(), variant);
             return script_variant.isNative() ? script_variant.toNative() : script_variant;
         }

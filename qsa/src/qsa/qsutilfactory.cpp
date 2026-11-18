@@ -470,6 +470,8 @@ int QSProcessStatic::execute(const QStringList &command, const QString &stdinBuf
     QSBlockingProcess pl;
     QString program = commands.takeFirst();
     pl.start(program, commands);
+    // the start is reported asynchronously on Unix
+    pl.waitForStarted();
     if (pl.error() == QProcess::FailedToStart) {
 	factory->interpreter()->throwError(QString::fromLatin1("Failed to run process: '%1'")
 					   .arg(command.join(QString::fromLatin1(" "))));
@@ -492,6 +494,7 @@ int QSProcessStatic::executeNoSplit(const QStringList &command, const QString &s
     QStringList commands = command;
     QString program = commands.takeFirst();
     pl.start(program, commands);
+    pl.waitForStarted();
     if (pl.error() == QProcess::FailedToStart) {
 	factory->interpreter()->throwError(QString::fromLatin1("Failed to run process: '%1'")
 					   .arg(command.join(QString::fromLatin1(" "))));
@@ -534,6 +537,7 @@ void QSProcess::start(QStringList *env)
     QString command = args.takeFirst();
 
     process->start(command, args);
+    process->waitForStarted();
 
     if (process->error() == QProcess::FailedToStart) {
 	factory->interpreter()->throwError(QString("Failed to start process: '%1' - '%2'")

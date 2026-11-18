@@ -409,14 +409,12 @@ public slots:
 
     QString readStdout()
     {
-        process->setReadChannel(QProcess::StandardOutput);
-        return QString::fromLocal8Bit(process->read(INT_MAX));
+        return QString::fromLocal8Bit(process->readAllStandardOutput());
     }
 
     QString readStderr()
     {
-        process->setReadChannel(QProcess::StandardError);
-        return QString::fromLocal8Bit(process->read(INT_MAX));
+        return QString::fromLocal8Bit(process->readAllStandardError());
     }
 
     bool canReadLineStdout()

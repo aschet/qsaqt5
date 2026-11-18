@@ -519,7 +519,7 @@ QSProcess::QSProcess(QSUtilFactory *f, const QStringList &args)
     connect(process, SIGNAL(readyReadStandardOutput()), this, SIGNAL(readyReadStdout()));
     connect(process, SIGNAL(readyReadStandardError()), this, SIGNAL(readyReadStderr()));
     connect(process, SIGNAL(finished(int)), this, SIGNAL(processExited()));
-    connect(process, SIGNAL(error(QProcess::ProcessError)), this, SIGNAL(processExited()));
+    connect(process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SIGNAL(processExited()));
     connect(process, SIGNAL(bytesWritten(qint64)), this, SLOT(wroteBytes(qint64)));
 
     m_bytes_to_write = 0;

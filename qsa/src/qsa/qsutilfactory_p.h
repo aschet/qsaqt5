@@ -304,7 +304,7 @@ class QSBlockingProcess : public QProcess
 public:
     QSBlockingProcess()
     {
-	connect(this, SIGNAL(error(QProcess::ProcessError)), this, SLOT(exited()));
+	connect(this, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(exited()));
 	connect(this, SIGNAL(finished(int)), this, SLOT(exited()));
         connect(this, SIGNAL(bytesWritten(qint64)), this, SLOT(close()));
         m_eventLoop = new QEventLoop(this);

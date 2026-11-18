@@ -2,7 +2,10 @@
 #include <qsproject.h>
 #include <qsscript.h>
 
+#include <QtGui/QTextBlock>
+#include <QtGui/QTextLayout>
 #include <QtTest/QtTest>
+#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QTextEdit>
 
 class tst_Editor : public QObject
@@ -25,6 +28,12 @@ private slots:
     void indent();
     void undoRedo();
     void errorMark();
+    void editorSignalsReachTheProject();
+    void scriptChangesReachTheEditor();
+    void destroyedEditorUnregisters();
+    void destroyedScriptRemovesEditor();
+    void lineNumbersAreRepainted();
+    void bracketsAreMatched();
 
 private:
     QSProject *project = nullptr;
@@ -169,6 +178,89 @@ void tst_Editor::undoRedo()
     QVERIFY(editor->isRedoAvailable());
     editor->redo();
     QCOMPARE(editor->text(), QString("start more"));
+}
+
+void tst_Editor::editorSignalsReachTheProject()
+{
+    QSignalSpy textSpy(project, SIGNAL(editorTextChanged()));
+    QSignalSpy editorSpy(editor, SIGNAL(textChanged()));
+    editor->setText("var changed = true;");
+    QVERIFY(editorSpy.count() >= 1);
+    QVERIFY(textSpy.count() >= 1);
+    QVERIFY(editor->isModified());
+}
+
+void tst_Editor::scriptChangesReachTheEditor()
+{
+    script->setCode("var fromScript = 1;");
+    QCOMPARE(editor->text(), QString("var fromScript = 1;"));
+}
+
+void tst_Editor::destroyedEditorUnregisters()
+{
+    QVERIFY(project->editors().contains(editor));
+    delete editor;
+    editor = nullptr;
+    QVERIFY(project->editors().isEmpty());
+    // later changes of the script must not touch the deleted editor
+    script->setCode("var later = 1;");
+    QVERIFY(!project->editorsModified());
+}
+
+void tst_Editor::destroyedScriptRemovesEditor()
+{
+    // an editor does not outlive its script
+    QPointer<QSEditor> guard(editor);
+    delete script;
+    script = nullptr;
+    QVERIFY(guard.isNull());
+    editor = nullptr;
+    QVERIFY(project->editors().isEmpty());
+}
+
+void tst_Editor::lineNumbersAreRepainted()
+{
+    QString many;
+    for (int i = 0; i < 200; ++i)
+        many += QString("var v%1 = %1;\n").arg(i);
+    editor->setText(many);
+    editor->resize(400, 200);
+    editor->show();
+    QVERIFY(QTest::qWaitForWindowExposed(editor));
+
+    QWidget *numbers = nullptr;
+    for (QWidget *w : editor->findChildren<QWidget *>())
+        if (QString(w->metaObject()->className()) == "LineNumberWidget")
+            numbers = w;
+    QVERIFY(numbers);
+
+    struct Counter : QObject {
+        int paints = 0;
+        bool eventFilter(QObject *, QEvent *e) override { if (e->type() == QEvent::Paint) ++paints; return false; }
+    } counter;
+    numbers->installEventFilter(&counter);
+    QTest::qWait(50);
+    counter.paints = 0;
+    editor->textEdit()->verticalScrollBar()->setValue(editor->textEdit()->verticalScrollBar()->maximum() / 2);
+    QTRY_VERIFY(counter.paints > 0);
+}
+
+void tst_Editor::bracketsAreMatched()
+{
+    editor->setText("function f() { return (1 + 2); }");
+    editor->show();
+    QVERIFY(QTest::qWaitForWindowExposed(editor));
+    QTextCursor cursor = editor->textEdit()->textCursor();
+    // the matcher looks at the character right of the cursor for an opening bracket
+    cursor.setPosition(editor->text().indexOf('('));
+    editor->textEdit()->setTextCursor(cursor);
+    QTest::qWait(20);
+    // the matching parenthesis is marked with a background color by the highlighter
+    bool marked = false;
+    for (const QTextLayout::FormatRange &range : editor->textEdit()->document()->firstBlock().layout()->formats())
+        if (range.format.background().color() == QColor(204, 232, 195))
+            marked = true;
+    QVERIFY(marked);
 }
 
 void tst_Editor::errorMark()

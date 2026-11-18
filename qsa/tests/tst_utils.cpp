@@ -25,6 +25,7 @@ private slots:
     void processExecute();
     void processOutput();
     void processInstance();
+    void processStdin();
     void processStartFailure();
     void processSignalsExist();
     void disabledUtilities();
@@ -245,6 +246,15 @@ void tst_Utils::processInstance()
     // the output arrives through the event loop, reading it consumes it
     QString output;
     QTRY_VERIFY_WITH_TIMEOUT((output += eval("p.readStdout()"), output.contains("instance")), 10000);
+}
+
+void tst_Utils::processStdin()
+{
+    // the input is written, then the channel is closed so that the program sees the end
+    const QString cmake = QString::fromUtf8(QSA_TEST_CMAKE);
+    QCOMPARE(ip->evaluate("Process.execute(['" + cmake + "', '-E', 'cat', '-'], 'text from stdin')").toInt(), 0);
+    QCOMPARE(eval("Process.stdout"), QString("text from stdin"));
+    QVERIFY2(!ip->hadError(), qPrintable(ip->errorMessage()));
 }
 
 void tst_Utils::processStartFailure()

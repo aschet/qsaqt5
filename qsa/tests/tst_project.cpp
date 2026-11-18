@@ -31,6 +31,9 @@ private slots:
     void signalHandler();
     void bundleRoundTrip();
     void textFilesRoundTrip();
+    void destroyedObjectsAreForgotten();
+    void destroyedContextOfScript();
+    void codeChangesAreReported();
     void modifiedState();
 
 private:
@@ -179,6 +182,49 @@ void tst_Project::textFilesRoundTrip()
     QVERIFY(!other.load(dir.filePath("does_not_exist.qsa")));
 
     QVERIFY(QDir::setCurrent(previous));
+}
+
+void tst_Project::destroyedObjectsAreForgotten()
+{
+    // the project watches the destroyed() signal of its objects
+    QObject *object = new QObject;
+    object->setObjectName("temporary");
+    project->addObject(object);
+    QVERIFY(project->objects().contains(object));
+    delete object;
+    QVERIFY(project->objects().isEmpty());
+
+    // and of the sender of a signal handler
+    QObject *sender = new QObject;
+    sender->setObjectName("sender");
+    project->addObject(sender);
+    project->createScript("handler.qs", "function onRenamed() { }");
+    project->addSignalHandler(sender, SIGNAL(objectNameChanged(QString)), "onRenamed");
+    delete sender;
+    QVERIFY(project->objects().isEmpty());
+    QCOMPARE(project->interpreter()->evaluate("1 + 1").toInt(), 2);
+}
+
+void tst_Project::destroyedContextOfScript()
+{
+    QObject *context = new QObject;
+    context->setObjectName("owner");
+    QSScript *script = project->createScript(context, "var own = 1;");
+    QVERIFY(script);
+    QVERIFY(project->script("owner"));
+    delete context;
+    // the script does not keep a dangling context
+    QVERIFY(!project->script("owner") || !project->script("owner")->context());
+    QCOMPARE(project->interpreter()->evaluate("2 + 2").toInt(), 4);
+}
+
+void tst_Project::codeChangesAreReported()
+{
+    QSScript *script = project->createScript("signals.qs", "var a;");
+    QSignalSpy changed(project, SIGNAL(projectChanged()));
+    script->setCode("var b;");
+    QVERIFY(changed.count() >= 1);
+    QVERIFY(project->scriptsModified());
 }
 
 void tst_Project::modifiedState()

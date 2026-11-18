@@ -9,6 +9,7 @@
 
 #include <QtGui/QPalette>
 #include <QtTest/QtTest>
+#include <QAction>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
@@ -101,7 +102,7 @@ private slots:
     void messageBoxes();
 
 #ifndef QSA_NO_IDE
-    void workbenchOpensAndShowsScripts();
+    void workbench();
 #endif
 
 private:
@@ -448,12 +449,13 @@ void tst_Ui::messageBoxes()
 }
 
 #ifndef QSA_NO_IDE
-void tst_Ui::workbenchOpensAndShowsScripts()
+void tst_Ui::workbench()
 {
+    // a single workbench is created in this process, a second one crashes in the preferences page with Qt 5
     QSProject project;
     project.interpreter()->setErrorMode(QSInterpreter::Nothing);
     QSScript *first = project.createScript("first.qs", "function one() { return 1; }");
-    project.createScript("second.qs", "function two() { return 2; }");
+    QSScript *second = project.createScript("second.qs", "function two() { return 2; }");
 
     QSWorkbench workbench(&project);
     QWidget *window = workbench.widget();
@@ -463,11 +465,63 @@ void tst_Ui::workbenchOpensAndShowsScripts()
     workbench.open();
     QVERIFY(QTest::qWaitForWindowExposed(window));
     QVERIFY(window->isVisible());
-
     workbench.showScript(first);
-    workbench.showFunction(project.script("second.qs"), "two");
+    workbench.showFunction(second, "two");
     QVERIFY(!window->findChildren<QSEditor *>().isEmpty());
     QVERIFY(project.editors().size() >= 1);
+    // the editors are laid out before an error is marked in one of them
+    QTest::qWait(200);
+
+    auto action = [window](const QString &text) -> QAction * {
+        for (QAction *a : window->findChildren<QAction *>())
+            if (a->text() == text)
+                return a;
+        return nullptr;
+    };
+    QTabWidget *tabs = window->findChild<QTabWidget *>();
+    QVERIFY(tabs);
+    QCOMPARE(tabs->count(), 2);
+    // the workbench watches the interpreter, a timeout interval is set for it
+    QCOMPARE(project.interpreter()->timeoutInterval(), 250);
+
+    // an action opens the find dialog
+    QAction *find = action("&Find");
+    QVERIFY(find);
+    QVERIFY(find->isEnabled());
+    find->trigger();
+    QWidget *findDialog = nullptr;
+    for (QDialog *d : window->findChildren<QDialog *>())
+        if (d->isVisible())
+            findDialog = d;
+    QVERIFY(findDialog);
+    findDialog->hide();
+
+    // evaluating the project through the menu
+    QSignalSpy evaluated(&project, SIGNAL(projectEvaluated()));
+    QAction *evaluate = action("&Evaluate Project");
+    QVERIFY(evaluate);
+    evaluate->setEnabled(true);
+    evaluate->trigger();
+    QTRY_VERIFY(evaluated.count() >= 1);
+
+    // closing the current tab
+    QAction *closeTab = action("Close &Tab");
+    QVERIFY(closeTab);
+    QVERIFY(closeTab->isEnabled());
+    closeTab->trigger();
+    QCOMPARE(tabs->count(), 1);
+
+    // the interpreter reports an error of the script to the workbench, which shows it in its output. The
+    // offscreen platform has no fonts and the rich text layout of Qt 5 cannot cope with that
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    project.interpreter()->evaluate("undefinedFunction();");
+    QVERIFY(project.interpreter()->hadError());
+    bool shown = false;
+    for (QTextEdit *edit : window->findChildren<QTextEdit *>())
+        if (edit->toPlainText().contains("Error:"))
+            shown = true;
+    QVERIFY(shown);
+#endif
 
     workbench.close();
     QVERIFY(!window->isVisible());

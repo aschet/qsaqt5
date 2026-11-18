@@ -1046,7 +1046,7 @@ bool QSProject::loadInternal( QDataStream *stream )
         return false;
     }
 
-    if (major != 1 || (minor != 2 && minor != 1 && minor != 0)) {
+    if (major != 1 || minor > QSA_VERSION_MINOR) {
 	qWarning("QSProject::loadInternal(), datastream is not compatible, %d.%d.%d",
                  major, minor, patch);
 	return false;
@@ -1124,7 +1124,7 @@ bool QSProject::saveInternal( QDataStream *stream )
 
     (*stream) << (int)d->bundleStorage;
 
-    (*stream) << d->scripts.count();
+    (*stream) << int(d->scripts.count());
     QListIterator<QSScript *> it( d->scripts );
     QSScript *script;
     while(it.hasNext() && (script = it.next())) {
@@ -1143,7 +1143,7 @@ bool QSProject::saveInternal( QDataStream *stream )
 	}
     }
 
-    (*stream) << d->signalHandlers.size();
+    (*stream) << int(d->signalHandlers.size());
     QList<QSSignalHandler>::ConstIterator handlers = d->signalHandlers.begin();
     while( handlers != d->signalHandlers.end() ) {
 	    (*stream) << (*handlers).sender->objectName()

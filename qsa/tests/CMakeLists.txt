@@ -37,7 +37,11 @@ target_compile_definitions(tst_host_plain PRIVATE QSA_HOST_THREAD_AWARE=true)
 qsa_add_test(tst_project)
 
 qsa_add_test(tst_utils)
-target_compile_definitions(tst_utils PRIVATE QSA_TEST_CMAKE="${CMAKE_COMMAND}")
+add_executable(copy_stdin copy_stdin.cpp)
+add_dependencies(tst_utils copy_stdin)
+target_compile_definitions(tst_utils PRIVATE
+    QSA_TEST_CMAKE="${CMAKE_COMMAND}"
+    QSA_TEST_COPY_STDIN="$<TARGET_FILE:copy_stdin>")
 
 qsa_add_test(tst_ui)
 target_compile_definitions(tst_ui PRIVATE

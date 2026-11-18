@@ -251,8 +251,8 @@ void tst_Utils::processInstance()
 void tst_Utils::processStdin()
 {
     // the input is written, then the channel is closed so that the program sees the end
-    const QString cmake = QString::fromUtf8(QSA_TEST_CMAKE);
-    QCOMPARE(ip->evaluate("Process.execute(['" + cmake + "', '-E', 'cat', '-'], 'text from stdin')").toInt(), 0);
+    const QString program = QString::fromUtf8(QSA_TEST_COPY_STDIN);
+    QCOMPARE(ip->evaluate("Process.execute(['" + program + "'], 'text from stdin')").toInt(), 0);
     QCOMPARE(eval("Process.stdout"), QString("text from stdin"));
     QVERIFY2(!ip->hadError(), qPrintable(ip->errorMessage()));
 }

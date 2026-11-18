@@ -719,16 +719,16 @@ static const yytype_int16 yyrline[] =
      370,   371,   372,   373,   374,   375,   376,   377,   378,   382,
      383,   387,   388,   389,   390,   391,   392,   393,   394,   395,
      396,   397,   398,   399,   400,   401,   402,   403,   404,   408,
-     409,   413,   414,   418,   422,   424,   432,   433,   438,   439,
-     440,   443,   446,   449,   455,   456,   460,   461,   465,   467,
-     475,   476,   480,   482,   491,   492,   496,   497,   507,   512,
-     517,   518,   523,   524,   528,   529,   533,   534,   538,   539,
-     543,   549,   553,   554,   555,   559,   563,   567,   573,   577,
-     578,   582,   584,   586,   589,   595,   596,   600,   601,   607,
-     609,   611,   612,   617,   618,   622,   624,   626,   632,   633,
-     637,   638,   642,   643,   647,   648,   652,   653,   654,   655,
-     656,   657,   658,   659,   665,   667,   673,   674,   678,   679,
-     684,   685,   689,   691,   698
+     409,   413,   414,   418,   422,   424,   435,   436,   441,   442,
+     443,   446,   449,   452,   458,   459,   463,   464,   468,   470,
+     480,   481,   485,   487,   498,   499,   503,   504,   515,   520,
+     525,   526,   531,   532,   536,   537,   541,   542,   546,   547,
+     551,   557,   561,   562,   563,   567,   571,   575,   581,   585,
+     586,   590,   592,   594,   597,   603,   604,   608,   609,   615,
+     617,   619,   620,   625,   626,   630,   632,   634,   640,   641,
+     645,   646,   650,   651,   655,   656,   660,   661,   662,   663,
+     664,   665,   666,   667,   673,   675,   681,   682,   686,   687,
+     692,   693,   697,   699,   706
 };
 #endif
 
@@ -3138,580 +3138,588 @@ yyreduce:
                                    { if (automatic()) {
                                        (yyval.stat) = new QSExprStatementNode((yyvsp[-1].node));
 				       DBG((yyval.stat), (yylsp[-1]), (yylsp[-1]));
-                                     } else
-				       YYABORT; }
-#line 3144 "grammar.cpp"
+                                     } else {
+                                       // the symbols of the rule that aborts are not destroyed by the parser
+                                       if ((yyvsp[-1].node) && (yyvsp[-1].node)->deref()) delete (yyvsp[-1].node);
+				       YYABORT;
+                                     } }
+#line 3147 "grammar.cpp"
     break;
 
   case 136: /* IfStatement: IF '(' Expr ')' Statement  */
-#line 432 "grammar.y"
+#line 435 "grammar.y"
                                    { (yyval.stat) = new QSIfNode((yyvsp[-2].node),(yyvsp[0].stat),0L);DBG((yyval.stat),(yylsp[-4]),(yylsp[-1])); }
-#line 3150 "grammar.cpp"
+#line 3153 "grammar.cpp"
     break;
 
   case 137: /* IfStatement: IF '(' Expr ')' Statement ELSE Statement  */
-#line 434 "grammar.y"
+#line 437 "grammar.y"
                                    { (yyval.stat) = new QSIfNode((yyvsp[-4].node),(yyvsp[-2].stat),(yyvsp[0].stat));DBG((yyval.stat),(yylsp[-6]),(yylsp[-3])); }
-#line 3156 "grammar.cpp"
+#line 3159 "grammar.cpp"
     break;
 
   case 138: /* IterationStatement: DO Statement WHILE '(' Expr ')'  */
-#line 438 "grammar.y"
+#line 441 "grammar.y"
                                     { (yyval.stat)=new QSDoWhileNode((yyvsp[-4].stat),(yyvsp[-1].node));DBG((yyval.stat),(yylsp[-5]),(yylsp[-3]));}
-#line 3162 "grammar.cpp"
+#line 3165 "grammar.cpp"
     break;
 
   case 139: /* IterationStatement: WHILE '(' Expr ')' Statement  */
-#line 439 "grammar.y"
+#line 442 "grammar.y"
                                    { (yyval.stat) = new QSWhileNode((yyvsp[-2].node),(yyvsp[0].stat));DBG((yyval.stat),(yylsp[-4]),(yylsp[-1])); }
-#line 3168 "grammar.cpp"
+#line 3171 "grammar.cpp"
     break;
 
   case 140: /* IterationStatement: FOR '(' ExprOpt ';' ExprOpt ';' ExprOpt ')' Statement  */
-#line 441 "grammar.y"
+#line 444 "grammar.y"
                                    { (yyval.stat) = new QSForNode((yyvsp[-6].node),(yyvsp[-4].node),(yyvsp[-2].node),(yyvsp[0].stat));
 	                             DBG((yyval.stat),(yylsp[-8]),(yylsp[-1])); }
-#line 3175 "grammar.cpp"
+#line 3178 "grammar.cpp"
     break;
 
   case 141: /* IterationStatement: FOR '(' VAR VariableBindingList ';' ExprOpt ';' ExprOpt ')' Statement  */
-#line 444 "grammar.y"
+#line 447 "grammar.y"
                                    { (yyval.stat) = new QSForNode((yyvsp[-6].blist),(yyvsp[-4].node),(yyvsp[-2].node),(yyvsp[0].stat));
 	                             DBG((yyval.stat),(yylsp[-9]),(yylsp[-1])); }
-#line 3182 "grammar.cpp"
+#line 3185 "grammar.cpp"
     break;
 
   case 142: /* IterationStatement: FOR '(' LeftHandSideExpr QS_IN Expr ')' Statement  */
-#line 447 "grammar.y"
+#line 450 "grammar.y"
                                    { (yyval.stat) = new QSForInNode((yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].stat));
 	                             DBG((yyval.stat),(yylsp[-6]),(yylsp[-1])); }
-#line 3189 "grammar.cpp"
+#line 3192 "grammar.cpp"
     break;
 
   case 143: /* IterationStatement: FOR '(' VAR VariableBinding QS_IN Expr ')' Statement  */
-#line 450 "grammar.y"
+#line 453 "grammar.y"
                                    { (yyval.stat) = new QSForInNode((yyvsp[-4].vbin),(yyvsp[-2].node),(yyvsp[0].stat));
 	                             DBG((yyval.stat),(yylsp[-7]),(yylsp[-1])); }
-#line 3196 "grammar.cpp"
+#line 3199 "grammar.cpp"
     break;
 
   case 144: /* ExprOpt: %empty  */
-#line 455 "grammar.y"
+#line 458 "grammar.y"
                                    { (yyval.node) = 0L; }
-#line 3202 "grammar.cpp"
+#line 3205 "grammar.cpp"
     break;
 
   case 146: /* ContinueStatement: CONTINUE ';'  */
-#line 460 "grammar.y"
+#line 463 "grammar.y"
                                    { (yyval.stat) = new QSContinueNode(); DBG((yyval.stat),(yylsp[-1]),(yylsp[0])); }
-#line 3208 "grammar.cpp"
+#line 3211 "grammar.cpp"
     break;
 
   case 147: /* ContinueStatement: CONTINUE error  */
-#line 461 "grammar.y"
+#line 464 "grammar.y"
                                    { if (automatic()) {
                                        (yyval.stat) = new QSContinueNode(); DBG((yyval.stat),(yylsp[-1]),(yylsp[0]));
                                      } else
 				       YYABORT; }
-#line 3217 "grammar.cpp"
+#line 3220 "grammar.cpp"
     break;
 
   case 148: /* ContinueStatement: CONTINUE IDENT ';'  */
-#line 465 "grammar.y"
+#line 468 "grammar.y"
                                    { (yyval.stat) = new QSContinueNode((yyvsp[-1].ustr)); DBG((yyval.stat),(yylsp[-2]),(yylsp[0]));
                                      delete (yyvsp[-1].ustr); }
-#line 3224 "grammar.cpp"
+#line 3227 "grammar.cpp"
     break;
 
   case 149: /* ContinueStatement: CONTINUE IDENT error  */
-#line 467 "grammar.y"
+#line 470 "grammar.y"
                                    { if (automatic()) {
                                        (yyval.stat) = new QSContinueNode((yyvsp[-1].ustr));DBG((yyval.stat),(yylsp[-2]),(yylsp[-1]));
 				       delete (yyvsp[-1].ustr);
-                                     } else
-				       YYABORT; }
-#line 3234 "grammar.cpp"
+                                     } else {
+                                       delete (yyvsp[-1].ustr);
+				       YYABORT;
+                                     } }
+#line 3239 "grammar.cpp"
     break;
 
   case 150: /* BreakStatement: BREAK ';'  */
-#line 475 "grammar.y"
+#line 480 "grammar.y"
                                    { (yyval.stat) = new QSBreakNode();DBG((yyval.stat),(yylsp[-1]),(yylsp[0])); }
-#line 3240 "grammar.cpp"
+#line 3245 "grammar.cpp"
     break;
 
   case 151: /* BreakStatement: BREAK error  */
-#line 476 "grammar.y"
+#line 481 "grammar.y"
                                    { if (automatic()) {
                                        (yyval.stat) = new QSBreakNode(); DBG((yyval.stat),(yylsp[-1]),(yylsp[-1]));
                                      } else
 				       YYABORT; }
-#line 3249 "grammar.cpp"
+#line 3254 "grammar.cpp"
     break;
 
   case 152: /* BreakStatement: BREAK IDENT ';'  */
-#line 480 "grammar.y"
+#line 485 "grammar.y"
                                    { (yyval.stat) = new QSBreakNode((yyvsp[-1].ustr)); DBG((yyval.stat),(yylsp[-2]),(yylsp[0]));
                                      delete (yyvsp[-1].ustr); }
-#line 3256 "grammar.cpp"
+#line 3261 "grammar.cpp"
     break;
 
   case 153: /* BreakStatement: BREAK IDENT error  */
-#line 482 "grammar.y"
+#line 487 "grammar.y"
                                    { if (automatic()) {
                                        (yyval.stat) = new QSBreakNode((yyvsp[-1].ustr)); DBG((yyval.stat),(yylsp[-2]),(yylsp[-1]));
 				       delete (yyvsp[-1].ustr);
-                                     } else
+                                     } else {
+                                       delete (yyvsp[-1].ustr);
 				       YYABORT;
+                                     }
                                    }
-#line 3267 "grammar.cpp"
+#line 3274 "grammar.cpp"
     break;
 
   case 154: /* ReturnStatement: RETURN ';'  */
-#line 491 "grammar.y"
+#line 498 "grammar.y"
                                    { (yyval.stat) = new QSReturnNode(0L); DBG((yyval.stat),(yylsp[-1]),(yylsp[0])); }
-#line 3273 "grammar.cpp"
+#line 3280 "grammar.cpp"
     break;
 
   case 155: /* ReturnStatement: RETURN error  */
-#line 492 "grammar.y"
+#line 499 "grammar.y"
                                    { if (automatic()) {
                                        (yyval.stat) = new QSReturnNode(0L); DBG((yyval.stat),(yylsp[-1]),(yylsp[-1]));
                                      } else
 				       YYABORT; }
-#line 3282 "grammar.cpp"
+#line 3289 "grammar.cpp"
     break;
 
   case 156: /* ReturnStatement: RETURN Expr ';'  */
-#line 496 "grammar.y"
+#line 503 "grammar.y"
                                    { (yyval.stat) = new QSReturnNode((yyvsp[-1].node)); DBG((yyval.stat),(yylsp[-2]),(yylsp[-1])); }
-#line 3288 "grammar.cpp"
+#line 3295 "grammar.cpp"
     break;
 
   case 157: /* ReturnStatement: RETURN Expr error  */
-#line 497 "grammar.y"
+#line 504 "grammar.y"
                                    { if (automatic()) {
                                        (yyval.stat) = new QSReturnNode((yyvsp[-1].node));
                                        DBG((yyval.stat),(yylsp[-2]),(yylsp[-1]));
                                      } else {
+                                       if ((yyvsp[-1].node) && (yyvsp[-1].node)->deref()) delete (yyvsp[-1].node);
 				       YYABORT;
 				     } 
                                    }
-#line 3300 "grammar.cpp"
+#line 3308 "grammar.cpp"
     break;
 
   case 158: /* WithStatement: WITH '(' Expr ')' Statement  */
-#line 507 "grammar.y"
+#line 515 "grammar.y"
                                    { (yyval.stat) = new QSWithNode((yyvsp[-2].node),(yyvsp[0].stat));
                                      DBG((yyval.stat), (yylsp[-4]), (yylsp[-1])); }
-#line 3307 "grammar.cpp"
+#line 3315 "grammar.cpp"
     break;
 
   case 159: /* SwitchStatement: SWITCH '(' Expr ')' CaseBlock  */
-#line 512 "grammar.y"
+#line 520 "grammar.y"
                                    { (yyval.stat) = new QSSwitchNode((yyvsp[-2].node), (yyvsp[0].cblk));
                                      DBG((yyval.stat), (yylsp[-4]), (yylsp[-1])); }
-#line 3314 "grammar.cpp"
+#line 3322 "grammar.cpp"
     break;
 
   case 160: /* CaseBlock: '{' CaseClausesOpt '}'  */
-#line 517 "grammar.y"
+#line 525 "grammar.y"
                                    { (yyval.cblk) = new QSCaseBlockNode((yyvsp[-1].clist), 0L, 0L); }
-#line 3320 "grammar.cpp"
+#line 3328 "grammar.cpp"
     break;
 
   case 161: /* CaseBlock: '{' CaseClausesOpt DefaultClause CaseClausesOpt '}'  */
-#line 519 "grammar.y"
+#line 527 "grammar.y"
                                    { (yyval.cblk) = new QSCaseBlockNode((yyvsp[-3].clist), (yyvsp[-2].ccl), (yyvsp[-1].clist)); }
-#line 3326 "grammar.cpp"
+#line 3334 "grammar.cpp"
     break;
 
   case 162: /* CaseClausesOpt: %empty  */
-#line 523 "grammar.y"
+#line 531 "grammar.y"
                                    { (yyval.clist) = 0L; }
-#line 3332 "grammar.cpp"
+#line 3340 "grammar.cpp"
     break;
 
   case 164: /* CaseClauses: CaseClause  */
-#line 528 "grammar.y"
+#line 536 "grammar.y"
                                    { (yyval.clist) = new QSClauseListNode((yyvsp[0].ccl)); }
-#line 3338 "grammar.cpp"
+#line 3346 "grammar.cpp"
     break;
 
   case 165: /* CaseClauses: CaseClauses CaseClause  */
-#line 529 "grammar.y"
+#line 537 "grammar.y"
                                    { (yyval.clist) = (yyvsp[-1].clist)->append((yyvsp[0].ccl)); }
-#line 3344 "grammar.cpp"
+#line 3352 "grammar.cpp"
     break;
 
   case 166: /* CaseClause: CASE Expr ':'  */
-#line 533 "grammar.y"
+#line 541 "grammar.y"
                                    { (yyval.ccl) = new QSCaseClauseNode((yyvsp[-1].node), 0L); }
-#line 3350 "grammar.cpp"
+#line 3358 "grammar.cpp"
     break;
 
   case 167: /* CaseClause: CASE Expr ':' StatementList  */
-#line 534 "grammar.y"
+#line 542 "grammar.y"
                                    { (yyval.ccl) = new QSCaseClauseNode((yyvsp[-2].node), (yyvsp[0].slist)); }
-#line 3356 "grammar.cpp"
+#line 3364 "grammar.cpp"
     break;
 
   case 168: /* DefaultClause: DEFAULT ':'  */
-#line 538 "grammar.y"
+#line 546 "grammar.y"
                                    { (yyval.ccl) = new QSCaseClauseNode(0L, 0L);; }
-#line 3362 "grammar.cpp"
+#line 3370 "grammar.cpp"
     break;
 
   case 169: /* DefaultClause: DEFAULT ':' StatementList  */
-#line 539 "grammar.y"
+#line 547 "grammar.y"
                                    { (yyval.ccl) = new QSCaseClauseNode(0L, (yyvsp[0].slist)); }
-#line 3368 "grammar.cpp"
-    break;
-
-  case 170: /* LabelledStatement: IDENT ':' Statement  */
-#line 543 "grammar.y"
-                                   { (yyvsp[0].stat)->pushLabel((yyvsp[-2].ustr));
-                                     (yyval.stat) = new QSLabelNode((yyvsp[-2].ustr), (yyvsp[0].stat));
-                                     delete (yyvsp[-2].ustr); }
 #line 3376 "grammar.cpp"
     break;
 
+  case 170: /* LabelledStatement: IDENT ':' Statement  */
+#line 551 "grammar.y"
+                                   { (yyvsp[0].stat)->pushLabel((yyvsp[-2].ustr));
+                                     (yyval.stat) = new QSLabelNode((yyvsp[-2].ustr), (yyvsp[0].stat));
+                                     delete (yyvsp[-2].ustr); }
+#line 3384 "grammar.cpp"
+    break;
+
   case 171: /* ThrowStatement: THROW Expr ';'  */
-#line 549 "grammar.y"
+#line 557 "grammar.y"
                                    { (yyval.stat) = new QSThrowNode((yyvsp[-1].node)); }
-#line 3382 "grammar.cpp"
+#line 3390 "grammar.cpp"
     break;
 
   case 172: /* TryStatement: TRY Block Catch  */
-#line 553 "grammar.y"
+#line 561 "grammar.y"
                                    { (yyval.stat) = new QSTryNode((yyvsp[-1].stat), (yyvsp[0].node)); }
-#line 3388 "grammar.cpp"
+#line 3396 "grammar.cpp"
     break;
 
   case 173: /* TryStatement: TRY Block Finally  */
-#line 554 "grammar.y"
+#line 562 "grammar.y"
                                    { (yyval.stat) = new QSTryNode((yyvsp[-1].stat), 0L, (yyvsp[0].node)); }
-#line 3394 "grammar.cpp"
+#line 3402 "grammar.cpp"
     break;
 
   case 174: /* TryStatement: TRY Block Catch Finally  */
-#line 555 "grammar.y"
+#line 563 "grammar.y"
                                    { (yyval.stat) = new QSTryNode((yyvsp[-2].stat), (yyvsp[-1].node), (yyvsp[0].node)); }
-#line 3400 "grammar.cpp"
+#line 3408 "grammar.cpp"
     break;
 
   case 175: /* Catch: CATCH '(' IDENT ')' Block  */
-#line 559 "grammar.y"
+#line 567 "grammar.y"
                                    { (yyval.node) = new QSCatchNode((yyvsp[-2].ustr), (yyvsp[0].stat)); delete (yyvsp[-2].ustr); }
-#line 3406 "grammar.cpp"
+#line 3414 "grammar.cpp"
     break;
 
   case 176: /* Finally: FINALLY Block  */
-#line 563 "grammar.y"
+#line 571 "grammar.y"
                                    { (yyval.node) = new QSFinallyNode((yyvsp[0].stat)); }
-#line 3412 "grammar.cpp"
+#line 3420 "grammar.cpp"
     break;
 
   case 177: /* PackageDefinition: PACKAGE PackageName FunctionBody  */
-#line 568 "grammar.y"
+#line 576 "grammar.y"
                                    { (yyval.stat) = new QSPackageNode((yyvsp[-1].ustr), (yyvsp[0].body));
                                      delete (yyvsp[-1].ustr); }
-#line 3419 "grammar.cpp"
+#line 3427 "grammar.cpp"
     break;
 
   case 178: /* ImportStatement: IMPORT PackageName ';'  */
-#line 573 "grammar.y"
+#line 581 "grammar.y"
                                    { (yyval.stat) = new QSImportNode((yyvsp[-1].ustr)); delete (yyvsp[-1].ustr); }
-#line 3425 "grammar.cpp"
+#line 3433 "grammar.cpp"
     break;
 
   case 179: /* PackageName: IDENT  */
-#line 577 "grammar.y"
+#line 585 "grammar.y"
                                    { (yyval.ustr) = (yyvsp[0].ustr); }
-#line 3431 "grammar.cpp"
+#line 3439 "grammar.cpp"
     break;
 
   case 180: /* PackageName: PackageName '.' IDENT  */
-#line 578 "grammar.y"
+#line 586 "grammar.y"
                                    { *(yyval.ustr) += QString::fromLatin1(".") + *(yyvsp[0].ustr); delete (yyvsp[0].ustr); }
-#line 3437 "grammar.cpp"
+#line 3445 "grammar.cpp"
     break;
 
   case 181: /* FunctionDeclaration: FUNCTION IDENT '(' ')' ResultSignature FunctionBody  */
-#line 583 "grammar.y"
+#line 591 "grammar.y"
                         { (yyval.func) = new QSFuncDeclNode((yyvsp[-4].ustr), 0L, (yyvsp[-1].type), (yyvsp[0].body)); delete (yyvsp[-4].ustr); }
-#line 3443 "grammar.cpp"
+#line 3451 "grammar.cpp"
     break;
 
   case 182: /* FunctionDeclaration: FUNCTION IDENT '(' FormalParameterList ')' ResultSignature FunctionBody  */
-#line 585 "grammar.y"
+#line 593 "grammar.y"
                         { (yyval.func) = new QSFuncDeclNode((yyvsp[-5].ustr), (yyvsp[-3].param), (yyvsp[-1].type), (yyvsp[0].body)); delete (yyvsp[-5].ustr); }
-#line 3449 "grammar.cpp"
+#line 3457 "grammar.cpp"
     break;
 
   case 183: /* FunctionDeclaration: Attributes FUNCTION IDENT '(' ')' ResultSignature FunctionBody  */
-#line 587 "grammar.y"
+#line 595 "grammar.y"
                         { (yyval.func) = new QSFuncDeclNode((yyvsp[-4].ustr), 0L, (yyvsp[-1].type), (yyvsp[0].body));
 			  (yyval.func)->setAttributes( (yyvsp[-6].attrs) ); delete (yyvsp[-4].ustr); }
-#line 3456 "grammar.cpp"
+#line 3464 "grammar.cpp"
     break;
 
   case 184: /* FunctionDeclaration: Attributes FUNCTION IDENT '(' FormalParameterList ')' ResultSignature FunctionBody  */
-#line 590 "grammar.y"
+#line 598 "grammar.y"
                         { (yyval.func) = new QSFuncDeclNode((yyvsp[-5].ustr), (yyvsp[-3].param), (yyvsp[-1].type), (yyvsp[0].body));
                           (yyval.func)->setAttributes( (yyvsp[-7].attrs) ); delete (yyvsp[-5].ustr); }
-#line 3463 "grammar.cpp"
+#line 3471 "grammar.cpp"
     break;
 
   case 185: /* ResultSignature: %empty  */
-#line 595 "grammar.y"
+#line 603 "grammar.y"
                                    { (yyval.type) = 0L; }
-#line 3469 "grammar.cpp"
+#line 3477 "grammar.cpp"
     break;
 
   case 186: /* ResultSignature: ':' TypeExpression  */
-#line 596 "grammar.y"
+#line 604 "grammar.y"
                                    { (yyval.type) = (yyvsp[0].type); }
-#line 3475 "grammar.cpp"
+#line 3483 "grammar.cpp"
     break;
 
   case 187: /* FunctionExpr: FUNCTION '(' ')' FunctionBody  */
-#line 600 "grammar.y"
+#line 608 "grammar.y"
                                    { (yyval.node) = new QSFuncExprNode(0L, (yyvsp[0].body)); }
-#line 3481 "grammar.cpp"
+#line 3489 "grammar.cpp"
     break;
 
   case 188: /* FunctionExpr: FUNCTION '(' FormalParameterList ')' FunctionBody  */
-#line 602 "grammar.y"
+#line 610 "grammar.y"
                                    { (yyval.node) = new QSFuncExprNode((yyvsp[-2].param), (yyvsp[0].body)); }
-#line 3487 "grammar.cpp"
+#line 3495 "grammar.cpp"
     break;
 
   case 189: /* FormalParameterList: IDENT  */
-#line 607 "grammar.y"
+#line 615 "grammar.y"
                                    { (yyval.param) = new QSParameterNode((yyvsp[0].ustr), 0L);
                                      delete (yyvsp[0].ustr); }
-#line 3494 "grammar.cpp"
+#line 3502 "grammar.cpp"
     break;
 
   case 190: /* FormalParameterList: IDENT ':' TypeExpression  */
-#line 609 "grammar.y"
+#line 617 "grammar.y"
                                    { (yyval.param) = new QSParameterNode((yyvsp[-2].ustr), (yyvsp[0].type));
                                      delete (yyvsp[-2].ustr); }
-#line 3501 "grammar.cpp"
+#line 3509 "grammar.cpp"
     break;
 
   case 191: /* FormalParameterList: FormalParameterList ',' IDENT  */
-#line 611 "grammar.y"
+#line 619 "grammar.y"
                                    { (yyval.param) = (yyvsp[-2].param)->append((yyvsp[0].ustr), 0L); delete (yyvsp[0].ustr); }
-#line 3507 "grammar.cpp"
+#line 3515 "grammar.cpp"
     break;
 
   case 192: /* FormalParameterList: FormalParameterList ',' IDENT ':' TypeExpression  */
-#line 613 "grammar.y"
+#line 621 "grammar.y"
                                    { (yyval.param) = (yyvsp[-4].param)->append((yyvsp[-2].ustr), (yyvsp[0].type)); delete (yyvsp[-2].ustr); }
-#line 3513 "grammar.cpp"
+#line 3521 "grammar.cpp"
     break;
 
   case 193: /* FunctionBody: '{' '}'  */
-#line 617 "grammar.y"
+#line 625 "grammar.y"
                                    { (yyval.body) = new QSFunctionBodyNode(0L); }
-#line 3519 "grammar.cpp"
+#line 3527 "grammar.cpp"
     break;
 
   case 194: /* FunctionBody: '{' SourceElements '}'  */
-#line 618 "grammar.y"
+#line 626 "grammar.y"
                                    { (yyval.body) = new QSFunctionBodyNode((yyvsp[-1].srcs)); }
-#line 3525 "grammar.cpp"
+#line 3533 "grammar.cpp"
     break;
 
   case 195: /* ClassDefinition: CLASS IDENT ';'  */
-#line 622 "grammar.y"
+#line 630 "grammar.y"
                                    { (yyval.clss) = new QSClassDefNode((yyvsp[-1].ustr), 0L, 0L);
                                      delete (yyvsp[-1].ustr); }
-#line 3532 "grammar.cpp"
+#line 3540 "grammar.cpp"
     break;
 
   case 196: /* ClassDefinition: CLASS IDENT FunctionBody  */
-#line 624 "grammar.y"
+#line 632 "grammar.y"
                                    { (yyval.clss) = new QSClassDefNode((yyvsp[-1].ustr), 0L, (yyvsp[0].body));
                                      delete (yyvsp[-1].ustr); }
-#line 3539 "grammar.cpp"
+#line 3547 "grammar.cpp"
     break;
 
   case 197: /* ClassDefinition: CLASS IDENT EXTENDS TypeExpression FunctionBody  */
-#line 627 "grammar.y"
+#line 635 "grammar.y"
                                    { (yyval.clss) = new QSClassDefNode((yyvsp[-3].ustr), (yyvsp[-1].type), (yyvsp[0].body));
                                      delete (yyvsp[-3].ustr); }
-#line 3546 "grammar.cpp"
+#line 3554 "grammar.cpp"
     break;
 
   case 198: /* Program: %empty  */
-#line 632 "grammar.y"
+#line 640 "grammar.y"
                                    { (yyval.prog) = new QSProgramNode(0L); }
-#line 3552 "grammar.cpp"
+#line 3560 "grammar.cpp"
     break;
 
   case 199: /* Program: SourceElements  */
-#line 633 "grammar.y"
+#line 641 "grammar.y"
                                    { (yyval.prog) = new QSProgramNode((yyvsp[0].srcs)); }
-#line 3558 "grammar.cpp"
+#line 3566 "grammar.cpp"
     break;
 
   case 200: /* SourceElements: SourceElement  */
-#line 637 "grammar.y"
+#line 645 "grammar.y"
                                    { (yyval.srcs) = new QSSourceElementsNode((yyvsp[0].src)); }
-#line 3564 "grammar.cpp"
+#line 3572 "grammar.cpp"
     break;
 
   case 201: /* SourceElements: SourceElements SourceElement  */
-#line 638 "grammar.y"
+#line 646 "grammar.y"
                                    { (yyval.srcs) = new QSSourceElementsNode((yyvsp[-1].srcs), (yyvsp[0].src)); }
-#line 3570 "grammar.cpp"
+#line 3578 "grammar.cpp"
     break;
 
   case 202: /* SourceElement: Statement  */
-#line 642 "grammar.y"
+#line 650 "grammar.y"
                                    { (yyval.src) = new QSSourceElementNode((yyvsp[0].stat)); }
-#line 3576 "grammar.cpp"
+#line 3584 "grammar.cpp"
     break;
 
   case 203: /* SourceElement: FunctionDeclaration  */
-#line 643 "grammar.y"
+#line 651 "grammar.y"
                                    { (yyval.src) = new QSSourceElementNode((yyvsp[0].func)); }
-#line 3582 "grammar.cpp"
+#line 3590 "grammar.cpp"
     break;
 
   case 204: /* Attributes: Attribute  */
-#line 647 "grammar.y"
+#line 655 "grammar.y"
                                    { (yyval.attrs) = new QSAttributeNode((yyvsp[0].attr)); }
-#line 3588 "grammar.cpp"
+#line 3596 "grammar.cpp"
     break;
 
   case 205: /* Attributes: Attributes Attribute  */
-#line 648 "grammar.y"
+#line 656 "grammar.y"
                                    { (yyvsp[-1].attrs)->add((yyvsp[0].attr)); (yyval.attrs) = (yyvsp[-1].attrs); }
-#line 3594 "grammar.cpp"
+#line 3602 "grammar.cpp"
     break;
 
   case 206: /* Attribute: ABSTRACT  */
-#line 652 "grammar.y"
+#line 660 "grammar.y"
                                    { (yyval.attr) = AttributeAbstract; }
-#line 3600 "grammar.cpp"
+#line 3608 "grammar.cpp"
     break;
 
   case 207: /* Attribute: FINAL  */
-#line 653 "grammar.y"
+#line 661 "grammar.y"
                                    { (yyval.attr) = AttributeFinal; }
-#line 3606 "grammar.cpp"
+#line 3614 "grammar.cpp"
     break;
 
   case 208: /* Attribute: PRIVATE  */
-#line 654 "grammar.y"
+#line 662 "grammar.y"
                                    { (yyval.attr) = AttributePrivate; }
-#line 3612 "grammar.cpp"
+#line 3620 "grammar.cpp"
     break;
 
   case 209: /* Attribute: PUBLIC  */
-#line 655 "grammar.y"
+#line 663 "grammar.y"
                                    { (yyval.attr) = AttributePublic; }
-#line 3618 "grammar.cpp"
+#line 3626 "grammar.cpp"
     break;
 
   case 210: /* Attribute: STATIC  */
-#line 656 "grammar.y"
+#line 664 "grammar.y"
                                    { (yyval.attr) = AttributeStatic; }
-#line 3624 "grammar.cpp"
+#line 3632 "grammar.cpp"
     break;
 
   case 211: /* Attribute: TRUETOKEN  */
-#line 657 "grammar.y"
+#line 665 "grammar.y"
                                    { (yyval.attr) = AttributeTrue; }
-#line 3630 "grammar.cpp"
+#line 3638 "grammar.cpp"
     break;
 
   case 212: /* Attribute: FALSETOKEN  */
-#line 658 "grammar.y"
+#line 666 "grammar.y"
                                    { (yyval.attr) = AttributeFalse; }
-#line 3636 "grammar.cpp"
+#line 3644 "grammar.cpp"
     break;
 
   case 213: /* Attribute: CONSTRUCTOR  */
-#line 659 "grammar.y"
+#line 667 "grammar.y"
                                    { (yyval.attr) = AttributeConstructor; }
-#line 3642 "grammar.cpp"
+#line 3650 "grammar.cpp"
     break;
 
   case 214: /* VariableDefinition: VariableDefinitionKind VariableBindingList  */
-#line 666 "grammar.y"
+#line 674 "grammar.y"
                              { (yyval.stat) = new QSVarDefNode((yyvsp[-1].ival), (yyvsp[0].blist)); DBG((yyval.stat), (yylsp[-1]), (yylsp[0])); }
-#line 3648 "grammar.cpp"
+#line 3656 "grammar.cpp"
     break;
 
   case 215: /* VariableDefinition: Attributes VariableDefinitionKind VariableBindingList  */
-#line 668 "grammar.y"
+#line 676 "grammar.y"
                              { (yyval.stat) = new QSVarDefNode((yyvsp[-1].ival), (yyvsp[0].blist)); DBG((yyval.stat), (yylsp[-2]), (yylsp[0]));
                                ((QSVarDefNode*)(yyval.stat))->setAttributes( (yyvsp[-2].attrs) ); }
-#line 3655 "grammar.cpp"
+#line 3663 "grammar.cpp"
     break;
 
   case 216: /* VariableDefinitionKind: VAR  */
-#line 673 "grammar.y"
+#line 681 "grammar.y"
                                                 { (yyval.ival) = 0; }
-#line 3661 "grammar.cpp"
+#line 3669 "grammar.cpp"
     break;
 
   case 217: /* VariableDefinitionKind: QS_CONST  */
-#line 674 "grammar.y"
+#line 682 "grammar.y"
                                                 { (yyval.ival) = 1; }
-#line 3667 "grammar.cpp"
+#line 3675 "grammar.cpp"
     break;
 
   case 218: /* VariableBindingList: VariableBinding  */
-#line 678 "grammar.y"
+#line 686 "grammar.y"
                                    { (yyval.blist) = new QSVarBindingListNode(0L, (yyvsp[0].vbin)); }
-#line 3673 "grammar.cpp"
+#line 3681 "grammar.cpp"
     break;
 
   case 219: /* VariableBindingList: VariableBindingList ',' VariableBinding  */
-#line 680 "grammar.y"
+#line 688 "grammar.y"
                                    { (yyval.blist) = new QSVarBindingListNode((yyvsp[-2].blist), (yyvsp[0].vbin)); }
-#line 3679 "grammar.cpp"
+#line 3687 "grammar.cpp"
     break;
 
   case 220: /* VariableBinding: TypedVariable  */
-#line 684 "grammar.y"
+#line 692 "grammar.y"
                                        { (yyval.vbin) = new QSVarBindingNode((yyvsp[0].tvar), 0L); }
-#line 3685 "grammar.cpp"
+#line 3693 "grammar.cpp"
     break;
 
   case 221: /* VariableBinding: TypedVariable '=' AssignmentExpr  */
-#line 685 "grammar.y"
+#line 693 "grammar.y"
                                        { (yyval.vbin) = new QSVarBindingNode((yyvsp[-2].tvar), (yyvsp[0].node)); }
-#line 3691 "grammar.cpp"
+#line 3699 "grammar.cpp"
     break;
 
   case 222: /* TypedVariable: IDENT  */
-#line 689 "grammar.y"
+#line 697 "grammar.y"
                                    { (yyval.tvar) = new QSTypedVarNode((yyvsp[0].ustr), 0L);
                                      delete (yyvsp[0].ustr); }
-#line 3698 "grammar.cpp"
+#line 3706 "grammar.cpp"
     break;
 
   case 223: /* TypedVariable: IDENT ':' TypeExpression  */
-#line 691 "grammar.y"
+#line 699 "grammar.y"
                                    { (yyval.tvar) = new QSTypedVarNode((yyvsp[-2].ustr), (yyvsp[0].type));
                                      delete (yyvsp[-2].ustr); }
-#line 3705 "grammar.cpp"
+#line 3713 "grammar.cpp"
     break;
 
   case 224: /* TypeExpression: IDENT  */
-#line 698 "grammar.y"
+#line 706 "grammar.y"
                                    { (yyval.type) = new QSTypeNode((yyvsp[0].ustr)); delete (yyvsp[0].ustr); }
-#line 3711 "grammar.cpp"
+#line 3719 "grammar.cpp"
     break;
 
 
-#line 3715 "grammar.cpp"
+#line 3723 "grammar.cpp"
 
       default: break;
     }
@@ -3940,7 +3948,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 701 "grammar.y"
+#line 709 "grammar.y"
 
 
 int yyerror ( const char *errstr )  /* Called by yyparse on error */

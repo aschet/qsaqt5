@@ -424,8 +424,11 @@ ExprStatement:
   | Expr error                     { if (automatic()) {
                                        $$ = new QSExprStatementNode($1);
 				       DBG($$, @1, @1);
-                                     } else
-				       YYABORT; }
+                                     } else {
+                                       // the symbols of the rule that aborts are not destroyed by the parser
+                                       if ($1 && $1->deref()) delete $1;
+				       YYABORT;
+                                     } }
 ;
 
 IfStatement: /* shift/reduce conflict due to dangling else */
@@ -467,8 +470,10 @@ ContinueStatement:
   | CONTINUE IDENT error           { if (automatic()) {
                                        $$ = new QSContinueNode($2);DBG($$,@1,@2);
 				       delete $2;
-                                     } else
-				       YYABORT; }
+                                     } else {
+                                       delete $2;
+				       YYABORT;
+                                     } }
 ;
 
 BreakStatement:
@@ -482,8 +487,10 @@ BreakStatement:
   | BREAK IDENT error              { if (automatic()) {
                                        $$ = new QSBreakNode($2); DBG($$,@1,@2);
 				       delete $2;
-                                     } else
+                                     } else {
+                                       delete $2;
 				       YYABORT;
+                                     }
                                    }
 ;
 
@@ -498,6 +505,7 @@ ReturnStatement:
                                        $$ = new QSReturnNode($2);
                                        DBG($$,@1,@2);
                                      } else {
+                                       if ($2 && $2->deref()) delete $2;
 				       YYABORT;
 				     } 
                                    }

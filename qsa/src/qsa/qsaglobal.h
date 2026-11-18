@@ -43,11 +43,6 @@
 
 #include "qsconfig.h"
 
-#define QSA_VERSION_STRING "1.3.0"
-#define QSA_VERSION_MAJOR 1
-#define QSA_VERSION_MINOR 3
-#define QSA_VERSION_MICRO 0
-
 #if QT_VERSION < 0x050000
 #error This version of QSA requires Qt 5.0.0 or later
 #endif

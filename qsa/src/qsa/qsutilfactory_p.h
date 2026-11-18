@@ -281,6 +281,7 @@ public slots:
 
 public:
     QSDir(const QString &path, QSInterpreter *ip) : dir(new QDir(path)), interpreter(ip) { }
+    ~QSDir() { delete dir; }
     QString name() const { return dir->dirName(); }
     QString path() const { return dir->path(); }
     void setPath(const QString &newPath) const { dir->setPath(newPath); }

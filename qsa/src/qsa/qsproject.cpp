@@ -629,13 +629,11 @@ void QSProject::removeObject( const QObject *object )
         qWarning( "QSProject::removeObject(), object is null" );
         return;
     }
-    QList<QSSignalHandler>::Iterator it = d->signalHandlers.begin();
-    while ( it != d->signalHandlers.end() ) {
-	    QList<QSSignalHandler>::Iterator it2 = it;
-	    QSSignalHandler sigh = *it2;
-	    ++it;
-	    if ( sigh.sender == object || sigh.receiver == object )
-	        d->signalHandlers.erase( it2 );
+    for ( QList<QSSignalHandler>::Iterator it = d->signalHandlers.begin(); it != d->signalHandlers.end(); ) {
+	    if ( it->sender == object || it->receiver == object )
+	        it = d->signalHandlers.erase( it );
+	    else
+	        ++it;
     }
     disconnect( object, SIGNAL( destroyed() ),
 		this, SLOT( objectDestroyed() ) );

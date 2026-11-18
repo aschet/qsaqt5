@@ -9,6 +9,7 @@ add_executable(game
 	playfield.h
 )
 target_link_libraries(game PRIVATE qsa)
+target_include_directories(game PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 file(COPY background.png DESTINATION .)
 file(COPY ball.png DESTINATION .)
